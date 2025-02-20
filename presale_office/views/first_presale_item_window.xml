@@ -1,0 +1,57 @@
+<odoo>
+    <data>
+<!--        <record id="frist_item_window" model="ir.ui.view">-->
+<!--            <field name="name">item.window.presale</field>-->
+<!--            <field name="model">presale.order</field>-->
+<!--            <field name="inherit_id" ref="presale_office.presale_order_form_view"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='heading_ids']" position="replace">-->
+<!--                    <field name="first_item_ids" context="{'default_presale_id' : active_id}">-->
+<!--                        <tree>-->
+<!--                            <field name="name"/>-->
+<!--                        </tree>-->
+<!--                    </field>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="presale_order_first_item" model="ir.ui.view">
+            <field name="name">first.item.window.form.view</field>
+            <field name="model">first.item.window</field>
+            <field name="arch" type="xml">
+                <form string="First Window">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!--        <record id="inherit_order_heading" model="ir.ui.view">-->
+<!--            <field name="name">inherit.order.heading</field>-->
+<!--            <field name="model">presale.order.heading</field>-->
+<!--            <field name="inherit_id" ref="presale_office.presale_order_heading"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='assign_minor_materials']" position="after">-->
+<!--                    <field name="gastos_porcentaje_10"/>-->
+<!--                    <field name="gastos_porcentaje_20"/>-->
+<!--                    <field name="gastos_def_10"/>-->
+<!--                    <field name="gastos_def_20"/>-->
+<!--                    <field name="unit_cost_total"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record model="ir.actions.act_window" id="action_open_fisrt_window">
+            <field name="name">First Item Window</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">first.item.window</field>
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+    </data>
+</odoo>

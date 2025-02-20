@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_presale_user" model="res.groups">
+            <field name="name">Presales User</field>
+        </record>
+        <record id="group_presale_manager" model="res.groups">
+            <field name="name">Presales Manager</field>
+        </record>
+    </data>
+</odoo>

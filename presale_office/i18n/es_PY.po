@@ -1,0 +1,2080 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* presale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-06 15:01+0000\n"
+"PO-Revision-Date: 2023-10-06 12:07-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_PY\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.2.2\n"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__labor_percent
+msgid "% Labour"
+msgstr "% M. O"
+
+#. module: presale_office
+#: code:addons/presale_office/models/presale_labor_product.py:0
+#, python-format
+msgid "A config already exist for this product and labor type"
+msgstr "Una configuración ya existe para este producto y tipo de mano de obra"
+
+#. module: presale_office
+#: code:addons/presale_office/models/presale_currency_rate.py:0
+#, python-format
+msgid "A rate already exist for this currency on the selected date"
+msgstr "Una tasa ya existe para esta moneda en la fecha seleccionada"
+
+#. module: presale_office
+#: code:addons/presale_office/models/presale_working_rate.py:0
+#, python-format
+msgid "A rate already exist for this team and labor type!"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "APORTE PATRONAL P/ MES"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__access_warning
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__access_warning
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__access_warning
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__access_warning
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__access_warning
+msgid "Access warning"
+msgstr "Alerta de acceso"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_needaction
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_needaction
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_needaction
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_needaction
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_needaction
+msgid "Action Needed"
+msgstr "Acción Necesaria"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_exception_decoration
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_exception_decoration
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_exception_decoration
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_exception_decoration
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_state
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_state
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_state
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_state
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_state
+msgid "Activity State"
+msgstr "Estado de la actividad"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_type_icon
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_type_icon
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_type_icon
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_type_icon
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__additionals_id
+#: model:ir.ui.menu,name:presale_office.submenu_presale_type_additional
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Additionals"
+msgstr "Adicionales"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__amount_additionals
+msgid "Amount"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__apply_labour
+msgid "Aplica M.O?"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__labour_line_by_line
+msgid "Apply Labour?"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields.selection,name:presale_office.selection__presale_order__previous_state__aprobacion_interna
+#: model:ir.model.fields.selection,name:presale_office.selection__presale_order__state__aprobacion_interna
+msgid "Aprobacion Interna"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__cabling_perc
+msgid "Artifacts"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+msgid "Asignar Plantilla"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__assign_minor_materials
+msgid "Assign (No/Yes)?"
+msgstr "Asignar (No/Si)?"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+msgid "Assign Minor Materials"
+msgstr "Asignar Materiales Menores"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__create_item_template
+msgid "Assign Template"
+msgstr "Asignar Plantilla"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__lead_id
+msgid "Associate Opportunity"
+msgstr "Oportunidad Asociada"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_attachment_count
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_attachment_count
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_attachment_count
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_attachment_count
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_attachment_count
+msgid "Attachment Count"
+msgstr "Conteo de archivos adjuntos"
+
+#. module: presale_office
+#: code:addons/presale_office/models/crm.py:0
+#, python-format
+msgid ""
+"Aún no posee una lista de Cotizaciones de Preventas relacionadas al Lead... "
+"Porfavor genere una antes de proceder con la acción!"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__business_income_tax
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "BIT"
+msgstr "IRE"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__business_income_tax_per
+msgid "BIT %"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields.selection,name:presale_office.selection__presale_order__previous_state__borrador
+#: model:ir.model.fields.selection,name:presale_office.selection__presale_order__state__borrador
+msgid "Borrador"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Budget Creation"
+msgstr "Creación de Presupuestos"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Budget Parameters"
+msgstr "Parámetros del Presupuesto"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "COSTO POR DIA"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "COSTO POR MES"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__code
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__code
+msgid "Code"
+msgstr "Código"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__commercials_ids
+msgid "Commercial"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__comm_sf_av_whithout_vat
+msgid "Commision SF/AV w/o VAT"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__commission_sf_av
+msgid "Commission SF/AV"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__commission_sf_av_perc
+msgid "Commission SF/AV %"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.ui.menu,name:presale_office.menu_presale_config
+msgid "Configuration"
+msgstr "Configuraciones"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type__consumption_rate
+msgid "Consumption Rate"
+msgstr "Tasa de Consumo"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__consumption_till_work
+msgid "Consumption Till Work"
+msgstr "Consumo hasta"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_fleet_vehicle__consumption_per_kilometer
+msgid "Consumption per KM"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__consumption_per_liter
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Consumption per Km"
+msgstr "Consumo por Km"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Consumption to Work (round trip)"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__contributions
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Contribution"
+msgstr "Contribución"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__convert_currency
+msgid "Convert Currency No/Yes"
+msgstr "Convertir Moneda No/Si"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Cost & Sale Price"
+msgstr "Costo & Precio de Venta"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__creado_por_boton
+msgid "Creado por Boton"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__create_labor
+msgid "Create Labour"
+msgstr "Crear Mano de Obra"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__create_or_update
+msgid "Create Sale Order (No/Yes)"
+msgstr "Crear Presupuesto (No/Si)"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__presale_item_template
+msgid "Create Template?"
+msgstr "¿Crear Plantilla?"
+
+#. module: presale_office
+#: model_terms:ir.actions.act_window,help:presale_office.action_presale_fuel_type
+msgid "Create new fuelk types rates for presales projects"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.actions.act_window,help:presale_office.action_presale_types_additional
+msgid "Create new labor types for presales additionals"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.actions.act_window,help:presale_office.action_presale_labor_type
+msgid "Create new labor types for presales projects"
+msgstr "Crear nuevos tipos de mano de obra para proyectos de preventa"
+
+#. module: presale_office
+#: model_terms:ir.actions.act_window,help:presale_office.action_presale_logistic_type
+msgid "Create new logistic types for presales projects"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.actions.act_window,help:presale_office.action_presale_currency_rates
+msgid "Create new rates for currencys and presales projects"
+msgstr "Crear nuevas tasas para monedas y proyectos de preventa"
+
+#. module: presale_office
+#: model_terms:ir.actions.act_window,help:presale_office.action_presale_working_rates
+msgid "Create new rates for labor types sales teams"
+msgstr "Crear nuevas tasas para tipos de mano de obra por equipos"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_labor_type__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_type__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_type_headings__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_types_additionals__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__create_uid
+#: model:ir.model.fields,field_description:presale_office.field_product_brand__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_labor_type__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_type__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_type_headings__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_types_additionals__create_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__create_date
+#: model:ir.model.fields,field_description:presale_office.field_product_brand__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__currency_id
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_currency_rate_search_view
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_presale_currency_rates
+#: model:ir.ui.menu,name:presale_office.menu_presale_currency_rates
+msgid "Currency Rates"
+msgstr "Tasas de monedas"
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__access_url
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__access_url
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__access_url
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__access_url
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__access_url
+msgid "Customer Portal URL"
+msgstr "URL para portal"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__name
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_currency_rate_search_view
+msgid "Date"
+msgstr "Fecha"
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__product_seller_list
+msgid "Define vendor pricelists."
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__description
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Description"
+msgstr "Descripción"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__designers_ids
+msgid "Designer"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__detail_ids
+msgid "Detail"
+msgstr "Detalle"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__discount_over_total
+msgid "Discount O/ Total"
+msgstr "Descuentos S/ Total"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Discounts"
+msgstr "Descuentos"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__discount
+msgid "Discounts (%)"
+msgstr "Descuentos (%)"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_labor_type__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_type__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_type_headings__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_types_additionals__display_name
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__display_name
+#: model:ir.model.fields,field_description:presale_office.field_product_brand__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Distance to Work"
+msgstr "Distancia a Obra"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__distance_to_work
+msgid "Distance to Work (km)"
+msgstr "Distancia a Obra (km)"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "ESTIMATED TIME (P/ MONTH)"
+msgstr "TIEMPO ESTIMADO (P/MES)"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__employer_contribution
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Employer Contribution"
+msgstr "Aporte Patronal"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__date
+msgid "End date"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__ips_estimated_time
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Estimated Time"
+msgstr "Tiempo Estimado"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__summary_estimated_time
+msgid "Estimated Time (P/ Month"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__account_analytic_id
+msgid "Etiquetas Analíticas"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__overtime_one
+msgid "Ex. Hs. 01"
+msgstr "Hs. Ext 01"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__overtime_two
+msgid "Ex. Hs. 02"
+msgstr "Hs. Ext 02"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__exclusions
+msgid "Exclusions"
+msgstr "Exclusiones"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__expected_month
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Expected Months"
+msgstr "Meses Estimados"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__external_commission
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "External Commision"
+msgstr "Comisiones Externas"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__external_commission_per
+msgid "External Commision %"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__external_comm_without_vat
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "External Commission w/o VAT"
+msgstr "Comisiones Externas sin IVA"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Fecha fin"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__financial_interest_perc
+msgid "Financial I  nterest"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__financial_interest
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__financial_interest_costs
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Financial Interest"
+msgstr "Interés Financiero"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Financial Interests"
+msgstr "Intereses Financiero"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_follower_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_follower_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_follower_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_follower_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_partner_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_partner_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_partner_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_partner_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Empresas)"
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__activity_type_icon
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__activity_type_icon
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__activity_type_icon
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__activity_type_icon
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__fuel_type
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Fuel Type"
+msgstr "Tipo de Combustible"
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_presale_fuel_type
+#: model:ir.ui.menu,name:presale_office.menu_presale_fuel_type
+msgid "Fuel Types"
+msgstr "Tipos de Combustibles"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__presale_full_nomenclature
+msgid "Full Nomenclature"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.crm_lead_view_presale_form
+msgid "GENERATE PRESALE QUOTE"
+msgstr "GENERAR COTIZACION DE PREVENTA"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "GENERATE SALE ORDER"
+msgstr "GENERAR PEDIDO DE VENTA"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "GRAND TOTAL"
+msgstr "TOTAL GENERAL"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "General Costs"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__gen_grand_total_costs
+msgid "General Grand Total Costs"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Go Back to Draft"
+msgstr "Volver a Borrador"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Go Back to Review"
+msgstr "Volver a Revisión"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Go to Interal Approval"
+msgstr "Pasar a Aprobación Interna"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Go to Review"
+msgstr "Pasar a Revisión"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__gross_contribution
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Gross Contribution"
+msgstr "Contibución Bruta"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_currency_rate_search_view
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_working_rate_search_view
+msgid "Group By"
+msgstr "Agupar por"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__has_message
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__has_message
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__has_message
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__has_message
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+msgid "Heading"
+msgstr "Rubro"
+
+#. module: presale_office
+#: model:ir.ui.menu,name:presale_office.menu_presale_template
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Headings"
+msgstr "Rubros"
+
+#. module: presale_office
+#: model:ir.ui.menu,name:presale_office.submenu_presale_template
+msgid "Headings Templates"
+msgstr "Plantillas de Rubros"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_labor_type__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_type__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_type_headings__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_types_additionals__id
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__id
+#: model:ir.model.fields,field_description:presale_office.field_product_brand__id
+msgid "ID"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "IPS"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_exception_icon
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_exception_icon
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_exception_icon
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_exception_icon
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__activity_exception_icon
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__activity_exception_icon
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__activity_exception_icon
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__activity_exception_icon
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__message_needaction
+#: model:ir.model.fields,help:presale_office.field_presale_order__message_unread
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__message_needaction
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__message_unread
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__message_needaction
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__message_unread
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__message_needaction
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__message_unread
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__message_needaction
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__message_has_error
+#: model:ir.model.fields,help:presale_office.field_presale_order__message_has_sms_error
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__message_has_error
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__message_has_sms_error
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__message_has_error
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__message_has_sms_error
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__message_has_error
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__message_has_sms_error
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__message_has_error
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__income_date
+msgid "Income date"
+msgstr "Fecha de ingreso"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Internal Approval"
+msgstr "Aprobación Interna"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Internal Commission"
+msgstr "Comisión Interna"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Internal Commission w/o VAT"
+msgstr "Comisión Interna sin IVA"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_is_follower
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_is_follower
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_is_follower
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_is_follower
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_is_follower
+msgid "Is Follower"
+msgstr "Es un seguidor"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_product_product__is_labour
+#: model:ir.model.fields,field_description:presale_office.field_product_template__is_labour
+msgid "Is Labour"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_product_product__is_minor_material
+#: model:ir.model.fields,field_description:presale_office.field_product_template__is_minor_material
+msgid "Is Minor Material?"
+msgstr "es Material Menor?"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__heading_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__item_id
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+msgid "Items"
+msgstr "Sistemas"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__journeys
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Journeys"
+msgstr "Jornadas"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "LOGISTIC"
+msgstr "LOGÍSTICA"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__lab_subtotal_cost
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+msgid "Lab. Subtotal"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__unf_labour_cost
+msgid "Lab. Unf. Subtotal"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.ui.menu,name:presale_office.menu_presale_labor_type
+msgid "Labor Types"
+msgstr "Tipo de M.O"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__lab_unit_price_final
+msgid "Labor Unit Price"
+msgstr "Precio Unitario de Mano de Obra"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__labor_bt
+msgid "Labor in BT"
+msgstr "Mano de Obra en BT "
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__labor_mt
+msgid "Labor in MT"
+msgstr "Mano de Obra en MT"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__labor_type
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__labor_type_id
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_working_rate_search_view
+msgid "Labor type"
+msgstr "Tipo de MO"
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_presale_labor_type
+msgid "Labor types"
+msgstr "Tipos de mano de obra"
+
+#. module: presale_office
+#: model:ir.ui.menu,name:presale_office.submenu_presale_labors
+msgid "Labors"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__total_labour
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+msgid "Labour"
+msgstr "Mano de Obra"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__total_labour
+msgid "Labour Total"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+msgid "Labour Unforseen + Financial Int."
+msgstr "M.O Imprevisto + Int. Financiero"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Labours"
+msgstr "Manos de Obras"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_labor_type____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_type____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_order____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_type_headings____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_types_additionals____last_update
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate____last_update
+#: model:ir.model.fields,field_description:presale_office.field_product_brand____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_labor_type__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_type__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_type_headings__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_types_additionals__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__write_uid
+#: model:ir.model.fields,field_description:presale_office.field_product_brand__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_labor_type__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_type__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_type_headings__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_types_additionals__write_date
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__write_date
+#: model:ir.model.fields,field_description:presale_office.field_product_brand__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_project_project__lead_id
+msgid "Lead"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Iniciativa/Oportunidad"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__logistic_summary_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__summary_logistic
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Logistic"
+msgstr "Logística"
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_presale_logistic_type
+#: model:ir.ui.menu,name:presale_office.menu_presale_logistic_type
+msgid "Logistic Types"
+msgstr "Tipos de Logísticas"
+
+#. module: presale_office
+#: model:ir.ui.menu,name:presale_office.submenu_presale_logistic_type
+msgid "Logistics"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_main_attachment_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_main_attachment_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_main_attachment_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_main_attachment_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Adjuntos principales"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Man/Day Costs"
+msgstr "Costos Días/Hombres"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__mat_subtotal_cost
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+msgid "Mat. Subtotal"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__unf_material_cost
+msgid "Mat. Unf. Subtotal"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__mat_subtotal_price_final
+msgid "Material Subtotal Price"
+msgstr "Subtotal Material"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__total_material
+msgid "Material Total"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__mat_unit_price_final
+msgid "Material Unit Price"
+msgstr "Precio Unitario Material"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__total_materials
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+msgid "Materials"
+msgstr "Materiales"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+msgid "Materials Unforeseen + Financial Int."
+msgstr "Materiales Imprevisto + Int. Financiero"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__material_mv_trans_perc
+msgid ""
+"Materials for = Medium Voltage, Generator Group and Transformer (MT-GG)"
+msgstr ""
+"Materiales para= Media Tensión, Grupo Generador y Transformador (MT-GG)"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__material_installation_perc
+msgid "Materials for low voltage electrical installations"
+msgstr "Materiales para instalaciones eléctricas en baja tensión"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_has_error
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_has_error
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_has_error
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_has_error
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__minor_materials_percent
+msgid "Minor Materials %"
+msgstr "Materiales Menores %"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Minor Materials (Avg.)"
+msgstr "Materiales Menores (Prom.)"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__minor_materials
+msgid "Minor Materials (from 100% of material cost)"
+msgstr "Materiales Menores (del 100% del costo de materiales)"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__vehicle_id
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Mobile"
+msgstr "Móvil"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__my_activity_date_deadline
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__my_activity_date_deadline
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__my_activity_date_deadline
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__my_activity_date_deadline
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__name
+#: model:ir.model.fields,field_description:presale_office.field_presale_fuel_type__name
+#: model:ir.model.fields,field_description:presale_office.field_presale_labor_type__name
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_type__name
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__name
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__name
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__name
+#: model:ir.model.fields,field_description:presale_office.field_presale_type_headings__name
+#: model:ir.model.fields,field_description:presale_office.field_presale_types_additionals__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Net Total Cost"
+msgstr "Costo Total Neto"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__net_total_cost
+msgid "Net Total Costs"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_calendar_event_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_calendar_event_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_calendar_event_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_calendar_event_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_date_deadline
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_date_deadline
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_date_deadline
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_date_deadline
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Siguiente plazo de actividad"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_summary
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_summary
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_summary
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_summary
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de la siguiente actividad"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_type_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_type_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_type_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_type_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_type_id
+msgid "Next Activity Type"
+msgstr "Siguiente tipo de actividad"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Nomenclatura de Presupuesto"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_needaction_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_needaction_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_needaction_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_needaction_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de acciones"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__num_of_revs_commercial
+msgid "Number of Revisions of Commercial Team"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__num_of_revs_technical
+msgid "Number of Revisions of Technical Area"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_has_error_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_has_error_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_has_error_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_has_error_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__message_needaction_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__message_needaction_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__message_needaction_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__message_needaction_counter
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__message_has_error_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__message_has_error_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__message_has_error_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__message_has_error_counter
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de envío"
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__message_unread_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__message_unread_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__message_unread_counter
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__message_unread_counter
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leidos"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__observations
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Observations & Exclusions"
+msgstr "Observaciones & Exclusiones"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__cost_percent
+msgid "Of Costs"
+msgstr "De Costos"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__sale_price_percent
+msgid "Of Sale Price"
+msgstr "De Precio de Venta"
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__create_or_update
+msgid ""
+"One tip: if the 'Create Sales Order' check button is gray it means 'No', if "
+"it is blue it means 'yes'"
+msgstr ""
+"Un consejo: si el botón de verificación 'Crear Presupuesto' está gris "
+"significa 'No', si está azul significa 'sí'"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Opportunity"
+msgstr "Oportunidad"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__order_ids
+msgid "Order"
+msgstr "Pedido"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__order_id_add
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__order_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__order_id
+msgid "Order Id"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__others_costs
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Others Costs"
+msgstr "Otros Costos"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "PERSONNEL P/ MONTH"
+msgstr "PERSONAL P/ MES"
+
+#. module: presale_office
+#: code:addons/presale_office/models/presale_order.py:0
+#, python-format
+msgid ""
+"Para Crear o Actualizar un Presupuesto, el botón 'Crear Presupuesto' debe "
+"quedar tildado!"
+msgstr ""
+
+#. module: presale_office
+#: code:addons/presale_office/models/crm.py:0
+#, python-format
+msgid ""
+"Para crear o actualizar el nombre de la Cotizacion de Preventas,es "
+"necesario que rellene el campo 'Nombre'!"
+msgstr ""
+
+#. module: presale_office
+#: code:addons/presale_office/models/crm.py:0
+#, python-format
+msgid ""
+"Para crear o actualizar el nombre del Proyecto asociado al Lead,es "
+"necesario que rellene el campo 'Nombre'!"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__partner_id
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__payment_term_ids
+msgid "Payment Term"
+msgstr "Plazos de Pagos"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__ips_per_month
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Per Month"
+msgstr "Por Mes"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__template_minor_perc
+msgid "Percent %"
+msgstr "Porcentaje %"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__percentage
+msgid "Percentage"
+msgstr "Porcentaje"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__aux_labor_table_ids
+msgid "Personnel"
+msgstr "Personal"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__access_url
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__access_url
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__access_url
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__access_url
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__access_url
+msgid "Portal Access URL"
+msgstr "URL de acceso al portal"
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_auxiliary_labor_table
+msgid "Presale Auxiliary Labor Table"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+msgid "Presale Heading"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__heading_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__headling_id
+msgid "Presale Headling"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_open_presaleorder_items
+msgid "Presale Items"
+msgstr "Rubros"
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_open_presaleorder_items_details
+msgid "Presale Items Details"
+msgstr "Detalles de rubros"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__order_id_aux
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__order_id_log
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__order_id
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Presale Order"
+msgstr "Órden de preventa"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__item_id
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_tree_view
+msgid "Presale Order Item"
+msgstr "Rubro de Preventa"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_crm_lead__qty_presale_created
+msgid "Presale Q."
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_sale_order__presale_id
+msgid "Presale Quote"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_open_presaleorder
+#: model:ir.ui.menu,name:presale_office.menu_presale
+#: model:ir.ui.menu,name:presale_office.menu_presale_order
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_tree_view
+msgid "Presale Quotes"
+msgstr "Preventas"
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_currency_rate
+msgid "Presale currency rates"
+msgstr "Tasas de la preventa"
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_labor_type
+msgid "Presale labor types"
+msgstr "Tipos de mano de obra"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_crm_lead__presale_ids
+msgid "Presale project"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_working_rate
+msgid "Presale working rates"
+msgstr "Tasas de mano de obra"
+
+#. module: presale_office
+#: model:ir.ui.menu,name:presale_office.menu_presale_root
+msgid "Presales"
+msgstr "Preventas"
+
+#. module: presale_office
+#: model:res.groups,name:presale_office.group_presale_manager
+msgid "Presales Manager"
+msgstr "Administrador de preventas"
+
+#. module: presale_office
+#: model:res.groups,name:presale_office.group_presale_user
+msgid "Presales User"
+msgstr "Usuario de preventas"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__price_vat_included
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Price VAT Included"
+msgstr "Precio IVA incluido"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__price_per_liter
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Price per Liter"
+msgstr "Precio por Litro"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__price_per_tour
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Price per Tour"
+msgstr "Precio por Recorrido"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__price_without_vat
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Price w/o VAT"
+msgstr "Precio sin IVA"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__pricelist_id
+msgid "Pricelist"
+msgstr "Tarifa"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.product_brand_model_action
+#: model:ir.model.fields,field_description:presale_office.field_product_brand__name
+#: model:ir.model.fields,field_description:presale_office.field_product_product__product_brand
+#: model:ir.model.fields,field_description:presale_office.field_product_template__product_brand
+#: model:ir.ui.menu,name:presale_office.product_brand_menu_purchase_id
+#: model:ir.ui.menu,name:presale_office.product_brand_menu_sale_id
+#: model_terms:ir.ui.view,arch_db:presale_office.product_brand_form_view
+msgid "Product Brand"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_project_project
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+msgid "Project"
+msgstr "Proyecto"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__project_manager
+msgid "Project Manager"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_crm_lead__project_ids
+#: model:ir.model.fields,field_description:presale_office.field_crm_lead__qty_projects_created
+msgid "Projects"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Proration"
+msgstr "Prorrateo"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__total_item_qty
+msgid "Qty."
+msgstr "Cant."
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Qty. Days"
+msgstr "Cant. de Días"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__qty_month
+msgid "Qty. Months"
+msgstr "Cant. Mes"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__qty_labor
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__qty
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__company_currency
+msgid "Quote with Sales Team Currency"
+msgstr "Cotizar con Moneda del Equipo"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__rate
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__rate
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__rate
+msgid "Rate"
+msgstr "Tasa"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__rate_date
+msgid "Rate date"
+msgstr "Fecha de tasa"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Rates"
+msgstr "Tasas"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_crm_team__presale_currency_id
+msgid "Related currency"
+msgstr "Moneda relacionada"
+
+#. module: presale_office
+#: code:addons/presale_office/models/presale_order.py:0
+#, python-format
+msgid "Rellene el campo 'Empresa' para realizar la operación!"
+msgstr ""
+
+#. module: presale_office
+#: code:addons/presale_office/models/presale_order.py:0
+#, python-format
+msgid "Rellene el campo 'Equipo de Ventas' para realizar la operación!"
+msgstr ""
+
+#. module: presale_office
+#: code:addons/presale_office/models/presale_order.py:0
+#, python-format
+msgid "Rellene el campo 'Nombre' para realizar la operación!"
+msgstr ""
+
+#. module: presale_office
+#: code:addons/presale_office/models/presale_order.py:0
+#, python-format
+msgid "Rellene el campo 'Tarifas' para realizar la operación!"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_crm_lead__requiere_preventa
+msgid "Requiere preventa?"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__require_discount
+msgid "Requires Discount"
+msgstr "Requiere Descuento"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__activity_user_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__activity_user_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__activity_user_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__activity_user_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario responsable"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Review"
+msgstr "Revisión"
+
+#. module: presale_office
+#: model:ir.model.fields.selection,name:presale_office.selection__presale_order__previous_state__revision
+#: model:ir.model.fields.selection,name:presale_office.selection__presale_order__state__revision
+msgid "Revision"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__type_heading
+msgid "Rubros"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_has_sms_error
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_has_sms_error
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_has_sms_error
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_has_sms_error
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Sale Info"
+msgstr "Información de venta"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__team_id
+msgid "Sale team"
+msgstr "Equipo de venta"
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_sale_order
+msgid "Sales Order"
+msgstr "Presupuesto"
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_crm_team
+msgid "Sales Team"
+msgstr "Equipo de ventas"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__sales_order_id
+msgid "Sales orders"
+msgstr "Presupuestos"
+
+#. module: presale_office
+#: model:ir.ui.menu,name:presale_office.menu_presale_crm_teams
+msgid "Sales teams"
+msgstr "Equipos de venta"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__access_token
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__access_token
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__access_token
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__access_token
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__access_token
+msgid "Security Token"
+msgstr "Token de seguridad"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+msgid "Seller Lists"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__previous_state
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__state
+msgid "State"
+msgstr "Estado"
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__activity_state
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__activity_state
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__activity_state
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__activity_state
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Estado basado en actividades\n"
+"Vencida: la fecha tope ya ha pasado\n"
+"Hoy: La fecha tope es hoy\n"
+"Planificada: futuras actividades."
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__subtotal_one
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__subtotal_two
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__lab_subtotal_price_final
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__labor_subtotal_price
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__price_subtotal
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__unforseen_subtotal_labor
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__unforseen_subtotal_material
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Subtotal"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__supplier_id
+msgid "Supplier"
+msgstr "Proveedor"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__product_seller_list
+msgid "Supplier Prices"
+msgstr "Precios de Proveedor"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "TRANSFER"
+msgstr "TRASLADO"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_currency_rate__team_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__team_id
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_working_rate_search_view
+msgid "Team"
+msgstr "Equipo"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__currency_id
+msgid "Team currency"
+msgstr "Moneda del equipo"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__item_template_ids
+msgid "Template Associated"
+msgstr "Plantilla Asociada"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Test Values"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__time_month
+msgid "Time/Month"
+msgstr "Tiempo/Mes"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__toll
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Toll"
+msgstr "Peaje"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__tools_fixed_expenses
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Tools/Fixed Expenses"
+msgstr "Herramientas/Gastos Fijos"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__tools_fixed_expenses_perc
+msgid "Tools/Fixed Expenses %"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__total_summary_amount
+msgid "Total Amount"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__labor_total_cost
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__total_cost
+msgid "Total Cost"
+msgstr "Costo Total"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__total_estimated_time
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Total Estimated Time"
+msgstr "Total Tiempo Estimado"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__total_expenses
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Total Expenses"
+msgstr "Gastos Totales"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__total_ips
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Total IPS"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+msgid "Total Lab."
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+msgid "Total Mat."
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__total_material_and_labour
+msgid "Total Mat. and Lab."
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+msgid "Total Material + Labour"
+msgstr "Total Material + M.O"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__total_price_per_tour
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Total Price per Tour"
+msgstr "Precio Total por Recorrido"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__total_transfer_amount
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Total Transfer Amount"
+msgstr "Total x cantidad de traslado"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__total_mat_lab_unforseen
+msgid "Total Unforseen Mat. and Unforseen Lab."
+msgstr "Total Imprevisto Mat. e Imprevisto de M.O"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+msgid "Total Unforseen Material + Total Unforseen Labour"
+msgstr "Total Materiales Imprevistos + Total M.O Imprevistos"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view_detail
+msgid "Totals"
+msgstr "Totales"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__transfers
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Transfers"
+msgstr "Traslados"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__transformers_generator_perc
+msgid "Transformers and Generators"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__type_logistic
+msgid "Type Logistic"
+msgstr "Tipo de Logística"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__labour_additionals_id
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__material_additionals_id
+msgid "Type of Add. Cost"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__activity_exception_decoration
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__activity_exception_decoration
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__activity_exception_decoration
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__activity_exception_decoration
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_presale_types_additional
+#: model:ir.model.fields,field_description:presale_office.field_presale_additionals__types_additionals
+#: model:ir.ui.menu,name:presale_office.menu_presale_type_additional
+msgid "Types of Additionals"
+msgstr "Tipos de Adicionales"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+msgid "Unf. Lab. Subtotal"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_heading
+msgid "Unf. Mat. Subtotal"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__hundred_perc_unforseen
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Unforeseen (100% of the cost)"
+msgstr "Imprevisto (del 100% del costo)"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__labor_unit_price
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__unforseen_unit_labor
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__unforseen_unit_material
+msgid "Unit"
+msgstr "Unitario"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_auxiliary_labor_table__labor_unit_cost
+#: model:ir.model.fields,field_description:presale_office.field_presale_logistic_summary__unit_cost
+msgid "Unit Cost"
+msgstr "Costo Unitario"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__unit_price
+msgid "Unit price"
+msgstr "Precio unitario"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_unread
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_unread
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_unread
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_unread
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes por leer"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__message_unread_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__message_unread_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__message_unread_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__message_unread_counter
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contador de mensajes sin leer"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__uom_id
+msgid "Uom"
+msgstr "Unidad de medida"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Update Amounts"
+msgstr "Actualizar Montos"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "Update B/o Proration"
+msgstr "Actualizar"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+msgid "Update Materials"
+msgstr "Act. Mat. Menores"
+
+#. module: presale_office
+#: code:addons/presale_office/models/crm.py:0
+#, python-format
+msgid ""
+"Usted ya ha creado un proyecto previamente, no se pueden tener más de un "
+"proyecto por Lead!"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.product_brand_tree_view
+msgid "Usuario Terminal"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__vat_ten_percent
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "VAT 10%"
+msgstr "IVA 10%"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__vat_credit_materials
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "VAT Credit Materials"
+msgstr "Iva Crédito Materiales"
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_fleet_vehicle
+msgid "Vehicle"
+msgstr "Vehículo"
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__website_message_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_heading__website_message_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item__website_message_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_order_item_detail__website_message_ids
+#: model:ir.model.fields,field_description:presale_office.field_presale_working_rate__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: presale_office
+#: model:ir.model.fields,help:presale_office.field_presale_order__website_message_ids
+#: model:ir.model.fields,help:presale_office.field_presale_order_heading__website_message_ids
+#: model:ir.model.fields,help:presale_office.field_presale_order_item__website_message_ids
+#: model:ir.model.fields,help:presale_office.field_presale_order_item_detail__website_message_ids
+#: model:ir.model.fields,help:presale_office.field_presale_working_rate__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
+
+#. module: presale_office
+#: model:ir.actions.act_window,name:presale_office.action_presale_working_rates
+#: model:ir.ui.menu,name:presale_office.menu_presale_working_rate
+msgid "Working Rates"
+msgstr "Tasas de mano de obra"
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+msgid "labor_subtotal_price"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_additionals
+msgid "presale.additionals"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_fuel_type
+msgid "presale.fuel_type"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_logistic_summary
+msgid "presale.logistic_summary"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_logistic_type
+msgid "presale.logistic_type"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_order
+msgid "presale.order"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_order_heading
+msgid "presale.order.heading"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_order_item
+msgid "presale.order.item"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_order_item_detail
+msgid "presale.order.item.detail"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_type_headings
+msgid "presale.type_headings"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_presale_types_additionals
+msgid "presale.types_additionals"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model,name:presale_office.model_product_brand
+msgid "product.brand"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__labor_qty_daily
+msgid "qty"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__overtime_sub_daily_one
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__overtime_sub_daily_two
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__overtime_sub_monthly_one
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__overtime_sub_monthly_two
+msgid "subtotal"
+msgstr ""
+
+#. module: presale_office
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__labor_cost_daily
+#: model:ir.model.fields,field_description:presale_office.field_presale_order__labor_cost_monthly
+msgid "total cost"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_form_view
+msgid "total_cost"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+msgid "unforseen_subtotal_labor"
+msgstr ""
+
+#. module: presale_office
+#: model_terms:ir.ui.view,arch_db:presale_office.presale_order_item_form_view
+msgid "unforseen_subtotal_material"
+msgstr ""

@@ -1,0 +1,22 @@
+<odoo>
+    <record id="fleet_vehicle_form" model="ir.ui.view">
+        <field name="name">fleet_vehicle.form.inh</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <!--            <xpath expr="//div[@class='o_row']" position="after">-->
+            <!--                <div class="o_row" attrs="{'invisible': [('vehicle_type', '!=', 'car')]}">-->
+            <!--                    <label for="consumption_per_kilometer"/>-->
+            <!--                    <div>-->
+            <!--                        <field name="consumption_per_kilometer"/>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </xpath>-->
+
+            <xpath expr="//field[@name='manager_id']" position="before">
+                <field name="consumption_per_kilometer"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

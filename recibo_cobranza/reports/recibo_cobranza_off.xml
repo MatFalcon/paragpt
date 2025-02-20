@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="recibo_cobranza_off">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <link rel="stylesheet" href="recibo_cobranza/static/recibo_cobranza.css"/>
+                        <!--#############EL CONTENEDOR 01 ES EL MARCO PRINCIPAL QUE CUBRE A TODOS LOS DATOS###########-->
+                        <div class="container01">
+                            <!--############# ENCABEZADO ###########-->
+                            <div id="logo">
+                                <t t-if="o.company_id.logo">
+                                    <img t-att-src="image_data_uri(o.company_id.logo)" id="imagen_2"
+                                         style="width:200px; height:auto"/>
+                                </t>
+                            </div>
+                            <div class="info-empresa">
+                                <span t-field="o.company_id.street"/>
+                                <br/>
+                                <strong>
+                                    <span>Tel/Fax:</span>
+                                </strong>
+                                <span t-field="o.company_id.phone"/>
+                                <br/>
+                                <span t-field="o.company_id.city"/>
+                            </div>
+                        </div>
+
+                        <!--############# CONTENEDOR 02 ###########-->
+                        <div class="container02">
+                            <div id="recibo">
+                                <span>RECIBO DE DINERO</span>
+                            </div>
+                            <div id="ruc">
+                                <p>
+                                    <strong>RUC.:</strong>
+                                    <span id="valor_ruc"><span t-field="o.company_id.ruc"/>-
+                                        <span t-field="o.company_id.dv"/>
+                                    </span>
+                                </p>
+                            </div>
+                            <div id="nro_recibo">
+                                <strong>N°</strong>
+                                <br/>
+                                <span style="margin-left:0.20cm; text-align: center; font-size:25px;">
+                                    <span t-field="o.name"/>
+                                </span>
+                            </div>
+                            <!--                            <div id="monto">-->
+                            <!--                                <t t-if="'PYG' in o.currency_invoice.name">-->
+                            <!--                                    <span id="simbolo" style="margin-left:-13px;">-->
+                            <!--                                        <span t-field="o.currency_invoice.symbol"/>-->
+                            <!--                                    </span>-->
+                            <!--                                </t>-->
+                            <!--                                <t t-if="'PYG' not in o.currency_invoice.name">-->
+                            <!--                                    <span id="simbolo">-->
+                            <!--                                        <span t-field="o.currency_invoice.symbol"/>-->
+                            <!--                                    </span>-->
+                            <!--                                </t>-->
+                            <!--                                &lt;!&ndash; <span id="simbolo"><span t-field="o.currency_invoice.symbol"/></span> &ndash;&gt;-->
+                            <!--                                &lt;!&ndash;                                  <p id="canti" t-esc="o.agregar_punto_de_miles(o.amount,o.currency_invoice.name)"/>&ndash;&gt;-->
+                            <!--                                <p id="canti">-->
+                            <!--                                    <span t-esc="o.conversion_monetaria_fact(o.amount,o.currency_id.name)"/>-->
+                            <!--                                </p>-->
+                            <!--                            </div>-->
+                        </div>
+                        <!--############# CONTENEDOR 03 ###########-->
+                        <div class="container03">
+                            <p id="recibi">
+                                <strong>RECIBI DE</strong>
+                                <span t-esc="o.partner_id.name.upper()" id="reci_name"/>
+                            </p>
+                            <span id="ruc_cliente">
+                                <strong>RUC:</strong>
+                                <span style="margin-left:0.20cm;">
+                                    <t t-if="o.partner_id.vat">
+                                        <span id="ruc_num" t-field="o.partner_id.vat"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="display: inline-block; width: 2.6cm; border-bottom: 1px dashed black;"></span>
+                                    </t>
+                                </span>
+                            </span>
+
+                            <span id="cantidad">
+                                <strong>LA CANTIDAD DE
+                                    <t t-if="o.currency_invoice">
+                                        <t t-if="'USD' in o.currency_invoice.name">
+                                        </t>
+                                        <t t-elif="'PYG' in o.currency_invoice.name">
+                                        </t>
+                                    </t>
+                                </strong>
+                            </span>
+
+                            <!--############# TABLA DE FACTURAS ###########-->
+                            <t t-set="total_facturas" t-value="sum(o.pagos_facturas_ids.mapped('amount_total') or [0])"/>
+                            <t t-set="total_cobros" t-value="sum(o.payment_ids.mapped('amount') or [0])"/>
+                            <t t-set="monto_total" t-value="total_facturas if o.pagos_facturas_ids else total_cobros"/>
+                            <t t-set="monto_total" t-value="monto_total or 0"/>
+
+                            <table id="table-1">
+                                <tr>
+                                    <th colspan="2">FACTURAS A CREDITO</th>
+                                </tr>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>IMPORTE</th>
+                                </tr>
+
+                                <!-- Iterar sobre las facturas existentes -->
+                                <t t-set="num_facturas" t-value="len(o.pagos_facturas_ids) or len(o.payment_ids)"/>
+                                <t t-set="num_filas_vacias" t-value="10 - num_facturas"/>
+
+                                <t t-if="o.pagos_facturas_ids">
+                                    <t t-foreach="o.pagos_facturas_ids" t-as="pago">
+                                    <tr>
+                                        <td t-esc="pago.invoice_id.name or '-' "/>
+                                        <td style="text-align:right;"
+                                            t-esc="o.agregar_punto_de_miles(pago.amount_total, o.currency_invoice) or '-'"/>
+                                    </tr>
+                                </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-foreach="o.payment_ids" t-as="cobros">
+                                        <tr>
+                                            <td t-esc="cobros.journal_id.name or '-' "/>
+                                            <td style="text-align:right;"
+                                                t-esc="o.agregar_punto_de_miles(cobros.amount, o.currency_invoice) or '-' "/>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                                <t t-if="num_filas_vacias > 0">
+                                    <t t-foreach="range(num_filas_vacias)" t-as="i">
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align:right;"></td>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                                <tr>
+                                    <td class="total">TOTAL</td>
+                                    <td class="importe" style="text-align:right;"
+                                        t-esc="o.conversion_monetaria_fact(o.agregar_punto_de_miles(monto_total, o.currency_id), o.currency_id)"/>
+                                </tr>
+                            </table>
+<!--                            ############# Usar el monto_total de la tabla pero en letras #############-->
+                            <t t-if="'PYG' in (o.currency_id.name or '')">
+                                <p id="monto_letra">
+                                    <t t-if="monto_total">
+                                        <span t-esc="o.calcular_letras(monto_total)"/>
+                                    </t>
+                                </p>
+                            </t>
+
+                            <t t-if="'USD' in (o.currency_id.name or '')">
+                                <p id="monto_letra">
+                                    <t t-if="monto_total">
+                                        <span t-esc="o.calcular_letras_dolar(monto_total)"/>
+                                    </t>
+                                </p>
+                            </t>
+                            <!--############# CHECKS DE GUARANIES Y DOLAR ###########-->
+                            <div id="tipo_moneda">
+                                <strong>
+                                    <t t-if="'PYG' in o.currency_id.name">
+                                        <div class="cuadro"
+                                             style="display: flex; align-items: center; justify-content: center; text-align: center;">
+                                            <span style="position: relative; top: -3px;">X</span>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="cuadro"
+                                             style="color: white; display: flex; align-items: center; justify-content: center; text-align: center;">
+                                            <span style="position: relative; top: -3px;">X</span>
+                                        </div>
+                                    </t>
+                                    <span>GS. GUARANIES</span>
+                                    <br/>
+                                    <t t-if="'USD' in o.currency_id.name">
+                                        <div class="cuadro"
+                                             style="display: flex; align-items: center; justify-content: center; text-align:center;">
+                                            <span style="position: relative; top: -3px;">X</span>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="cuadro"
+                                             style="color:white; display: flex; align-items: center; justify-content: center; text-align:center;">
+                                            <span style="position: relative; top: -3px;">X</span>
+                                        </div>
+                                    </t>
+                                    <span>US DOLARES AMERICANOS</span>
+                                </strong>
+                            </div>
+
+                            <!--############# FORMAS DE PAGO ###########-->
+                            <div id="formas_pago">
+                                <!--####### CHEQUE N° #######-->
+                                <span>CHEQUE N°</span>
+                                <t t-if="o.tiene_cheque or o.num_cheque_asociado or o.payment_ids.banco_cheque_recibo">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center;">
+                                        <span style="position: relative; top: -3px;">X</span>
+                                    </div>
+                                    <span class="linea-cheque"
+                                          style="display: inline-block; position: relative; top: -8px;">
+                                        <t t-if="o.num_cheque_asociado">
+                                            <t t-esc="o.num_cheque_asociado"/>
+                                        </t>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center;">
+                                        <span style="color:white; position: relative; top: -3px;">X</span>
+                                    </div>
+                                    <span class="linea-cheque"/>
+                                </t>
+                                <!--####### BANCO #######-->
+                                <span>BANCO</span>
+                                <t t-if="o.payment_ids">
+                                    <t t-set="primer_pago" t-value="o.payment_ids[0]"/>
+
+                                    <t t-if="primer_pago.banco_cheque_recibo">
+                                        <span class="linea-banco">
+                                            <t t-esc="primer_pago.banco_cheque_recibo.name if primer_pago.banco_cheque_recibo.name else ''"/>
+                                        </span>
+                                    </t>
+                                    <t t-elif="o.tiene_efectivo">
+                                        <span class="linea-banco">
+                                            <t t-esc="o.cargo_banco.upper()"/>
+                                        </span>
+                                    </t>
+                                    <t t-elif="primer_pago.journal_id.bank_account_id">
+                                        <span class="linea-banco">
+                                            <t t-esc="primer_pago.journal_id.bank_account_id.bank_name.upper() if primer_pago.journal_id.bank_account_id.bank_name else ''"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="linea-banco"
+                                              style="display: inline-block; width: 8cm; border-bottom: 1px dashed black;"/>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <span class="linea-banco"
+                                          style="display: inline-block; width: 8cm; border-bottom: 1px dashed black;"/>
+                                </t>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <!--####### EFECTIVO #######-->
+                                <span>EFECTIVO</span>
+                                <t t-if="o.tiene_efectivo">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center; margin-left: 14px">
+                                        <span style="position: relative; top: -3px;">X</span>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center; margin-left: 14px">
+                                        <span style="color:white; position: relative; top: -3px;">X
+                                        </span>
+                                    </div>
+                                </t>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <!--####### TRANSFERENCIA #######-->
+                                <span>TRANSFERENCIA</span>
+                                <t t-if="o.tiene_transferencia or o.payment_ids.journal_id.bank_account_id">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center; ">
+                                        <span style="position: relative; top: -3px;">X</span>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center;">
+                                        <span style="color:white; position: relative; top: -3px;">X</span>
+                                    </div>
+                                </t>
+                                <!--####### TRANSFERENCIA N° #######-->
+                                <span style="margin-left: 1.1cm;">TRANSFERENCIA N°</span>
+                                <t t-if="o.tiene_transferencia and o.payment_ids.journal_id.bank_account_id">
+                                    <span style="display:inline-block; width: 5cm; border-bottom:1px dashed black; margin-left: 0;">
+                                        <t t-esc="o.payment_ids.journal_id.bank_account_id.acc_number"/>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <span style="display:inline-block; width: 5cm; border-bottom:1px dashed black; margin-left: 0"/>
+                                </t>
+                            </div>
+
+                            <!--############# Concepto ###########-->
+                            <!--                            <p id="concepto-container">-->
+                            <!--                                <strong>EN CONCEPTO DE:</strong>-->
+                            <!--                                <t t-if="o.concepto">-->
+                            <!--                                    <span id="concepto_txt">-->
+                            <!--                                        <t t-if="o.monto_cobros_en_lineas(o.concepto)[0]">-->
+                            <!--                                            <span style="border-bottom: 1px dashed black;">-->
+                            <!--                                                <t t-esc="o.monto_cobros_en_lineas(o.concepto)[1]"/>-->
+                            <!--                                            </span>-->
+                            <!--                                            <br/>-->
+                            <!--                                            <span style="border-bottom: 1px dashed black;">-->
+                            <!--                                                <t t-esc="o.monto_cobros_en_lineas(o.concepto)[2]"/>-->
+                            <!--                                            </span>-->
+                            <!--                                        </t>-->
+                            <!--                                        <t t-else="">-->
+                            <!--                                            <span style="border-bottom: 1px dashed black;">-->
+                            <!--                                                <t t-esc="o.monto_cobros_en_lineas(o.concepto)[1]"/>-->
+                            <!--                                            </span>-->
+                            <!--                                        </t>-->
+                            <!--                                    </span>-->
+                            <!--                                </t>-->
+                            <!--                                <t t-else="">-->
+                            <!--                                    <span id="concepto_txt"-->
+                            <!--                                          style="display: inline-block; width: 14.2cm; border-bottom: 1px dashed black;"></span>-->
+                            <!--                                </t>-->
+                            <!--                            </p>-->
+                            <div id="concepto">
+                                <span id="concepto_txt">
+                                    <strong>EN CONCEPTO DE:</strong>
+                                    <t t-if="o.concepto">
+                                        <span style="border-bottom:1px dashed black;">
+                                            <t t-esc="o.concepto"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="display:inline-block; width: 14cm; border-bottom:1px dashed black; "/>
+                                    </t>
+                                </span>
+                            </div>
+
+                            <!--############# FECHA Y FIRMA ###########-->
+                            <div id="fecha_firma">
+                                <!--                                <span t-field="o.company_id.city"/>,-->
+                                <span t-esc="o.fecha_formateada"/>.
+                                <span>FIRMA</span>
+                                <span id="firma"
+                                      style="display:inline-block; width: 5cm; border-bottom: 1px dashed black;"/>
+                                <!--                                <t t-if="o.company_id.firma">-->
+                                <!--                                    <span id="test_firma" style="display:inline-block; border-bottom: 1px dashed black;"/><t t-esc="o.company_id.firma"/>-->
+                                <!--                                </t>-->
+                                <!--                                <t t-else="">-->
+                                <!--                                    <span id="test_firma"-->
+                                <!--                                          style="display:inline-block; border-bottom: 1px dashed black;"-->
+                                <!--                                          class="firma_linea"></span>-->
+                                <!--                                </t>-->
+                                <span id="vb_label">VB:</span>
+                                <span id="vb_line"
+                                      style="display:inline-block; width:5cm; border-bottom:1px dashed black;"/>
+                            </div>
+                        </div>
+                        <p style="position:absolute; top:19cm; left:28.5cm;">
+                            Original: Cliente
+                        </p>
+                        <!--#################FIN PRIMERA SECCION##################################-->
+
+                        <!--#############EL CONTENEDOR 02 ES EL MARCO PRINCIPAL QUE CUBRE A TODOS LOS DATOS###########-->
+                        <div class="container01_2">
+                            <!--############# ENCABEZADO ###########-->
+                            <div id="logo">
+                                <t t-if="o.company_id.logo">
+                                    <img t-att-src="image_data_uri(o.company_id.logo)" id="imagen_2"
+                                         style="width:200px; height:auto"/>
+                                </t>
+                            </div>
+                            <div class="info-empresa">
+                                <span t-field="o.company_id.street"/>
+                                <br/>
+                                <strong>
+                                    <span>Tel/Fax:</span>
+                                </strong>
+                                <span t-field="o.company_id.phone"/>
+                                <br/>
+                                <span t-field="o.company_id.city"/>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="container02_2">
+                            <!--############# CONTENEDOR 02 ##########-->
+                            <div id="recibo02">
+                                <span>RECIBO DE DINERO</span>
+                            </div>
+                            <div id="ruc02">
+                                <p>
+                                    <strong>RUC.:</strong>
+                                    <span id="valor_ruc02"><span t-field="o.company_id.ruc"/>-
+                                        <span t-field="o.company_id.dv"/>
+                                    </span>
+                                </p>
+                            </div>
+                            <div id="nro_recibo02">
+                                <strong>N°</strong>
+                                <br/>
+                                <span style="margin-left:0.20cm; text-align: center; font-size:25px;">
+                                    <span t-field="o.name"/>
+                                </span>
+                            </div>
+                            <!--                            <div id="monto02">-->
+                            <!--                                <t t-if="'PYG' in o.currency_invoice.name">-->
+                            <!--                                    <span id="simbolo" style="margin-left:-13px;">-->
+                            <!--                                        <span t-field="o.currency_invoice.symbol"/>-->
+                            <!--                                    </span>-->
+                            <!--                                </t>-->
+                            <!--                                <t t-if="'PYG' not in o.currency_invoice.name">-->
+                            <!--                                    <span id="simbolo">-->
+                            <!--                                        <span t-field="o.currency_invoice.symbol"/>-->
+                            <!--                                    </span>-->
+                            <!--                                </t>-->
+                            <!--                                &lt;!&ndash; <span id="simbolo02"><span t-field="o.currency_invoice.symbol"/></span> &ndash;&gt;-->
+                            <!--                                &lt;!&ndash;                                  <p id="canti" t-esc="o.agregar_punto_de_miles(o.amount,o.currency_invoice.name)"/>&ndash;&gt;-->
+                            <!--                                <p id="canti02">-->
+                            <!--                                    <span t-esc="o.conversion_monetaria_fact(o.amount,o.currency_id.name)"/>-->
+                            <!--                                </p>-->
+                            <!--                            </div>-->
+                        </div>
+                        <div class="container03_02">
+                            <!--############# CONTENEDOR 03 ###########-->
+                            <p id="recibi_02">
+                                <strong>RECIBI DE:</strong>
+                                <span t-esc="o.partner_id.name.upper()" id="reci_name"/>
+                            </p>
+                            <span id="ruc_cliente_02">
+                                <strong>RUC:</strong>
+                                <span style="margin-left:0.20cm;">
+                                    <span id="ruc_num" t-field="o.partner_id.vat"/>
+                                </span>
+                            </span>
+                            <span id="cantidad_02">
+                                <strong>LA CANTIDAD DE:
+                                    <t t-if="o.currency_invoice">
+                                        <t t-if="'USD' in o.currency_invoice.name">
+                                        </t>
+                                        <t t-elif="'PYG' in o.currency_invoice.name">
+                                        </t>
+                                    </t>
+                                </strong>
+                            </span>
+                            <!--############# CHECKS DE GUARANIES Y DOLAR ###########-->
+                            <div id="tipo_moneda_02">
+                                <strong>
+                                    <t t-if="'PYG' in o.currency_id.name">
+                                        <div class="cuadro"
+                                             style="display: flex; align-items: center; justify-content: center; text-align: center;">
+                                            <span style="position: relative; top: -3px;">X</span>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="cuadro"
+                                             style="color: white; display: flex; align-items: center; justify-content: center; text-align: center;">
+                                            <span style="position: relative; top: -3px;">X</span>
+                                        </div>
+                                    </t>
+                                    <span>GS. GUARANIES</span>
+                                    <br/>
+                                    <t t-if="'USD' in o.currency_id.name">
+                                        <div class="cuadro"
+                                             style="display: flex; align-items: center; justify-content: center; text-align:center;">
+                                            <span style="position: relative; top: -3px;">X</span>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="cuadro"
+                                             style="color:white; display: flex; align-items: center; justify-content: center; text-align:center;">
+                                            <span style="position: relative; top: -3px;">X</span>
+                                        </div>
+                                    </t>
+                                    <span>US DOLARES AMERICANOS</span>
+                                </strong>
+                            </div>
+
+                            <!--############# FORMAS DE PAGO ###########-->
+                            <div id="formas_pago">
+                                <!--####### CHEQUE N° #######-->
+                                <span>CHEQUE N°</span>
+                                <t t-if="o.tiene_cheque or o.num_cheque_asociado or o.payment_ids.banco_cheque_recibo">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center;">
+                                        <span style="position: relative; top: -3px;">X</span>
+                                    </div>
+                                    <span class="linea-cheque"
+                                          style="display: inline-block; position: relative; top: -8px;">
+                                        <t t-if="o.num_cheque_asociado">
+                                            <t t-esc="o.num_cheque_asociado"/>
+                                        </t>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center;">
+                                        <span style="color:white; position: relative; top: -3px;">X</span>
+                                    </div>
+                                    <span class="linea-cheque"/>
+                                </t>
+                                <!--####### BANCO #######-->
+                                <span>BANCO</span>
+                                <t t-if="o.payment_ids">
+                                    <t t-set="primer_pago" t-value="o.payment_ids[0]"/>
+
+                                    <t t-if="primer_pago.banco_cheque_recibo">
+                                        <span class="linea-banco">
+                                            <t t-esc="primer_pago.banco_cheque_recibo.name if primer_pago.banco_cheque_recibo.name else ''"/>
+                                        </span>
+                                    </t>
+                                    <t t-elif="o.tiene_efectivo">
+                                        <span class="linea-banco">
+                                            <t t-esc="o.cargo_banco.upper()"/>
+                                        </span>
+                                    </t>
+                                    <t t-elif="primer_pago.journal_id.bank_account_id">
+                                        <span class="linea-banco">
+                                            <t t-esc="primer_pago.journal_id.bank_account_id.bank_name.upper() if primer_pago.journal_id.bank_account_id.bank_name else ''"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="linea-banco"
+                                              style="display: inline-block; width: 8cm; border-bottom: 1px dashed black;"/>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <span class="linea-banco"
+                                          style="display: inline-block; width: 8cm; border-bottom: 1px dashed black;"/>
+                                </t>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <!--####### EFECTIVO #######-->
+                                <span>EFECTIVO</span>
+                                <t t-if="o.tiene_efectivo">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center; margin-left: 14px">
+                                        <span style="position: relative; top: -3px;">X</span>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center; margin-left: 14px">
+                                        <span style="color:white; position: relative; top: -3px;">X
+                                        </span>
+                                    </div>
+                                </t>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <!--####### TRANSFERENCIA #######-->
+                                <span>TRANSFERENCIA</span>
+                                <t t-if="o.tiene_transferencia or o.payment_ids.journal_id.bank_account_id">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center; ">
+                                        <span style="position: relative; top: -3px;">X</span>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="cuadro"
+                                         style="display: flex; align-items: center; justify-content: center; text-align:center;">
+                                        <span style="color:white; position: relative; top: -3px;">X</span>
+                                    </div>
+                                </t>
+                                <!--####### TRANSFERENCIA N° #######-->
+                                <span style="margin-left: 1.1cm;">TRANSFERENCIA N°</span>
+                                <t t-if="o.tiene_transferencia and o.payment_ids.journal_id.bank_account_id">
+                                    <span style="display:inline-block; width: 5cm; border-bottom:1px dashed black; margin-left: 0;">
+                                        <t t-esc="o.payment_ids.journal_id.bank_account_id.acc_number"/>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <span style="display:inline-block; width: 5cm; border-bottom:1px dashed black; margin-left: 0"/>
+                                </t>
+                            </div>
+                            <!--############# CONCEPTO ###########-->
+                            <div id="concepto">
+                                <span id="concepto_txt">
+                                    <strong>EN CONCEPTO DE:</strong>
+                                    <t t-if="o.concepto">
+                                        <span style="border-bottom:1px dashed black;">
+                                            <t t-esc="o.concepto"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="display:inline-block; width: 14cm; border-bottom:1px dashed black; "/>
+                                    </t>
+                                </span>
+                            </div>
+                            <!--                            <div id="concepto">-->
+                            <!--                                <strong>EN CONCEPTO DE:</strong>-->
+                            <!--                                <t t-if="o.concepto">-->
+                            <!--                                    <span class="concepto-linea">-->
+                            <!--                                        <t t-esc="o.concepto"/>-->
+                            <!--                                    </span>-->
+                            <!--                                </t>-->
+                            <!--                                <t t-else="">-->
+                            <!--                                    <span class="concepto-linea"></span>-->
+                            <!--                                </t>-->
+                            <!--                            </div>-->
+
+                            <!--############# TABLA DE FACTURAS ###########-->
+                            <t t-set="total_facturas" t-value="sum(o.pagos_facturas_ids.mapped('amount_total') or [0])"/>
+                            <t t-set="total_cobros" t-value="sum(o.payment_ids.mapped('amount') or [0])"/>
+                            <t t-set="monto_total" t-value="total_facturas if o.pagos_facturas_ids else total_cobros"/>
+                            <t t-set="monto_total" t-value="monto_total or 0"/>
+
+                            <table id="table-2">
+                                <tr>
+                                    <th colspan="2">FACTURAS A CREDITO</th>
+                                </tr>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>IMPORTE</th>
+                                </tr>
+
+                                <!-- Iterar sobre las facturas existentes -->
+                                <t t-set="num_facturas" t-value="len(o.pagos_facturas_ids) or len(o.payment_ids)"/>
+                                <t t-set="num_filas_vacias" t-value="10 - num_facturas"/>
+
+                                <t t-if="o.pagos_facturas_ids">
+                                    <t t-foreach="o.pagos_facturas_ids" t-as="pago">
+                                    <tr>
+                                        <td t-esc="pago.invoice_id.name or '-' "/>
+                                        <td style="text-align:right;"
+                                            t-esc="o.agregar_punto_de_miles(pago.amount_total, o.currency_invoice) or '-'"/>
+                                    </tr>
+                                </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-foreach="o.payment_ids" t-as="cobros">
+                                        <tr>
+                                            <td t-esc="cobros.journal_id.name or '-' "/>
+                                            <td style="text-align:right;"
+                                                t-esc="o.agregar_punto_de_miles(cobros.amount, o.currency_invoice) or '-' "/>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                                <t t-if="num_filas_vacias > 0">
+                                    <t t-foreach="range(num_filas_vacias)" t-as="i">
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align:right;"></td>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                                <tr>
+                                    <td class="total">TOTAL</td>
+                                    <td class="importe" style="text-align:right;"
+                                        t-esc="o.conversion_monetaria_fact(o.agregar_punto_de_miles(monto_total, o.currency_id), o.currency_id)"/>
+                                </tr>
+                            </table>
+
+<!--                            ############# Usar el monto_total de la tabla pero en letras #############-->
+                            <t t-if="'PYG' in (o.currency_id.name or '')">
+                                <p id="monto_letra2">
+                                    <t t-if="monto_total">
+                                        <span t-esc="o.calcular_letras(monto_total)"/>
+                                    </t>
+                                </p>
+                            </t>
+
+                            <t t-if="'USD' in (o.currency_id.name or '')">
+                                <p id="monto_letra2">
+                                    <t t-if="monto_total">
+                                        <span t-esc="o.calcular_letras_dolar(monto_total)"/>
+                                    </t>
+                                </p>
+                            </t>
+
+                            <!--############# FECHA Y FIRMA ###########-->
+                            <div id="fecha_firma2">
+                                <!--                                <span t-field="o.company_id.city"/>,-->
+                                <span t-esc="o.fecha_formateada"/>.
+                                <span>FIRMA</span>
+                                <span id="firma"
+                                      style="display:inline-block; width: 5cm; border-bottom: 1px dashed black;"/>
+                                <!--                                <t t-if="o.company_id.firma">-->
+                                <!--                                    <span id="test_firma" style="display:inline-block; border-bottom: 1px dashed black;"/><t t-esc="o.company_id.firma"/>-->
+                                <!--                                </t>-->
+                                <!--                                <t t-else="">-->
+                                <!--                                    <span id="test_firma"-->
+                                <!--                                          style="display:inline-block; border-bottom: 1px dashed black;"-->
+                                <!--                                          class="firma_linea"></span>-->
+                                <!--                                </t>-->
+                                <span id="vb_label">VB:</span>
+                                <span id="vb_line"
+                                      style="display:inline-block; width:5cm; border-bottom:1px dashed black;"/>
+                            </div>
+                        </div>
+                        <p style="position:absolute; top:41.5cm; left:26.7cm;">
+                            Duplicado: Contabilidad
+                        </p>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

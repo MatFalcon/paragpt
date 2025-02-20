@@ -1,0 +1,12 @@
+<odoo>
+    <record id="crm_team_view_presale_form" model="ir.ui.view">
+        <field name="name">crm.team.form.presale</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="presale_currency_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

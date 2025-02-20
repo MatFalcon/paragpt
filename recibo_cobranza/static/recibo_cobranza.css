@@ -1,0 +1,820 @@
+ /*###################PRIMERA SECCION##################*/
+ .container01{
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 10px;
+    height: 19cm;
+    /*width: 17.10cm;*/
+    width: 27cm;
+}
+.container01, .container02, .container03 {
+    margin-left: 4cm;
+    margin-right: 4cm;
+}
+
+.container01_2, .container02_2, .container03_02 {
+    margin-left: 4cm;
+    margin-right: 4cm;
+}
+#logo{
+    position: absolute;
+    margin-left:20px;
+    text-align: center;
+    padding:0;
+    margin-top: 0;
+    /*border: 1px solid black;*/
+}
+
+#imagen{
+    max-height: 37%;
+    /*margin-top:1cm*/
+}
+
+.info-empresa{
+    position:absolute;
+    display:flex;
+    justify-content:center;
+    width: 10cm;
+    height: 5cm;
+    text-align: left;
+    margin-top: 2.3cm;
+    margin-left: 30px;
+    font-size:12px;
+    font-weight:700;
+}
+
+#nombre_companhia{
+    font-size: 15px;
+    position: absolute;
+    top:0.25cm;
+    left: 8cm;
+    font-weight: bold;
+    width: 10.0cm;
+}
+#dato1{
+    position: absolute;
+    font-size: 12px;
+    top:1.75cm;
+    left: 5.50cm;
+    width: 8cm;
+}
+#dato02{
+    position: absolute;
+    font-size: 14px;
+    top:0.70cm;
+    width: 9cm;
+    left: 8.10cm;
+}
+#dato_localidad{
+    position: absolute;
+    font-size: 14px;
+    top:1.05cm;
+    width: 9cm;
+    left: 10.10cm;
+}
+#dato3{
+    position: absolute;
+    font-size: 14px;
+    width: 06cm;
+    top:1.50cm;
+    left: 9.30cm;
+}
+#dato4{
+    position: absolute;
+    font-size: 12px;
+    top:2.80cm;
+    width: 15.0cm;
+    left: 1.0cm;
+    /*border: 1px solid black;*/
+}
+
+#dato4_con{
+     position: absolute;
+    font-size: 12px;
+    top:3.15cm;
+    width: 14.0cm;
+    left: 3.50cm;
+}
+
+#dato5{
+    position: absolute;
+    font-size: 14px;
+    width: 10cm;
+    top:2.50cm;
+    left: 9.80cm;
+}
+#dato6{
+    position: absolute;
+    font-size: 14px;
+    width: 8cm;
+    top:2.95cm;
+    left: 10.40cm;
+}
+#dato7{
+    position: absolute;
+    font-size: 14px;
+    top:3.45cm;
+    width: 8.0cm;
+    left: 10.0cm;
+}
+#dato8{
+    position: absolute;
+    font-size: 14px;
+    top:3.90cm;
+    width: 6.50cm;
+    left: 10.10cm;
+}
+.container02{
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    height: 4.70cm;
+    width: 8.50cm;
+    position: absolute;
+    left: 18.70cm;
+}
+
+#ruc{
+    font-size: 19px;
+    position: inherit;
+    top:0.30cm;
+    /*font-weight: bold;*/
+    left: 2.65cm;
+    width: 6.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#ruc02{
+    font-size: 19px;
+    position: inherit;
+    top:1.40cm;
+    /*font-weight: bold;*/
+    left: 2.65cm;
+    width: 6.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+
+#valor_ruc{
+     font-weight: bold;
+     font-size: 18px;
+     margin-left: 0.60cm;
+}
+
+#valor_ruc02{
+     font-weight: bold;
+     font-size: 18px;
+     margin-left: 0.60cm;
+}
+
+#recibo{
+    font-weight: bold;
+    font-size: 21px;
+    position: absolute;
+    top:1.2cm;
+    left: 2.15cm;
+    /*font-weight: bold;*/
+    width: 8.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#recibo02{
+    font-weight: bold;
+    font-size: 21px;
+    position: absolute;
+    top:2.1cm;
+    left: 2.15cm;
+    width: 8.50cm;
+    height: 0.50cm;
+}
+
+#nro_recibo{
+    font-size: 20px;
+    position: inherit;
+    text-align: center;
+    top:1.90cm;
+    left: 1cm;
+    width: 7.50cm;
+    font-weight: bold;
+    /*border: 1px solid black;*/
+}
+#nro{
+    font-size: 20px;
+    position: inherit;
+    text-align: left;
+    top: -160px;
+    left: 0.10cm;
+    width: 7.50cm;
+    font-weight: bold;
+}
+
+#nro_recibo02{
+    font-size: 20px;
+    position: inherit;
+    text-align: center;
+    top:3.05cm;
+    left: 1cm;
+    width: 7.50cm;
+    font-weight: bold;
+    /*border: 1px solid black;*/
+}
+#monto{
+        /*border: 1px solid black;*/
+        width: 6cm;
+        position:absolute;
+        top:10cm;
+        font-size:21px;
+        margin-left: 0.10cm;
+}
+#monto02{
+        /*border: 1px solid black;*/
+        width: 6cm;
+        position:absolute;
+        top:5.1cm;
+        font-size:21px;
+        margin-left: 0.10cm;
+}
+#simbolo{
+    position: inherit;
+
+}
+#simbolo02{
+    position: inherit;
+
+}
+#canti{
+
+    background-color:lightgrey;
+    margin-left: 0.50cm;
+    width: 7.0cm;
+    height: 1.0cm;
+    padding-left: 0.12cm;
+    border: 2px solid black;
+}
+#canti02{
+
+    background-color:lightgrey;
+    margin-left: 0.50cm;
+    width: 7.0cm;
+    height: 1.0cm;
+    padding-left: 0.12cm;
+    border: 2px solid black;
+}
+
+.container03{
+    font-size:18px;
+    position: absolute;
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    height: 4.20cm;
+    width: 25.85cm;
+    top: 4.75cm;
+    padding-left: 10px;
+}
+
+#monto_letra {
+    width: 18.5cm;
+    position: absolute;
+    left: 8cm;
+    font-size:18px;
+    height: 2cm;
+    top: 2.9cm;
+    line-height: 1.5;
+    border: 1.5px solid black;
+    background-color:lightgray;
+    padding: 2.5px 10px;
+    overflow-wrap: break-word;
+    text-align: left;
+}
+
+#monto_letra2 {
+    width: 18.5cm;
+    position: absolute;
+    left: 8cm;
+    font-size:18px;
+    height: 2cm;
+    top: 3.2cm;
+    line-height: 1.5;
+    border: 1.5px solid black;
+    background-color:lightgray;
+    padding: 2.5px 10px;
+    overflow-wrap: break-word;
+    text-align: left;
+}
+
+
+
+/*CONTENEDOR NRO 4*/
+.container04{
+    position: absolute;
+    width: 25.85cm;
+    height: 8cm;
+    top:9cm;
+    /*border-bottom: 1px solid black;*/
+    /*border: 2px solid black;*/
+    /*border-radius: 30px;*/
+}
+
+#recibi{
+    width: 18.50cm;
+    position: inherit;
+    top:0cm;
+    left:8cm;
+}
+
+#recibi_02{
+    width: 18.50cm;
+    position: inherit;
+    top:0.40cm;
+    left:8cm;
+}
+#reci_name {
+    display: inline-block;
+    border-bottom: 1.5px dashed black;
+    width: 12cm;
+    /*vertical-align: middle;*/
+}
+
+#reci_name2 {
+    display: inline-block;
+    border-bottom: 1.5px dashed black;
+    width: 12cm;
+    vertical-align: middle;
+}
+
+#ruc_cliente{
+    width: 5cm;
+    position: inherit;
+    top: 1.3cm;
+    left: 21cm;
+    /*margin-left: 3cm;*/
+}
+#ruc_num{
+    position:absolute;
+    display: inline-block;
+    border-bottom: 1.5px dashed black;
+    width: 3cm;
+}
+
+#ruc_num2{
+    position:absolute;
+    top: -0.10cm;
+    display: inline-block;
+    border-bottom: 1.5px dashed black;
+    width: 3cm;
+}
+
+#cantidad{
+    width: 25cm;
+    /*border: 1px solid;*/
+    position: inherit;
+    top:2cm;
+    left:8cm;
+}
+
+#cantidad_02{
+    width: 25cm;
+    /*border: 1px solid;*/
+    position: inherit;
+    top:2.2cm;
+    left:8cm;
+}
+#tipo_moneda{
+    position:absolute;
+    top:1.3cm;
+    left: 12.3cm;
+    width:300px;
+}
+
+#tipo_moneda_02{
+    position:absolute;
+    top:1.6cm;
+    left: 12.3cm;
+    width:300px;
+}
+
+#concepto {
+    font-size: 18px;
+    position: absolute;
+    top: 9cm;
+    left: 8cm;
+    width: 18.5cm;
+}
+
+#formas_pago {
+    display: flex;
+    align-items: center;
+    position:relative;
+    margin-top: 5.4cm;
+    margin-left: 7.8cm;
+    font-weight:bold;
+    line-height: 5px;
+}
+
+.cuadro {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid black;
+    margin-right: 3px;
+    margin-left: 2px;
+    display: inline-block;
+}
+
+
+#detalles_pago {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    position:absolute;
+    margin-top: -2.4cm;
+    margin-bottom: 5px;
+    font-weight: bold;
+    left:8cm;
+}
+
+.linea-cheque {
+    display: inline-block;
+    width: 3cm;
+    border-bottom: 1px dashed black;
+    margin-left: 7px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+    margin-top: 5px;
+}
+
+#banco{
+    position:absolute;
+    left:10cm;
+}
+
+.linea-banco {
+    display: inline-block;
+    border-bottom: 1px dashed black;
+    width: 8cm;
+    font-size:14.5px;
+}
+
+#fecha_firma {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    top: 13.3cm;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#fecha_firma2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    top: 14.1cm;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+ /*###################SEGUNDA SECCION##################*/
+.container01_2{
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 10px;
+    height: 19cm;
+    width: 27cm;
+    top:22.3cm;
+}
+#logo_2{
+    position: absolute;
+    margin-left:20px;
+    text-align: center;
+    padding:0;
+}
+
+#imagen_2{
+    margin-top: 0.10cm;
+    margin-left: 0.30cm;
+    max-height: 37%;
+    width: 13cm;
+
+}
+#nombre_companhia_2{
+    font-weight: bold;
+    font-size: 15px;
+    position: absolute;
+    top:0.25cm;
+    left: 8cm;
+    width: 10.0cm;
+}
+#dato1_2{
+    position: inherit;
+    font-size: 12px;
+    top:1.75cm;
+    left: 5.50cm;
+    width: 8cm;
+}
+#dato2_2{
+    position: inherit;
+    font-size: 12px;
+    top:2.10cm;
+    width: 9cm;
+    left: 4.50cm;
+}
+#dato3_2{
+    position: inherit;
+    font-size: 12px;
+    width: 12cm;
+    top:2.45cm;
+    left: 3.50cm;
+}
+#dato4_2{
+    position: inherit;
+    font-size: 12px;
+    top:2.80cm;
+    width: 15.0cm;
+    left: 1.0cm;
+    /*border: 1px solid black;*/
+}
+#linea_horizontal_2{
+    position: absolute;
+    top:3.60cm;
+    left: 0.45cm;
+    border: 2px solid black;
+    width: 16.0cm;
+}
+#dato4_con_2{
+     position: inherit;
+    font-size: 12px;
+    top:3.15cm;
+    width: 14.0cm;
+    left: 3.50cm;
+}
+#dato5_2{
+    position: inherit;
+    font-size: 12px;
+    width: 10cm;
+    top:3.70cm;
+    left: 1.0cm;
+}
+#dato6_2{
+    position: inherit;
+    font-size: 12px;
+    width: 5cm;
+    top:3.70cm;
+    left: 9cm;
+}
+#dato7_2{
+    position: inherit;
+    font-size: 12px;
+    top:4.05cm;
+    width: 6.50cm;
+    left: 9cm;
+}
+#dato8_2{
+    position: inherit;
+    font-size: 12px;
+    top:4.05cm;
+    width: 6.50cm;
+    left: 3cm;
+}
+.container02_2{
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    height: 4.70cm;
+    width: 8.50cm;
+    position: absolute;
+    left: 18.70cm;
+    top:21.3cm;
+}
+
+.firma-linea {
+    display: inline-block;
+    width: 5cm;
+    border-bottom: 1px dashed black;
+    min-height: 1em;
+}
+
+#inicio-vigencia_02{
+    font-size: 15px;
+    position: inherit;
+    top:1.10cm;
+    left: 1.85cm;
+    width: 6.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#fin-vigencia_02{
+    font-size: 15px;
+    position: inherit;
+    top:1.65cm;
+    left: 1.95cm;
+    width: 6.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#timbrado_02{
+    font-size: 15px;
+    position: inherit;
+    top:0.50cm;
+    left: 1cm;
+    /*font-weight: bold;*/
+    width: 7.0cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+
+#nc_factura_02{
+    font-size: 16px;
+    position: inherit;
+    top:2.90cm;
+    left: 2.0cm;
+    /*font-weight: bold;*/
+    width: 6.0cm;
+    height: 0.50cm;
+}
+
+#factura_02{
+    font-size: 16px;
+    position: inherit;
+    top:1.60cm;
+    left: 3.0cm;
+    /*font-weight: bold;*/
+    width: 3.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#nro_factura_02{
+    font-size: 20px;
+    position: inherit;
+    top:3.60cm;
+    left: 2cm;
+    width: 7.50cm;
+    /*border: 1px solid black;*/
+}
+.container03_02{
+    font-size: 18px;
+    position: absolute;
+    height: 4.20cm;
+    width: 25.85cm;
+    top: 26.20cm;
+    padding-left: 10px;
+}
+#cond_venta_02{
+    position:inherit;
+    font-weight: bold;
+    padding-top:0.20cm;
+    padding-left:0.20cm;
+    left:15cm;
+    border-bottom: 1px solid black;
+    width: 10.85cm;
+    height: 0.95cm;
+}
+#razon_social_02{
+    position:inherit;
+    top:1.10cm;
+    padding-left:0.20cm;
+    padding-bottom: 0.30cm;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+#ruc_cliente_02{
+    width: 5cm;
+    position: inherit;
+    top: 1.3cm;
+    left: 20cm;
+}
+#telefono_02{
+    position:inherit;
+    top: 2.50cm;
+    left: 17.30cm;
+    width: 6cm;
+    /*border: 1px solid black;*/
+}
+#direccion_02{
+    position:inherit;
+    top:2.50cm;
+    padding-left:0.20cm;
+    width: 17.10cm;
+}
+/*CONTENEDOR NRO 4-2*/
+.container04_02{
+    position: absolute;
+    width: 25.85cm;
+    height: 8cm;
+    top:31cm;
+    border: 2px solid black;
+    border-radius: 30px;
+}
+#lugar_fecha_div_2{
+    position: absolute;
+     font-weight: bold;
+     font-size: 20px;
+     text-align: center;
+     width: 10cm;
+     margin-top: 2.8cm;
+     margin-left: 0.1cm;
+}
+
+#table-1 {
+    width: 260px;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    border: 1px solid black;
+    margin-left:20px;
+    margin-top: -10px;
+    position:absolute;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+    font-size: 15px;
+    vertical-align: middle;
+    height: 20px !important;
+}
+
+th {
+    background-color: lightgray;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.total {
+    font-weight: bold;
+    background-color: lightgray;
+}
+
+.factura-num {
+    font-weight: bold;
+}
+
+.importe {
+    font-weight: bold;
+}
+.table-container {
+    width: 35%;
+    margin-top: 10px;
+}
+
+.table-title {
+    background-color: lightgray;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#table-2 {
+    width: 260px;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    border: 1px solid black;
+    margin-left:20px;
+    margin-top: -290px;
+    position:absolute;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+    font-size: 15px;
+    vertical-align: middle;
+}
+tr {
+    height: 35px !important;
+}
+th {
+    background-color: lightgray;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.total {
+    font-weight: bold;
+    background-color: lightgray;
+}
+
+.factura-num {
+    font-weight: bold;
+}
+
+.importe {
+    font-weight: bold;
+}
+.table-container {
+    width: 35%;
+    margin-top: 10px;
+}
+
+.table-title {
+    background-color: lightgray;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    border: 1px solid black;
+    padding: 5px;
+}

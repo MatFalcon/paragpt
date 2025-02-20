@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_presale_root" name="Presales" web_icon="presale,static/description/icon.png" sequence="25" groups="presale_office.group_presale_manager,presale_office.group_presale_user"/>
+        <menuitem parent="menu_presale_root" sequence="10" id="menu_presale" name="Presale Quotes"  groups="presale_office.group_presale_manager,presale_office.group_presale_user"/>
+        <menuitem parent="menu_presale" action="action_open_presaleorder" name="Presale Quotes" id="menu_presale_order"/>
+
+        <menuitem parent="menu_presale_root" sequence="20" id="menu_presale_config" name="Configuration" groups="presale_office.group_presale_manager,presale_office.group_presale_user"/>
+        <menuitem parent="menu_presale_config" id="menu_presale_crm_teams" name="Sales teams" action="sales_team.crm_team_action_config"/>
+        <menuitem parent="menu_presale_config" id="menu_presale_currency_rates" name="Currency Rates" action="action_presale_currency_rates"/>
+
+        <menuitem parent="menu_presale_config" sequence="21" id="submenu_presale_labors" name="Labors" groups="presale_office.group_presale_manager,presale_office.group_presale_user"/>
+        <menuitem parent="submenu_presale_labors" id="menu_presale_labor_type" name="Labor Types" action="action_presale_labor_type"/>
+        <menuitem parent="submenu_presale_labors" id="menu_presale_working_rate" name="Working Rates" action="action_presale_working_rates"/>
+
+        <menuitem parent="menu_presale_config" sequence="22" id="submenu_presale_logistic_type" name="Logistics" groups="presale_office.group_presale_manager,presale_office.group_presale_user"/>
+        <menuitem parent="submenu_presale_logistic_type" id="menu_presale_logistic_type" name="Logistic Types" action="action_presale_logistic_type"/>
+        <menuitem parent="submenu_presale_logistic_type" id="menu_presale_fuel_type" name="Fuel Types" action="action_presale_fuel_type"/>
+
+        <menuitem parent="menu_presale_config" sequence="23" id="submenu_presale_type_additional" name="Additionals" groups="presale_office.group_presale_manager,presale_office.group_presale_user"/>
+        <menuitem parent="submenu_presale_type_additional" id="menu_presale_type_additional" name="Types of Additionals" action="action_presale_types_additional"/>
+
+        <menuitem parent="menu_presale_config" sequence="24" id="submenu_presale_template" name="Headings Templates" groups="presale_office.group_presale_manager,presale_office.group_presale_user"/>
+        <menuitem parent="submenu_presale_template" id="menu_presale_template" name="Headings" action="action_open_presaleorder_headings"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<odoo>
+    <record id="crm_lead_view_presale_form" model="ir.ui.view">
+        <field name="name">crm.lead.form.presale</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button invisible="state =='authorized'" name="aprobar_prospecto" string="Aprobar a prospecto" type="object" class="btn-success"/>
+            </xpath>
+
+            <xpath expr="//button[@name='action_sale_quotations_new']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>   
+
+            <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="after">
+                <field name="requiere_preventa" invisible="1"/>
+                <field name="create_date" readonly="1"/>
+                <field name="state" readonly="1"/>
+            </xpath>
+
+            <field name="stage_id" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <field name="tag_ids" position="attributes">
+                <attribute name="string">Linea </attribute>
+            </field>   
+            <field name="company_currency" position="attributes">
+                <attribute name="domain">[('name', 'in', ('USD-Venta','PYG'))]</attribute>
+                <attribute name="invisible">0</attribute>
+
+            </field> 
+
+
+            <xpath expr="//sheet/div[@class='oe_button_box']" position="inside">
+                <button name="get_presale_lead" class="oe_stat_button" type="object" icon="fa-handshake-o" invisible="not requiere_preventa">
+                    <field name="qty_presale_created" widget="statinfo" string="Cotizaciones"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+        <record id="inherit_crm_case_kanban_view_leads_office" model="ir.ui.view">
+            <field name="name">crm.case.kanban.view.leads.office.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+            <field name="arch" type="xml">
+                <!-- Localiza el tag kanban y elimina el atributo on_create -->
+                <kanban position="attributes">
+                    <attribute name="on_create" />
+                    <attribute name="quick_create">0</attribute>
+                </kanban>
+            </field>
+        </record>
+</odoo>

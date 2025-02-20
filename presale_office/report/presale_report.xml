@@ -1,0 +1,1031 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="presale.presale_report">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <t t-foreach="docs" t-as="o">
+						<t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                        <div class="page">
+                            <link rel="stylesheet" href="/presale/static/src/css/presale.css"/>
+
+							<div class="double_border" style="height: 477mm; margin-top:2cm">
+								<div>
+									<p id="contenedor_imagen" style="margin-left: 12.75cm; margin-top: 1cm">
+										<img t-att-src="'/presale/static/src/img/funcion_digital.png'" id="imagen_iso"  style="height: 2cm; width: 8cm;filter: brightness(120%); filter: contrast(120%); opacity: 0.6;"/>
+									</p>
+								</div>
+
+								<div class="row">
+									<div class="col-xs-12 center" style="margin-left: 22cm">
+										<p>Ciudad Autónoma de Buenos Aires, 25 de junio de 2022</p>
+									</div>
+								</div>
+
+
+								<!--							<div class="row">-->
+								<!--								<div class="col-xs-3">-->
+								<!--									<span class="bold" >Man Days: </span>-->
+								<!--								</div>-->
+								<!--								<div class="col-xs-3">-->
+								<!--										<span t-field="o.qty_days"/>-->
+								<!--								</div>-->
+								<!--							</div>-->
+
+								<!--							<br/>-->
+
+								<!--							<div class="row">-->
+								<!--								<div class="col-xs-3">-->
+								<!--									<span class="bold" >Business Days: </span>-->
+								<!--								</div>-->
+								<!--								<div class="col-xs-3">-->
+								<!--									 <span t-field="o.business_days"/>-->
+								<!--								</div>-->
+								<!--							</div>-->
+
+								<!--							<br/>-->
+
+								<!--							<div class="row">-->
+								<!--								<div class="col-xs-3">-->
+								<!--									<span class="bold" ># of Personnel: </span>-->
+								<!--								</div>-->
+								<!--								<div class="col-xs-3">-->
+								<!--									 <span t-field="o.qty_employee"/>-->
+								<!--								</div>-->
+								<!--							</div>-->
+
+								<!--							<br/>-->
+
+								<!--							<div class="row">-->
+								<!--								<div class="col-xs-3">-->
+								<!--									<span class="bold" >Months: </span>-->
+								<!--								</div>-->
+								<!--								<div class="col-xs-3">-->
+								<!--									 <span t-field="o.qty_months"/>-->
+								<!--								</div>-->
+								<!--							</div>-->
+
+								<!--							<br/>-->
+								<!--								<br/>-->
+
+								<!--							<table class="table table-bordered">-->
+								<!--								<thead class="header">-->
+								<!--									<tr>-->
+								<!--										<th rowspan="2">COSTO DÍA HOMBRE</th>-->
+								<!--										<th colspan="2">TEC. CAMPO</th>-->
+								<!--										<th colspan="2">TEC. IMP</th>-->
+
+								<!--									</tr>-->
+								<!--									<tr>-->
+								<!--										<th colspan="2" >I</th>-->
+								<!--										<th colspan="2">II</th>-->
+								<!--									</tr>-->
+								<!--								</thead>-->
+								<!--								<tbody>-->
+								<!--									<tr>-->
+								<!--										<td>HORARIO NOCTURNO</td>-->
+								<!--										<td>% PARTIC.</td>-->
+								<!--										<td>2</td>-->
+								<!--										<td>% PARTIC.</td>-->
+								<!--										<td>4</td>-->
+								<!--									 </tr>-->
+
+								<!--									 <tr>-->
+								<!--										<td>FIN DE SEMANA / FERIADOS</td>-->
+								<!--										<td>% PARTIC.</td>-->
+								<!--										<td>2</td>-->
+								<!--										<td>% PARTIC.</td>-->
+								<!--										<td>4</td>-->
+								<!--									 </tr>-->
+								<!--								</tbody>-->
+								<!--							</table>-->
+
+
+								<table class="table table-bordered" style="width: 30cm; margin-left: 2cm">
+									<thead class="header param_budget_title">
+										<tr>
+											<th class="center">M.D</th>
+											<th class="center">Business Days</th>
+											<th class="center"># Personel</th>
+											<th class="center">MONTH</th>
+										</tr>
+
+									</thead>
+									<tbody>
+
+										 <tr>
+											<td class="center"><span t-field="o.qty_days"/></td>
+											<td class="center"><span t-field="o.business_days"/></td>
+											<td class="center"><span t-field="o.qty_employee"/></td>
+											<td class="center"><span t-esc="o.precentage_format(o.qty_months)"/></td>
+
+										 </tr>
+									</tbody>
+								</table>
+
+
+
+								<!--  Summary table -->
+								<table class="table table-bordered" style="width: 30cm; margin-left: 2cm">
+									<thead>
+										<tr>
+											<th class="param_budget_title">Country</th>
+											<th colspan="3" class="param_budget_country">Paraguay</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Is it quoted in USD?</td>
+											<t t-if="o.company_currency == True">
+												<td width="5%" class="param_apply"><span>Yes</span></td>
+											</t>
+											<t t-else="">
+												<td width="5%" class="param_apply"><span>No</span></td>
+											</t>
+											<td class="param_budget_title center">T.C</td>
+											<td class="center"><span t-field="o.rate"/></td>
+
+										</tr>
+
+										<tr>
+											<td>Symbol</td>
+											<td><span t-field="o.currency_id.name"/></td>
+											<td class="param_budget_title center">%Tax</td>
+											<td></td>
+										</tr>
+
+										<tr>
+											<td class="param_budget_em">E.M</td>
+											<td class="center"><span t-field="o.prel_offer_id.prel_material_markup"/></td>
+											<td class="param_budget_wf">W.F</td>
+											<td class="center"><span t-field="o.prel_offer_id.prel_labor_markup"/></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<!--							<table class="table table-bordered">-->
+							<!--								<thead class="header">-->
+							<!--									<tr>-->
+							<!--										<th rowspan="2">COSTO DÍA HOMBRE</th>-->
+							<!--										<th colspan="2">TEC. CAMPO</th>-->
+							<!--										<th colspan="2">TEC. IMP</th>-->
+
+							<!--									</tr>-->
+							<!--									<tr>-->
+							<!--										<th colspan="2" >I</th>-->
+							<!--										<th colspan="2">II</th>-->
+							<!--									</tr>-->
+							<!--								</thead>-->
+							<!--								<tbody>-->
+							<!--									<tr>-->
+							<!--										<td>HORARIO NOCTURNO</td>-->
+							<!--										<td>% PARTIC.</td>-->
+							<!--										<td>2</td>-->
+							<!--										<td>% PARTIC.</td>-->
+							<!--										<td>4</td>-->
+							<!--									 </tr>-->
+
+							<!--									 <tr>-->
+							<!--										<td>FIN DE SEMANA / FERIADOS</td>-->
+							<!--										<td>% PARTIC.</td>-->
+							<!--										<td>2</td>-->
+							<!--										<td>% PARTIC.</td>-->
+							<!--										<td>4</td>-->
+							<!--									 </tr>-->
+							<!--								</tbody>-->
+							<!--							</table>-->
+
+							<!--							<h4 class="bold center">Items</h4>-->
+							<!--							<br/>-->
+
+							<!--							<table class="table table-bordered" style="page-break-after: always;">-->
+							<!--								<thead class="header">-->
+							<!--									<tr>-->
+							<!--										<th></th>-->
+							<!--										<th>Name</th>-->
+							<!--										<th>Total sale</th>-->
+							<!--										<th>Percent</th>-->
+							<!--										<th>Total cost material</th>-->
+							<!--										<th>Total cost labor</th>-->
+							<!--										<th>Total cost</th>-->
+							<!--										<th>Profitability material</th>-->
+							<!--										<th>Profitability material %</th>-->
+							<!--										<th>Profitability labor</th>-->
+							<!--										<th>Profitability labor %</th>-->
+							<!--										<th>Total profitability</th>-->
+							<!--										<th>Total profitability %</th>-->
+							<!--									</tr>-->
+							<!--								</thead>-->
+							<!--								<tbody>-->
+							<!--									<t t-set="total_total" t-value="0"/>-->
+							<!--									<t t-set="total_price_supplier_total" t-value="0"/>-->
+							<!--									<t t-set="total_labor_price_total" t-value="0"/>-->
+							<!--									<t t-set="total_cost_total" t-value="0"/>-->
+							<!--									<t t-set="total_profit_material_total" t-value="0"/>-->
+							<!--									<t t-set="total_profit_labor_total" t-value="0"/>-->
+							<!--									<t t-set="total_profit_total" t-value="0"/>-->
+							<!--									<tr t-foreach="o.item_ids" t-as="item">-->
+							<!--										<td><span t-field="item.code"/></td>-->
+							<!--										<td><span t-field="item.name"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(item.total,o.currency_id)"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(item.percentage,o.currency_id)"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(item.total_price_supplier,o.currency_id)"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(item.total_labor_price,o.currency_id)"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(item.total_cost,o.currency_id)"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(o.total_profitability_material,o.currency_id)"/></td>-->
+							<!--										<td><span t-field="o.total_profitability_material_percent"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(o.total_profitability_labor,o.currency_id)"/></td>-->
+							<!--										<td><span t-field="o.total_profitability_labor_percent"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(o.total_profitability,o.currency_id)"/></td>-->
+							<!--										<td><span t-esc="o.round_float_decimal(o.total_profitability_percent,o.currency_id)"/></td>-->
+							<!--										<t t-set="total_total" t-value="total_total + item.total"/>-->
+							<!--										<t t-set="total_price_supplier_total" t-value="total_price_supplier_total + item.total_price_supplier"/>-->
+							<!--										<t t-set="total_labor_price_total" t-value="total_labor_price_total + item.total_labor_price"/>-->
+							<!--										<t t-set="total_cost_total" t-value="total_cost_total + item.total_cost"/>-->
+							<!--&lt;!&ndash;										<t t-set="total_profit_material_total" t-value="total_profit_material_total + item.total_profitability_material"/>&ndash;&gt;-->
+							<!--&lt;!&ndash;										<t t-set="total_profit_labor_total" t-value="total_profit_labor_total + item.total_profitability_labor"/>&ndash;&gt;-->
+							<!--&lt;!&ndash;										<t t-set="total_profit_total" t-value="total_profit_total + item.total_profitability"/>&ndash;&gt;-->
+							<!--									</tr>-->
+							<!--									<tr>-->
+							<!--										<td class="bold header" colspan="2">Totals</td>-->
+							<!--										<td class="bold"><span t-esc="o.round_float_decimal(total_total,o.currency_id)"/></td>-->
+							<!--										<td/>-->
+							<!--										<td class="bold"><span t-esc="o.round_float_decimal(total_price_supplier_total,o.currency_id)"/></td>-->
+							<!--										<td class="bold"><span t-esc="o.round_float_decimal(total_labor_price_total,o.currency_id)"/></td>-->
+							<!--										<td class="bold"><span t-esc="o.round_float_decimal(total_cost_total,o.currency_id)"/></td>-->
+							<!--										<td class="bold"><span t-esc="o.round_float_decimal(o.total_profitability_material,o.currency_id)"/></td>-->
+							<!--										<td/>-->
+							<!--										<td class="bold"><span t-esc="o.round_float_decimal(o.total_profitability_labor,o.currency_id)"/></td>-->
+							<!--										<td/>-->
+							<!--										<td class="bold"><span t-esc="o.round_float_decimal(o.total_profitability,o.currency_id)"/></td>-->
+							<!--										<td/>-->
+							<!--									</tr>-->
+							<!--								</tbody>-->
+							<!--							</table>-->
+
+
+
+
+								<t t-foreach="o.item_ids" t-as="item">
+									<p style="page-break-before:always;"></p>
+
+									<t t-if="item.input_type == 'installation'">
+										<div class="double_border" style="height: 477mm; margin-top:2cm">
+											<div>
+												<p id="contenedor_imagen" style="margin-left: 12.75cm; margin-top: 1cm">
+													<img t-att-src="'/presale/static/src/img/funcion_digital.png'" id="imagen_iso"  style="height: 1,5cm; width: 8cm;filter: brightness(120%); filter: contrast(120%); opacity:0.6"/>
+												</p>
+											</div>
+
+											<div class="watermark" style="position:absolute;opacity:0.10;font-size:3em;width:100%;text-align:center;z-index:1000;">
+												 <img t-att-src="'/presale/static/src/img/funcion_digital_water.png'" style="height: 20cm;"/>
+											</div>
+
+											<table class="table table-bordered" style="width: 30cm; margin-left: 2cm">
+												<thead class="client_header">
+
+													<tr>
+													  <th colspan="6" class="installation_header"><span t-field="item.name"/></th>
+													</tr>
+
+													<tr>
+														<th colspan="6" id="installation_space"></th>
+													</tr>
+
+													<tr>
+														<th class="center">Complete Description</th>
+														<th>U.M</th>
+														<th>Quantity</th>
+														<th>Unit Price</th>
+														<th>Total</th>
+														<!--<th>Value %</th>-->
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td colspan="5"></td>
+													</tr>
+													<t t-set="total_price" t-value="0"/>
+													<t t-set="total_proposal_sale" t-value="0"/>
+													<t t-set="total_labor_sale_price" t-value="0"/>
+													<t t-set="total_budget" t-value="0"/>
+													<t t-set="total_plus_labor" t-value="0"/>
+
+													<tr>
+														<td colspan="3" class="total_misc_desc"><span t-field="item.name_installation"/></td>
+														<td class="total_misc_desc" colspan="2"><span t-esc="o.round_float_decimal(o.get_sum_total(item),o.currency_id)"/></td>
+													</tr>
+
+													<tr t-foreach="item.detail_ids" t-as="detail">
+														<tr>
+															<td><span t-field="detail.product_id"/></td>
+															<td><span t-field="detail.uom_id"/></td>
+															<td><span t-field="detail.qty"/></td>
+															<td><span t-field="detail.unit_price"/></td>
+															<td><span t-field="detail.price_total"/></td>
+															<t t-set="total_price" t-value="detail.price_total"/>
+															<t t-set="total_proposal_sale" t-value="total_proposal_sale + detail.price_total"/>
+															<t t-set="total_plus_labor" t-value="item.total_labor_no_tax_sale"/>
+															<!-- <td class="client_perc"><span t-esc="o.get_installations_percentage(total_price,total_proposal_sale, total_plus_labor)"/></td>-->
+															</tr>
+														</tr>
+
+														<tr>
+															<t t-set="total_labor_sale_price" t-value="item.total_labor_no_tax_sale"/>
+															<td colspan="3" class="total_misc_desc"><span>TOTAL-LABOR AND MISC.</span></td>
+															<td class="total_misc_desc" colspan="2"><span t-esc="o.round_float_decimal(total_labor_sale_price, o.currency_id)"/></td>
+														</tr>
+
+														<tr>
+															<t t-set="total_labor_sale_price" t-value="item.total_labor_no_tax_sale"/>
+															<td class="bold"><span>LABOR &amp; MISCELLANEOUS</span></td>
+															<td><span class="bold">Gl</span></td>
+															<td><span class="bold">1.0</span></td>
+															<td><span t-esc="o.round_float_decimal(total_labor_sale_price,o.currency_id)"/></td>
+															<td><span t-esc="o.round_float_decimal(total_labor_sale_price,o.currency_id)"/></td>
+															<!-- <td class="client_perc"><span t-esc="o.get_installations_percentage(total_labor_sale_price,o.get_sum_total(item), total_labor_sale_price)"/></td>-->
+														</tr>
+
+													<tr>
+														<td colspan="5"></td>
+													</tr>
+
+													<tr>
+														<td colspan="1" class="client_total_back"><span class="client_total">TOTAL</span></td>
+														<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>
+														<td class="client_total client_total_back center" colspan="2"><span t-esc="o.round_float_decimal(total_proposal_sale + total_labor_sale_price, o.currency_id)"/></td>
+													</tr>
+
+													<tr>
+														<td class="client_spec_bonification" colspan="5"><span>*SPECIAL BONUS</span></td>
+													</tr>
+
+
+													<tr>
+														<t t-if="item.discount != 0.0">
+															<td colspan="1" class="client_total_back"><span>% DISCOUNT</span></td>
+															<td colspan="4" class="client_discount"><span t-field="item.discount"/></td>
+														</t>
+														<t t-else="">
+															<td colspan="5"></td>
+														</t>
+													</tr>
+
+													<tr>
+														<td colspan="1" class="client_total_back"><span>TOTAL (With Bonus)</span></td>
+														<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>
+														<td colspan="2" class="client_total client_total_back center"><span t-esc="o.round_float_decimal(item.total_wth_bonus,o.currency_id)"/></td>
+													</tr>
+												</tbody>
+											</table>
+
+										</div>
+									</t>
+
+									<t t-elif="item.input_type == 'included'">
+										<table class="table table-bordered" style="page-break-after: always;">
+												<thead class="client_header">
+													<!--<tr>-->
+													<!--<th colspan="6" class="installation_subheader"><span>REGISTER/ITEM</span></th>-->
+													<!--</tr>-->
+													<tr>
+													  <th colspan="6" class="installation_header"><span t-field="item.name"/></th>
+													</tr>
+
+													<tr>
+														<th colspan="6" id="installation_space"></th>
+													</tr>
+
+													<tr>
+														<th class="center">Complete Description</th>
+														<th>U.M</th>
+														<th>Quantity</th>
+														<th>Unit Price</th>
+														<th>Total</th>
+														<!--<th>Value %</th>-->
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td colspan="5"></td>
+													</tr>
+													<t t-set="total_price" t-value="0"/>`
+													<t t-set="total_proposal_sale" t-value="0"/>
+													<t t-set="total_labor_sale_price" t-value="0"/>
+													<t t-set="total_budget" t-value="0"/>
+													<t t-set="total_plus_labor" t-value="0"/>
+
+													<tr>
+														<td colspan="3" class="total_misc_desc"><span t-field="item.name_installation"/></td>
+														<td class="total_misc_desc" colspan="2"><span t-esc="o.round_float_decimal(o.get_sum_total(item), o.currency_id)"/></td>
+													</tr>
+
+
+													<tr t-foreach="item.detail_ids" t-as="detail">
+														<tr>
+															<td><span t-field="detail.product_id"/></td>
+															<td><span t-field="detail.uom_id"/></td>
+															<td><span t-field="detail.qty"/></td>
+															<td><span t-field="detail.unit_price"/></td>
+															<td><span t-field="detail.price_total"/></td>
+															<t t-set="total_price" t-value="detail.price_total"/>
+															<t t-set="total_proposal_sale" t-value="total_proposal_sale + detail.price_total"/>
+															<t t-set="total_plus_labor" t-value="item.total_labor_no_tax_sale"/>
+															<!-- <td class="client_perc"><span t-esc="o.get_installations_percentage(total_price,o.get_sum_total(item), total_plus_labor)"/></td>-->
+															</tr>
+														</tr>
+
+														<tr>
+															<td colspan="5"></td>
+														</tr>
+
+														<tr>
+															<td colspan="1" class="client_total_back"><span class="client_total">TOTAL</span></td>
+															<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>
+															<td class="client_total client_total_back center" colspan="2"><span t-esc="o.round_float_decimal(total_proposal_sale, o.currency_id)"/></td>
+														</tr>
+
+														<tr>
+															<td class="client_spec_bonification" colspan="5"><span>*SPECIAL BONUS</span></td>
+														</tr>
+
+														<tr>
+															<td colspan="1" class="client_total_back"><span>% DISCOUNT</span></td>
+															<td colspan="4" class="client_discount"><span t-field="item.discount"/></td>
+														</tr>
+
+														<tr>
+															<td colspan="1" class="client_total_back"><span>TOTAL (With Bonus)</span></td>
+															<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>
+															<td colspan="2" class="client_total client_total_back center"><span t-esc="o.round_float_decimal(item.total_wth_bonus, o.currency_id)"/></td>
+														</tr>
+												</tbody>
+										</table>
+									</t>
+
+									<t t-else="">
+										<table class="table table-bordered" style="page-break-after: always;">
+												<thead class="client_header">
+													<!--<tr>-->
+													<!--<th colspan="8" class="installation_subheader"><span>REGISTER/ITEM</span></th>-->
+													<!--</tr>-->
+
+													<tr>
+													  <th colspan="8" class="installation_header"><span t-field="item.name"/></th>
+													</tr>
+
+													<tr>
+														<th colspan="8" id="installation_space"></th>
+													</tr>
+
+													<tr>
+														<th class="center">Complete Description</th>
+														<th>U.M</th>
+														<th>Quantity</th>
+														<th>Unit Mat. Price</th>
+														<th>Total Mat.</th>
+														<th>Unit Lab. Price</th>
+														<th>Total Lab. Price</th>
+														<!--<th>Value %</th>-->
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td colspan="7"></td>
+													</tr>
+													<t t-set="total_material_price" t-value="0"/>
+													<t t-set="total_labor_sale" t-value="0"/>
+													<t t-set="sum_totals" t-value="0"/>
+													<t t-set="sum_total_items" t-value="0"/>
+													<t t-set="total_plus_labor" t-value="0"/>
+
+
+													<tr>
+														<td colspan="3" class="total_misc_desc"><span t-field="item.name_installation"/></td>
+														<td class="total_misc_desc" colspan="2"><span t-esc="o.round_float_decimal(o.get_sum_total_separate(item), o.currency_id)"/></td>
+														<td colspan="2"></td>
+													</tr>
+
+
+													<tr t-foreach="item.detail_ids" t-as="detail">
+														<tr>
+															<td><span t-field="detail.product_id"/></td>
+															<td><span t-field="detail.uom_id"/></td>
+															<td><span t-field="detail.qty"/></td>
+															<td><span t-field="detail.mat_unit_price"/></td>
+															<td><span t-field="detail.mat_price_total"/></td>
+															<td><span t-field="detail.labor_unit_price"/></td>
+															<td><span t-field="detail.labor_price_total"/></td>
+															<t t-set="total_price" t-value="detail.price_total"/>
+															<t t-set="sum_totals" t-value="detail.mat_price_total + detail.labor_price_total"/>
+															<t t-set="total_material_price" t-value="total_material_price + detail.mat_price_total"/>
+															<t t-set="total_labor_sale" t-value="total_labor_sale + detail.labor_price_total"/>
+															<t t-set="sum_total_items" t-value="total_material_price + total_labor_sale"/>
+															<!-- <td class="client_perc"><span t-esc="o.get_installations_percentage(sum_totals, o.get_sum_total_separate(item), total_plus_labor)"/></td>-->
+															</tr>
+														</tr>
+
+														<tr>
+															<td colspan="5"></td>
+															<td colspan="2"></td>
+														</tr>
+
+														<tr>
+															<td colspan="1" class="client_total_back"><span class="client_total">MATERIALS SUBTOTAL</span></td>
+															<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>
+															<td class="client_total client_total_back center" colspan="4"><span t-esc="o.round_float_decimal(total_material_price, o.currency_id)"/></td>
+														</tr>
+
+														<tr>
+															<td colspan="1" class="client_total_back"><span class="client_total">LABOR SUBTOTAL</span></td>
+															<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>
+															<td class="client_total client_total_back center" colspan="4"><span t-esc="o.round_float_decimal(total_labor_sale, o.currency_id)"/></td>
+														</tr>
+
+														<tr>
+															<td colspan="1" class="client_total_back"><span class="client_total">TOTAL</span></td>
+															<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>
+															<td class="client_total client_total_back center" colspan="4"><span t-esc="o.round_float_decimal(sum_total_items, o.currency_id)"/></td>
+														</tr>
+
+														<tr>
+															<td class="client_spec_bonification" colspan="7"><span>*SPECIAL BONUS</span></td>
+														</tr>
+
+														<tr>
+															<td colspan="1" class="client_total_back"><span>% DISCOUNT</span></td>
+															<td colspan="6" class="client_discount"><span t-field="item.discount"/></td>
+														</tr>
+
+														<tr>
+															<td colspan="1" class="client_total_back"><span>TOTAL (With Bonus)</span></td>
+															<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>
+															<td colspan="4" class="client_total client_total_back center"><span t-esc="o.round_float_decimal(item.total_wth_bonus, o.currency_id)"/></td>
+														</tr>
+												</tbody>
+										</table>
+									</t>
+								</t>
+
+
+								<!--<br/>-->
+								<t t-if="o.separate_labor_column != True">
+									<p style="page-break-before:always;"> </p>
+
+									<div class="double_border" style="height: 477mm; margin-top:2cm">
+										<div>
+											<p id="contenedor_imagen" style="margin-left: 12.75cm; margin-top: 1cm">
+												<img t-att-src="'/presale/static/src/img/funcion_digital.png'" id="imagen_iso"  style="height: 1,5cm; width: 8cm;filter: brightness(120%); filter: contrast(120%); opacity:0.6"/>
+											</p>
+										</div>
+
+										<div class="prel_watermark" style="position:absolute; opacity:0.10;width:100%; text-align:center; z-index:1000;">
+										 	<img t-att-src="'/presale/static/src/img/funcion_digital_water.png'" style="height: 20cm; margin-top:5cm"/>
+										</div>
+										<table class="table table-bordered" style="width: 30cm; margin-left: 1.5cm">
+											<thead class="client_header">
+
+												<div id="cabe"> <span id="resu">SUMMARY:</span></div>
+												<!--<tr style="border: none; outline: none;">-->
+												<!--<th colspan="3" class="summary_header"><span>SUMMARYs</span></th>-->
+												<!--</tr>-->
+												<tr>
+													<th colspan="2" id="installation_space"></th>
+												</tr>
+
+												<tr>
+													<th class="center">SYSTEMS</th>
+													<th class="center">TOTAL</th>
+													<!--<th>Value %</th>-->
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td colspan="3"></td>
+												</tr>
+												<t t-set="total_price" t-value="0"/>
+												<t t-set="total_proposal_sale" t-value="0"/>
+												<t t-set="total_labor_sale_price" t-value="0"/>
+												<t t-set="total_budget" t-value="0"/>
+												<t t-set="total_plus_labor" t-value="0"/>
+
+												<tr t-foreach="o.item_ids" t-as="item">
+													<tr>
+														<td><span t-field="item.name"/></td>
+														<td class="center"><span t-field="item.total_wth_bonus"/></td>
+														<t t-set="total_proposal_sale" t-value="total_proposal_sale + item.total_wth_bonus"/>
+
+														<!--<t t-set="total_price" t-value="detail.price_total"/>-->
+														<!--<t t-set="total_plus_labor" t-value="item.total_labor_no_tax_sale"/>-->
+
+														<!--<td class="client_perc"><span t-esc="o.get_installations_percentage(total_price,o.get_sum_total(item), total_plus_labor)"/></td>-->
+													</tr>
+												</tr>
+
+
+													<tr>
+														<td colspan="1"></td>
+													</tr>
+
+													<tr>
+														<td colspan="1" class="client_total_back"><span class="client_total">TOTAL</span></td>
+
+													<!--<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>-->
+													<td class="client_total client_total_back center" colspan="1"><span t-field="o.currency_id.name"/> <span t-esc="o.round_float_decimal(total_proposal_sale, o.currency_id)"/></td>
+													</tr>
+
+													<tr>
+														<td class="client_spec_bonification" colspan="2"><span>*SPECIAL BONUS</span></td>
+													</tr>
+
+													<tr>
+														<t t-if="o.discount_res != 0.0">
+															<td colspan="1" class="client_total_back"><span>% DISCOUNT</span></td>
+															<td colspan="1" class="client_discount"><span t-field="o.discount_res"/></td>
+														</t>
+														<t t-else="">
+															<td colspan="2"></td>
+														</t>
+													</tr>
+
+													<tr>
+														<td colspan="1" class="client_total_back"><span>TOTAL (With Bonus)</span></td>
+														<!--<td colspan="1" class="client_total_back center"><span t-field="o.currency_id.name"/></td>-->
+														<td colspan="1" class="client_total client_total_back center"><span t-field="o.currency_id.name"/>  <span t-esc="o.round_float_decimal(o.total_wth_bonus_res, o.currency_id)"/></td>
+													</tr>
+												</tbody>
+										</table>
+									</div>
+								</t>
+								<t t-else="">
+									<table class="table table-bordered" style="page-break-after: always;">
+										<thead class="client_header">
+
+											<tr>
+												<th colspan="3" class="summary_header"><span>SUMMARY</span></th>
+											</tr>
+
+											<tr>
+												<th colspan="3" id="installation_space"></th>
+											</tr>
+
+											<tr>
+												<th class="center">SYSTEMS</th>
+												<th class="center">TOTAL MATERIALS/EQUIPMENTS</th>
+												<th class="center">TOTAL LABOR</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="3"></td>
+											</tr>
+											<t t-set="subtotal_material_price" t-value="0"/>`
+											<t t-set="subtotal_labor_price" t-value="0"/>
+											<t t-set="total_labor_sale_price" t-value="0"/>
+											<t t-set="total_project" t-value="0"/>
+
+											<tr t-foreach="o.item_ids" t-as="item">
+												<tr>
+													<td ><span t-field="item.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(o.sum_total_material_price(item), o.currency_id)"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(o.sum_total_labor_price(item), o.currency_id)"/></td>
+													<t t-set="subtotal_material_price" t-value="subtotal_material_price + o.sum_total_material_price(item)"/>
+													<t t-set="subtotal_labor_price" t-value="subtotal_labor_price + o.sum_total_labor_price(item)"/>
+													<t t-set="total_project" t-value="subtotal_material_price + subtotal_labor_price"/>
+
+												</tr>
+											</tr>
+
+
+												<tr>
+													<td colspan="3"></td>
+												</tr>
+
+												<tr>
+													<td colspan="1" class="client_total_back"><span class="client_total">SUB-TOTAL MATERIALS</span></td>
+													<td class="client_total client_total_back center" colspan="2"><span t-field="o.currency_id.name"/> <span t-esc="o.round_float_decimal(subtotal_material_price, o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td colspan="1" class="client_total_back"><span class="client_total">SUB-TOTAL LABOR</span></td>
+													<td class="client_total client_total_back center" colspan="2"><span t-field="o.currency_id.name"/> <span t-esc="o.round_float_decimal(subtotal_labor_price, o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td colspan="1" class="client_total_back"><span class="client_total">TOTAL PROJECT</span></td>
+													<!--<td colspan="2" class="client_total_back center"><span t-field="o.currency_id.name"/></td>-->
+													<td class="client_total client_total_back center" colspan="2"><span t-field="o.currency_id.name"/> <span t-esc="o.round_float_decimal(total_project,o.currency_id)"/> </td>
+												</tr>
+
+												<tr>
+													<td class="client_spec_bonification" colspan="3"><span>*SPECIAL BONUS</span></td>
+												</tr>
+
+												<tr>
+													<t t-if="o.discount_res != 0.0">
+														<td colspan="1" class="client_total_back"><span>% DISCOUNT</span></td>
+														<td colspan="2" class="client_discount"><span t-field="o.discount_res"/></td>
+													</t>
+												</tr>
+
+												<tr>
+													<td colspan="1" class="client_total_back"><span>TOTAL (With Bonus)</span></td>
+													<!--<td colspan="1" class="client_total_back center"><span t-field="o.currency_id.name"/></td>-->
+													<td colspan="2" class="client_total client_total_back center"><span t-field="o.currency_id.name"/>  <span t-esc="o.round_float_decimal(o.total_wth_bonus_res, o.currency_id)"/></td>
+												</tr>
+											</tbody>
+									</table>
+								</t>
+
+
+								<p style="page-break-before:always;"></p>
+								<div class="double_border2" style="height: 477mm; margin-top:2cm">
+									<div>
+										<p id="contenedor_imagen" style="margin-left: 12.75cm; margin-top: 1cm">
+											<img t-att-src="'/presale/static/src/img/funcion_digital.png'" id="imagen_iso"  style="height: 1,5cm; width: 8cm;filter: brightness(120%); filter: contrast(120%); opacity:0.6"/>
+										</p>
+									</div>
+									<div id="prel_page_container"> <span id="prel_title">PRELIMINARY RESULT:</span></div>
+
+									<div class="prel_watermark" style="position:absolute;font-size:3em; opacity:0.10;width:100%; text-align:center; z-index:1000;">
+										 <img t-att-src="'/presale/static/src/img/funcion_digital_water.png'" style="height: 20cm;"/>
+									</div>
+
+									<table class="table table-bordered" style="width: 30cm; margin-left: 1.5cm; margin-top: -1cm">
+										<thead class="header preliminary_result_header">
+											<tr>
+												<th width="5%">N°</th>
+												<th width="10%">Center of Costs</th>
+												<th colspan="3">Concept</th>
+												<th width="5%">%Rep</th>
+												<th width="5%">Currency</th>
+												<th width="10%">VALUE</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr t-foreach="o.prel_offer_id" t-as="prel">
+												<!-- Direct Cost (DC)-->
+												<tr>
+													<td colspan="5" class="direct_cost_title"><span>Direct Costs (DC)</span></td>
+													<td class="direct_cost_title center"><span t-esc="o.precentage_format(prel.prel_direct_rep_total)" width="5"/></td>
+													<td class="direct_cost_title center"><span t-field="o.currency_id.name"/></td>
+													<td class="direct_cost_title center"><span t-esc="o.round_float_decimal(prel.prel_direct_costs_total,o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">1</span></td>
+													<td><span class="bold">Tech. Office</span></td>
+													<td colspan="3"><span class="bold">Equipment and Materials</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_material_costs_per)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_materials_costs,o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">2</span></td>
+													<td><span class="bold">Tech. Office</span></td>
+													<td colspan="3"><span class="bold">Workforce</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_labor_costs_per)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_labor_costs,o.currency_id)"/></td>
+												</tr>
+												<!-- Indirect Cost (IC)-->
+												<tr>
+													<td colspan="5" class="indirect_cost_title"><span>Indirect Costs (IC)</span></td>
+													<td class="indirect_cost_title center"><span t-esc="o.precentage_format(prel.prel_ind_rep_total)" width="5"/></td>
+													<td class="indirect_cost_title center"><span t-field="o.currency_id.name"/></td>
+													<td class="indirect_cost_title center"><span t-esc="o.round_float_decimal(prel.prel_ind_costs_total,o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">3</span></td>
+													<td><span class="bold">OT/OP</span></td>
+													<td colspan="3"><span class="bold">Indirect Costs</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_ind_per)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_ind_costs,o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">4</span></td>
+													<td><span class="bold">Tech. Office</span></td>
+													<td colspan="3"><span class="bold">Inc. &amp; Miscellaneous Direct Costs</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_total_misc_per)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_ind_misc, o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">5</span></td>
+													<td><span class="bold">AF</span></td>
+													<td colspan="3"><span class="bold">Financial Costs</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_total_fin_per)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_fin_costs, o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">6</span></td>
+													<td><span class="bold">Tech. Office</span></td>
+													<td colspan="3"><span class="bold">Third Direct Costs</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_thrd_perc)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_thrd_costs,o.currency_id)"/></td>
+												</tr>
+												<!-- Recover Offer Costs-->
+												<tr>
+													<td><span class="bold">7</span></td>
+													<td width="5%"><span class="bold">OT/GC</span></td>
+													<t t-if="prel.prel_apply_rec_cost == True">
+														<td width="5%" class="apply_cell"><span>Apply</span></td>
+													</t>
+													<t t-else="">
+														<td width="5%" class="apply_cell"><span>Not Apply</span></td>
+													</t>
+													<td colspan="2"><span>Recover Offer Costs</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_per_rec_cost)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_rec_costs,o.currency_id)"/></td>
+												</tr>
+
+												<!--Spec. Country Tax-->
+												<tr>
+													<td><span class="bold">8</span></td>
+													<td width="5%"><span class="bold">AF</span></td>
+													<t t-if="prel.prel_apply_ctytax_cost == True">
+														<td width="5%" class="apply_cell"><span>Apply</span></td>
+													</t>
+													<t t-else="">
+														<td width="5%" class="apply_cell"><span>Not Apply</span></td>
+													</t>
+													<td colspan="2"><span>Tax to include in Cost (Specific x country)</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_per_country_cost)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_tax_country_cost, o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">9</span></td>
+													<td width="5%"><span class="bold">AF</span></td>
+													<t t-if="prel.prel_apply_poli_cost == True">
+														<td width="5%" class="apply_cell"><span>Apply</span></td>
+													</t>
+													<t t-else="">
+														<td width="5%" class="apply_cell"><span>Not Apply</span></td>
+													</t>
+													<td colspan="2"><span>Polic. Ins. and Guarantees</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_total_poli_per)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_poli_ins_cost, o.currency_id)"/></td>
+												</tr>
+
+												<!-- General Expenses (GE)-->
+												<tr>
+													<td colspan="5" class="general_exp_title"><span class="bold">General Expenses (GE)</span></td>
+													<td class="general_exp_title center"><span t-esc="o.precentage_format(prel.prel_gen_exp_per_total)" width="5"/></td>
+													<td class="general_exp_title center"><span t-field="o.currency_id.name"/></td>
+													<td class="general_exp_title center"><span t-esc="o.round_float_decimal(prel.prel_gen_exp_total, o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">10</span></td>
+													<td><span class="bold">AF/GC</span></td>
+													<td colspan="3"><span class="bold">Local General Expenses</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_total_locgen_exp)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_loc_genexp_cost, o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<td><span class="bold">11</span></td>
+													<td><span class="bold">AF/GC</span></td>
+													<td colspan="3"><span class="bold">Regional General Expenses</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.prel_total_reggen_exp)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.prel_reg_genexp_cost,o.currency_id)"/></td>
+												</tr>
+												<!-- SubTotal DC, IC, GE-->
+												<tr>
+													<td colspan="5" ><span class="bold">SubTotal DC, IC, GE</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.subttl_cd_ind_genexp_per)" width="5"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.subttl_cd_ind_genexp,o.currency_id)"/></td>
+												</tr>
+												<br/>
+												<tr>
+													 <td rowspan="2" colspan="5" style="vertical-align: middle;" class="gross_profit_title">
+														 <span class="bold"> Gross profit (Subtotal DC,IC,GE *% Gross margin</span>
+													 </td>
+													<!--<td><span class="bold" width="2%">E.&amp;.M.</span></td>-->
+													 <td class="apply_cell center"><span t-field="prel.category_correction_material"/></td>
+													 <td class="gross_profit_title center"><span t-field="o.currency_id.name"/></td>
+													 <td class="gross_profit_title center"><span t-esc="o.round_float_decimal(prel.gross_profit_material,o.currency_id)"/></td>
+												</tr>
+
+												<tr>
+													<!--<td><span class="bold" width="2%">M.D.O</span></td>-->
+													<td class="apply_cell center"><span t-field="prel.category_correction_labor"/></td>
+													<td class="gross_profit_title center"><span t-field="o.currency_id.name"/></td>
+													<td class="gross_profit_title center"><span t-esc="o.round_float_decimal(prel.gross_profit_labor,o.currency_id)"/></td>
+												</tr>
+
+												<br/>
+												<br/>
+												<!-- Gross Profit-->
+												<tr>
+													<td colspan="5" class="gross_profit_groupd_title"><span class="bold">Total Avg. Gross Profit (%)</span></td>
+													<td class="gross_profit_groupd_title center"><span t-esc="o.precentage_format(prel.total_avg_gross_profit)"/></td>
+
+													<td rowspan="3"  style="vertical-align: middle" class="gross_profit_groupd_title center">
+														 <span t-field="o.currency_id.name"/>
+													</td>
+
+													<td rowspan="3" style="vertical-align: middle" class="gross_profit_groupd_title center">
+														 <span t-esc="o.round_float_decimal(prel.total_gross_profit,o.currency_id)"/>
+													</td>
+												</tr>
+
+												<tr>
+													<td colspan="5" class="gross_profit_groupd_title"><span class="bold">Gross Profit over Sales (%)</span></td>
+													<td class="gross_profit_groupd_title center"><span t-esc="o.precentage_format(prel.sale_gross_profit)"/></td>
+												</tr>
+
+												<tr>
+													<td colspan="5" class="gross_profit_groupd_title"><span class="bold">Total Pass Coefficient (%)</span></td>
+													<td class="gross_profit_groupd_title center"><span t-esc="o.precentage_format(prel.total_pass_coefficient)"/></td>
+												</tr>
+
+												<!--Price without taxes	-->
+												<tr>
+													<td colspan="6"><span class="bold">Price without taxes</span></td>
+													<!-- <td><span t-esc="o.round_float_decimal(prel.subttl_cd_ind_genexp_per,o.currency_id)" width="5"/></td>-->
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.total_price_non_taxes,o.currency_id)"/></td>
+												</tr>
+
+												<!--Price with taxes-->
+												<tr>
+													<td colspan="6"><span class="bold">Price with taxes</span></td>
+													<!-- <td><span t-esc="o.round_float_decimal(prel.subttl_cd_ind_genexp_per,o.currency_id)" width="5"/></td>-->
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.total_price_with_taxes,o.currency_id)"/></td>
+												</tr>
+
+												<!--Discounts & Bonuses -->
+												<tr>
+													<td colspan="5"><span class="bold">Discounts &amp; Bonuses</span></td>
+													<td class="center"><span t-esc="o.precentage_format(prel.disc_bonus_per)"/></td>
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.discounts_bonuses,o.currency_id)"/></td>
+												</tr>
+
+												<!-- Gross Profit 2-->
+												<tr>
+													<td colspan="5" class="gross_profit_groupd_title2"><span class="bold">Total Avg. Gross Profit (%)</span></td>
+													<td class="gross_profit_groupd_title2 center"><span t-esc="o.precentage_format(prel.total_avg_gross_sec_profit)"/></td>
+
+													<td rowspan="3"  style="vertical-align: middle" class="gross_profit_groupd_title2 center">
+														 <span t-field="o.currency_id.name"/>
+													</td>
+
+													<td rowspan="3" style="vertical-align: middle" class="gross_profit_groupd_title2 center">
+														 <span t-esc="o.round_float_decimal(prel.total_gross_sec_profit,o.currency_id)"/>
+													</td>
+												</tr>
+
+												<tr>
+													<td colspan="5" class="gross_profit_groupd_title2"><span class="bold">Gross Profit over Sales (%)</span></td>
+													<td class="gross_profit_groupd_title2 center"><span t-esc="o.precentage_format(prel.sale_gross_sec_profit)"/></td>
+												</tr>
+
+												<tr>
+													<td colspan="5" class="gross_profit_groupd_title2"><span class="bold">Total Pass Coefficient (%)</span></td>
+													<td class="gross_profit_groupd_title2 center"><span t-esc="o.precentage_format(prel.total_pass_sec_coefficient)"/></td>
+												</tr>
+
+												<!--Price without taxes 2-->
+												<tr>
+													<td colspan="6"><span class="bold">Price without taxes</span></td>
+													<!-- <td><span t-esc="o.round_float_decimal(prel.subttl_cd_ind_genexp_per,o.currency_id)" width="5"/></td>-->
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.total_price_non_taxes_sec,o.currency_id)"/></td>
+												</tr>
+
+												<!--Price with taxes 2-->
+												<tr>
+													<td colspan="6"><span class="bold">Price with taxes</span></td>
+													<!-- <td><span t-esc="o.round_float_decimal(prel.subttl_cd_ind_genexp_per,o.currency_id)" width="5"/></td>-->
+													<td class="center"><span t-field="o.currency_id.name"/></td>
+													<td class="center"><span t-esc="o.round_float_decimal(prel.total_price_with_taxes_sec,o.currency_id)"/></td>
+												</tr>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+						</div>
+                    </t>
+                </t>
+            </t>
+        </template>
+</odoo>
