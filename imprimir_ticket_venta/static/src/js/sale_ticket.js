@@ -7,7 +7,7 @@ import { useService } from "@web/core/utils/hooks";
 class SaleTicketPrinter extends Component {
     setup() {
         console.log("Entra en el JS para imprimir Sale Ticket");
-
+        console.log(this)
         this.rpc = useService("rpc");
         console.log("Ejecuto rpc");
 
@@ -61,19 +61,7 @@ class SaleTicketPrinter extends Component {
                 </style>
             </head>
             <body>
-                <div class="ticket">
-                    <h2>Ticket de Venta</h2>
-                    <p><strong>Cliente:</strong> ${this.state.orderData.partner_name}</p>
-                    <hr>
-                    ${this.state.orderData.lines.map(line => `
-                        <div class="line">
-                            <span>${line.product}</span>
-                            <span>${line.qty} x ${line.price}</span>
-                        </div>
-                    `).join("")}
-                    <hr>
-                    <p><strong>Total:</strong> ${this.state.orderData.total}</p>
-                </div>
+                <h1>Test</h1>   
                 <script>
                     window.onload = function() {
                         window.print();

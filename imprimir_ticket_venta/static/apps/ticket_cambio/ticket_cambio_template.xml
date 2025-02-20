@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-    <t t-name="pos_paraguay.OrderReceipt">
+    <t t-name="imprimir_ticket_venta.OrderReceipt">
         <div class="pos-receipt">
             <ReceiptHeader data="props.data.headerData" />
             <OrderWidget lines="props.data.orderlines" t-slot-scope="scope">

@@ -7,7 +7,7 @@ import { ReceiptHeader } from "@point_of_sale/app/screens/receipt_screen/receipt
 import { omit } from "@web/core/utils/objects";
 
 export class TicketCambio extends Component {
-    static template = "pos_paraguay.OrderReceipt";
+    static template = "imprimir_ticket_venta.OrderReceipt";
 
     static components = {
         Orderline,
