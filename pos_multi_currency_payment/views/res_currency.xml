@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_currency_rate_inh_multicurrency" model="ir.ui.view">
+            <field name="name">view.currency_rate.inh</field>
+            <field name="model">res.currency.rate</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="paraguay_backoffice.view_currency_rate_inh_tree_paraguay"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='set_venta']" position="after">
+                <field name="cotizacion_venta_caja"  string="Cotizacion Para Venta en POS"/>
+                <field name="rate_venta" invisible="1"/>
+                <field name="ambito_moneda" invisible="1"/>
+            </xpath>
+            </field>
+        </record>
+
+        <record id="view_currency_inh_multicurrency" model="ir.ui.view">
+            <field name="name">view.currency.inh</field>
+            <field name="model">res.currency</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='rate']" position="after">
+                <field name="rate_venta" invisible="1" string="Tasa Para Venta en POS"/>
+
+            </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

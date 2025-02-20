@@ -1,0 +1,422 @@
+<odoo>
+    <data>
+         <template id="report_factura_2">
+                <t t-call="web.html_container">
+                      <t t-foreach="docs" t-as="o">
+                            <span t-call="web.basic_layout">
+                                <link rel="stylesheet" href="pos_paraguay/static/src/css/pos_receipts.css"/>
+                                 <body>
+                                     <div class="pos-receipt">
+                                         <div style="text-align:center">
+                                             <t t-if="o.company_id.logo">
+                                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+                                                <br/>
+                                            </t>
+                                         </div>
+                                        <div class="pos-receipt-contact" style="font-size:12px">
+                                        <div style="text-align:center;font-weight:bold;">
+                                            <t t-if='o.company_id.vat'>
+                                                <div>RUC:<t t-esc='o.company_id.vat' />
+                                                </div>
+                                            </t>
+                                            <t t-if='o.company_id.name'>
+                                                <div><t t-esc='o.company_id.name' />
+                                                </div>
+                                            </t>
+                                            <t t-if='o.company_id.street'>
+                                                <div>
+                                                    <t t-esc='o.company_id.street' />
+                                                </div>
+                                            </t>
+                                            <t t-if='o.company_id.phone'>
+                                                <div>Tel:<span style="font-weight:normal;" t-esc='o.company_id.phone' />
+                                                </div>
+                                            </t>
+                                            <t t-if='o.company_id.email'>
+                                                <div>
+                                                    Email:<t t-esc='o.company_id.email' />
+                                                </div>
+                                            </t>
+                                            <t t-if='o.company_id.website'>
+                                                <div>
+                                                   Web: <t t-esc='o.company_id.website' />
+                                                </div>
+                                            </t>
+                    <!--                        <t t-if='widget.pos.sequence and receipt.numero_factura'>-->
+
+                                             <t >
+                                                 <br/>
+                                                   <div>Timbrado:
+                                                    <span style="font-weight:normal;" t-esc="o.timbrado"/>
+                    <!--                                <span style="font-weight:normal;" t-esc="order.timbrado"/>-->
+                                                </div>
+                                                    <div>Autorización Autoimpresor :
+                                                    <span style="font-weight:normal;" t-esc="o.talonario_factura.nro_autorizacion_autoimpresor"/>
+                                                </div>
+                                                    <div>Inicio Vigencia:
+                                                        <span style="font-weight:normal;" t-esc="o.talonario_factura.fecha_inicio"/>
+                                                </div>
+                                                    <div>Fin Vigencia:
+                                                    <span t-esc="o.talonario_factura.fecha_final" style="font-weight:normal;"/>
+                                                </div>
+                                                 <div><t t-if="o.pos_order_ids.amount_total &lt; 0">
+                                                            Nota de Credito Nro.
+                                                            </t>
+                                                     <t t-else="">
+                                                         Factura Nro. :
+
+                                                     </t>
+                    <!--                                <span t-esc="env.pos.sequence[0].prefix" style="font-weight:normal;"/>-->
+                                                        <t t-esc="o.nro_factura"/>
+                        <!--                                <span t-esc="receipt.numero_factura" style="font-weight:normal;" id="aaa"/>-->
+                                                </div>
+                                             </t>
+                                        </div>
+                                         <br/>
+
+                                         <div style="font-size:10px;text-align:left !important;">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td colspan="1" style="font-weight:bold;">
+                                                        CLIENTE:
+                                                    </td>
+                                                    <td colspan="3">
+                                                        <t t-esc="o.partner_id.name"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="1" style="font-weight:bold;">
+                                                         RUC/CI:
+                                                    </td>
+                                                    <t t-if="o.ruc_factura">
+                                                        <td colspan="3">
+                                                            <t t-esc="o.ruc_factura"/>
+                                                        </td>
+                                                    </t>
+
+                                                    <t t-else="">
+                                                    </t>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="1" style="font-weight:bold;width:25%">
+                                                        <t t-if="o.amount_total &lt; 0">
+                                                                TIPO NC.
+                                                            </t>
+                                                        <t t-else="">
+                                                            TIPO FACTURA:
+                                                        </t>
+                                                    </td>
+                                                    <td colspan="3">
+                                                        CONTADO
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="1" style="font-weight:bold;">
+                                                         COND. PAGO:
+                                                    </td>
+                                                    <td colspan="3">
+                                                        <t t-foreach='o.pos_order_ids.payment_ids' t-as='line'>
+                                                            <t t-if="line.amount &gt; 0 or o.amount_total &lt;0">
+                                                                <t t-esc="line.payment_method_id.name"/>
+                                                            </t>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="1" style="font-weight:bold;width:30%">
+                                                         FECHA EMISIÓN:
+                                                    </td>
+                                                    <td>
+
+                                                        <t t-esc="o.get_date_formated()"/>
+<!--                                                        context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>-->
+
+                                                    </td>
+                                                    <td style="font-weight:bold;">
+<!--                                                         HORA:-->
+                                                    </td>
+                                                    <td>
+<!--                                                        <t t-esc="o.pos_order_ids.date_order.hour"/>-->
+<!--                                                        :                                <t t-esc="o.pos_order_ids.date_order.minute"/>-->
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+<!--                                         <br/>-->
+
+                                         <div style="font-size:12px">
+                                            <table style="width:100%">
+                                                <tr style="font-weight:bold;text-align:left;">
+                                                    <th style="width:20%">Item.</th>
+                                                    <th>Desc. Artículo</th>
+                                                    <th></th>
+                                                </tr>
+                                                <tr style="font-weight:bold;text-align:left">
+                                                    <th>Cantidad</th>
+                                                    <th>Precio unitario/Descuento</th>
+                                                    <th style="text-align:right">Importe</th>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <div class="pos-receipt-right-align">------------------------------------------------------------------------</div>
+                                                    </td>
+                                                </tr>
+                                                <t t-set="desc_factu" t-value="0"/>
+                                                <t t-foreach='o.invoice_line_ids' t-as='orderline'>
+                                                    <t t-if="o.amount_total &lt; 0 or orderline.price_total &gt;0 ">
+                                                        <tr style="text-align:left">
+                                                            <td style="vertical-align: text-top">
+                                                                <t t-esc="orderline.product_id.default_code"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="orderline.name"/>
+                                                            </td>
+                                                            <td style="text-align:right;width:20%;vertical-align: text-top">
+                                                                 <t t-esc="o.agregar_punto_de_miles_ticket(abs(orderline.price_unit*orderline.quantity))"/>
+                    <!--                                            <t t-esc="env.pos.format_currency(abs(orderline.price_with_tax))"/>-->
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="text-align:left">
+                                                            <td>
+                                                                 Cant.<t t-esc="int(abs(orderline.quantity))"/>
+                                                            </td>
+                                                             <td>
+                                                                  <t t-esc="o.agregar_punto_de_miles_ticket(abs(orderline.price_unit))"/>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <t t-if="orderline.discount != 0">
+                                                            <tr style="text-align:left">
+                                                                <td>
+
+                                                                </td>
+                                                                <td>
+                                                                    DESC. POR LINEA <t t-esc="orderline.discount"/>%
+                                                                </td>
+                                                                <td style="text-align:right;">
+                                                                      <t t-esc="o.agregar_punto_de_miles_ticket(-1*orderline.discount_amount)"/>
+                                                                </td>
+                                                            </tr>
+
+                                                        </t>
+                                                        <br/>
+                    <!--                                    <tr>-->
+                    <!--                                         <td></td>-->
+                    <!--                                         <td></td>-->
+                    <!--                                         <td></td>-->
+                    <!--                                    </tr>-->
+                                                    </t>
+                                                    <t t-if="o.amount_total &gt; 0 and orderline.price_total &lt;0">
+                                                        <t t-set="desc_factu" t-value="desc_factu-orderline.price_total"/>
+                                                    </t>
+
+                    <!--                                <t t-if="orderline.quantity != 1">-->
+                    <!--                                    <tr style="text-align:left">-->
+                    <!--                                        <td>-->
+                    <!--                                           <t t-esc="orderline.default_code"/>-->
+                    <!--                                        </td>-->
+                    <!--                                        <td colspan="3">-->
+                    <!--                                            <t t-esc="orderline.product_name"/>-->
+                    <!--                                        </td>-->
+                    <!--                                    </tr>-->
+                    <!--                                    <tr>-->
+                    <!--                                        <td>-->
+                    <!--                                            <t t-esc="abs(orderline.quantity)"/>-->
+                    <!--                                        </td>-->
+                    <!--                                        <td>-->
+                    <!--                                            <t t-esc="env.pos.format_currency(abs(orderline.price))"/>-->
+                    <!--                                        </td>-->
+                    <!--                                        <td style="text-align:right;">-->
+                    <!--                                            <t t-esc="env.pos.format_currency(abs(orderline.price_with_tax))"/>-->
+                    <!--                                        </td>-->
+                    <!--                                    </tr>-->
+                    <!--                                </t>-->
+                                                </t>
+                                            </table>
+                                        </div>
+                                        <td colspan="4">
+                                                        <div class="pos-receipt-right-align">------------------------------------------------------------------------</div>
+                                        </td>
+                    <!--                     <t t-set='taxincluded' t-value='abs(o.subtotal - receipt.total_with_tax) &lt;= 0.000001'/>-->
+                    <!--                     <br/>-->
+                                         <br/>
+                                         <table style="width:100%;font-size:12px">
+                                             <tr style="font-size:11px">
+                                                 <td style="text-align:left">
+                                                     SUBTOTAL
+                                                 </td>
+                                                 <td></td>
+                                                 <td style="text-align:right;">
+                                                     <t t-esc="o.agregar_punto_de_miles_ticket(abs(o.amount_total+desc_factu))"/>
+                                                 </td>
+
+                                             </tr>
+                                             <tr style="font-size:11px">
+                                                 <td style="text-align:left">
+                                                     DESCUENTO FACTURA
+                                                 </td>
+                                                 <td></td>
+                                                 <td style="text-align:right;">
+                                                     <t t-esc="o.agregar_punto_de_miles_ticket(-1*desc_factu)"/>
+                                                 </td>
+
+                                             </tr>
+                                            <tr style="font-weight: bold;">
+                                                <td class="pos-receipt-amount" style="text-align:left;font-weight:bold">
+                                                     TOTAL:
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td style="text-align:right;">
+                                                    <span t-esc='o.agregar_punto_de_miles_ticket(abs(o.amount_total))' class="pos-receipt-right-align"/>
+                                                </td>
+                                            </tr>
+                                              <td colspan="4">
+                                                        <div class="pos-receipt-right-align">------------------------------------------------------------------------</div>
+                                            </td>
+                                             <tr>
+                                                <td colspan="2" style="text-align:left;font-weight:bold">
+                                                    DETALLE DE PAGOS:
+                                                </td>
+                                            </tr>
+                                             <t t-set='totalPagos' t-value='0'/>
+                                             <t t-foreach='o.pos_order_ids.payment_ids' t-as='line'>
+                                                 <t t-if="line.amount &gt; 0 or o.amount_total &lt;0">
+                                                    <tr>
+                                                        <td style="text-align:left">
+                                                            <t t-esc='line.payment_method_id.name' />
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                        <td style="text-align:right;">
+                                                            <span t-esc='o.agregar_punto_de_miles_ticket(abs(line.amount))' class="pos-receipt-right-align"/>
+                                                            <t t-set='totalPagos' t-value='abs(totalPagos + line.amount)'/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                             <tr>
+                                                <td style="text-align:left;font-weight:bold">
+                                                    TOTAL PAGOS:
+                                                </td>
+                                                 <td></td>
+                                                 <td style="text-align:right;font-weight:bold">
+                                                    <t t-esc='o.agregar_punto_de_miles_ticket(totalPagos)'/>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td style="text-align:left;font-weight:bold">
+                                                     SU VUELTO:
+                                                </td>
+                                                 <td></td>
+                                                 <td style="text-align:right;">
+                                                    <span t-esc='o.agregar_punto_de_miles_ticket(o.pos_order_ids.amount_return)' class="pos-receipt-right-align"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                         <br/>
+                                         <br/>
+
+                                         <table style="width:100%;font-size:12px;text-align:left">
+                                            <tr>
+                                                <td colspan="2" style="font-weight:bold">
+                                                    SUB TOTALES DE IMPUESTOS
+                                                </td>
+                                                <td style="text-align:right;font-weight:bold">
+
+                                                </td>
+
+                                            </tr>
+                                             <t t-set="totalIVA" t-value="0"/>
+                                             <t t-set="totalIVA5" t-value="0"/>
+
+                                             <t t-set="totalIVA10" t-value="0"/>
+
+                                             <t t-set="totalIVAEX" t-value="0"/>
+
+                                             <t t-foreach='o.line_ids' t-as='linea_as'>
+                                                 <t t-if="linea_as.tax_line_id">
+                    <!--                             <t t-foreach='tax.tax' t-as='tax_d'>-->
+                                                    <t t-if="linea_as.tax_line_id.amount == 10">
+                                                         <t t-set="totalIVA10" t-value="totalIVA10+abs(linea_as.balance)"/>
+                                                    </t>
+                                                     <t t-elif="linea_as.tax_line_id.amount == 5">
+                                                         <t t-set="totalIVA5" t-value="totalIVA5+abs(linea_as.balance)"/>
+                                                    </t>
+                                                     <t t-elif="linea_as.tax_line_id.amount == 0">
+                                                         <t t-set="totalIVAEX" t-value="totalIVAEX+abs(linea_as.balance)"/>
+                                                    </t>
+
+                    <!--                            </t>-->
+                                                    <t t-set="totalIVA" t-value="totalIVA +abs(linea_as.balance)"/>
+                                                 </t>
+                                             </t>
+                                             <tr>
+                                                    <td>
+                                                           EXENTA
+                                                    </td>
+                                                    <td></td>
+                                                    <td style="text-align:right">
+                                                         <t t-esc="o.agregar_punto_de_miles_ticket(abs(totalIVAEX))"/>
+                    <!--                                    <t t-set="tax_amount" t-esc='env.pos.format_currency(abs(tax.amount))'/>-->
+                    <!--                                    <t t-set="totalIVA" t-value="totalIVA + tax.amount"/>-->
+                    <!--                                    <span t-esc="tax_amount" class="pos-receipt-right-align"/>-->
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                           IVA 5%
+                                                    </td>
+                                                    <td></td>
+                                                    <td style="text-align:right">
+                                                         <t t-esc="o.agregar_punto_de_miles_ticket(abs(totalIVA5))"/>
+                    <!--                                    <t t-set="tax_amount" t-esc='env.pos.format_currency(abs(tax.amount))'/>-->
+                    <!--                                    <t t-set="totalIVA" t-value="totalIVA + tax.amount"/>-->
+                    <!--                                    <span t-esc="tax_amount" class="pos-receipt-right-align"/>-->
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                           IVA 10%
+                                                    </td>
+                                                    <td></td>
+                                                    <td style="text-align:right">
+                                                         <t t-esc="o.agregar_punto_de_miles_ticket(abs(totalIVA10))"/>
+                    <!--                                    <t t-set="tax_amount" t-esc='env.pos.format_currency(abs(tax.amount))'/>-->
+                    <!--                                    <t t-set="totalIVA" t-value="totalIVA + tax.amount"/>-->
+                    <!--                                    <span t-esc="tax_amount" class="pos-receipt-right-align"/>-->
+                                                    </td>
+                                                </tr>
+
+                    <!--                        </t>-->
+                                             <tr>
+                                                <td style="text-align:left;font-weight:bold">
+                                                     TOTAL IMPUESTOS:
+                                                </td>
+                                                 <td></td>
+                                                 <td style="font-weight:bold;text-align:right">
+                                                    <span t-esc="o.agregar_punto_de_miles_ticket(abs(totalIVA))"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+
+                    <!--                     <div style="font-size:10px;text-align:left"><span style="font-weight:bold">Total Items:</span> <t t-esc="orderlines.length"/>-->
+                    <!--                    </div>-->
+                    <!--                     <div style="font-size:10px;text-align:left"><span style="font-weight:bold">Total articulos vendidos:</span> <t t-esc="orderlines.length"/>-->
+                    <!--                    </div>-->
+                    <!--                     <div style="font-size:10px;text-align:left"><span style="font-weight:bold">ATENDIDO POR:</span> <t t-esc='receipt.cashier' />-->
+                    <!--                    </div>-->
+
+                                    </div>
+
+                                    </div>
+                                 </body>
+                            </span>
+                      </t>
+                </t>
+         </template>
+    </data>
+
+</odoo>
