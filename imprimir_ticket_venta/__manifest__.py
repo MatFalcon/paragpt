@@ -11,10 +11,14 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'pos_invoice_ticket/static/src/js/account_ticket.js',
-            'pos_invoice_ticket/static/src/xml/account_ticket_template.xml',
+            'imprimir_ticket_venta/static/src/js/account_ticket.js',
+            'imprimir_ticket_venta/static/src/xml/account_ticket_template.xml',
+        ],
+        'point_of_sale.assets': [
+            'imprimir_ticket_venta/static/src/js/account_ticket.js',
         ],
     },
+
     'installable': True,
     'application': False,
 }
