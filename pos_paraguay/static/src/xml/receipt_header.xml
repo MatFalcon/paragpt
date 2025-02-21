@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ReceiptHeader" t-inherit="point_of_sale.ReceiptHeader" t-inherit-mode="extension">
+        <xpath expr="//img[hasclass('pos-receipt-logo')]" position="replace" id="contenedor_cabecera">
+        </xpath>
+
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="after">
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="inside">
+            <t t-set="partner" t-value="props.data.partner"/>
+        </xpath>
+    </t>
+    <!--    ############ LIQUIDACION IVA ###################-->
+    <t t-name="pos_paraguay.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[@class='pos-receipt']/div[@class='pos-receipt-order-data']" position="replace">
+        </xpath>
+    <xpath expr="//div[hasclass('pos-receipt')]/OrderWidget" position="replace">
+    <div id="div-items">
+        <table>
+            <thead>
+                <tr id="head-items" >
+                    <td id="td-head">Cant</td>
+                    <td id="td-head">Articulo</td>
+                    <td id="td-head">Monto</td>
+                    <td id="td-head">%</td>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="props.data.lineasFactura" t-as="linea" t-key="linea.id">
+                    <tr>
+                        <td id="fila-cantidad">
+                            <t t-esc="linea.quantity"/>
+                        </td>
+                        <td id="fila-codbarra">
+                            <t t-if="linea.cod_barra">
+                                <t t-esc="linea.cod_barra" style="margin: 0;"/>
+                            </t>
+                        </td>
+                        <td id="fila-precio" colspan="2">
+                            <t t-esc="props.formatCurrency(linea.price_total, false)"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="fila-nombre" style="margin-top: 0px;margin-bottom: 0px;">
+                            <div><t  t-esc="linea.nombre_ticket"/></div>
+                        </td>
+                        <td></td>
+                        <td id="fila-tax" colspan="2">
+                            <t t-esc="linea.tax_name"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+    </div>
+
+    </xpath>
+    <xpath expr="//div[hasclass('pos-receipt-taxes')]" position="replace">
+            <div id="liqui_iva">
+                <span id="impuesto-linea">LIQUIDACION IVA</span>
+                <!-- Definir los tipos de impuestos -->
+                <t t-set="tax_types"
+                   t-value="[{'name': '10%', 'amount': 10}, {'name': '5%', 'amount': 5}, {'name': 'Exentas', 'amount': 0}]"/>
+
+                <!-- Iterar sobre todos los tipos de impuestos -->
+                <t t-foreach="tax_types" t-as="tax_type" t-key="tax_type.amount">
+                    <!-- Buscar el detalle del impuesto -->
+
+                    <t t-set="tax_detail" t-value="0"/>
+                    <t t-foreach="props.data.tax_details" t-as="tax_detail_item" t-key="tax_detail_item.tax.id">
+                        <t t-if="tax_detail_item.tax.amount == tax_type.amount">
+                            <t t-set="tax_detail" t-value="tax_detail_item"/>
+                        </t>
+                    </t>
+
+                    <!-- Mostrar las líneas -->
+                    <div style="display:flex; justify-content:space-between;">
+                        <span id="impuesto-linea">
+                        Total Gravadas <t t-esc="tax_type.name"/>:
+                    </span>
+                        <span style="text-align: right; flex: 1;" id="impuesto-linea">
+                        <t t-if="tax_detail" >
+                            <t t-esc="props.formatCurrency(tax_detail.base, false)"/>
+                        </t>
+                            <t t-else="">0.00</t>
+                    </span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span id="impuesto-linea">
+                        Total IVA <t t-esc="tax_type.name"/>:
+                    </span>
+                        <span style="text-align: right; flex: 1;" id="impuesto-linea">
+                        <t t-if="tax_detail">
+                            <t t-esc="props.formatCurrency(tax_detail.amount, false)"/>
+                        </t>
+                            <t t-else="">0.00</t>
+                    </span>
+                    </div>
+                </t>
+            </div>
+
+
+
+    </xpath>
+            
+
+
+        <!--        ############ CAMBIO/VUELTO ############-->
+        <xpath expr="//div[contains(@class, 'pos-receipt-amount') and contains(@class, 'receipt-change') and contains(@class, 'mt-2')]"
+               position="replace">
+
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-right-align')]" position="replace">
+
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-amount')]" position="replace">
+
+        </xpath>
+
+    </t>
+
+</templates>
