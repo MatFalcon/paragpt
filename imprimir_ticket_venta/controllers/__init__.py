@@ -1,1 +1,1 @@
-from . import sale_ticket
+from . import pos_ticket_controller
