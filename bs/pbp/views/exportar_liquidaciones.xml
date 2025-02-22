@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="exportar_liquidaciones_action" model="ir.actions.act_window">
+        <field name="name">Exportar Liquidaciones</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pbp.exportar_liquidaciones</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="exportar_liquidaciones_view_tree" model="ir.ui.view">
+        <field name="name">exportar_liquidaciones_view_tree</field>
+        <field name="model">pbp.exportar_liquidaciones</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false">
+                <!--field name="id"/-->
+                <field name="cuenta_debito"/>
+                <field name="cuenta_credito"/>
+                <field name="codigo_banco"/>
+                <field name="currency_id"/>
+                <field name="tipo_documento"/>
+                <field name="nro_documento"/>
+                <field name="titular_cuenta"/>
+                <field name="fecha"/>
+                <field name="monto"/>
+                <field name="motivo"/>
+                <field name="email"/>
+                <field name="sms"/>
+                <field name="id" string="13-Nro. de Pago"/>
+                <field name="nro_factura"/>
+                <field name="txt_copiar"/>
+                <field name="liquidacion_id"/>
+                <field name="reporto_id"/>
+                <field name="control_pagos_id"/>
+                <field name="compensacion_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="exportar_liquidaciones_view_form" model="ir.ui.view">
+        <field name="name">pbp.exportar_liquidaciones.form</field>
+        <field name="model">pbp.exportar_liquidaciones</field>
+        <field name="arch" type="xml">
+            <form class="pbp-form" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="cuenta_debito"/>
+                            <field name="cuenta_credito"/>
+                            <field name="codigo_banco"/>
+                            <field name="currency_id"/>
+                            <field name="tipo_documento"/>
+                            <field name="nro_documento"/>
+                            <field name="titular_cuenta"/>
+                        </group>
+                        <group>
+                            <field name="fecha"/>
+                            <field name="monto"/>
+                            <field name="motivo"/>
+                            <field name="email"/>
+                            <field name="sms"/>
+                            <field name="id" string="13-Nro. de Pago"/>
+                            <field name="nro_factura"/>
+                        </group>
+                    </group>
+                    <group string="TXT a copiar">
+                        <field nolabel="1" name="txt_copiar"/>
+                    </group>
+                    <group>
+                        <group string="Registros relacionados">
+                            <field name="liquidacion_id"/>
+                            <field name="reporto_id"/>
+                            <field name="control_pagos_id"/>
+                            <field name="compensacion_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="exportar_liquidaciones_menu" action="exportar_liquidaciones_action" sequence="15" name="Exportar Liquidaciones" parent="liquidaciones_menu_root"/>
+
+
+</odoo>

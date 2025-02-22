@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+
+        <record id="vencimiento_contrato.gestion_vencimiento" model="res.groups">
+            <field name="name">Gestion de vencimientos de contratos</field>
+        </record>
+
+        <record id="cron_gestion_vigencia_contrato" model="ir.cron">
+            <field name="name">Gestionar Vigencia de Contrato</field>
+            <field name="model_id" ref="model_vencimiento_contrato_gestion_contrato"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="active" eval="False"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="state">code</field>
+            <field name="priority">5</field>
+            <field name="numbercall">-1</field>
+            <field name="code">model.cron_vigencia()</field>
+        </record>
+
+        <record forcecreate="True" id="cron_notificacion_vencimiento" model="ir.cron">
+            <field name="name">Notificacion de vencimiento de contrato</field>
+            <field eval="False" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">24</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field ref="model_vencimiento_contrato_gestion_contrato" name="model_id"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_notificaciones()</field>
+            <field eval="False" name="doall"/>
+        </record>
+
+        <record id="mail_template_vencimientos_contrato" model="mail.template">
+            <field name="name">Vencimiento de contrato: Enviar por Email</field>
+            <field name="model_id" ref="vencimiento_contrato.model_vencimiento_contrato_gestion_contrato"/>
+            <field name="subject">(Vencimiento de Contrato de {{object.name.name}} a fecha {{object.fecha_fin }})</field>
+            <field name="email_from">administracion@bolsadevalores.com.py</field>
+            <field name="email_to">administracion@bolsadevalores.com.py</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    Buenos días, <br/>
+                    Le recordamos que el contrato de <t t-out="object.name.name or ''" contenteditable="false" data-oe-t-inline="true"/>
+                    esta cercano a vencer.<br/>
+                    <br/>
+                    Bolsa de Valores y Productos de Asunción S.A.<br/>
+                    Bulnes 830 c/ España<br/>
+                    Asunción – Paraguay<br/>
+                    +595 21 728-9123/5<br/>
+                    www.bolsadevalores.com.py<br/><br/><br/>
+                    Saludos.
+                </div>
+
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

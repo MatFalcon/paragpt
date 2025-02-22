@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <!-- Vista tree -->
+        <record id="aranceles_cantidad_tree_view" model="ir.ui.view">
+            <field name="name">aranceles.cantidad.tree.view</field>
+            <field name="model">custodia_fisica.aranceles_cantidad</field>
+            <field name="arch" type="xml">
+                <tree string="Aranceles por Cantidad">
+                    <field name="name" />
+                    <field name="predeter" />
+                    <field name="activo" />
+                    <field name="company_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista form -->
+        <record id="aranceles_cantidad_form_view" model="ir.ui.view">
+            <field name="name">aranceles.cantidad.form.view</field>
+            <field name="model">custodia_fisica.aranceles_cantidad</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="predeter" />
+                                <field name="company_id" invisible="1" />
+                            </group>
+                            <group>
+                                <field name="activo" />
+                            </group>
+                        </group>
+                        <field name="line_ids">
+                            <tree string="Cantidades" editable="bottom">
+                                <field name="cantidad_desde" />
+                                <field name="cantidad_hasta" />
+                                <field name="jornales" />
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista tree -->
+        <record id="aranceles_monto_tree_view" model="ir.ui.view">
+            <field name="name">aranceles.monto.tree.view</field>
+            <field name="model">custodia_fisica.aranceles_monto</field>
+            <field name="arch" type="xml">
+                <tree string="Aranceles por Monto">
+                    <field name="name" />
+                    <field name="predeter" />
+                    <field name="activo" />
+                    <field name="company_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista form -->
+        <record id="aranceles_monto_form_view" model="ir.ui.view">
+            <field name="name">aranceles.monto.form.view</field>
+            <field name="model">custodia_fisica.aranceles_monto</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="predeter" />
+                                <field name="company_id" invisible="1" />
+                            </group>
+                            <group>
+                                <field name="activo" />
+                                <field name="currency_id" />
+                            </group>
+                        </group>
+                        <field name="line_ids">
+                            <tree string="Montos" editable="bottom">
+                                <field name="monto_desde" />
+                                <field name="monto_hasta" />
+                                <field name="jornales" />
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aranceles_cantidad_action_windows" model="ir.actions.act_window">
+            <field name="name">Aranceles por Cantidad</field>
+            <field name="res_model">custodia_fisica.aranceles_cantidad</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="aranceles_monto_action_windows" model="ir.actions.act_window">
+            <field name="name">Aranceles por Monto</field>
+            <field name="res_model">custodia_fisica.aranceles_monto</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menus -->
+        <menuitem id="menu_aranceles_custodia_fisica" name="Aranceles de Custodia Física"
+            parent="account.menu_finance_configuration" sequence="20">
+            <menuitem id="menu_aranceles_cantidad" name="Aranceles por Cantidad"
+                action="aranceles_cantidad_action_windows" />
+            <menuitem id="menu_aranceles_monto" name="Aranceles por Monto"
+                action="aranceles_monto_action_windows" />
+        </menuitem>
+    </data>
+</odoo>

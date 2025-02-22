@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="tcero_view_tree" model="ir.ui.view">
+            <field name="name">tcero_view_tree</field>
+            <field name="model">pbp.compensacion_rueda_anterior</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="fecha"/>
+                    <field name="cuenta_usd"/>
+                    <field name="cuenta_gs"/>
+                    <field name="beneficiario_id"/>
+                    <field name="importe_usd" sum="Total"/>
+                    <field name="importe_gs" sum="Total"/>
+                    <field name="segmento_mercado"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="tcero_search_view">
+            <field name="name">tcero_search_view</field>
+            <field name="model">pbp.compensacion_rueda_anterior</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="fecha"/>
+                    <field name="cuenta_usd"/>
+                    <field name="cuenta_gs"/>
+                    <field name="beneficiario_id"/>
+                    <field name="segmento_mercado"/>
+                    <filter string="Beneficiario" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'beneficiario_id'}" />
+                    <filter string="Segmento de Mercado" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'segmento_mercado'}" />
+                    <filter string="Con TNA" name="filter_tna" domain="[('beneficiario_id.id_cliente_pbp','=',37)]"/>
+                    <filter string="Sin TNA" name="filter_tna" domain="[('beneficiario_id.id_cliente_pbp','!=',37)]"/>
+                    <!--filter string="Motivo" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'motivo'}" /-->
+                </search>
+            </field>
+        </record>
+
+        <record id="tcero_act_window" model="ir.actions.act_window">
+            <field name="name">Reporte T+0</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.compensacion_rueda_anterior</field>
+            <field name="view_id" ref="tcero_view_tree"/>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('tcero', '=', True)]</field>
+        </record>
+
+        <menuitem id="tcero_menu_action" action="tcero_act_window" sequence="3" parent="liquidaciones_menu_root"/>
+
+    </data>
+</odoo>

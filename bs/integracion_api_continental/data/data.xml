@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="api_continental" model="ir.module.category">
+            <field name="name">Continental</field>
+        </record>
+
+        <record id="integracion_api_continental.cargar_transacciones" model="res.groups">
+            <field name="name">Puede cargar transacciones</field>
+            <field name="category_id" ref="integracion_api_continental.api_continental" />
+        </record>
+
+        <record id="integracion_api_continental.autorizar_transacciones" model="res.groups">
+            <field name="name">Puede autorizar transacciones</field>
+            <field name="category_id" ref="integracion_api_continental.api_continental" />
+        </record>
+
+        <record id="integracion_api_continental.anular_transacciones" model="res.groups">
+            <field name="name">Puede anular transacciones</field>
+            <field name="category_id" ref="integracion_api_continental.api_continental" />
+        </record>
+
+        <record id="integracion_api_continental.logs_api" model="res.groups">
+            <field name="name">Puede ver logs del API</field>
+            <field name="category_id" ref="integracion_api_continental.api_continental" />
+        </record>
+
+        <record id="integracion_api_continental.logs_requests_api" model="res.groups">
+            <field name="name">Puede ver historial de logs del API</field>
+            <field name="category_id" ref="integracion_api_continental.api_continental" />
+        </record>
+
+        <record id="integracion_api_continental.descargar_extracto" model="res.groups">
+            <field name="name">Puede descargar extracto</field>
+            <field name="category_id" ref="integracion_api_continental.api_continental" />
+        </record>
+        
+        <record id="integracion_api_continental.configurar_credenciales_api" model="res.groups">
+            <field name="name">Puede configurar las credenciales del API</field>
+            <field name="category_id" ref="integracion_api_continental.api_continental" />
+        </record>
+
+        <record id="integracion_api_continental.configurar_credenciales_diario" model="res.groups">
+            <field name="name">Puede configurar las credenciales del Diario</field>
+            <field name="category_id" ref="integracion_api_continental.api_continental" />
+        </record>
+    </data>
+</odoo>

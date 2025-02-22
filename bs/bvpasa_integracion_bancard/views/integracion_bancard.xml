@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="integracion_bancard_action_view">
+        <field name="name">Integración Bancard
+        </field>
+        <field name="res_model">bvpasa_integracion_bancard</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            </p>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="integracion_bancard_tree_view">
+        <field name="name">integracion_bancard_tree_view</field>
+        <field name="model">bvpasa_integracion_bancard</field>
+        <field name="arch" type="xml">
+            <tree string="integracion_bancard" create="0">
+                <field name="nro_transaccion"/>
+                <field name="tipo_tarjeta"/>
+                <field name="currency_id"/>
+                <field name="importe"/>
+                <field name="tipo"/>
+                <field name="estado"/>
+                <field name="monto_comision"/>
+                <field name="iva_s_comision"/>
+                <field name="retencion_renta"/>
+                <field name="retencion_iva"/>
+                <field name="importe_neto"/>
+                <field name="fecha_venta"/>
+                <field name="fecha_credito_comercio"/>
+                <field name="campus_id"/>
+                <field name="invoice_id"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="integracion_bancard_search_view">
+        <field name="name">integracion_bancard_search_view</field>
+        <field name="model">bvpasa_integracion_bancard</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="nro_transaccion"/>
+                <field name="tipo_tarjeta"/>
+                <field name="currency_id"/>
+                <field name="estado"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="bvpasa_integracion_bancard.menu_root" name="Integración Bancard" sequence="110" parent="account.menu_finance_receivables"
+              action="integracion_bancard_action_view"/>
+
+</odoo>

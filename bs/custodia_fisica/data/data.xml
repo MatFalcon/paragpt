@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="geene_authority_url" model="ir.config_parameter">
+            <field name="key">geene_authority_url</field>
+            <field name="value"></field>
+        </record>
+        <record id="geene_cleint_id" model="ir.config_parameter">
+            <field name="key">geene_cleint_id</field>
+            <field name="value"></field>
+        </record>
+        <record id="geene_username" model="ir.config_parameter">
+            <field name="key">geene_username</field>
+            <field name="value"></field>
+        </record>
+        <record id="geene_password" model="ir.config_parameter">
+            <field name="key">geene_password</field>
+            <field name="value"></field>
+        </record>
+        <record id="geene_enpoint" model="ir.config_parameter">
+            <field name="key">geene_enpoint</field>
+            <field name="value"></field>
+        </record>
+        <record id="geene_scope" model="ir.config_parameter">
+            <field name="key">geene_scope</field>
+            <field name="value"></field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,247 @@
+<odoo>
+    <data>
+        <!-- tree view -->
+        <record id="custodia_fisica_import_lines_tree_view" model="ir.ui.view">
+            <field name="name">custodia.fisica.import.lines.tree.view</field>
+            <field name="model">custodia_fisica.import_lines</field>
+            <field name="arch" type="xml">
+                <tree string="Lines importadas API">
+                    <!-- <header>
+                        <button string="Facturar" type="object" name="button_facturar" />
+                    </header> -->
+                    <field name="new_instrumentoid" />
+                    <field name="new_entidaddepositante_value" />
+                    <field name="new_tipodetitulo" />
+                    <field name="transactioncurrencyid_value" />
+                    <field name="new_valornominal" />
+                    <field name="new_fechaingresoegreso" />
+                    <field name="exchangerate" />
+                    <field name="procesado" />
+                    <field name="currency_id" />
+                </tree>
+            </field>
+        </record>
+        <!-- tree view -->
+        <record id="custodia_fisica_tree_view" model="ir.ui.view">
+            <field name="name">custodia.fisica.tree.view</field>
+            <field name="model">custodia_fisica.custodia_fisica</field>
+            <field name="arch" type="xml">
+                <tree string="Custodias Físicas">
+                    <!-- <header>
+                        <button string="Facturar" type="object" name="button_facturar" />
+                    </header> -->
+                    <field name="partner_id" />
+                    <field name="cantidad_custodiada" />
+                    <field name="arancel_cantidad" />
+                    <field name="monto_custodiado" />
+                    <field name="arancel_monto" />
+                    <field name="arancel_total" />
+                    <field name="descuento" />
+                    <field name="custodia_total" />
+                    <field name="fecha_inicio" />
+                    <field name="fecha_fin" />
+                    <field name="company_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- tree view -->
+        <record id="custodia_fisica_line_tree_view" model="ir.ui.view">
+            <field name="name">custodia.fisica.line.tree.view</field>
+            <field name="model">custodia_fisica.custodia_fisica_line</field>
+            <field name="arch" type="xml">
+                <tree string="Líneas de Custodias Físicas">
+                    <field name="partner_id" />
+                    <field name="tipo_titulo" />
+                    <field name="cantidad" />
+                    <field name="valor_nominal" />
+                    <field name="currency_id" />
+                    <field name="fecha_emision" />
+                    <field name="fecha_vencimiento" />
+                    <field name="company_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- formulario -->
+        <record id="custodia_fisica_form_view" model="ir.ui.view">
+            <field name="name">custodia.fisica.form.view</field>
+            <field name="model">custodia_fisica.custodia_fisica</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" />
+                        <button string="Facturar" type="object" name="button_facturar"
+                            class="oe_highlight"
+                            attrs="{'invisible':[('state','in',['draft', 'cancel','facturado'])]}" />
+                        <button string="Confirmar" type="object" name="action_confirm"
+                            attrs="{'invisible':[('state','!=','draft')]}" class="oe_highlight" />
+                        <button string="Cambiar a borrador" type="object" name="action_draft"
+                            attrs="{'invisible':[('state','!=','cancel')]}" />
+                        <button string="Cancelar" type="object" name="action_cancelar"
+                            attrs="{'invisible':[('state','in',['draft', 'cancel'])]}" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" readonly="1" />
+                                <field name="cantidad_custodiada" readonly="1" />
+                                <field name="arancel_cantidad" readonly="1" />
+                                <field name="monto_custodiado" readonly="1" />
+                                <field name="arancel_monto" readonly="1" />
+                                <field name="currency_id" readonly="1" invisible="1" />
+                                <field name="arancel_currency_id" readonly="1" invisible="1" />
+                            </group>
+                            <group>
+                                <field name="arancel_total" readonly="1" />
+                                <field name="descuento"
+                                    attrs="{'readonly':[('state','!=','draft')]}" />
+                                <field name="custodia_total" readonly="1" force_save="1" />
+                                <field name="total_iva" readonly="1" force_save="1" />
+                                <field name="total_gravada" readonly="1" force_save="1" />
+                                <field name="fecha_inicio" readonly="1" />
+                                <field name="fecha_fin" readonly="1" />
+                                <field name="invoice_id" readonly="1" />
+                                <field name="company_id" invisible="1" readonly="1" />
+                            </group>
+                        </group>
+                        <!-- <page string="Líneas de Custodia"> -->
+                        <field name="line_ids" readonly="1" />
+                        <!-- </page> -->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="custodia_fisica_line_form_view" model="ir.ui.view">
+            <field name="name">custodia.fisica.form.line.view</field>
+            <field name="model">custodia_fisica.custodia_fisica_line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" />
+                                <field name="tipo_titulo" />
+                                <field name="cantidad" />
+                                <field name="valor_nominal" />
+                                <field name="currency_id" />
+                                <field name="fecha_emision" />
+                                <field name="fecha_vencimiento" />
+                                <field name="company_id" invisible="1" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- filters -->
+        <record id="custodia_fisica_search_form_view" model="ir.ui.view">
+            <field name="name">custodia.fisica.search.form.view</field>
+            <field name="model">custodia_fisica.custodia_fisica</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Lineas de Cuatodias">
+                    <filter string="Estado" name="filter_state" domain="[ ]"
+                        context="{'group_by': 'state:draft'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="custodia_fisica_line_search_form_view" model="ir.ui.view">
+            <field name="name">custodia.fisica.line.search.form.view</field>
+            <field name="model">custodia_fisica.custodia_fisica_line</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Lineas de Cuatodias">
+                    <filter string="Sin Procesar" name="filter_no_procesado"
+                        icon="terp-accessories-archiver"
+                        domain="[('custodia_id','=',False)]" />
+                    <filter string="Fecha de Inicio" name="filter_fecha_emision" domain="[ ]"
+                        context="{'group_by': 'fecha_emision:month'}" />
+                    <filter string="Entidad Financiera" name="filter_entidad" domain="[ ]"
+                        context="{'group_by': 'partner_id'}" />
+                    <filter string="Tipo de Título" name="filter_titulo" domain="[ ]"
+                        context="{'group_by': 'tipo_titulo'}" />
+                </search>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="custodia_fisica_line_action_generar" model="ir.actions.server">
+            <field name="name">Generar Custodias</field>
+            <field name="binding_model_id"
+                ref="custodia_fisica.model_custodia_fisica_custodia_fisica_line" />
+            <field name="model_id" ref="custodia_fisica.model_custodia_fisica_custodia_fisica_line" />
+            <field name="state">code</field>
+            <field name="code">action=records.button_crear_custodia()</field>
+        </record>
+
+        <!-- <record id="custodia_fisica_line_obtener_lineas_api" model="ir.actions.server">
+            <field name="name">Obtener Lineas API</field>
+            <field name="binding_model_id"
+                ref="custodia_fisica.model_custodia_fisica_custodia_fisica_line" />
+            <field name="model_id" ref="custodia_fisica.model_custodia_fisica_custodia_fisica_line" />
+            <field name="state">code</field>
+            <field name="code">action=records.get_vals_api()</field>
+        </record> -->
+
+        <record id="custodia_fisica_action_confirm" model="ir.actions.server">
+            <field name="name">Confirmar Custodias</field>
+            <field name="binding_model_id"
+                ref="custodia_fisica.model_custodia_fisica_custodia_fisica" />
+            <field name="model_id" ref="custodia_fisica.model_custodia_fisica_custodia_fisica" />
+            <field name="state">code</field>
+            <field name="code">action=records.action_confirm()</field>
+        </record>
+
+        <record id="custodia_fisica_action_facturar" model="ir.actions.server">
+            <field name="name">Facturar Custodias</field>
+            <field name="binding_model_id"
+                ref="custodia_fisica.model_custodia_fisica_custodia_fisica" />
+            <field name="model_id" ref="custodia_fisica.model_custodia_fisica_custodia_fisica" />
+            <field name="state">code</field>
+            <field name="code">action=records.button_facturar()</field>
+        </record>
+
+        <!-- act window -->
+        <record id="custodia_fisica_action_window" model="ir.actions.act_window">
+            <field name="name">Facturación Custodias Físicas</field>
+            <field name="res_model">custodia_fisica.custodia_fisica</field>
+            <field name="search_view_id" ref="custodia_fisica_search_form_view" />
+            <field name="context">
+                {"search_default_filter_state":1}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="custodia_fisica_line_action_window" model="ir.actions.act_window">
+            <field name="name">Líneas de Custodias Físicas</field>
+            <field name="res_model">custodia_fisica.custodia_fisica_line</field>
+            <field name="search_view_id" ref="custodia_fisica_line_search_form_view" />
+            <field name="context">
+                {"search_default_filter_no_procesado":1,"search_default_filter_entidad":1,"search_default_filter_titulo":1}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="custodia_fisica_import_lines_action_window" model="ir.actions.act_window">
+            <field name="name">Líneas de Custodias Importadas</field>
+            <field name="res_model">custodia_fisica.import_lines</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Agregamos el menu en la parte superior, en el menu de contabilidad -->
+
+        <menuitem id="menu_section_custodia_fisica" name="Custodia Física"
+            parent="account.menu_finance_entries" sequence="100">
+            <menuitem id="menu_custodia_fisica" name="Facturación Custodias Físicas"
+                action="custodia_fisica_action_window"
+                sequence="110" />
+            <menuitem id="menu_custodia_fisica_line" name="Líneas de Custodias Físicas"
+                action="custodia_fisica_line_action_window"
+                sequence="120" />
+            <menuitem id="menu_custodia_import_lines" name="Líneas de Custodias Importadas"
+                action="custodia_fisica_import_lines_action_window" groups="base.group_system"
+                sequence="130" />
+        </menuitem>
+
+    </data>
+</odoo>

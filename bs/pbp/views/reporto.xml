@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="reporto_view_tree" model="ir.ui.view">
+            <field name="name">reporto_view_tree</field>
+            <field name="model">pbp.reporto</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false">
+                    <field name="repo_id"/>
+                    <field name="fecha_operacion"/>
+                    <field name="reportador_id"/>
+                    <field name="comitente_reportador_codigo"/>
+                    <field name="reportado_id"/>
+                    <field name="comitente_reportado_codigo"/>
+                    <field name="tipo_operacion"/>
+                    <field name="cod_negociacion"/>
+                    <field name="cantidad"/>
+                    <field name="precio_venta"/>
+                    <field name="monto_inicial"/>
+                    <field name="plazo"/>
+                    <field name="tasa_interes"/>
+                    <field name="precio_recompra"/>
+                    <field name="monto_operacion_a_termino"/>
+                    <field name="currency_id"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="reporto_search_view">
+            <field name="name">reporto_search_view</field>
+            <field name="model">pbp.reporto</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="repo_id"/>
+                    <field name="comitente_reportado_codigo"/>
+                    <field name="cod_negociacion"/>
+                    <field name="contrato"/>
+                    <field name="comitente_reportador_codigo"/>
+                    <field name="state"/>
+                    <field name="currency_id"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="tipo_repo_descripcion"/>
+                    <field name="reportador_id"/>
+                    <field name="reportado_id"/>
+                    <field name="tipo_operacion"/>
+                    <filter string="Casa de Bolsa Reportador" name="filter_reportador" domain="[ ]"
+                            context="{'group_by': 'reportador_id'}" />
+                    <filter string="Casa de Bolsa Reportado" name="filter_reportado" domain="[ ]"
+                            context="{'group_by': 'reportado_id'}" />
+                    <filter string="Tipo de Operación" name="filter_tipo_operacion" domain="[ ]"
+                            context="{'group_by': 'tipo_operacion'}" />
+                    <filter string="Con TNA" name="filter_con_tna" domain="[('contrato','like', '%TNA%')]"/>
+                    <filter string="Sin TNA" name="filter_sin_tna" domain="[('contrato','not like', '%TNA%')]"/>
+                    <!--filter string="Motivo" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'motivo'}" /-->
+                </search>
+            </field>
+        </record>
+
+        <record id="reporto_act_window" model="ir.actions.act_window">
+            <field name="name">Reporto</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.reporto</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_filter_sin_tna': 1}</field>
+        </record>
+
+        <menuitem id="reporto_menu_action" action="reporto_act_window" sequence="1" parent="liquidaciones_menu_root"/>
+
+    </data>
+</odoo>

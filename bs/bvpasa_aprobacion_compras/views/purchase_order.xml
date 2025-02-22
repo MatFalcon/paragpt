@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_view_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_approve']" position="replace">
+                <field name="puede_aprobar" invisible="1"/>
+                <button name="button_approve" type="object" string="Aprobar Pedido"
+                        class="oe_highlight" groups="bvpasa_aprobacion_compras.group_aprobar_compras" data-hotkey="z"
+                        attrs="{'invisible':['|',('puede_aprobar', '=', False),('state','!=','to approve')]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

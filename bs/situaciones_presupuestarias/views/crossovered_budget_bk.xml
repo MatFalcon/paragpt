@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="crossovered_budget_view_form" model="ir.ui.view">
+            <field name="name">crossovered.budget.view.form</field>
+            <field name="model">crossovered.budget</field>
+            <field name="inherit_id" ref="account_budget.crossovered_budget_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='budget_lines']" position="inside">
+                     <button string="Agregar Lineas" type="object" name="button_agregar_lineas" class="oe_highlight" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

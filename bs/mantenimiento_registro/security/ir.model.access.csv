@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mantenimiento_registro_jornal_mantenimiento,mantenimiento_registro.jornal_mantenimiento,model_mantenimiento_registro_jornal_mantenimiento,base.group_user,1,1,1,1
+access_mantenimiento_registro_lista_precios,mantenimiento_registro.lista_precios,model_mantenimiento_registro_lista_precios,base.group_user,1,1,1,1

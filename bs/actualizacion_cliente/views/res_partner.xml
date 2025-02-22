@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_partner_form_inherit_actualizacion_cliente" model="ir.ui.view">
+            <field name="name">view_partner_form_inherit_actualizacion_cliente</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="registro_actualizacion"/>
+                    <field name="ultima_actualizacion" attrs="{'invisible':[('registro_actualizacion', '=', False)]}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_partner_tree_inherit_actualizacion_cliente" model="ir.ui.view">
+            <field name="name">view_partner_tree_inherit_actualizacion_cliente</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="registro_actualizacion"/>
+                    <field name="ultima_actualizacion"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

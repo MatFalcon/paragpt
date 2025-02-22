@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="custodia_fisica_wizard_facturar_form" model="ir.ui.view">
+            <field name="name">custodia.fisica.wizard.facturar.form</field>
+            <field name="model">custodia_fisica.wizard.facturar</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="journal_id" />
+                            <field name="estado_factura" />
+                            <field name="fecha_factura" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Custodias a facturar">
+                            <field name="custodia_fisica_ids" />
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button string="Generar" type="object" name="button_generar_factura"
+                            class="oe_highlight" />
+                        <button string="Cancelar" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="crear_custodia_wizard_form" model="ir.ui.view">
+            <field name="name">crear.custodia.wizard.form</field>
+            <field name="model">custodia_fisica.wizard.crear_custodias</field>
+            <field name="arch" type="xml">
+                <form>
+                    <notebook>
+                        <page string="Líneas de Custodia">
+                            <field name="custodia_fisica_line_ids" />
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button string="Generar" type="object" name="button_generar_custodia"
+                            class="oe_highlight" />
+                        <button string="Cancelar" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

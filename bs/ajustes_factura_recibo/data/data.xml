@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="bvpasa_helpdesk.grp_iso" model="res.groups">
+            <field name="name">Gestiona ISO</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

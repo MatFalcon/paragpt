@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="fondo_garantias_periodos_view_form" model="ir.ui.view">
+            <field name="name">fondo_garantias_periodos_view_form</field>
+            <field name="model">pbp.fondo_garantias_periodos</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header name="header">
+                        <field name="state" widget="statusbar"/>
+                        <field name="create_date" invisible="1"/>
+                        <button string="Confirmar" type="object" name="button_confirmar"
+                                class="oe_highlight" attrs="{'invisible':['|',('fondo_garantia_ids','=',False),('state','=','confirmado')]}"/>
+                    </header>
+                    <sheet>
+                        <h3 class="oe_title">
+                            <field name="name" attrs="{'readonly':True}"/>
+                        </h3>
+                        <group>
+                            <group>
+                                <field name="fecha_inicio" attrs="{'readonly':[('state','!=','nuevo')]}"/>
+                                <field name="fecha_fin" attrs="{'readonly':[('state','!=','nuevo')]}"/>
+                                <field name="currency_id" attrs="{'readonly':[('state','!=','nuevo')]}"/>
+                                <button string="Generar Lineas" type="object" name="generar_registros"
+                                        class="oe_highlight" attrs="{'invisible':[('state','!=','nuevo')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Fondos de Garantia">
+                                <field name="fondo_garantia_ids" attrs="{'readonly':[('state','!=','nuevo')]}">
+                                    <tree string="Fondos de garantia" editable="top" create="1">
+                                        <field name="partner_id" domain="[('casa_bolsa','=',True)]"/>
+                                        <field name="importe_mes_anterior" sum="Total"/>
+                                        <field name="por_participacion_sobre_total"/>
+                                        <field name="cobro_fg_aporte_cbsa"/>
+                                        <field name="participacion_sobre_rendimiento"/>
+                                        <field name="participacion_egreso_sobre_rendimiento"/>
+                                        <field name="importe_mes_actual" sum="Total"/>
+                                        <field name="por_participacion_sobre_total2"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group>
+                            <field name="rendimiento_mes"/>
+                            <field name="capital_vencido_mes"/>
+                            <field name="egresos_mes"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fondo_garantias_periodos_view_tree" model="ir.ui.view">
+            <field name="name">fondo_garantias_periodos_view_tree</field>
+            <field name="model">pbp.fondo_garantias_periodos</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_fin"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fondo_garantias_periodos_search_view">
+            <field name="name">fondo_garantias_periodos_search_view</field>
+            <field name="model">pbp.fondo_garantias_periodos</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_fin"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="fondo_garantias_periodos_act_window" model="ir.actions.act_window">
+            <field name="name">Periodos de Fondo de Garantias</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.fondo_garantias_periodos</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="novedades_calculo_fondo_action" model="ir.actions.act_window">
+            <field name="name">Cálculo de Fondo en Garantía</field>
+            <field name="res_model">pbp.calculo_fondo_garantia</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'tree_view_ref': 'pbp.novedades_calculo_fondo_tree'}</field>
+        </record>
+
+        <record id="novedades_calculo_fondo_tree" model="ir.ui.view">
+            <field name="name">pbp.novedades.tree</field>
+            <field name="model">pbp.calculo_fondo_garantia</field>
+            <field name="arch" type="xml">
+                <tree string="Channel">
+                    <!--field name="id_pbp" />
+                    <field name="id" string="ID ODOO" />
+                    <field name="cliente_id" />
+                    <field name="partner_id" />
+                    <field name="instrumento" />
+                    <field name="currency_id" />
+                    <field name="fecha_operacion" />
+                    <field name="fecha_vencimiento" />
+                    <field name="plazo" />
+                    <field name="volumen_negociado" sum="Total"/>
+                    <field name="calculo" sum="Total"/-->
+                    <field name="partner_id" />
+                    <field name="inicio_periodo" />
+                    <field name="fin_periodo" />
+                    <field name="currency_id" />
+                    <field name="total" />
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="novedades_calculo_fondo_form" model="ir.ui.view">
+            <field name="name">pbp.calculo_fondo_garantia.form</field>
+            <field name="model">pbp.calculo_fondo_garantia</field>
+            <field name="arch" type="xml">
+                <form class="pbp-form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" readonly="1" force_save="1"/>
+                                <field name="inicio_periodo" readonly="1" force_save="1"/>
+                                <field name="fin_periodo" readonly="1" force_save="1"/>
+                                <field name="currency_id" readonly="1" force_save="1"/>
+                                <field name="total" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

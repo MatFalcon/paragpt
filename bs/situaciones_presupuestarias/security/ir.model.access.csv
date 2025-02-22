@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crossovered_budget_register,access_crossovered_budget_register,model_crossovered_budget_register,base.group_user,1,1,1,1
+access_wizard_reporte_presupuestos,access_wizard_reporte_presupuestos,situaciones_presupuestarias.model_wizard_reporte_presupuestos,base.group_user,1,1,1,1

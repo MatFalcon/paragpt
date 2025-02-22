@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="liquidaciones_view_form" model="ir.ui.view">
+            <field name="name">liquidaciones_view_form</field>
+            <field name="model">pbp.liquidaciones</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <sheet>
+                        <h3 class="oe_title">
+                            <field name="id_pbp" attrs="{'readonly':True}"/>
+                        </h3>
+                        <group>
+                            <group>
+                                <field name="fecha_vencimiento" readonly="1"/>
+                                <field name="partner_id" readonly="1"/>
+                                <field name="currency_id" readonly="1"/>
+                                <field name="serie" readonly="1"/>
+                                <field name="monto" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="correo_enviado" readonly="1"/>
+                                <field name="mail_id" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="liquidaciones_view_tree" model="ir.ui.view">
+            <field name="name">liquidaciones_view_tree</field>
+            <field name="model">pbp.liquidaciones</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false">
+                    <field name="fecha_vencimiento"/>
+                    <field name="partner_id"/>
+                    <field name="currency_id"/>
+                    <field name="serie"/>
+                    <field name="monto" sum="Total"/>
+                    <field name="correo_enviado"/>
+                    <field name="mail_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="liquidaciones_search_view">
+            <field name="name">liquidaciones_search_view</field>
+            <field name="model">pbp.liquidaciones</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="fecha_vencimiento"/>
+                    <field name="partner_id"/>
+                    <field name="serie"/>
+                    <field name="currency_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="liquidaciones_act_window" model="ir.actions.act_window">
+            <field name="name">Liquidaciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.liquidaciones</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem name="Liquidaciones" parent="pbp.novedades_menu_root" sequence="5" id="liquidaciones_menu_root"/>
+
+        <menuitem id="liquidaciones_menu_action" action="liquidaciones_act_window" sequence="0" parent="liquidaciones_menu_root"/>
+        <!--menuitem id="tcero_menu_action" action="tcero_act_window" sequence="4" parent="liquidaciones_menu_root"/>
+        <menuitem id="netiva_menu_action" action="netiva_act_window" sequence="5" parent="liquidaciones_menu_root"/>
+        <menuitem id="reporte_banco_menu_action" action="reporte_banco_act_window" sequence="6" parent="liquidaciones_menu_root"/-->
+
+    </data>
+</odoo>

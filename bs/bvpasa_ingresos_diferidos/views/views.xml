@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="bvpasa_ingresos_diferidos.list">
+      <field name="name">bvpasa_ingresos_diferidos list</field>
+      <field name="model">bvpasa_ingresos_diferidos.bvpasa_ingresos_diferidos</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="bvpasa_ingresos_diferidos.action_window">
+      <field name="name">bvpasa_ingresos_diferidos window</field>
+      <field name="res_model">bvpasa_ingresos_diferidos.bvpasa_ingresos_diferidos</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="bvpasa_ingresos_diferidos.action_server">
+      <field name="name">bvpasa_ingresos_diferidos server</field>
+      <field name="model_id" ref="model_bvpasa_ingresos_diferidos_bvpasa_ingresos_diferidos"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="bvpasa_ingresos_diferidos" id="bvpasa_ingresos_diferidos.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="bvpasa_ingresos_diferidos.menu_1" parent="bvpasa_ingresos_diferidos.menu_root"/>
+    <menuitem name="Menu 2" id="bvpasa_ingresos_diferidos.menu_2" parent="bvpasa_ingresos_diferidos.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="bvpasa_ingresos_diferidos.menu_1_list" parent="bvpasa_ingresos_diferidos.menu_1"
+              action="bvpasa_ingresos_diferidos.action_window"/>
+    <menuitem name="Server to list" id="bvpasa_ingresos_diferidos" parent="bvpasa_ingresos_diferidos.menu_2"
+              action="bvpasa_ingresos_diferidos.action_server"/>
+-->
+  </data>
+</odoo>

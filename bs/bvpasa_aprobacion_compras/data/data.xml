@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        <record id="bvpasa_aprobacion_compras.group_aprobar_compras" model="res.groups">
+            <field name="name">Aprobador de Solicitudes de Presupuesto</field>
+        </record>
+    </data>
+</odoo>

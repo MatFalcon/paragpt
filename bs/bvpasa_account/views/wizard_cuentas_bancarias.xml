@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="wizard_cuentas_bancarias_form">
+            <field name="name">Importar cuentas bancarias</field>
+            <field name="model">wizard_cuentas_bancarias</field>
+            <field name="arch" type="xml">
+                <form string="Importar cuentas bancarias">
+                    <group>
+                        <group>
+                            <field name="archivo_xlsx" filename="nombre_xlsx" nolabel="1"/>
+                            <field name="nombre_xlsx" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="cargar_lineas" string="Importar" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="wizard_cuentas_bancarias_action_window">
+            <field name="name">Importar cuentas bancarias</field>
+            <field name="res_model">wizard_cuentas_bancarias</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="wizard_cuentas_bancarias" name="Importar cuentas bancarias"
+                  parent="contacts.menu_config_bank_accounts" action="wizard_cuentas_bancarias_action_window"
+                  sequence="50"/>
+    </data>
+</odoo>

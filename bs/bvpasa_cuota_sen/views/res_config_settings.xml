@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="productos_novedades">
+            <field name="name">Producto de Cuota S.E.N.</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@data-key='account']" position="inside">
+                    <h2>Productos de Cuota S.E.N.</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Producto de Servicio S.E.N.</span>
+                                <div class="text-muted">
+                                    Producto utilizado para el Servicio S.E.N.
+                                </div>
+                                <div class="text-muted">
+                                    <field name="product_servicio_sen_id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Producto de Ingresos Anticipados CBSA</span>
+                                <div class="text-muted">
+                                    Producto utilizado para Ingresos Anticipados CBSA
+                                </div>
+                                <div class="text-muted">
+                                    <field name="product_ingresos_anticipados_id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

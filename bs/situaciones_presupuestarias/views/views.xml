@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="situaciones_presupuestarias.list">
+      <field name="name">situaciones_presupuestarias list</field>
+      <field name="model">situaciones_presupuestarias.situaciones_presupuestarias</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="situaciones_presupuestarias.action_window">
+      <field name="name">situaciones_presupuestarias window</field>
+      <field name="res_model">situaciones_presupuestarias.situaciones_presupuestarias</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="situaciones_presupuestarias.action_server">
+      <field name="name">situaciones_presupuestarias server</field>
+      <field name="model_id" ref="model_situaciones_presupuestarias_situaciones_presupuestarias"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="situaciones_presupuestarias" id="situaciones_presupuestarias.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="situaciones_presupuestarias.menu_1" parent="situaciones_presupuestarias.menu_root"/>
+    <menuitem name="Menu 2" id="situaciones_presupuestarias.menu_2" parent="situaciones_presupuestarias.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="situaciones_presupuestarias.menu_1_list" parent="situaciones_presupuestarias.menu_1"
+              action="situaciones_presupuestarias.action_window"/>
+    <menuitem name="Server to list" id="situaciones_presupuestarias" parent="situaciones_presupuestarias.menu_2"
+              action="situaciones_presupuestarias.action_server"/>
+-->
+  </data>
+</odoo>

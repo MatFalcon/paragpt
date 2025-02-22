@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="transferencia_cartera_view_tree" model="ir.ui.view">
+            <field name="name">transferencia_cartera_view_tree</field>
+            <field name="model">pbp.transferencia_cartera</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false">
+                    <field name="fecha"/>
+                    <field name="emisor_id"/>
+                    <field name="receptor_id"/>
+                    <field name="motivo"/>
+                    <field name="monto"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="transferencia_cartera_search_view">
+            <field name="name">transferencia_cartera_search_view</field>
+            <field name="model">pbp.transferencia_cartera</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="fecha"/>
+                    <field name="emisor_id"/>
+                    <field name="receptor_id"/>
+                    <field name="motivo"/>
+                    <filter string="Emisor" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'emisor_id'}" />
+                    <filter string="Receptor" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'receptor_id'}" />
+                    <filter string="Motivo" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'motivo'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="transferencia_cartera_act_window" model="ir.actions.act_window">
+            <field name="name">Transferencia de Cartera</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.transferencia_cartera</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+    </data>
+</odoo>

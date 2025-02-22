@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<!-- extendemos la vista de account.bank.statement.line para agregar un boton para conectar con la api de continental -->
+		<record id="account_bank_statement_form_inherit" model="ir.ui.view">
+			<field name="name">account_bank_statement_form_inherit</field>
+			<field name="model">account.bank.statement</field>
+			<field name="inherit_id" ref="account.view_bank_statement_form" />
+			<field name="arch" type="xml">
+
+				<xpath expr="//field[@name='date']" position="after">
+					<field name="journal_hash" invisible="1" />
+					<field name="continental_fecha_hasta" attrs="{'invisible': [('journal_hash', '=', False)]}" />
+				</xpath>
+
+				<xpath expr="//sheet/notebook" position="before">
+					<button name="descargar_extracto" string="Sincronizar extracto de Continental" type="object" class="oe_highlight" attrs="{'invisible': [('journal_hash', '=', False)]}" />
+				</xpath>
+
+			</field>
+		</record>
+
+	</data>
+</odoo>

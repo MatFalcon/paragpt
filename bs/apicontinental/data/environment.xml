@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="vbpasa_apicontinental_cert_pass" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_cert_pass</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_cert_pass" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_cert_pass</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_cert_path" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_cert_path</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_codigo_cliente" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_codigo_cliente</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_ruc" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_ruc</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_base_url" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_base_url</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_subscriptionkey_consultar_cuentas" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_subscriptionkey_consultar_cuentas</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_subscriptionkey_pago_proveedores" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_subscriptionkey_pago_proveedores</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_subscriptionkey_pago_salarios" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_subscriptionkey_pago_salarios</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_subscriptionkey_servicios_corporativos" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_subscriptionkey_servicios_corporativos</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_usuario_carga_pago_proveedores" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_usuario_carga_pago_proveedores</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_password_carga_pago_proveedores" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_password_carga_pago_proveedores</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_usuario_carga_pago_salarios" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_usuario_carga_pago_salarios</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_password_carga_pago_salarios" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_password_carga_pago_salarios</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_usuario_carga_servicios_corporativos" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_usuario_carga_servicios_corporativos</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_password_carga_servicios_corporativos" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_password_carga_servicios_corporativos</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_usuario_autoriza_pago_proveedores" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_usuario_autoriza_pago_proveedores</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_password_autoriza_pago_proveedores" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_password_autoriza_pago_proveedores</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_usuario_autoriza_pago_salarios" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_usuario_autoriza_pago_salarios</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_password_autoriza_pago_salarios" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_password_autoriza_pago_salarios</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_usuario_autoriza_servicios_corporativos" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_usuario_autoriza_servicios_corporativos</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="vbpasa_apicontinental_password_autoriza_servicios_corporativos" model="ir.config_parameter">
+            <field name="key">vbpasa_apicontinental_password_autoriza_servicios_corporativos</field>
+            <field name="value"></field>
+        </record>
+
+    </data>
+</odoo>

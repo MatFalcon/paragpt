@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="wizard_reporte_volumen_negociado_form">
+            <field name="name">Reporte de Volumen Negociado</field>
+            <field name="model">wizard_reporte_volumen_negociado</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de Volumen Negociado">
+                    <group>
+                        <group>
+                            <field name="year" min="2023"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_xlsx" string="Imprimir reporte" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="wizard_reporte_volumen_negociado_action_window">
+            <field name="name">Reporte de Volumen Negociado</field>
+            <field name="res_model">wizard_reporte_volumen_negociado</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="wizard_volumen_negociado_menu" name="Reporte de Volumen Negociado"
+                  parent="pbp.novedades_first_level_menu" action="wizard_reporte_volumen_negociado_action_window"
+                  sequence="50"/>
+
+        <report
+                id="pbp.report_action_volumen_negociado"
+                model="wizard_reporte_volumen_negociado"
+                string="Reporte de Volumen Negociado"
+                report_type="xlsx"
+                name="pbp.reporte_volumen_negociado_xlsx"
+                file="Reporte de Volumen Negociado"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bvpasa_integracion_bancard,access_bvpasa_integracion_bancard,model_bvpasa_integracion_bancard,base.group_user,1,1,1,1
+access_bvpasa_integracion_campus,access_bvpasa_integracion_campus,model_bvpasa_integracion_campus,base.group_user,1,1,1,1
+access_bvpasa_integracion_bancard_cursos,access_bvpasa_integracion_bancard_cursos,bvpasa_integracion_bancard.model_bvpasa_integracion_bancard_cursos,base.group_user,1,1,1,1

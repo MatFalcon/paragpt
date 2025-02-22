@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="wizard_reporte_presupuestos_form">
+            <field name="name">Reporte de Presupuestos</field>
+            <field name="model">wizard_reporte_presupuestos</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de Presupuestos">
+                    <group>
+                        <group>
+                            <field name="crossovered_budget_id" options="{'no_open':True, 'no_create_edit':True,'no_create': True}" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_xlsx" string="Imprimir reporte" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="wizard_reporte_presupuestos_action_window">
+            <field name="name">Reporte de Presupuestos</field>
+            <field name="res_model">wizard_reporte_presupuestos</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="wizard_reporte_presupuestos_menu" name="Reporte de Presupuestos"
+                  parent="account.menu_finance_entries_management" action="wizard_reporte_presupuestos_action_window"
+                  sequence="70"/>
+
+        <report
+                id="situaciones_presupuestarias.report_action_presupuestos"
+                model="wizard_reporte_presupuestos"
+                string="Reporte de Presupuestos"
+                report_type="xlsx"
+                name="situaciones_presupuestarias.reporte_presupuestos_xlsx"
+                file="Reporte de Presupuestos"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

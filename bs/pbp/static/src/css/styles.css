@@ -1,0 +1,19 @@
+.pbp-dialog {
+  background: red !important;
+}
+.pbp-dialog .error-msg {
+  color: red;
+}
+.pbp-dialog .label {
+  font-weight: bold;
+}
+.pbp-form .label {
+  font-size: 10px;
+}
+.pbp-dialog .label-error, .pbp-form .label-error {
+  color: red;
+}
+.pbp-dialog .label-success {
+  color: green;
+  font-size: 18px;
+}

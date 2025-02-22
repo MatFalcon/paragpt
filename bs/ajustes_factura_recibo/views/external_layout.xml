@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="ajustes_web_external_layout_inherit" name="template_name" inherit_id="web.external_layout_boxed">
+        <xpath expr="//div[@class='o_boxed_header']" position="replace">
+            <div class="row mb-6">
+                <div class="col-6">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="width:80mm;heigth:20mm;"/>
+                </div>
+                <!-- informacion de company -->
+                <div class="col-6 text-left mb-1" style="font-size:11px;">
+                    <strong><span t-field="company.name"/></strong>
+                    <br/>
+                    
+                    <t t-if="company.rubro_set">
+                        <span t-field="company.rubro_set"/>
+                    </t>
+                    <t t-else="">
+                        <span/>
+                    </t>
+                    <br/>
+                    
+                    <t t-if="company.street">
+                        <span t-esc="'Dirección: ' + company.street"/>
+                    </t>
+                    <t t-else="">
+                        <span/>
+                    </t>
+                    <br/>
+
+                    <t t-if="company.phone">
+                        <span t-esc="'Tel: ' + company.phone"/>
+                    </t>
+                    <t t-else="">
+                        <span/>
+                    </t>
+                    <br/>
+
+                    <t t-if="company.email">
+                        <span t-esc="'e-mail: ' + company.email"/>
+                    </t>
+                    <t t-else="">
+                        <span/>
+                    </t>
+                    <br/>
+
+                    <t t-if="company.website">
+                        <span t-esc="'web: ' + company.website"/>
+                    </t>
+                    <t t-else="">
+                        <span/>
+                    </t>
+                    <br/>
+
+                    <t t-if="company.city and company.country_id">
+                        <span t-esc="company.city + ' - ' + company.country_id.name"/>
+                    </t>
+                    <t t-else="">
+                        <span/>
+                    </t>
+                    <br/>
+
+                    <t t-if="company.vat">
+                        <strong><span t-esc="'RUC: ' + company.vat"/></strong>
+                    </t>
+                    <t t-else="">
+                        <span/>
+                    </t>
+                </div>
+            </div>
+            
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+
+        <record forcecreate="True" id="cron_actualizacion_cliente" model="ir.cron">
+            <field name="name">Actualizacion de datos de cliente</field>
+            <field eval="False" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">24</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field ref="model_res_partner" name="model_id"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_notificaciones()</field>
+            <field eval="False" name="doall"/>
+        </record>
+
+        <record id="mail_template_actualizacion_cliente" model="mail.template">
+            <field name="name">Actualizacion de datos de clientes: Enviar por Email</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">(Actualizacion de datos de {{object.name}} a fecha {{object.ultima_actualizacion }})</field>
+            <field name="email_from">administracion@bolsadevalores.com.py</field>
+            <field name="email_to">administracion@bolsadevalores.com.py</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    Buenos días, <br/>
+                    Le recordamos que <t t-out="object.name or ''" contenteditable="false" data-oe-t-inline="true"/>
+                    necesita de una actualizacion de datos.<br/>
+                    <br/>
+                    Bolsa de Valores y Productos de Asunción S.A.<br/>
+                    Bulnes 830 c/ España<br/>
+                    Asunción – Paraguay<br/>
+                    +595 21 728-9123/5<br/>
+                    www.bolsadevalores.com.py<br/><br/><br/>
+                    Saludos.
+                </div>
+
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

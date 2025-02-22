@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="view_account_journal_form2" model="ir.ui.view">
+            <field name="name">view_account_journal_form2</field>
+            <field name="model">account.journal</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_journal_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="diario_fg"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

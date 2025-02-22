@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+
+from . import (
+    account,
+    calculo_fondo_garantias,
+    cartera_inversion,
+    models,
+    novedades_sen,
+    novedades_series,
+    move,
+    product,
+    res_partner,
+    vencimientos,
+    fondo_garantias,
+    gastos_administrativos,
+    novedades,
+    novedades_pbp,
+    wizard_facturas,
+    res_config_settings,
+    inversion_fondo_garantias,
+    liquidaciones,
+    transferencia_cartera,
+    reporto,
+    control_pagos,
+    compensacion_rueda_anterior,
+    exportar_liquidaciones,
+    wizard_volumen_negociado,
+    sincronizacion_logs,
+    operacion_futuro,
+    account_journal,
+    wizard_sudameris,
+    res_company
+)

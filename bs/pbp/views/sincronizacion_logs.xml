@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- tree view -->
+        <record id="integracion_logs_tree_view" model="ir.ui.view">
+            <field name="name">integracion.logs.tree.view</field>
+            <field name="model">pbp.sincronizacion_logs</field>
+            <field name="arch" type="xml">
+                <!-- Si no tiene producto pintamos de rojo -->
+                <tree string="Historial Sincronización" decoration-danger="sincronizacion_correcta==False" decoration-success="sincronizacion_correcta==True" default_order="id desc">
+                    <field name="id" />
+                    <field name="tipo_sincronizacion" />
+                    <field name="cant_registros_obtenidos" />
+                    <field name="error_msg" />
+                    <field name="sincronizacion_correcta" />
+                    <field name="registros_fallidos" />
+                    <field name="create_date" string="Fecha/Hora"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- formulario -->
+        <record id="integracion_logs_form_view" model="ir.ui.view">
+            <field name="name">integracion.logs.form.view</field>
+            <field name="model">pbp.sincronizacion_logs</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="tipo_sincronizacion" />
+                            <field name="cant_registros_obtenidos" />
+                            <field name="error_msg" />
+                            <field name="sincronizacion_correcta" />
+                        </group>
+                        <group>
+                            <field name="detalle_ids" widget="one2many_list">
+                                <tree>
+                                    <field name="id" />
+                                    <field name="error_msg" />
+                                    <!-- <field name="registro" /> -->
+                                </tree>
+                            </field>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="integracion_search_view">
+            <field name="name">integracion_search_view</field>
+            <field name="model">pbp.sincronizacion_logs</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Tipo de Sincronizacion" name="filter_tipo_sincronizacion" domain="[ ]"
+                            context="{'group_by': 'tipo_sincronizacion'}" />
+                    <filter string="Contiene errores" name="filter_tipo_sincronizacion" domain="[('detalle_ids','!=',False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- act window -->
+        <record id="integracion_logs_action_window" model="ir.actions.act_window">
+            <field name="name">Historial Sincronización</field>
+            <field name="res_model">pbp.sincronizacion_logs</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Agregamos el menu en la parte superior, en el menu de contabilidad -->
+        <menuitem
+                id="menu_integracion_logs"
+                name="Historial Sincronización"
+                action="integracion_logs_action_window"
+                parent="pbp.novedades_first_level_menu"/>
+
+    </data>
+</odoo>

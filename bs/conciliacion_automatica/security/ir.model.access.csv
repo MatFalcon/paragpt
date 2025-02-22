@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_conciliacion_automatica_conciliacion_automatica,conciliacion_automatica.conciliacion_automatica,model_conciliacion_automatica_conciliacion_automatica,base.group_user,1,1,1,1

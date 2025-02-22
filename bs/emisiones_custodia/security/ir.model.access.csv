@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_emisiones_emisiones_custodia,emisiones.emisiones_custodia,model_emisiones_emisiones_custodia,base.group_user,1,1,1,1
+access_emisiones_wizard_facturar,emisiones.wizard_facturar,model_emisiones_wizard_facturar,base.group_user,1,1,1,1
+access_series,access_series,model_emisiones_series,base.group_user,1,1,1,1

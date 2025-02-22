@@ -1,0 +1,33 @@
+RESOLUCIONES BVA
+SELECT [EmisionResolucionID]
+      ,[EmisionID]
+      ,[FechaResolucion]
+      ,[NumeroResolucion]
+      ,[PlazoEnDias]
+      ,[FechaVencimiento]
+  FROM [Bvpasa_Clearing].[Productos].[EmisionResolucion]
+
+RESOLUCIONES SIV
+SELECT [EmisionID]
+      ,[EmisionCodigo]
+      ,[EmisorID]
+      ,[TipoEmisionID]
+      ,[ProductoID]
+      ,[MonedaID]
+      ,[MontoEmision]
+      ,[TasaInteresNominal]
+      ,[DiasVencimientoMinimo]
+      ,[DiasVencimientoMaximo]
+      ,[ResolucionNumero]/* NUMERO RESOLUCION SIV*/
+      ,[ResolucionFecha] /*FECHA DE RESOLUCION SIV*/
+      ,[FechaCalificacionRiesgo]
+      ,[CalificacionRiesgo]
+      ,[CalificadoraRiesgo]
+      ,[Observaciones]
+      ,[FechaAlta]
+      ,[FechaBaja]
+      ,[EstadoID]
+      ,[EsActivo]
+      ,[GarantiaEmisionDescripcion]
+      ,[ValorNominal]
+  FROM [Bvpasa_Clearing].[Productos].[Emision]

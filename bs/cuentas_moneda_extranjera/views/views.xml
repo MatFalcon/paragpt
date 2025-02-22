@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="cuentas_moneda_extranjera.list">
+      <field name="name">cuentas_moneda_extranjera list</field>
+      <field name="model">cuentas_moneda_extranjera.cuentas_moneda_extranjera</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="cuentas_moneda_extranjera.action_window">
+      <field name="name">cuentas_moneda_extranjera window</field>
+      <field name="res_model">cuentas_moneda_extranjera.cuentas_moneda_extranjera</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="cuentas_moneda_extranjera.action_server">
+      <field name="name">cuentas_moneda_extranjera server</field>
+      <field name="model_id" ref="model_cuentas_moneda_extranjera_cuentas_moneda_extranjera"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="cuentas_moneda_extranjera" id="cuentas_moneda_extranjera.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="cuentas_moneda_extranjera.menu_1" parent="cuentas_moneda_extranjera.menu_root"/>
+    <menuitem name="Menu 2" id="cuentas_moneda_extranjera.menu_2" parent="cuentas_moneda_extranjera.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="cuentas_moneda_extranjera.menu_1_list" parent="cuentas_moneda_extranjera.menu_1"
+              action="cuentas_moneda_extranjera.action_window"/>
+    <menuitem name="Server to list" id="cuentas_moneda_extranjera" parent="cuentas_moneda_extranjera.menu_2"
+              action="cuentas_moneda_extranjera.action_server"/>
+-->
+  </data>
+</odoo>

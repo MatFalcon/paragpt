@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="wizard_reporte_facturas_form">
+            <field name="name">Reporte de facturas emitidas/recibidas</field>
+            <field name="model">wizard_reporte_facturas</field>
+            <field name="arch" type="xml">
+
+                <form string="Reporte de facturas con guía de transporte">
+                    <group>
+                        <group>
+                            <field name="fecha_inicio"/>
+                            <field name="fecha_fin"/>
+                            <field name="payment_state"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_xlsx" string="Imprimir reporte" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="wizard_reporte_facturas_action_window">
+            <field name="name">Reporte de facturas emitidas/recibidas</field>
+            <field name="res_model">wizard_reporte_facturas</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="wizard_reporte_facturas_menu" name="Reporte de facturas emitidas/recibidas" parent="account.menu_finance_reports" action="wizard_reporte_facturas_action_window" sequence="50"/>
+
+        <report
+                id="bvpasa_reporte_facturas.report_action"
+                model="wizard_reporte_facturas"
+                string="Reporte de facturas emitidas/recibidas"
+                report_type="xlsx"
+                name="bvpasa_reporte_facturas.reporte_facturas_xlsx"
+                file="Reporte de facturas emitidas/recibidas"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

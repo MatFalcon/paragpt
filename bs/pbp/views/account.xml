@@ -1,0 +1,26 @@
+<odoo>
+  <data>
+    <record id="view_account_form_custom" model="ir.ui.view">
+      <field name="name">view_account_form_custom</field>
+      <field name="model">account.account</field>
+      <field name="type">form</field>
+      <field name="inherit_id" ref="account.view_account_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//page[@name='accounting']" position="after">
+          <page name="cartera_inversion" string="Cartera de Inversión">
+            <group>
+              <group>
+                <field name="cartera_acreedor_deudor" />
+                <field name="cartera_tipo" attrs="{'invisible':[('cartera_acreedor_deudor', '=', False)]}" />
+                <field name="cartera_instrumento" attrs="{'invisible':[('cartera_acreedor_deudor', '!=', 'deudor')]}" />
+                <field name="cartera_currency_id" attrs="{'invisible':[('cartera_acreedor_deudor', '!=', 'deudor')]}" />
+                <field name="cartera_vencimiento" attrs="{'invisible':[('cartera_acreedor_deudor', '!=', 'deudor')]}" />
+              </group>
+              <group></group>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

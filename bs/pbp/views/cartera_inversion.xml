@@ -1,0 +1,142 @@
+<odoo>
+    <data>
+
+        <record id="cartera_inversion_form" model="ir.ui.view">
+            <field name="name">pbp.cartera_inversion.form</field>
+            <field name="model">pbp.cartera_inversion</field>
+            <field name="arch" type="xml">
+                <form class="pbp-form">
+                    <sheet>
+                        <group col="2">
+                            <group>
+                                <field name="emision" />
+                                <field name="fecha_actual" readonly="1" force_save="1"/>
+                                <field name="fecha_vencimiento" />
+                                <field name="tasa_interes" />
+                                <field name="valor_actual_pyg" />
+                                <field name="amortizacion" />
+                                <field name="comitente" />
+                                <field name="intereses" />
+                                <field name="tipo" />
+                                <field name="instrumento" />
+                                <field name="partner_id" />
+                                <field name="initial_credit_account_id"/>
+                                <field name="credit_account_id" />
+                                <field name="currency_id" />
+
+                                <field name="product_id" />
+                            </group>
+                            <group>
+                                <field name="serie" />
+
+                                <field name="fecha_compra" />
+                                <field name="calificacion_riesgo" />
+                                <field name="importe_valorizado" />
+                                <field name="valor_actual_usd" />
+                                <field name="estado_de_cupon" />
+                                <field name="capital" />
+                                <field name="grupo_id" />
+                                <field name="state" />
+                                <field name="casa_bolsa" />
+                                <field name="initial_debit_account_id"/>
+                                <field name="debit_account_id" />
+                                <field name="initial_move_id" readonly="1" force_save="1" attrs="{'invisible':[('initial_move_id','=',False)]}"/>
+                                <field name="move_id" />
+                                <field name="valor_calculado" />
+                            </group>
+                            <group>
+                                <field name="correo_enviado" readonly="1"/>
+                                <field name="mail_id" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cartera_inversion_action" model="ir.actions.act_window">
+            <field name="name">Carteras de Inversión</field>
+            <field name="res_model">pbp.cartera_inversion</field>
+            <field name="view_mode">tree,pivot,graph,form</field>
+            <field name="context">{'edit': 1, 'tree_view_ref': 'pbp.cartera_inversion_tree'}</field>
+        </record>
+
+        <record id="grupo_cartera_inversion_action" model="ir.actions.act_window">
+            <field name="name">Grupos</field>
+            <field name="res_model">pbp.grupo_cartera_inversion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'tree_view_ref': 'pbp.grupo_cartera_inversion_tree'}</field>
+        </record>
+
+        <record id="cartera_inversion_tree" model="ir.ui.view">
+            <field name="name">pbp.cartera_inversion.tree</field>
+            <field name="model">pbp.cartera_inversion</field>
+            <field name="arch" type="xml">
+                <tree string="Cartera de Inversión">
+                    <field name="id" />
+                    <field name="emision" />
+                    <field name="fecha_compra" />
+                    <field name="partner_id" />
+                    <field name="casa_bolsa" />
+                    <field name="tipo" />
+                    <field name="grupo_id" />
+                    <field name="instrumento" />
+                    <field name="currency_id" />
+                    <field name="importe_valorizado" />
+                    <field name="state" />
+                    <field name="incompleto" />
+                    <field name="valor_calculado" />
+                    <field name="move_id"/>
+                    <field name="correo_enviado"/>
+                    <field name="mail_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="cartera_inversion_filter_view" model= "ir.ui.view">
+            <field name="name">Cartera de Inversión</field>
+            <field name="model">pbp.cartera_inversion</field>
+            <field name="type">search</field>
+            <field name= "arch" type= "xml">
+                <xpath expr="/search/filter[1]" position="before">
+                    <filter string="Sin asiento" name="filter_sin_asiento" domain="[('move_id', '=', False)]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="cartera_inversion_pivot" model="ir.ui.view">
+            <field name="name">pbp.cartera_inversion.pivot</field>
+            <field name="model">pbp.cartera_inversion</field>
+            <field name="arch" type="xml">
+                <pivot string="Carteras de Inversión" sample="1">
+                    <field name="tipo" type="row" />
+                    <field name="currency_id" type="row" />
+                    <field name="fecha_compra" type="col" />
+                    <field name="valor_calculado" type="measure" />
+                </pivot>
+            </field>
+        </record>
+
+        <record id="cartera_inversion_graph_date" model="ir.ui.view">
+            <field name="name">pbp.cartera_inversion.pivot</field>
+            <field name="model">pbp.cartera_inversion</field>
+
+            <field name="arch" type="xml">
+                <graph string="Carteras de Inversión" sample="1">
+                    <field name="fecha_compra" />
+                    <field name="valor_calculado" operator="+" type='measure' />
+                </graph>
+            </field>
+        </record>
+
+        <record id="grupo_cartera_inversion_tree" model="ir.ui.view">
+            <field name="name">pbp.grupo_cartera_inversion.tree</field>
+            <field name="model">pbp.grupo_cartera_inversion</field>
+            <field name="arch" type="xml">
+                <tree string="Channel">
+                    <field name="nombre" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

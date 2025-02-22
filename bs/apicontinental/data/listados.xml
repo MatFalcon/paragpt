@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- bancos -->
+    <data>
+        <record id="BCCOPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DE LA REP. DE COLOMBIA</field>
+            <field name="code">BCCOPYPA</field>
+        </record>
+        <record id="BCDOPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DE LA REP. DOMINICANA</field>
+            <field name="code">BCDOPYPA</field>
+        </record>
+        <record id="BCPEPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DE LA RESERVA DEL PERU</field>
+            <field name="code">BCPEPYPA</field>
+        </record>
+        <record id="COMAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">EL COMERCIO FINANCIERA S.A.E.C.A.</field>
+            <field name="code">COMAPYPA</field>
+        </record>
+        <record id="BCBOPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DE BOLIVIA</field>
+            <field name="code">BCBOPYPA</field>
+        </record>
+        <record id="BNFAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO NACIONAL DE FOMENTO</field>
+            <field name="code">BNFAPYPA</field>
+        </record>
+        <record id="IDAWUS33" model="apicontinental.listado_banco_destino">
+            <field name="name">INTERNATIONAL DEVELOPMENT ASSOCIATION</field>
+            <field name="code">IDAWUS33</field>
+        </record>
+        <record id="BNITPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO ATLAS S.A.</field>
+            <field name="code">BNITPYPA</field>
+        </record>
+        <record id="BSUDPYPX" model="apicontinental.listado_banco_destino">
+            <field name="name">SUDAMERIS BANK S.A.E.C.A.</field>
+            <field name="code">BSUDPYPX</field>
+        </record>
+        <record id="BRASPYPX" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO DO BRASIL S.A</field>
+            <field name="code">BRASPYPX</field>
+        </record>
+        <record id="FRNYUS33" model="apicontinental.listado_banco_destino">
+            <field name="name">FEDERAL RESERVE BANK, NEW YORK</field>
+            <field name="code">FRNYUS33</field>
+        </record>
+        <record id="FNXAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">FINANCIERA EXPORTADORA PARAGUAYA S.A.</field>
+            <field name="code">FNXAPYPA</field>
+        </record>
+        <record id="FRIOPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">FINANCIERA RIO S.A.</field>
+            <field name="code">FRIOPYPA</field>
+        </record>
+        <record id="BISBCHBB" model="apicontinental.listado_banco_destino">
+            <field name="name">BANK FOR INTERNATIONAL SETTLEMENTS, SUIZA</field>
+            <field name="code">BISBCHBB</field>
+        </record>
+        <record id="FGDAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">FONDO GARANTIA DE DEPOSITOS-BCP</field>
+            <field name="code">FGDAPYPA</field>
+        </record>
+        <record id="AMAMPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO BASA S.A.</field>
+            <field name="code">AMAMPYPA</field>
+        </record>
+        <record id="FAMIPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO FAMILIAR S.A.E.C.A.</field>
+            <field name="code">FAMIPYPA</field>
+        </record>
+        <record id="NACNPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO DE LA NACION ARGENTINA</field>
+            <field name="code">NACNPYPA</field>
+        </record>
+        <record id="BCBRPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DEL BRASIL</field>
+            <field name="code">BCBRPYPA</field>
+        </record>
+        <record id="IMFDUS3W" model="apicontinental.listado_banco_destino">
+            <field name="name">FONDO MONETARIO INTERNACIONAL</field>
+            <field name="code">IMFDUS3W</field>
+        </record>
+        <record id="AFDEPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">AGENCIA FINANCIERA DE DESARROLLO</field>
+            <field name="code">AFDEPYPA</field>
+        </record>
+        <record id="CRIFPYPE" model="apicontinental.listado_banco_destino">
+            <field name="name">CRISOL Y ENCARNACION FINANCIERA S.A.</field>
+            <field name="code">CRIFPYPE</field>
+        </record>
+        <record id="TUFIPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">TU FINANCIERA S.A.</field>
+            <field name="code">TUFIPYPA</field>
+        </record>
+        <record id="BCARPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DE LA REP. ARGENTINA</field>
+            <field name="code">BCARPYPA</field>
+        </record>
+        <record id="BCUYPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DEL URUGUAY</field>
+            <field name="code">BCUYPYPA</field>
+        </record>
+        <record id="HSBCPYPX" model="apicontinental.listado_banco_destino">
+            <field name="name">HSBC BANK PARAGUAY S.A.</field>
+            <field name="code">HSBCPYPX</field>
+        </record>
+        <record id="BCPAPYPX" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO CENTRAL DEL PARAGUAY</field>
+            <field name="code">BCPAPYPX</field>
+        </record>
+        <record id="ANAAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">FINANCIERA INTERNACIONAL SANTA ANA S.A.</field>
+            <field name="code">ANAAPYPA</field>
+        </record>
+        <record id="SOLAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">SOLAR S.A. DE AHORRO Y PRESTAMO PARA LA VIVIENDA</field>
+            <field name="code">SOLAPYPA</field>
+        </record>
+        <record id="BCOPPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCOP - BANCO PARA LA COMERCIALIZACION Y LA PRODUCCION S.A.</field>
+            <field name="code">BCOPPYPA</field>
+        </record>
+        <record id="MIHAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">MINISTERIO DE HACIENDA</field>
+            <field name="code">MIHAPYPA</field>
+        </record>
+        <record id="FOPLPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">FONPLATA</field>
+            <field name="code">FOPLPYPA</field>
+        </record>
+        <record id="RGSAPYPE" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO REGIONAL S.A.E.C.A.</field>
+            <field name="code">RGSAPYPE</field>
+        </record>
+        <record id="BCVEPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DE VENEZUELA</field>
+            <field name="code">BCVEPYPA</field>
+        </record>
+        <record id="ARAFPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ARA DE FINANZAS</field>
+            <field name="code">ARAFPYPA</field>
+        </record>
+        <record id="CITIUS33ASR" model="apicontinental.listado_banco_destino">
+            <field name="name">CITIBANK N.A.</field>
+            <field name="code">CITIUS33ASR</field>
+        </record>
+        <record id="UBBRPYPX" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO ITAU PARAGUAY S.A.</field>
+            <field name="code">UBBRPYPX</field>
+        </record>
+        <record id="VISCPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">VISION BANCO S.A.E.C.A.</field>
+            <field name="code">VISCPYPA</field>
+        </record>
+        <record id="FINLPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">FINLATINA S.A. DE FINANZAS</field>
+            <field name="code">FINLPYPA</field>
+        </record>
+        <record id="FIPJPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">FINANCIERA PARAGUAYO-JAPONESA S.A.E.C.A.</field>
+            <field name="code">FIPJPYPA</field>
+        </record>
+        <record id="IIFAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">INTERFISA BANCO</field>
+            <field name="code">IIFAPYPA</field>
+        </record>
+        <record id="BCECPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DEL ECUADOR</field>
+            <field name="code">BCECPYPA</field>
+        </record>
+        <record id="BCMXPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DE MEXICO</field>
+            <field name="code">BCMXPYPA</field>
+        </record>
+        <record id="FICSPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">FIC S.A. DE FINANZAS</field>
+            <field name="code">FICSPYPA</field>
+        </record>
+        <record id="DOCUPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">DOCUMENTA S.A.</field>
+            <field name="code">DOCUPYPA</field>
+        </record>
+        <record id="FAFDPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">AFD - FIDEICOMISO PARA LA EXCEL.DE LA EDUC. Y LA INVEST.</field>
+            <field name="code">FAFDPYPA</field>
+        </record>
+        <record id="MIGAUS33" model="apicontinental.listado_banco_destino">
+            <field name="name">MULTILATERAL INVESTMENT GUARANTEE AGENCY</field>
+            <field name="code">MIGAUS33</field>
+        </record>
+        <record id="BCNAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO CONTINENTAL S.A.E.C.A.</field>
+            <field name="code">BCNAPYPA</field>
+        </record>
+        <record id="BCCLPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">ALADI-BANCO CENTRAL DE CHILE</field>
+            <field name="code">BCCLPYPA</field>
+        </record>
+        <record id="IBRDUS33" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO INTERNACIONAL DE RECONST. Y FOMENTO</field>
+            <field name="code">IBRDUS33</field>
+        </record>
+        <record id="BGNBPYPX" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO GNB</field>
+            <field name="code">BGNBPYPX</field>
+        </record>
+        <record id="BBVAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">GNB FUSION (EX BBVA)</field>
+            <field name="code">BBVAPYPA</field>
+        </record>
+        <record id="BISAPYPE" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO RIO S.A.E.C.A.</field>
+            <field name="code">BISAPYPE</field>
+        </record>
+        <record id="IADBUS3W" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO INTERAMERICANO DE DESARROLLO</field>
+            <field name="code">IADBUS3W</field>
+        </record>
+        <record id="BCPAPYPD" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO CENTRAL DEL PARAGUAY DEPOX</field>
+            <field name="code">BCPAPYPD</field>
+        </record>
+        <record id="BCPAPYPR" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO CENTRAL DEL PARAGUAY LBTR/ACH</field>
+            <field name="code">BCPAPYPR</field>
+        </record>
+        <record id="BCBRBRDF" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO CENTRAL DE BRASIL</field>
+            <field name="code">BCBRBRDF</field>
+        </record>
+        <record id="CBCUUYM0" model="apicontinental.listado_banco_destino">
+            <field name="name">BANCO CENTRAL DEL URUGUAY</field>
+            <field name="code">CBCUUYM0</field>
+        </record>
+        <record id="IIFAPYPA" model="apicontinental.listado_banco_destino">
+            <field name="name">INTERFISA BANCO</field>
+            <field name="code">IIFAPYPA</field>
+        </record>
+        <record id="AMAMPYPA1000" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA MULTIACTIVA DE AHORRO Y CREDITO COOFY LTDA.</field>
+            <field name="code">AMAMPYPA1000</field>
+        </record>
+        <record id="BCNAPYPA1070" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA YOAYU</field>
+            <field name="code">BCNAPYPA1070</field>
+        </record>
+        <record id="BCNAPYPA0317" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA MERCADO 4</field>
+            <field name="code">BCNAPYPA0317</field>
+        </record>
+        <record id="BCOPPYPA0037" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA LUQUE LTDA.</field>
+            <field name="code">BCOPPYPA0037</field>
+        </record>
+        <record id="BCOPPYPA0225" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA FERNHEIM LTDA.</field>
+            <field name="code">BCOPPYPA0225</field>
+        </record>
+        <record id="BCOPPYPA0342" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA MBURICAO LTDA.</field>
+            <field name="code">BCOPPYPA0342</field>
+        </record>
+        <record id="BCOPPYPA1223" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA CHORTITZER LTDA.</field>
+            <field name="code">BCOPPYPA1223</field>
+        </record>
+        <record id="AMAMPYPA0073" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA MULTIACTIVA DE AHORRO Y CREDITO, CONSUMO Y SERVICIO LAMBARE LTDA.</field>
+            <field name="code">AMAMPYPA0073</field>
+        </record>
+        <record id="AMAMPYPA1705" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA PARAGUAYA DE LA CONSTRUCCION LIMITADA – COPACONS LTDA.</field>
+            <field name="code">AMAMPYPA1705</field>
+        </record>
+        <record id="AMAMPYPA1597" model="apicontinental.listado_banco_destino">
+            <field name="name">COOPERATIVA UNIVERSITARIA</field>
+            <field name="code">AMAMPYPA1597</field>
+        </record>
+
+    </data>
+
+    <!-- Tipos de Documentos -->
+    <data>
+        <record id="RUC" model="apicontinental.listado_tipo_documento">
+            <field name="name">RUC</field>
+            <field name="code">RUC</field>
+        </record>
+        <record id="CI" model="apicontinental.listado_tipo_documento">
+            <field name="name">CEDULA DE IDENTIDAD PARAGUAYA</field>
+            <field name="code">CI</field>
+        </record>
+        <record id="PAS" model="apicontinental.listado_tipo_documento">
+            <field name="name">PASAPORTE</field>
+            <field name="code">PAS</field>
+        </record>
+        <record id="REG" model="apicontinental.listado_tipo_documento">
+            <field name="name">REGISTRO DE CONDUCIR</field>
+            <field name="code">REG</field>
+        </record>
+        <record id="JUB" model="apicontinental.listado_tipo_documento">
+            <field name="name">PADRON CAJA JUBILACIONES</field>
+            <field name="code">JUB</field>
+        </record>
+        <record id="IPS" model="apicontinental.listado_tipo_documento">
+            <field name="name">NRO.ASEGURADO IPS</field>
+            <field name="code">IPS</field>
+        </record>
+        <record id="CRP" model="apicontinental.listado_tipo_documento">
+            <field name="name">CRP</field>
+            <field name="code">CRP</field>
+        </record>
+        <record id="CRC" model="apicontinental.listado_tipo_documento">
+            <field name="name">CRC - DOCUMENTO EXTRANJERO</field>
+            <field name="code">CRC</field>
+        </record>
+        <record id="CIV" model="apicontinental.listado_tipo_documento">
+            <field name="name">LIBRETA CIVICA</field>
+            <field name="code">CIV</field>
+        </record>
+        <record id="BAJ" model="apicontinental.listado_tipo_documento">
+            <field name="name">LIBRETA DE BAJA</field>
+            <field name="code">BAJ</field>
+        </record>
+        <record id="ANT" model="apicontinental.listado_tipo_documento">
+            <field name="name">CERTIFICADO ANTECEDENTES</field>
+            <field name="code">ANT</field>
+        </record>
+    </data>
+
+    <!-- motivos de transaccion -->
+    <data>
+        <record id="01_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Comercio exterior - bienes o servicios</field>
+            <field name="code">01</field>
+        </record>
+        <record id="02_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Inversión en instrumentos financieros</field>
+            <field name="code">02</field>
+        </record>
+        <record id="03_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Inversión en bienes raíces</field>
+            <field name="code">03</field>
+        </record>
+        <record id="04_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Remesas de utilidades</field>
+            <field name="code">04</field>
+        </record>
+        <record id="05_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Donación</field>
+            <field name="code">05</field>
+        </record>
+        <record id="06_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Pago de préstamos</field>
+            <field name="code">06</field>
+        </record>
+        <record id="07_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Ayuda Familiar</field>
+            <field name="code">07</field>
+        </record>
+        <record id="08_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Viático</field>
+            <field name="code">08</field>
+        </record>
+        <record id="09_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Mercadería (importación)</field>
+            <field name="code">09</field>
+        </record>
+        <record id="10_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Servicio recibido en el Paraguay</field>
+            <field name="code">10</field>
+        </record>
+        <record id="11_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Servicio recibido en el Exterior</field>
+            <field name="code">11</field>
+        </record>
+        <record id="12_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Tributos a Estado Extranjero</field>
+            <field name="code">12</field>
+        </record>
+        <record id="13_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Servicio de Flete</field>
+            <field name="code">13</field>
+        </record>
+        <record id="14_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Intermediario en operaciones de transferencia</field>
+            <field name="code">14</field>
+        </record>
+        <record id="15_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Compra / Venta de divisas</field>
+            <field name="code">15</field>
+        </record>
+        <record id="16_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Canje de efectivo</field>
+            <field name="code">16</field>
+        </record>
+        <record id="17_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Remesas recibidas del exterior</field>
+            <field name="code">17</field>
+        </record>
+        <record id="18_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Remesas enviadas al exterior</field>
+            <field name="code">18</field>
+        </record>
+        <record id="19_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Pago de salarios</field>
+            <field name="code">19</field>
+        </record>
+        <record id="20_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Pago a proveedores</field>
+            <field name="code">20</field>
+        </record>
+        <record id="21_transaccion" model="apicontinental.listado_motivo_transaccion">
+            <field name="name">Pago de tarjetas</field>
+            <field name="code">21</field>
+        </record>
+    </data>
+
+    <!-- procedencia de fondos -->
+    <data>
+        <record id="01_procedencia" model="apicontinental.listado_procedencia_fondo">
+            <field name="name">Privado - Persona</field>
+            <field name="code">01</field>
+        </record>
+        <record id="02_procedencia" model="apicontinental.listado_procedencia_fondo">
+            <field name="name">Privado - Empresa</field>
+            <field name="code">02</field>
+        </record>
+        <record id="03_procedencia" model="apicontinental.listado_procedencia_fondo">
+            <field name="name">Público (Gobierno)</field>
+            <field name="code">03</field>
+        </record>
+        <record id="04_procedencia" model="apicontinental.listado_procedencia_fondo">
+            <field name="name">Propios de las entidad</field>
+            <field name="code">04</field>
+        </record>
+    </data>
+
+    <!-- moneda -->
+    <data>
+        <record id="PYG" model="apicontinental.listado_moneda">
+            <field name="name">Guaraníes</field>
+            <field name="code">PYG</field>
+        </record>
+        <record id="USD" model="apicontinental.listado_moneda">
+            <field name="name">Dólar</field>
+            <field name="code">USD</field>
+        </record>
+        <record id="EUR" model="apicontinental.listado_moneda">
+            <field name="name">Euro</field>
+            <field name="code">EUR</field>
+        </record>
+    </data>
+
+    <!-- sucursales -->
+    <data>
+        <record id="01_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CASA MATRIZ</field>
+            <field name="code">01</field>
+        </record>
+        <record id="05_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SAN LORENZO</field>
+            <field name="code">05</field>
+        </record>
+        <record id="06_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">ARTIGAS</field>
+            <field name="code">06</field>
+        </record>
+        <record id="07_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CORONEL OVIEDO</field>
+            <field name="code">07</field>
+        </record>
+        <record id="08_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">VILLARICA</field>
+            <field name="code">08</field>
+        </record>
+        <record id="13_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CIUDAD DEL ESTE</field>
+            <field name="code">13</field>
+        </record>
+        <record id="14_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">VILLA MORRA</field>
+            <field name="code">14</field>
+        </record>
+        <record id="15_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CAAGUAZU</field>
+            <field name="code">15</field>
+        </record>
+        <record id="16_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">EUSEBIO AYALA</field>
+            <field name="code">16</field>
+        </record>
+        <record id="21_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">ENCARNACION</field>
+            <field name="code">21</field>
+        </record>
+        <record id="22_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">PILAR</field>
+            <field name="code">22</field>
+        </record>
+        <record id="23_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">OBLIGADO</field>
+            <field name="code">23</field>
+        </record>
+        <record id="24_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SAN IGNACIO</field>
+            <field name="code">24</field>
+        </record>
+        <record id="25_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">HERNANDARIAS</field>
+            <field name="code">25</field>
+        </record>
+        <record id="26_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SANTA RITA</field>
+            <field name="code">26</field>
+        </record>
+        <record id="27_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SALTOS DEL GUAIRA</field>
+            <field name="code">27</field>
+        </record>
+        <record id="29_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">LUQUE</field>
+            <field name="code">29</field>
+        </record>
+        <record id="31_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">AVIADORES DEL CHACO</field>
+            <field name="code">31</field>
+        </record>
+        <record id="32_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CAPITAN MEZA</field>
+            <field name="code">32</field>
+        </record>
+        <record id="33_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">IRRAZABAL - ENC.</field>
+            <field name="code">33</field>
+        </record>
+        <record id="34_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">FERNANDO DE LA MORA</field>
+            <field name="code">34</field>
+        </record>
+        <record id="35_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SANTANI</field>
+            <field name="code">35</field>
+        </record>
+        <record id="36_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CAACUPE</field>
+            <field name="code">36</field>
+        </record>
+        <record id="37_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">PUERTO</field>
+            <field name="code">37</field>
+        </record>
+        <record id="38_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">PEDRO JUAN CABALLERO</field>
+            <field name="code">38</field>
+        </record>
+        <record id="39_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">KATUETE</field>
+            <field name="code">39</field>
+        </record>
+        <record id="40_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CONCEPCION</field>
+            <field name="code">40</field>
+        </record>
+        <record id="41_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">MCAL. LOPEZ</field>
+            <field name="code">41</field>
+        </record>
+        <record id="42_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">GRAL. SANTOS</field>
+            <field name="code">42</field>
+        </record>
+        <record id="43_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">FRAM</field>
+            <field name="code">43</field>
+        </record>
+        <record id="44_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">ESPAÑA</field>
+            <field name="code">44</field>
+        </record>
+        <record id="45_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CHACO</field>
+            <field name="code">45</field>
+        </record>
+        <record id="46_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">ACCESO SUR</field>
+            <field name="code">46</field>
+        </record>
+        <record id="47_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">NARANJAL</field>
+            <field name="code">47</field>
+        </record>
+        <record id="48_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CAMPO 9</field>
+            <field name="code">48</field>
+        </record>
+        <record id="49_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">ITAUGUA</field>
+            <field name="code">49</field>
+        </record>
+        <record id="50_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">QUINTA AVENIDA</field>
+            <field name="code">50</field>
+        </record>
+        <record id="51_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">MARIA AUXILIADORA</field>
+            <field name="code">51</field>
+        </record>
+        <record id="52_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">KM 9.5 FDO. DE LA MORA</field>
+            <field name="code">52</field>
+        </record>
+        <record id="53_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SAN JUAN BAUTISTA</field>
+            <field name="code">53</field>
+        </record>
+        <record id="54_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SAJONIA</field>
+            <field name="code">54</field>
+        </record>
+        <record id="56_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SAN ALBERTO</field>
+            <field name="code">56</field>
+        </record>
+        <record id="58_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">BELLA VISTA</field>
+            <field name="code">58</field>
+        </record>
+        <record id="60_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">YGUAZU</field>
+            <field name="code">60</field>
+        </record>
+        <record id="61_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">PRESIDENTE FRANCO</field>
+            <field name="code">61</field>
+        </record>
+        <record id="62_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">TEMBETARY</field>
+            <field name="code">62</field>
+        </record>
+        <record id="63_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">MARIANO ROQUE ALONSO</field>
+            <field name="code">63</field>
+        </record>
+        <record id="64_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CIUDAD DEL ESTE KM 3.5</field>
+            <field name="code">64</field>
+        </record>
+        <record id="65_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">P.J.C. SHOPPING CHINA</field>
+            <field name="code">65</field>
+        </record>
+        <record id="66_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CENTRO</field>
+            <field name="code">66</field>
+        </record>
+        <record id="67_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">VILLETA</field>
+            <field name="code">67</field>
+        </record>
+        <record id="68_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CURUGUATY</field>
+            <field name="code">68</field>
+        </record>
+        <record id="69_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CAPIATA</field>
+            <field name="code">69</field>
+        </record>
+        <record id="70_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SANTA ROSA DEL AGUARAY</field>
+            <field name="code">70</field>
+        </record>
+        <record id="71_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">SAN CRISTOBAL</field>
+            <field name="code">71</field>
+        </record>
+        <record id="72_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">VILLA HAYES</field>
+            <field name="code">72</field>
+        </record>
+        <record id="74_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">NUEVA ESPERANZA</field>
+            <field name="code">74</field>
+        </record>
+        <record id="90_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CAC PIRIBEBUY</field>
+            <field name="code">90</field>
+        </record>
+        <record id="92_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CAC. COL. INDEPENDENCIA</field>
+            <field name="code">92</field>
+        </record>
+        <record id="94_sucursal" model="apicontinental.listado_sucursal">
+            <field name="name">CAC LAMBARE</field>
+            <field name="code">94</field>
+        </record>
+    </data>
+
+    <!-- Sexo -->
+    <data>
+        <record id="FEMENINO" model="apicontinental.listado_sexo">
+            <field name="name">FEMENINO</field>
+            <field name="code">FEMENINO</field>
+        </record>
+        <record id="MASCULINO" model="apicontinental.listado_sexo">
+            <field name="name">MASCULINO</field>
+            <field name="code">MASCULINO</field>
+        </record>
+    </data>
+
+    <!-- tipo ingreso -->
+    <data>
+        <record id="PYG_INGRESO" model="apicontinental.listado_tipo_ingreso">
+            <field name="name">Guaraníes</field>
+            <field name="code">PYG</field>
+        </record>
+        <record id="USD_INGRESO" model="apicontinental.listado_tipo_ingreso">
+            <field name="name">Dólar</field>
+            <field name="code">USD</field>
+        </record>
+    </data>
+
+
+</odoo>

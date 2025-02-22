@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="view_account_analytic_line_tree" model="ir.ui.view">
+            <field name="name">view.account.analytic.line.tree</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount']" position="after">
+                    <field name="secondary_currency_id" optional="hide"/>
+                    <field name="tipo_cambio" optional="hide"/>
+                    <field name="balance_ms" optional="hide" sum="Total (MS)"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_analytic_line_form" model="ir.ui.view">
+            <field name="name">view.account.analytic.line.form</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount']" position="after">
+                    <field name="tipo_cambio"/>
+                    <field name="secondary_currency_id"/>
+                    <field name="balance_ms"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="compensacion_rueda_anterior_view_tree" model="ir.ui.view">
+            <field name="name">compensacion_rueda_anterior_view_tree</field>
+            <field name="model">pbp.compensacion_rueda_anterior</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false">
+                    <field name="fecha"/>
+                    <field name="cuenta_usd"/>
+                    <field name="cuenta_gs"/>
+                    <field name="beneficiario_id"/>
+                    <field name="importe_usd" sum="Total"/>
+                    <field name="importe_gs" sum="Total"/>
+                    <field name="segmento_mercado"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="compensacion_rueda_anterior_search_view">
+            <field name="name">compensacion_rueda_anterior_search_view</field>
+            <field name="model">pbp.compensacion_rueda_anterior</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="fecha"/>
+                    <field name="cuenta_usd"/>
+                    <field name="cuenta_gs"/>
+                    <field name="beneficiario_id"/>
+                    <field name="segmento_mercado"/>
+                    <filter string="Beneficiario" name="filter_beneficiario" domain="[ ]"
+                            context="{'group_by': 'beneficiario_id'}" />
+                    <filter string="Segmento de Mercado" name="filter_segmento_mercado" domain="[ ]"
+                            context="{'group_by': 'segmento_mercado'}" />
+                    <filter string="Con TNA" name="filter_con_tna" domain="[('beneficiario_id.id_cliente_pbp','=',37)]"/>
+                    <filter string="Sin TNA" name="filter_sin_tna" domain="[('beneficiario_id.id_cliente_pbp','!=',37)]"/>
+                    <!--filter string="Motivo" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'motivo'}" /-->
+                </search>
+            </field>
+        </record>
+
+        <record id="compensacion_rueda_anterior_act_window" model="ir.actions.act_window">
+            <field name="name">Compensación rueda Anterior</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.compensacion_rueda_anterior</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="compensacion_rueda_anterior_view_tree"/>
+            <field name="domain">[('tcero', '=', False)]</field>
+            <field name="context">{'search_default_filter_sin_tna': 1}</field>
+        </record>
+
+        <menuitem id="compensacion_rueda_anterior_menu_action" action="compensacion_rueda_anterior_act_window" sequence="3" parent="liquidaciones_menu_root"/>
+
+
+    </data>
+</odoo>
