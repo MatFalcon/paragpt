@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+
+    <t t-name="PartnerDetailsEdit" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension" owl="1">
+<!--        <xpath expr="//input[name='city']" position="after">-->
+        <!--        <t t-jquery='.client-details-right' t-operation='prepend'>-->
+        <!--         <link rel="stylesheet" href="pos_paraguay/static/src/css/pos_receipts.css"/>-->
+        <xpath expr="//input[hasclass('partner-name')]" position="replace">
+              <input class="detail partner-name form-control form-control-lg" t-model="changes.name" name="name"
+                     placeholder="Razon Social"/>
+            <input class="detail partner-ruc form-control form-control-lg" id="ruc" t-model="changes.ruc" name="ruc"
+                   placeholder="RUC sin guión/CI "/>
+        </xpath>
+
+    </t>
+
+
+    <t t-name="PaymentScreenButtons" t-inherit="point_of_sale.PaymentScreenButtons" t-inherit-mode="extension" owl="1">
+
+             <xpath expr="//button[hasclass('js_invoice')]" position="replace">
+
+                   <i class="fa fa-clock-o me-2"/>El Pedido será facturado una vez cobrado.
+
+                </xpath>
+        </t>
+    <t t-name="PartnerListScreen" t-inherit="point_of_sale.PartnerListScreen" t-inherit-mode="extension" owl="1">
+<!--             <xpath expr="//table[hasclass('client-list')/thead/tr/th[1]]" position="after">-->
+        <xpath expr="//table[hasclass('partner-list')]/thead/tr/th[2]" position="after">
+    <!--            <xpath t-jquery='.client-list thead tr' t-operation='append'>-->
+            <th>RUC/CI</th>
+            <!--                    <th>Nombre Fantasia</th>-->
+            <!--                    <th>CI</th>-->
+
+        </xpath>
+        </t>
+    <t t-name="PartnerLine" t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension" owl="1">
+
+           <xpath expr="//td[hasclass('partner-line-email')]" position="before">
+                 <td>
+
+                        <div class="partner-line-ruc" t-if="props.partner.ruc">
+                            <t t-esc="props.partner.ruc"/>
+                        </div>
+                    </td>
+                </xpath>
+        </t>
+
+
+    <t t-name="pos_paraguay.ReceiptHeader" t-inherit="point_of_sale.ReceiptHeader" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="replace">
+             <div class="pos-receipt-contact">
+                <!-- contact address -->
+                 <div t-if="props.data.company.name" t-esc="props.data.company.name"
+                      style="font-size: 25px;font-weight: bold;"/>
+                 <t t-if="props.data.company.vat">
+                        <div style="font-size: 18px;">
+                            <t t-esc="props.data.company.country?.vat_label || 'RUC'" style="font-size: 18px;"/>:
+                            <t t-esc="props.data.company.vat" style="font-size: 18px;"/>
+                        </div>
+                    </t>
+                 <div>
+                     <t t-if="props.data.descripcion_compania">
+                             <span style="font-size: 18px;">
+                                 <t t-esc="props.data.descripcion_compania"/>
+                            </span>
+                         </t>
+                     <t t-else="">
+                             <span style="font-size: 18px;" t-if="props.data.company.actividad_economica">
+                                <t t-if="props.data.company.actividad_economica"/>
+                            </span>
+                         </t>
+
+                     </div>
+                 <div>
+                        <span style="font-size: 14px;"><t t-esc="props.data.nombre_marca"/> </span>
+                    </div>
+                 <!--##### IMPRIMIR EL NUMERO DE TELEFONO DEL SETEADO EN EL PUNTO DE VENTAS #####-->
+                 <!--#####                O IMPRIMIR EL NUMERO DE LA COMPANIA               #####-->
+                 <div style="font-size: 14px;">Tel:
+                         <t t-if="props.data.tel_personalizado">
+                             <t t-esc="props.data.tel_personalizado"/>
+                         </t>
+                     <t t-else="">
+                             <t t-if="props.data.company.phone" style="font-size: 14px;">
+                                <t t-esc="props.data.company.phone"/>
+                             </t>
+                         <t t-else="">
+                                  .--
+                             </t>
+                         </t>
+                     </div>
+                 <div>
+                         <span style="font-size: 14px;">TIMBRADO    <t t-esc="props.data.timbrado"
+                                                                       style="font-size: 14px;"/></span>
+                     </div>
+                 <div>
+                         <span style="font-size: 14px;">VALIDO <t t-esc="props.data.fecha_inicio_timbrado"/>
+                             -
+                             <t t-esc="props.data.fecha_final_timbrado"/></span>
+                     </div>
+                 <div style="font-size: 14px;">
+                        <t t-if="props.data.move_type == 'out_invoice'">  FACTURA CONTADO</t>
+                     <t t-else="">
+                            <t t-if="props.data.move_type == 'out_refund'">
+                                NOTA DE CREDITO
+                            </t>
+                         <t t-else="">
+                                  FACTURA CONTADO
+                            </t>
+                        </t>
+                     <t t-esc="props.data.invoice_name" style="font-size: 14px;"/>
+                     </div>
+
+                 <span style="font-size: 13px;">*** IVA INCLUIDO ***</span>
+                 <div t-if="props.data.company.street" t-esc="props.data.company.street"/>
+                 <!--                <div t-if="props.data.company.zip" t-esc="props.data.company.zip" />-->
+                 <div t-if="props.data.company.city" t-esc="props.data.company.city"/>
+                 <!--                <div t-if="props.data.company.state_id">(<t t-esc="props.data.company.state_id[1]"/>)</div>-->
+
+                 <!--            <div t-if="props.data.company.email" t-esc="props.data.company.email" />-->
+                 <!--            <div t-if="props.data.company.website" t-esc="props.data.company.website" />-->
+                 <!--            <div t-if="props.data.header" style="white-space:pre-line" t-esc="props.data.header" />-->
+
+            </div>
+
+            <div id="info-vendedor">
+                <div>
+                    <span>Fecha: <t t-esc="props.data.fecha_factura"/></span>
+                </div>
+                <div>
+                    <span>Vendedor: <t t-esc="props.data.cashier"/></span>
+                </div>
+            </div>
+            <div id="cliente-ruc">
+                <t t-set="partner" t-value="props.data.partner"/>
+                <div>
+                    <span>CLIENTE: <t t-esc="partner.name"/></span>
+                </div>
+                <div>
+                    <span>RUC/CI: <t t-esc="partner.rucdv"/></span>
+                </div>
+            </div>
+
+
+        </xpath>
+    </t>
+    <!--    BOTON PARA REEMBOLSO/NOTA DE CREDITO-->
+    <t t-name="RefundButtonInherit" t-inherit="point_of_sale.RefundButton" t-inherit-mode="extension" owl="1">
+        <xpath expr="//button" position="replace">
+            <button class="control-button btn btn-light rounded-0 fw-bolder d-flex justify-content-center align-items-center"
+                    t-on-click="() => this.click()">
+                <i class="fa fa-undo me-1" role="img" aria-label="Nota de Crédito" title="Nota de Crédito"/>
+                <span style="text-align: center;">
+                    Nota de Crédito
+                </span>
+            </button>
+        </xpath>
+    </t>
+
+</templates>

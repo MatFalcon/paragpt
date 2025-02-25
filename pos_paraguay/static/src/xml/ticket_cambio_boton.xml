@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+       <t t-name="pos_paraguay.ticket_cambio" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
+             <xpath expr="//button[@t-on-click='printReceipt']" position="after">
+                <button class="button print btn btn-lg btn-secondary w-100 py-3" t-on-click="printCustomXML">
+                    <i class="fa fa-print ms-2" ></i> Ticket de Cambio
+                </button>
+            </xpath>
+       </t>
+</templates>
