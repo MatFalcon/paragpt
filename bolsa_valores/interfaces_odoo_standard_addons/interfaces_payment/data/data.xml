@@ -1,0 +1,24 @@
+<odoo>
+    <data noupdate="1">
+        <record id="secuencia_recibos" model="ir.sequence">
+            <field name="name">Secuencia recibos</field>
+            <field name="code">seq_recibo</field>
+            <field name="implementation">no_gap</field>
+            <field name="use_date_range">False</field>
+            <field name="padding">7</field>
+            <field name="prefix">Recibo </field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+        </record>
+        <record id="secuencia_ordenes" model="ir.sequence">
+            <field name="name">Secuencia Ordenes de pago</field>
+            <field name="code">seq_orden_pago</field>
+            <field name="implementation">no_gap</field>
+            <field name="use_date_range">False</field>
+            <field name="padding">7</field>
+            <field name="prefix">Orden de pago </field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+        </record>
+    </data>
+</odoo>

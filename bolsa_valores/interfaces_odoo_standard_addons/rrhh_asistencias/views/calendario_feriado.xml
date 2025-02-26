@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="calendario_feriado_form_inherit" model="ir.ui.view">
+            <field name="name">calendario_feriado_form_inherit</field>
+            <field name="model">calendario.feriado</field>
+            <field name="inherit_id" ref="reportes_ministerio_trabajo_py.calendario_feriado_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']/.." position="after">
+                    <group string="Factor">
+                        <field name="custom_factor"/>
+                        <field name="factor_horas_extra_100" attrs="{'invisible':[('custom_factor','=',False)]}"/>
+                        <field name="factor_horas_nocturnas" attrs="{'invisible':[('custom_factor','=',False)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

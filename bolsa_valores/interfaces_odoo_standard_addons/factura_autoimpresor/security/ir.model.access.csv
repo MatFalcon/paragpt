@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_factura_autoimpresor_factura_autoimpresor,factura_autoimpresor.factura_autoimpresor,model_factura_autoimpresor_factura_autoimpresor,,1,0,0,0

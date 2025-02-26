@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+        <data>
+            <!-- notas_remision_account.nota.remision inherit form view -->
+            <record id="notas_remision_form_view" model="ir.ui.view">
+                <field name="name">notas_remision_form_view</field>
+                <field name="model">notas_remision_account.nota.remision</field>
+                <field name="inherit_id" ref="notas_remision_account.notas_remision_form_view"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='invoice_id']" position="replace">
+                        <field name="estirar_desde" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="picking_ids" options="{'no_create':True,'no_create_edit': True}"  widget="many2many_tags" attrs="{'readonly':[('state','!=','draft')],'invisible':[('estirar_desde','=','facturas')]}" domain="[('state','=','done'),('location_id.usage','=','internal'),('partner_id','=',partner_id),('nota_remision_id','=',False)]"/>
+                        <field name="invoice_id" options="{'no_create':True,'no_create_edit': True}" attrs="{'readonly':[('state','!=','draft')]}" domain="[('state','=','posted'),('move_type','=','out_invoice'),('partner_id','=',partner_id),('nota_remision_id','=',False)]"/>                      
+                    </xpath>
+                    
+                </field>
+            </record>
+            
+        </data>
+</odoo>

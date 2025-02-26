@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="conciliacion_automatica.list">
+      <field name="name">conciliacion_automatica list</field>
+      <field name="model">conciliacion_automatica.conciliacion_automatica</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="conciliacion_automatica.action_window">
+      <field name="name">conciliacion_automatica window</field>
+      <field name="res_model">conciliacion_automatica.conciliacion_automatica</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="conciliacion_automatica.action_server">
+      <field name="name">conciliacion_automatica server</field>
+      <field name="model_id" ref="model_conciliacion_automatica_conciliacion_automatica"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="conciliacion_automatica" id="conciliacion_automatica.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="conciliacion_automatica.menu_1" parent="conciliacion_automatica.menu_root"/>
+    <menuitem name="Menu 2" id="conciliacion_automatica.menu_2" parent="conciliacion_automatica.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="conciliacion_automatica.menu_1_list" parent="conciliacion_automatica.menu_1"
+              action="conciliacion_automatica.action_window"/>
+    <menuitem name="Server to list" id="conciliacion_automatica" parent="conciliacion_automatica.menu_2"
+              action="conciliacion_automatica.action_server"/>
+-->
+  </data>
+</odoo>

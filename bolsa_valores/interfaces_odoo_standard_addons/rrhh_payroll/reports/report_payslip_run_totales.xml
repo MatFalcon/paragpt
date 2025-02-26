@@ -1,0 +1,73 @@
+<odoo>
+    <data>
+        <template id="rrhh_payroll.totales_run">
+            <t t-call="web.basic_layout">
+                <t t-name="rrhh_payroll.totales_run_t">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <div id="cabecera">
+                                <h2>
+                                    <t t-esc="doc.company_id.name"/>
+                                    <br/>
+                                    <t t-esc="doc.name"/>
+                                </h2>
+                                <h4>
+                                    Periodo:
+                                    <t t-esc="doc.date_start"/>
+                                    -
+                                    <t t-esc="doc.date_end"/>
+                                </h4>
+                            </div>
+                        </div>
+                        <div id="cuerpo">
+                            <table class="table table-condensed mb32">
+                                <tr style="border-bottom: 1px solid black;border-top: 1px solid black">
+                                    <b>
+                                        <th style="width:70%">Empleado</th>
+                                        <!--<th>CANTIDAD</th>-->
+                                        <th style="width:30%; text-align:right;">Total</th>
+                                    </b>
+                                </tr>
+                                <t t-set="total_run" t-value="0"/>
+                                <t t-foreach="doc.slip_ids.filtered(lambda x:x.state == 'done').sorted(lambda x: x.employee_id.name)"
+                                   t-as="slip">
+                                    <tr>
+                                        <td style="width:70%">
+                                            <t t-esc="slip.employee_id.name"/>
+                                        </td>
+                                        <td style="width:30%; text-align:right;">
+                                            <span t-field="slip.line_ids.filtered(lambda x:x.code == 'NET')[0].total"
+                                                  t-options="{'widget': 'monetary', 'display_currency': slip.company_id.currency_id}"/>
+                                            <t t-set="total_run"
+                                               t-value="total_run + slip.line_ids.filtered(lambda x:x.code == 'NET')[0].total"/>
+
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td style="background-color:gainsboro;">
+                                        <b>TOTAL</b>
+                                    </td>
+                                    <td style="text-align:right; background-color:gainsboro;">
+                                        <strong t-esc="sum(doc.slip_ids.filtered(lambda x:x.state == 'done').mapped('line_ids').filtered(lambda x:x.code == 'NET').mapped('total'))"
+                                                t-options="{'widget': 'monetary', 'display_currency': doc.company_id.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p style="page-break-before:always;"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record model="ir.actions.report" id="rrhh_payroll.totales_run_report">
+            <field name="report_name">rrhh_payroll.totales_run</field>
+            <field name="name">Totales de Nóminas</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+            <field name="report_type">qweb-pdf</field>
+        </record>
+
+    </data>
+</odoo>

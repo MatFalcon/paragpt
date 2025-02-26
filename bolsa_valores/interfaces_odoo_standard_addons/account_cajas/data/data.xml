@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <record id="account_cajas.group_extractos_bancarios" model="res.groups">
+            <field name="name">Gestiona extractos</field>
+        </record>
+
+       
+    </data>
+</odoo>

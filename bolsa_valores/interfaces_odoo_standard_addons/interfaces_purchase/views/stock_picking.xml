@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="stock_picking_view_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.view.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/header" position="inside">
+                    <button name="action_generar_reporte_costos_xls"
+                        string="Imprimir Reporte de Costo"
+                        type="object" class="o_btn_validate"
+                        attrs="{'invisible':[('picking_type_code', '!=', 'incoming')]}" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

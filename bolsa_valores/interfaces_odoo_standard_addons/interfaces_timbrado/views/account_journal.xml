@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record id="interfaces_timbrado.journal_form_view" model="ir.ui.view">
+            <field name="name">interfaces_timbrado.journal_form_view</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Timbrado" attrs="{'invisible':[('type','!=','sale')]}">
+                        <field name="timbrados_ids" context="{ 'default_journal_id':id }"/>
+                    </page>
+
+                </xpath>
+                <xpath expr="//page[@name='advanced_settings']/group" position="inside">
+                    <group string="Impresión de facturas" groups="account.group_account_manager"
+                           attrs="{'invisible':[('type','!=','sale')]}">
+                        <field name="max_lineas"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

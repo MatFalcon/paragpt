@@ -1,0 +1,294 @@
+<odoo>
+    <data>
+        <data>
+            <record model="hr.payroll.structure.type" id="tipo_estructura_salario_hora">
+                <field name="name">Salario Hora</field>
+                <field name="country_id" ref="base.py"/>
+                <field name="wage_type">hourly</field>
+                <field name="default_schedule_pay">monthly</field>
+            </record>
+            <record model="hr.payroll.structure" id="estructura_salario_hora">
+                <field name="name">Plantilla - Estructura Salario Hora</field>
+                <field name="active" eval="False"/>
+                <field name="use_worked_day_lines" eval="True"/>
+                <field name="schedule_pay">monthly</field>
+                <field name="type_id" ref="rrhh_payroll.tipo_estructura_salario_hora"/>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_basico">
+                <field name="name">Salario</field>
+                <field name="category_id" ref="hr_payroll.BASIC"/>
+                <field name="code">BASIC</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.WORK100: result_qty += worked_days.WORK100.number_of_days
+if worked_days.VAC: result_qty -= worked_days.VAC.number_of_days
+result_rate = 100
+result = payslip.computed_daily_wage
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_horas_adicionales">
+                <field name="name">Horas Adicionales</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">HORAD</field>
+                <field name="sequence">50</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.HORAD: result_qty += worked_days.HORAD.number_of_hours
+result_rate = 100
+result = payslip.computed_daily_wage / 8
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_horas_extra_50">
+                <field name="name">Horas Extra 50%</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">HEX50</field>
+                <field name="sequence">51</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.HEX50: result_qty += worked_days.HEX50.number_of_hours
+if worked_days.LLA: result_qty += worked_days.LLA.number_of_hours
+result_rate = 150
+result = payslip.computed_daily_wage / 8
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_horas_extra_100">
+                <field name="name">Horas Extra 100%</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">HEX100</field>
+                <field name="sequence">52</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.HEX100: result_qty += worked_days.HEX100.number_of_hours
+result_rate = 200
+result = payslip.computed_daily_wage / 8
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_horas_extra_nocturnas">
+                <field name="name">Horas Extra Nocturnas</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">HEXNOC</field>
+                <field name="sequence">53</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.HEXNOC: result_qty += worked_days.HEXNOC.number_of_hours
+result_rate = 260
+result = payslip.computed_daily_wage / 8
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_horas_nocturnas">
+                <field name="name">Horas Nocturnas</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">HNOC</field>
+                <field name="sequence">54</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.HNOC: result_qty += worked_days.HNOC.number_of_hours
+result_rate = 260
+result = payslip.computed_daily_wage / 8
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_bonificacion_familiar">
+                <field name="name">Bonificación Familiar</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">BF</field>
+                <field name="sequence">80</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = employee.underage_children_count
+result_rate = 5
+result = payslip.env['wizard_salario_minimo'].get_salario_vigente(payslip.date_from)
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_comisiones">
+                <field name="name">Comisiones</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">COM</field>
+                <field name="sequence">81</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result = inputs.COM.amount if inputs.COM else 0
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_otras_bonificaciones">
+                <field name="name">Otras Bonificaciones</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">OB</field>
+                <field name="sequence">82</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result = inputs.OB.amount if inputs.OB else 0
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_extras">
+                <field name="name">Extras</field>
+                <field name="category_id" ref="hr_payroll.ALW"/>
+                <field name="code">EXT</field>
+                <field name="sequence">83</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result = inputs.EXT.amount if inputs.EXT else 0
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_adelantos">
+                <field name="name">Adelantos</field>
+                <field name="category_id" ref="hr_payroll.DED"/>
+                <field name="code">ADE</field>
+                <field name="sequence">84</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result = inputs.ADE.amount if inputs.ADE else 0
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_reposo">
+                <field name="name">Reposo</field>
+                <field name="category_id" ref="hr_payroll.DED"/>
+                <field name="code">REP</field>
+                <field name="sequence">85</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.REP: result_qty += worked_days.REP.number_of_days
+result_rate = 100
+result = payslip.computed_daily_wage
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_bruto">
+                <field name="name">Bruto</field>
+                <field name="category_id" ref="hr_payroll.GROSS"/>
+                <field name="code">GROSS</field>
+                <field name="sequence">100</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result = categories.BASIC + categories.ALW - (inputs.ADE.amount if inputs.ADE else 0) - (payslip.computed_daily_wage * worked_days.REP.number_of_days if worked_days.REP else 0)
+if result < 0: result = 0
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_suspension_pagada">
+                <field name="name">Suspension pagada</field>
+                <field name="category_id" ref="rrhh_payroll.categoria_regla_suspension_ausencia_descuento"/>
+                <field name="code">SUPA</field>
+                <field name="sequence">153</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.SUPA: result_qty += worked_days.SUPA.number_of_days
+result_rate = 100
+result = payslip.computed_daily_wage
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_suspension_no_pagada">
+                <field name="name">Suspension no pagada</field>
+                <field name="category_id" ref="rrhh_payroll.categoria_regla_suspension_ausencia_descuento"/>
+                <field name="code">SUNP</field>
+                <field name="sequence">154</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.SUNP: result_qty += worked_days.SUNP.number_of_days
+result_rate = 100
+result = payslip.computed_daily_wage
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_ausencia">
+                <field name="name">Ausencia</field>
+                <field name="category_id" ref="rrhh_payroll.categoria_regla_suspension_ausencia_descuento"/>
+                <field name="code">AUS</field>
+                <field name="sequence">155</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.AUS: result_qty += worked_days.AUS.number_of_days
+result_rate = 100
+result = payslip.computed_daily_wage
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_llegada_tardia">
+                <field name="name">Llegada tardía</field>
+                <field name="category_id" ref="rrhh_payroll.categoria_regla_suspension_ausencia_descuento"/>
+                <field name="code">LLT</field>
+                <field name="sequence">156</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.LLT: result_qty += worked_days.LLT.number_of_hours
+result_rate = 100
+result = payslip.computed_daily_wage / 8
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_amonestacion">
+                <field name="name">Amonestación</field>
+                <field name="category_id" ref="rrhh_payroll.categoria_regla_suspension_ausencia_descuento"/>
+                <field name="code">AMON</field>
+                <field name="sequence">157</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result_qty = 0
+if worked_days.AMON: result_qty += worked_days.AMON.number_of_hours
+result_rate = 100
+result = payslip.computed_daily_wage / 8
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_ips">
+                <field name="name">Descuento Seguro - IPS</field>
+                <field name="category_id" ref="hr_payroll.DED"/>
+                <field name="code">IPS</field>
+                <field name="sequence">201</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+monto_reposo = (payslip.computed_daily_wage * worked_days.REP.number_of_days if worked_days.REP else 0)
+result_qty = int(contract.seguro_ips)
+result_rate = 9
+result = (categories.BASIC + categories.ALW - categories.SUSAUDES - monto_reposo - BF)
+if result < 0: result = 0
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_otros_descuentos">
+                <field name="name">Otros Descuentos</field>
+                <field name="category_id" ref="rrhh_payroll.categoria_regla_suspension_ausencia_descuento"/>
+                <field name="code">OD</field>
+                <field name="sequence">301</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result = inputs.OD.amount if inputs.OD else 0
+                ]]></field>
+            </record>
+            <record model="hr.salary.rule" id="regla_salario_hora_neto">
+                <field name="name">Neto</field>
+                <field name="category_id" ref="hr_payroll.NET"/>
+                <field name="code">NET</field>
+                <field name="sequence">400</field>
+                <field name="struct_id" ref="rrhh_payroll.estructura_salario_hora"/>
+                <field name="amount_select">code</field>
+                <field name="amount_python_compute"><![CDATA[
+result = categories.BASIC + categories.ALW - categories.DED - categories.SUSAUDES
+                ]]></field>
+            </record>
+        </data>
+    </data>
+</odoo>

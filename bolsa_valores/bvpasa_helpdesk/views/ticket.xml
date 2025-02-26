@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <!-- helpdesk.ticket inherit form view -->
+        <record id="helpdesk_ticket_view_form" model="ir.ui.view">
+            <field name="name">helpdesk_ticket_view_form</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="is_iso" groups="bvpasa_helpdesk.grp_iso"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page name="page_iso" string="ISO" attrs="{'invisible':[('is_iso','=',False)]}" groups="bvpasa_helpdesk.grp_iso">
+                        <group string="Datos principales">
+                            <group>
+                                <field name="iso_from_user_id"  attrs="{'required':[('is_iso','=',True)]}"/>
+                                <field name="iso_procedencia"  attrs="{'required':[('is_iso','=',True)]}"/>
+                                <field name="iso_clasificacion"  attrs="{'required':[('is_iso','=',True)]}"/>
+                                <field name="iso_team_id"  attrs="{'required':[('is_iso','=',True)]}"/>
+                                
+                            </group>
+                            <group>
+                                <field name="iso_descripcion"  attrs="{'required':[('is_iso','=',True)]}"/>
+                                <field name="iso_evidencia"  attrs="{'required':[('is_iso','=',True)]}"/>
+                                <field name="iso_referencia"  attrs="{'required':[('is_iso','=',True)]}"/>
+                            </group>
+                        </group>
+                        <group string="Seguimiento">
+                            <group>
+                                <field name="iso_accion_inmediata"/>
+                                <field name="iso_evaluacion_causa"/>
+                                <field name="iso_acciones_correctivas"/>
+                                
+                                
+                            </group>
+                            <group>
+                                <field name="iso_implementacion_accion"/>
+                                <field name="iso_evaluacion_efectividad"/>
+                                <field name="iso_cierre"/>
+                            </group>
+                        </group>
+                    </page>
+                    
+                </xpath>
+            </field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <record model="ir.ui.view" id="plantilla_contrato_tree_view">
+        <field name="name">plantilla_contrato_tree_view</field>
+        <field name="model">plantilla.contrato</field>
+        <field name="arch" type="xml">
+            <tree string="Plantillas de Contrato">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="plantilla_contrato_form_view">
+        <field name="name">plantilla_contrato_form_view</field>
+        <field name="model">plantilla.contrato</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Secciones">
+                            <field name="seccion_ids" nolabel="1">
+                                <tree string="Secciones" editable="bottom" no_label="1">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="tipo"/>
+                                    <field name="texto"/>
+                                    <field name="items_ids" widget="many2many_tags"/>
+                                    <field name="secuencia"/>
+                                </tree>
+                                <form string="Secciones">
+                                    <group>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="tipo"/>
+                                        <field name="texto"/>
+                                        <field name="items_ids" widget="many2many_tags"/>
+                                        <field name="secuencia"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Generador Dinámico de Expresiones">
+                            <group>
+                                <field name="model_id"/>
+                                <field name="model_object_field"
+                                       domain="[('model_id','=',model_id),('ttype','!=','one2many'),('ttype','!=','many2many')]"/>
+                                <field name="sub_object" readonly="1"/>
+                                <field name="sub_model_object_field"
+                                       domain="[('model_id','=',sub_object),('ttype','!=','one2many'),('ttype','!=','many2many')]"
+                                       attrs="{'readonly':[('sub_object','=',False)],'required':[('sub_object','!=',False)]}"/>
+                                <field name="null_value"/>
+                                <field name="copyvalue"/>
+                            </group>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="plantilla_contrato_search_view">
+        <field name="name">plantilla_contrato_search_view</field>
+        <field name="model">plantilla.contrato</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="plantilla_contrato_view_action">
+        <field name="name">plantilla_contrato_view_action</field>
+        <field name="res_model">plantilla.contrato</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crea una nueva plantilla de contrato
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="plantilla_contrato_menuitem" name="Plantillas de Contrato" parent="hr.menu_config_employee" action="plantilla_contrato_view_action"/>
+
+</odoo>

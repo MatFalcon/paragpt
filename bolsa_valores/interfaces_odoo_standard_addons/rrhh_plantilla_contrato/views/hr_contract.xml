@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_contract_form_inherit">
+            <field name="name">hr_contract_form_inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='job_id']/.." position="inside">
+                    <field name="plantilla_id" options="{'no_quick_create':True, 'no_create_edit':True, 'no_open':True}"/>
+                </xpath>
+                <xpath expr="//notebook/page/group/group/field[@name='analytic_account_id']/.." position="inside">
+                    <field name="contacto_accidente"/>
+                    <field name="funciones_a_realizar_lugar_trabajo"/>
+                    <field name="nombre_lugar_trabajo"/>
+                    <field name="ciudad_lugar_trabajo"/>
+                    <field name="distrito_lugar_trabajo"/>
+                    <field name="state_id_lugar_trabajo"/>
+                    <field name="dia_descanso"/>
+                    <field name="duracion_jornada_trabajo"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">res_config_settings_view_form_inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@data-key='hr_payroll']" position="inside">
+                    <h2>Estructuras Salariales de Localizaciones Paraguay</h2>
+                    <div class="row mt16 o_settings_container" id="reportes_ministerio_trabajo_py_default_structures_config">
+                        <div class="col-lg-6 col-12 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <div class="o_form_label">
+                                    Configuraciones de las Estructuras Salariales utilizadas por las Localizaciones Paraguay
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16 ms-2">
+                                        <label for="payroll_structure_default_vacacion" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="payroll_structure_default_vacacion" class="col-lg-6 p-0"
+                                               domain="[('type_id.structure_type_tag','=','vacacion')]" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="payroll_structure_default_aguinaldo" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="payroll_structure_default_aguinaldo" class="col-lg-6 p-0"
+                                               domain="[('type_id.structure_type_tag','=','aguinaldo')]" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="base_aguinaldo_descuentos" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="base_aguinaldo_descuentos" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Reportes de Ministerio de Trabajo</h2>
+                    <div class="row mt16 o_settings_container" id="reportes_ministerio_trabajo_py_report_config">
+                        <div class="col-lg-6 col-12 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <div class="o_form_label">
+                                    Configuraciones para el reporte de Sueldos y Jornales
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16 ms-2">
+                                        <label for="sueldos_y_jornales_report_dias_sabado_valor" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="sueldos_y_jornales_report_dias_sabado_valor" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="sueldos_y_jornales_report_codigos_hex_50" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="sueldos_y_jornales_report_codigos_hex_50" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="sueldos_y_jornales_report_codigos_hex_100" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="sueldos_y_jornales_report_codigos_hex_100" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="sueldos_y_jornales_report_codigos_hex_otros" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="sueldos_y_jornales_report_codigos_hex_otros" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="sueldos_y_jornales_report_codigos_bonificacion_familiar" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="sueldos_y_jornales_report_codigos_bonificacion_familiar" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="sueldos_y_jornales_report_codigos_otros_beneficios" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="sueldos_y_jornales_report_codigos_otros_beneficios" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

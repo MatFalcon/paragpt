@@ -1,0 +1,115 @@
+<odoo>
+    <data>
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'hr_payroll'), ('name', '=', 'ir_rule_hr_payroll_structure_multi_company')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        <record model="ir.rule" id="hr_payroll.ir_rule_hr_payroll_structure_multi_company">
+            <field name="active" eval="False"/>
+        </record>
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'hr_payroll'), ('name', '=', 'ir_rule_hr_payroll_structure_multi_company')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'hr_contract'), ('name', '=', 'ir_rule_hr_payroll_structure_type_multi_company')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        <record model="ir.rule" id="hr_contract.ir_rule_hr_payroll_structure_type_multi_company">
+            <field name="active" eval="False"/>
+        </record>
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'hr_contract'), ('name', '=', 'ir_rule_hr_payroll_structure_type_multi_company')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <record model="hr.work.entry.type" id="tipo_entrada_vacaciones">
+            <field name="name">Vacaciones</field>
+            <field name="code">VAC</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.leave.type" id="tipo_ausencia_vacaciones">
+            <field name="name">Vacaciones</field>
+            <field name="code">VAC</field>
+            <field name="leave_validation_type">hr</field>
+            <field name="request_unit">day</field>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="requires_allocation">no</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record model="hr.payroll.structure.type" id="tipo_estructura_vacaciones">
+            <field name="name">Vacaciones</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="wage_type">monthly</field>
+            <field name="structure_type_tag">vacacion</field>
+            <field name="default_schedule_pay">monthly</field>
+        </record>
+        <record model="hr.payroll.structure" id="estructura_vacaciones">
+            <field name="name">Plantilla - Vacaciones</field>
+            <field name="use_worked_day_lines" eval="True"/>
+            <field name="schedule_pay">monthly</field>
+            <field name="type_id" ref="reportes_ministerio_trabajo_py.tipo_estructura_vacaciones"/>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_vacaciones_basico">
+            <field name="name">Básico</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="code">BASIC</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_vacaciones"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.WORK100.amount if worked_days.WORK100 else 0</field>
+            <field name="active" eval="False"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_vacaciones_vacaciones">
+            <field name="name">Vacaciones</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="code">VAC</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_vacaciones"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+daily_wage = contract.get_computed_daily_wage(payslip.date_to)
+result = daily_wage * worked_days.VAC.number_of_days if worked_days.VAC else 0
+            ]]></field>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_vacaciones_bruto">
+            <field name="name">Bruto</field>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="code">GROSS</field>
+            <field name="sequence">100</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_vacaciones"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_vacaciones_ips">
+            <field name="name">Descuento Seguro - IPS</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="code">IPS</field>
+            <field name="sequence">150</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_vacaciones"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.GROSS * 0.09</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_vacaciones_neto">
+            <field name="name">Neto</field>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="code">NET</field>
+            <field name="sequence">400</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_vacaciones"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.BASIC + categories.ALW - categories.DED</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

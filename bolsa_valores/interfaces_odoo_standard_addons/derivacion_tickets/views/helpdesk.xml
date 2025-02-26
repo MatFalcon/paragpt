@@ -1,0 +1,67 @@
+<odoo>
+    <!-- model.name inherit form view -->
+    <record id="help_dek_view_id" model="ir.ui.view">
+        <field name="name">Helpdesk</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='assign_ticket_to_self']" position="after">
+                <!-- Add your fields here -->
+                <button name="marcar_entregado" string="Finalizado" type="object" class="btn-danger"  attrs="{'invisible': [('entregado','=',True)]}"/>
+                <button name="marcar_no_entregado" string="No finalizado" type="object" class="oe_highlight" attrs="{'invisible': [('entregado','=', False)]}"/>
+
+            </xpath>
+            
+            <!-- Add your xpath here -->
+            <xpath expr="//field[@name='email_cc']" position="after">
+                <!-- Add your fields here -->
+                <field name="rating_selection"/>
+                <field name="rating_valor_pivot" invisible="1"/>
+                <field name="padre" readonly="True" invisible="1"/>
+                <field name="user_parent" attrs="{'invisible' : [('user_parent','=',False)]}"/>
+                <field name="parent_id" readonly="True" attrs="{'invisible' : [('padre','=',0)]}"/>
+                <field name="derivar" attrs="{'invisible' :[('id','=',False)], 'readonly':[('entregado','=',True)]}" />
+                <field name="asunto"  attrs="{'required': [('derivar','!=',False)],  'invisible' : [('derivar','=',False)] }" />
+                <field name="comentario" attrs="{'invisible' : [('derivar','=',False)]}"/>
+                <field name="entregado" invisible="1"/>
+                
+
+            </xpath>
+            <xpath expr="//field[@name='ticket_type_id']" position="after">
+                <field name="create_date" string="Fecha de creacion"/>
+                <field name="bandera" invisible="1"/>
+                <field name="dias" />
+            </xpath>
+
+
+            <xpath expr="//field[@name='description']" position="after">
+                <notebook >
+                    <page  name="historial_id" string="Historial" readonly="True"> 
+                        <field name="historial_id" readonly="True">
+                            <tree>
+                                <field name="create_date" string="Fecha de derivacion"/>
+                                <field name="user_id"/>
+                                <field name="canal"/>
+                                <field name="name"/>
+                                <field name="estado"/>
+                                <field name="dias" />
+                                <field name="asunto"/>
+                                <field name="comentario"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+
+
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <!-- Add your fields here -->
+                <attribute name="string">Canal</attribute>
+                <attribute name="attrs">{'readonly' :[('id','!=',False)]}</attribute>
+            </xpath> 
+          
+
+        </field>
+    </record>
+
+</odoo>

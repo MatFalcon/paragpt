@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="plantilla_contrato_subsecicon_tree_view">
+            <field name="name">plantilla_contrato_subsecicon_tree_view</field>
+            <field name="model">plantilla.contrato.subseccion</field>
+            <field name="arch" type="xml">
+                <tree string="Sub Secciones">
+                    <field name="secuencia"/>
+                    <field name="texto"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="plantilla_contrato_subsecicon_form_view">
+            <field name="name">plantilla_contrato_subsecicon_form_view</field>
+            <field name="model">plantilla.contrato.subseccion</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="parent_id"/>
+                                <field name="secuencia"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="texto"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sub_secciones_plantillas_action">
+            <field name="name">Sub secciones de Plantillas de Contrato</field>
+            <field name="res_model">plantilla.contrato.subseccion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Crea una nueva sub sección de plantilla</p>
+            </field>
+        </record>
+
+        <menuitem id="plantilla_contrato_subseccion_menuitem" name="Subsecciones de Plantillas de Contrato" parent="hr.menu_config_employee"
+                  action="sub_secciones_plantillas_action"/>
+
+    </data>
+</odoo>

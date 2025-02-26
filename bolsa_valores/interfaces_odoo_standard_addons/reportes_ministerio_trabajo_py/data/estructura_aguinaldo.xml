@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="hr.payslip.input.type" id="tipo_input_aguinaldo">
+            <field name="name">Aguinaldo</field>
+            <field name="code">AGUI</field>
+        </record>
+
+        <record model="hr.payroll.structure.type" id="tipo_estructura_aguinaldo">
+            <field name="name">Aguinaldo</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="wage_type">monthly</field>
+            <field name="structure_type_tag">aguinaldo</field>
+            <field name="default_schedule_pay">monthly</field>
+        </record>
+        <record model="hr.payroll.structure" id="estructura_aguinaldo">
+            <field name="name">Plantilla - Estructura Aguinaldo</field>
+            <field name="active" eval="False"/>
+            <field name="use_worked_day_lines" eval="True"/>
+            <field name="schedule_pay">monthly</field>
+            <field name="type_id" ref="reportes_ministerio_trabajo_py.tipo_estructura_aguinaldo"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_aguinaldo_basico">
+            <field name="name">Básico</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="code">BASIC</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_aguinaldo"/>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_aguinaldo_aguinaldo">
+            <field name="name">Aguinaldo</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="code">AGUI</field>
+            <field name="sequence">50</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_aguinaldo"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = sum(payslip.env['historial.salario'].sudo().search([('state','=','good'),('payslip_id.contract_id','=',contract.id)]).filtered(lambda x: x.date_from.year == payslip.date_from.year).mapped('bruto_para_aguinaldo'))
+if inputs.AGUI: result += inputs.AGUI.amount
+result = result / 12
+            ]]></field>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_aguinaldo_bruto">
+            <field name="name">Bruto</field>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="code">GROSS</field>
+            <field name="sequence">110</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_aguinaldo"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = AGUI</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="hr.salary.rule" id="regla_aguinaldo_neto">
+            <field name="name">Neto</field>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="code">NET</field>
+            <field name="sequence">400</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_aguinaldo"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.GROSS - categories.DED</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

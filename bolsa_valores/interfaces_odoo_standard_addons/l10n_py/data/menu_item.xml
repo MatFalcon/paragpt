@@ -1,0 +1,3 @@
+<odoo>
+    <menuitem id="account_reports_py_statements_menu" name="Paraguay" parent="account.menu_finance_reports" sequence="0" groups="account.group_account_readonly"/>
+</odoo>

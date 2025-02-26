@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="control_acceso.list">
+      <field name="name">control_acceso list</field>
+      <field name="model">control_acceso.control_acceso</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="control_acceso.action_window">
+      <field name="name">control_acceso window</field>
+      <field name="res_model">control_acceso.control_acceso</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="control_acceso.action_server">
+      <field name="name">control_acceso server</field>
+      <field name="model_id" ref="model_control_acceso_control_acceso"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="control_acceso" id="control_acceso.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="control_acceso.menu_1" parent="control_acceso.menu_root"/>
+    <menuitem name="Menu 2" id="control_acceso.menu_2" parent="control_acceso.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="control_acceso.menu_1_list" parent="control_acceso.menu_1"
+              action="control_acceso.action_window"/>
+    <menuitem name="Server to list" id="control_acceso" parent="control_acceso.menu_2"
+              action="control_acceso.action_server"/>
+-->
+  </data>
+</odoo>

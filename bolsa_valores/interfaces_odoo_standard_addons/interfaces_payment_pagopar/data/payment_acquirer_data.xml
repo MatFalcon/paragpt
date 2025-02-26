@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="payment_method_pagopar" model="account.payment.method">
+            <field name="name">Pagopar</field>
+            <field name="code">pagopar</field>
+            <field name="payment_type">inbound</field>
+        </record>
+
+        <record id="payment_acquirer_bancard_vpos" model="payment.acquirer">
+            <field name="name">Pago con envío</field>
+            <field name="provider">pagopar</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="redirect_form_view_id" ref="redirect_form"/>
+            <!-- <field name="registration_view_template_id" ref="stripe_s2s_form"/> -->
+            <field name="pre_msg"><![CDATA[
+<p>Se redirigirá a la página de PAGOPAR al oprimir este botón.</p>]]></field>
+            <field name="pagopar_private_key"></field>
+            <field name="pagopar_public_key"></field>
+            <field name="support_tokenization">True</field>
+            <field name="allow_tokenization">True</field>
+            <field name="envio_flete">True</field>
+            <field name="payment_icon_ids"
+                   eval="[(6, 0, [
+                   ref('payment.payment_icon_cc_mastercard'),
+                   ref('payment.payment_icon_cc_visa'),
+                   ref('interfaces_payment_pagopar.payment_icon_aquipago'),
+                   ref('interfaces_payment_pagopar.payment_icon_billetera-personal'),
+                   ref('interfaces_payment_pagopar.payment_icon_item-transferencias'),
+                   ref('interfaces_payment_pagopar.payment_icon_medio-card'),
+                   ref('interfaces_payment_pagopar.payment_icon_medio-infonet-cobranzas'),
+                   ref('interfaces_payment_pagopar.payment_icon_medio-pago-movil'),
+                   ref('interfaces_payment_pagopar.payment_icon_pagoexpress'),
+                   ref('interfaces_payment_pagopar.payment_icon_practipago'),
+                   ref('interfaces_payment_pagopar.payment_icon_tarjeta-cabal'),
+                   ref('interfaces_payment_pagopar.payment_icon_tarjeta-panal'),
+                   ref('interfaces_payment_pagopar.payment_icon_tigo-money'),
+                   ref('interfaces_payment_pagopar.payment_icon_zimple'),
+                   ref('interfaces_payment_pagopar.payment_icon_wepa'),
+                   ref('interfaces_payment_pagopar.payment_icon_wally'),
+               ])]"/>
+        </record>
+
+    </data>
+</odoo>

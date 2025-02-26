@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="res_currency_form_inherit" model="ir.ui.view">
+            <field name="name">res_currency_form_inherit</field>
+            <field name="model">res.currency</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page/field[@name='rate_ids']/tree/field[@name='rate']" position="after">
+                    <field name="company_rate_tipo_cambio_comprador" digits="[12,12]"/>
+                    <field name="inverse_company_rate_tipo_cambio_comprador" digits="[12,12]"/>
+                    <field name="rate_tipo_cambio_comprador" digits="[12,12]" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

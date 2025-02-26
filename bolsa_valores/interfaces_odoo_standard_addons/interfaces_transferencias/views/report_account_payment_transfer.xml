@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <template id ="account.report_payment_receipt_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-if="o.payment_type=='transfer'">
+
+                        <h2 class="text-center">
+                            <span t-field="o.name" />
+                        </h2>
+                        <strong>Fecha: </strong>
+                        <span t-field="o.date"/>
+                        <br/>
+                        <strong>Usuario: </strong>
+                        <span t-field="o.create_uid.name"/>
+                        <br/>
+                        <strong>Motivo: </strong>
+                        <span t-field="o.motivo_transferencia"/>
+                        <br/>
+                        <table class="table">
+                            <thead>
+                                <th>Diario de origen</th>
+                                <th>Diario de destino</th>
+                                <th>Memo</th>
+                                <th>Monto</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span t-field="o.journal_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.destination_journal_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.ref"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.amount"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <table style="width:100%">
+                            <th>
+                                <td style="text-align:center">Autorizado por </td>
+                                <td>Firma</td>
+                            </th>
+                        </table>
+                    </t>
+                        <t t-else="">
+                            <strong style="text-center">No hay datos que mostrar</strong>
+                        </t>
+                    </div>
+                </t>
+            </template>
+
+        </data>
+    </odoo>

@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="ajustes_factura_recibo.factura" name="factura_bvpasa" inherit_id="factura_autoimpresor.factura">
+        <!--        <xpath expr="//table[@id='tabla_logo_factura']" position="replace">-->
+        <!--            &lt;!&ndash; logo &ndash;&gt;-->
+        <!--            <table style="width:100%;border:0px;">-->
+        <!--                <col width="40%"/>-->
+        <!--                <col width="60%"/>-->
+        <!--                <tr style="border: 0px !important" class="text-center">-->
+        <!--                    <td rowspan="10" style="padding-left:5px;border: 0px" id="logo_factura">-->
+        <!--                        <br/>-->
+        <!--                        <img t-att-src='image_data_uri(o.company_id.logo)'-->
+        <!--                            style="width:70mm;height:35mm" />-->
+        <!--                    </td>-->
+        <!--                </tr>-->
+        <!--                &lt;!&ndash; compania - row 1 &ndash;&gt;-->
+        <!--                <tr class="text-center" style="border:none !important">-->
+        <!--                    <td style="padding-right:2px;font-size:14px;border:none !important" >-->
+        <!--                        <strong>-->
+        <!--                            <t t-esc="o.company_id.name" />-->
+        <!--                        </strong>-->
+        <!--                    </td>-->
+        <!--                </tr>-->
+        <!--                &lt;!&ndash; rubro - row 2 &ndash;&gt;-->
+        <!--                <tr class="text-center" style="border:none !important">-->
+        <!--                    <td style="border:none !important">-->
+        <!--                        <span style="padding-right:2px;font-size:11px !important">-->
+        <!--                            <t t-esc="o.company_id.rubro_set" />-->
+        <!--                        </span>-->
+        <!--                    </td>-->
+        <!--                </tr>-->
+        <!--                &lt;!&ndash; street - row 3 &ndash;&gt;-->
+        <!--                <tr class="text-center" style="border:none !important">-->
+        <!--                    <td style="border:none !important">-->
+        <!--                        <span style="font-size:11px !important">-->
+        <!--                            <t t-esc="o.company_id.street" />-->
+        <!--                        </span>-->
+        <!--                    </td>-->
+        <!--                </tr>-->
+        <!--                -->
+        <!--                &lt;!&ndash; phone - row 4 &ndash;&gt;-->
+        <!--                <tr class="text-center" style="border:none !important">-->
+        <!--                    <td style="border:none !important">-->
+        <!--                        <span style="font-size:11px !important">Tel: <t-->
+        <!--                            t-esc="o.company_id.phone" />-->
+        <!--                        </span>-->
+        <!--                    </td>-->
+        <!--                </tr>-->
+        <!--                &lt;!&ndash; email - row 5 &ndash;&gt;-->
+        <!--                <tr class="text-center" style="border:none !important">-->
+        <!--                    <td style="border:none !important">-->
+        <!--                        <span style="font-size:11px !important">Email: <t-->
+        <!--                            t-esc="o.company_id.email" />-->
+        <!--                        </span>-->
+        <!--                    </td>-->
+        <!--                </tr>-->
+        <!--                &lt;!&ndash; website - row 6 &ndash;&gt;-->
+        <!--                <tr class="text-center" style="border:none !important">-->
+        <!--                    <td style="border:none !important">-->
+        <!--                        <span style="font-size:11px !important">Web: <t-->
+        <!--                            t-esc="o.company_id.website" />-->
+        <!--                        </span>-->
+        <!--                    </td>-->
+        <!--                </tr>-->
+        <!--                &lt;!&ndash; city & country - row 7 &ndash;&gt;-->
+        <!--                <tr class="text-center" style="border:none !important">-->
+        <!--                    <td style="border:none !important">-->
+        <!--                        <span style="font-size:11px !important">-->
+        <!--                            <t t-esc="o.company_id.city" /> - <t-->
+        <!--                                t-esc="o.company_id.country_id.name" />-->
+        <!--                        </span>-->
+        <!--                    </td>-->
+        <!--                </tr>-->
+        <!--            </table>        -->
+        <!--        </xpath>-->
+        <xpath expr="//div[@class='page']" position="replace">
+            <!--            <div class="article"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')"></div>-->
+            <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet"/>
+            <style>
+                .negrita{
+                font-weight:bold !important;
+                }
+                .no-negrita{
+                font-weight:normal !important;
+                }
+                .roboto{
+                font-family: 'Roboto'
+                }
+            </style>
+            <div class="page">
+                <div class="col-xs-6 roboto" style="margin-left:2mm;">
+                    <table class="tabla">
+                        <tr>
+                            <td style="border-right: 1px solid black">
+                                <table style="width:100%;border:0px;">
+                                    <col width="40%"/>
+                                    <col width="60%"/>
+                                    <tr style="border: 0px !important" class="text-center">
+                                        <td rowspan="10" style="padding-left:5px;border: 0px" id="logo_factura">
+                                            <br/>
+                                            <img t-att-src='image_data_uri(o.company_id.logo)'
+                                                 style="width:70mm;height:35mm" />
+                                        </td>
+                                    </tr>
+                                    <!-- compania - row 1 -->
+                                    <tr class="text-center negrita" style="border:none !important;">
+                                        <td style="padding-right:2px;font-size:14px;border:none !important;" >
+                                            <div style="width:100% !important;height:10px !important;"/>
+                                            <span>
+                                                <t t-esc="o.company_id.name" />
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <!-- rubro - row 2 -->
+                                    <tr class="text-center no-negrita" style="border:none !important">
+                                        <td style="border:none !important">
+                                            <span style="padding-right:2px;font-size:11px !important">
+                                                <t t-esc="o.company_id.rubro_set" />
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <!-- street - row 3 -->
+                                    <tr class="text-center no-negrita" style="border:none !important">
+                                        <td style="border:none !important">
+                                            <span style="font-size:11px !important">
+                                                <t t-esc="o.company_id.street" />
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                    <!-- phone - row 4 -->
+                                    <tr class="text-center no-negrita" style="border:none !important">
+                                        <td style="border:none !important">
+                                            <span style="font-size:11px !important">Tel: <t
+                                                    t-esc="o.company_id.phone" />
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <!-- email - row 5 -->
+                                    <tr class="text-center no-negrita" style="border:none !important">
+                                        <td style="border:none !important">
+                                            <span style="font-size:11px !important">Email: <t
+                                                    t-esc="o.company_id.email" />
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <!-- website - row 6 -->
+                                    <tr class="text-center no-negrita" style="border:none !important">
+                                        <td style="border:none !important">
+                                            <span style="font-size:11px !important">Web: <t
+                                                    t-esc="o.company_id.website" />
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <!-- city & country - row 7 -->
+                                    <tr class="text-center no-negrita" style="border:none !important">
+                                        <td style="border:none !important">
+                                            <span style="font-size:11px !important">
+                                                <t t-esc="o.company_id.city" /> - <t
+                                                    t-esc="o.company_id.country_id.name" />
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr style="border:none !important;">
+                                        <td style="color:white;">
+                                            -
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="30%" class="text-center"
+                                style="font-size:12px; vertical-align:middle !important;">
+                                <span>
+                                    <span class="campos">TIMBRADO N° :</span>
+                                    <t
+                                            t-foreach="o.journal_id.timbrados_ids.filtered(lambda x:x.tipo_documento==o.move_type)"
+                                            t-as="timb">
+                                        <t t-if="timb.active == 1 ">
+                                            <span class="no-negrita" style="font-size:16px !important;" t-field="timb.name"/>
+                                        </t>
+                                    </t>
+                                </span>
+                                <br />
+                                <t
+                                        t-foreach="o.journal_id.timbrados_ids.filtered(lambda x:x.tipo_documento==o.move_type)"
+                                        t-as="timb">
+                                    <span>
+                                        <span class="campos">Inicio de vigencia: </span>
+                                        <t
+                                                t-if="timb.active == 1 ">
+                                            <span class="no-negrita" style="font-size:16px !important;" t-esc="timb.inicio_vigencia.strftime('%d/%m/%Y')" />
+                                        </t>
+                                    </span>
+                                    <br />
+                                    <span>
+                                        <span class="campos">Fin de vigencia:</span>
+                                        <t
+                                                t-if="timb.active == 1 ">
+                                            <span class="no-negrita" style="font-size:16px !important;" t-esc="timb.fin_vigencia.strftime('%d/%m/%Y')" />
+                                        </t>
+                                    </span>
+                                </t>
+
+                                <p><span class="campos">RUC:</span> <span class="no-negrita" style="font-size:16px !important;"><t t-esc="o.company_id.vat"/></span>
+                                </p>
+
+                                <t t-if="o.move_type=='out_invoice'">
+                                    <p class="campos">FACTURA N°</p>
+                                </t>
+                                <t t-elif="o.move_type=='out_refund'">
+                                    <p class="campos">NOTA DE CREDITO N°</p>
+                                </t>
+
+                                <p class="f-16">
+                                    <span class="num_factura text-center"
+                                          style="font-size:20px !important" t-field="o.name"/>
+                                </p>
+                                <p class="f-16">
+                                    <span id="original_duplicado" class="text-center">
+                                        <t t-esc="version_factura" />
+                                    </span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div
+                            style="position:absolute;opacity:0.20;z-index:1000;transform:rotate(310deg);-webkit-transform:rotate(310deg);width:50%;margin-left:150px;margin-top:300px">
+                        <p id="marca_agua" style="font-size:40px">
+                            <t t-esc="mensaje_marca_agua" />
+                        </p>
+                    </div>
+                    <t t-if="o.move_type=='out_invoice'">
+                        <table class="tabla">
+                            <tr>
+                                <td class="campos text-right">
+                                    CONDICIÓN DE VENTA:
+                                </td>
+                                <t t-if="o.invoice_date==o.invoice_date_due">
+                                    <td class="w-30 fs-16 ">Contado (X)</td>
+                                    <td class="w-30 fs-16 ">Crédito ( )</td>
+                                </t>
+                                <t t-if="o.invoice_date!=o.invoice_date_due">
+                                    <td class="w-30 fs-16 ">Contado ( )</td>
+                                    <td class="w-30 fs-16 ">Crédito (X)</td>
+                                </t>
+                            </tr>
+                        </table>
+                    </t>
+                    <table class="tabla" id="encabezado">
+                        <col style="width:70%;"/>
+                        <col style="width:30%;"/>
+                        <!--                            <col style="width:11%;"/>-->
+                        <tr>
+                            <td class="fs-16 text-left" style="padding-left:5px;">
+                                <t t-if="o.invoice_date">
+                                    <t t-set="fecha" t-value="o.invoice_date.strftime('%d/%m/%Y')"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="fecha" t-value="'&#160;'"/>
+                                </t>
+                                <span>
+                                    <strong>FECHA DE EMISION:</strong>
+                                    <t t-esc="'&#160;' + fecha"/>
+                                </span>
+                            </td>
+                            <td  class="fs-16 text-left" style="border-right:1px solid black;">
+                                <t t-if="o.invoice_date_due and o.invoice_date_due>o.invoice_date and o.move_type=='out_invoice'">
+                                    <t t-if="o.invoice_date_due">
+                                        <t t-set="vencimiento" t-value="o.invoice_date_due.strftime('%d/%m/%Y')"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="vencimiento" t-value="'&#160;'"/>
+                                    </t>
+                                    <span>
+                                        <strong>VENCIMIENTO:</strong>
+                                        <t t-esc="'&#160;' + vencimiento"/>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <span/>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fs-16 text-left" style="padding-left:5px;">
+                                <t t-if="o.partner_id.parent_id">
+                                    <t t-set="nombre" t-value="o.partner_id.parent_id.name"/>
+                                </t>
+                                <t t-if="not o.partner_id.parent_id">
+                                    <t t-set="nombre" t-value="o.partner_id.name"/>
+                                </t>
+                                <span>
+                                    <strong>NOMBRE:</strong>
+                                    <t t-esc="'&#160;' + nombre"/>
+                                </span>
+                            </td>
+                            <td  class="fs-16 text-left" style="border-right:1px solid black;">
+                                <t t-if="o.partner_id.parent_id">
+                                    <t t-set="ruc" t-value="o.partner_id.parent_id.vat"/>
+                                </t>
+                                <t t-if="not o.partner_id.parent_id">
+                                    <t t-set="ruc" t-value="o.partner_id.vat"/>
+                                </t>
+                                <span>
+                                    <strong>RUC:</strong>
+                                    <t t-esc="'&#160;' + ruc"/>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="fs-16 text-left" style="padding-left:5px;border-right:1px solid black;">
+                                <t t-if="o.partner_id.street">
+                                    <t t-set="calle" t-value="o.partner_id.street"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="calle" t-value="'&#160;'"/>
+                                </t>
+                                <t t-if="o.partner_id.city">
+                                    <t t-set="ciudad" t-value="' - ' + o.partner_id.city"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="ciudad" t-value="'&#160;'"/>
+                                </t>
+                                <t t-if="o.partner_id.country_id.name">
+                                    <t t-set="pais" t-value="' - ' + o.partner_id.country_id.name"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="pais" t-value="'&#160;'"/>
+                                </t>
+                                <span>
+                                    <strong>DIRECCIÓN:</strong>
+                                    <t t-esc="'&#160;' + calle + ciudad + pais"/>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fs-16 text-left" style="padding-left:5px;">
+                                <t t-if="o.partner_id.email">
+                                    <t t-set="email" t-value="o.partner_id.email"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="email" t-value="'&#160;'"/>
+                                </t>
+                                <span>
+                                    <strong>EMAIL:</strong>
+                                    <t t-esc="'&#160;' + email"/>
+                                </span>
+                            </td>
+                            <td  colspan="2" class="fs-16 text-left" style="border-right:1px solid black;">
+                                <t t-if="o.partner_id.phone">
+                                    <t t-set="tel" t-value="o.partner_id.phone"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="tel" t-value="'&#160;'"/>
+                                </t>
+                                <span>
+                                    <strong>TEL:</strong>
+                                    <t t-esc="'&#160;' + tel"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="tabla" id="tituloDetalle">
+                        <tr class="text-center">
+                            <th rowspan="2" class="w-10p mt-5" style="height:100%; vertical-align:middle !important;">
+                                <p class="campos">COD.</p>
+                            </th>
+                            <th rowspan="2" class="w-10p mt-5" style="height:100%; vertical-align:middle !important;">
+                                <p class="campos">CANT.</p>
+                            </th>
+                            <th rowspan="2" class="w-40p mt-5" style="height:100%; vertical-align:middle !important;">
+                                <p class="campos">DESCRIPCION</p>
+                            </th>
+                            <th rowspan="2" class="w-10p">
+                                <p class="campos">PRECIO UNITARIO</p>
+                            </th>
+                            <th rowspan="1" class="w-30p" colspan="3">
+                                <p class="campos ">VALOR DE VENTA</p>
+                            </th>
+                        </tr>
+                        <tr class="text-center">
+                            <th class="w-10p">
+                                <p class="campos ">EXENTA</p>
+                            </th>
+                            <th class="w-10p">
+                                <p class="campos">IVA 5%</p>
+                            </th>
+                            <th class="w-10p">
+                                <p class="campos">IVA 10%</p>
+                            </th>
+                        </tr>
+                    </table>
+
+                    <t t-if="o.journal_id.mostrar_qr">
+                        <t t-set="table_style"
+                           t-value="'t-detalle-qr'" />
+                    </t>
+                    <t t-else="">
+                        <t t-set="table_style"
+                           t-value="'t-detalle'" />
+                    </t>
+                    <!-- <table class="t-detalle"> -->
+                    <table t-att-class="table_style">
+                        <t t-set="max_line" t-value="0" />
+                        <t t-set="subtotalExentas" t-value="0" />
+                        <t t-set="subtotalCinco" t-value="0" />
+                        <t t-set="subtotalDiez" t-value="0" />
+                        <t t-if="o.move_type == 'out_refund' and o.ref">
+                            <tr>
+                                <td class="w-10p no-border lineaDetalle text-center"
+                                    style="word-break: break-all; text-align:right;"/>
+                                <td class="w-10p no-border lineaDetalle text-center"/>
+                                <td class="w-40p no-border lineaDetalle"
+                                    style="text-align:left !important; text-align:right;">
+                                    <t t-esc="o.ref"/>
+                                </td>
+                                <td class="w-10p no-border lineaDetalle"/>
+                                <td class="w-10p lineaDetalle"/>
+                                <td class="w-10p lineaDetalle"/>
+                                <td class="w-10p lineaDetalle"/>
+                            </tr>
+                        </t>
+                        <t t-foreach="o.invoice_line_ids" t-as="l">
+                            <tr class="fs-14" style="height:14px;line:height:14px">
+                                <td class="w-10p no-border lineaDetalle text-center"
+                                    style="word-break: break-all; text-align:right;">
+                                    <t t-if="l.product_id and l.product_id.default_code">
+                                        <span t-field="l.product_id.default_code" />
+                                    </t>
+                                    <t t-else="">
+                                        <span></span>
+                                    </t>
+                                </td>
+                                <td class="w-10p no-border lineaDetalle text-center" style="text-align:right;">
+                                    <span t-esc="l.quantity" />
+                                </td>
+                                <td class="w-40p no-border lineaDetalle"
+                                    style="text-align:left !important; text-align:right;">
+                                    <t t-esc="l.name" />
+                                </td>
+                                <td class="w-10p no-border lineaDetalle" style="text-align:right;">
+                                    <!-- <span t-esc="o.format_monto(l.price_unit)" /> -->
+                                    <span
+                                            t-esc="o.format_monto(l.price_unit - (l.price_unit*l.discount/100))" />
+                                </td>
+                                <t t-if="l.tax_ids.amount==0.0000">
+                                    <td class="w-10p lineaDetalle" id="exentasCampo" style="text-align:right;">
+                                        <t t-set="subtotal1"
+                                           t-value="(l.price_unit - (l.price_unit*l.discount/100)) * l.quantity" />
+                                        <span t-esc="o.format_monto(subtotal1)" />
+                                        <t t-set="subtotalExentas"
+                                           t-value="subtotalExentas+subtotal1" />
+                                    </td>
+                                    <td class="w-10p lineaDetalle" id="cincoCampo">
+                                        <span></span>
+                                    </td>
+                                    <td class="w-10p lineaDetalle" id="diezCampo">
+                                        <span></span>
+                                    </td>
+                                </t>
+                                <t t-if="l.tax_ids.amount==5.0000">
+                                    <td class="w-10p lineaDetalle" id="exentasCampo">
+                                        <span></span>
+                                    </td>
+                                    <td class="w-10p lineaDetalle" id="cincoCampo" style="text-align:right;">
+                                        <t t-set="subtotal1"
+                                           t-value="(l.price_unit - (l.price_unit*l.discount/100)) * l.quantity" />
+                                        <span t-esc="o.format_monto(subtotal1)" />
+                                        <t t-set="subtotalCinco" t-value="subtotalCinco+subtotal1" />
+                                    </td>
+                                    <td class="w-10p lineaDetalle" id="diezCampo">
+                                        <span></span>
+                                    </td>
+                                </t>
+                                <t t-if="l.tax_ids.amount==10.0000">
+                                    <td class="w-10p lineaDetalle" id="exentasCampo">
+                                        <span></span>
+                                    </td>
+                                    <td class="w-10p lineaDetalle" id="cincoCampo">
+                                        <span></span>
+                                    </td>
+                                    <td class="w-10p lineaDetalle" id="diezCampo" style="text-align:right;">
+                                        <t t-set="subtotal1"
+                                           t-value="(l.price_unit - (l.price_unit*l.discount/100)) * l.quantity" />
+                                        <span t-esc="o.format_monto(subtotal1)" />
+                                        <t t-set="subtotalDiez" t-value="subtotalDiez+subtotal1" />
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                        <t t-if="o.journal_id.max_lineas > 0">
+                            <t t-foreach="o.journal_id.max_lineas-len(o.invoice_line_ids)"
+                               t-as="restante">
+                                <tr>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                </tr>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <t t-foreach="20-len(o.invoice_line_ids)"
+                               t-as="restante">
+                                <tr>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                    <td class="lineaDetalle"></td>
+                                </tr>
+                            </t>
+                        </t>
+                    </table>
+
+                    <table class="tabla">
+                        <tr class="fs-14">
+                            <t t-set="subtotalExentas" t-value="0" />
+                            <t t-set="subtotalCinco" t-value="0" />
+                            <t t-set="subtotalDiez" t-value="0" />
+                            <t t-set="ivaCinco" t-value="0" />
+                            <t t-set="ivaDiez" t-value="0" />
+                            <t t-foreach="o.invoice_line_ids" t-as="l">
+                                <t t-if="l.tax_ids.amount==0.0000">
+                                    <t t-set="subtotalEx"
+                                       t-value="(l.price_unit - (l.price_unit*l.discount/100)) * l.quantity" />
+                                    <t t-set="subtotalExentas" t-value="subtotalExentas+subtotalEx" />
+                                </t>
+                                <t t-if="l.tax_ids.amount==5.0000">
+                                    <t t-set="subtotal5"
+                                       t-value="(l.price_unit - (l.price_unit*l.discount/100)) * l.quantity" />
+                                    <t t-set="ivaCinco"
+                                       t-value="ivaCinco + ((l.price_unit - (l.price_unit*l.discount/100)) * l.quantity  / 21)" />
+                                    <t t-set="subtotalCinco" t-value="subtotalCinco+subtotal5" />
+                                </t>
+                                <t t-if="l.tax_ids.amount==10.0000">
+                                    <t t-set="subtotal10"
+                                       t-value="(l.price_unit - (l.price_unit*l.discount/100)) * l.quantity" />
+                                    <t t-set="ivaDiez"
+                                       t-value="ivaDiez + ((l.price_unit - (l.price_unit*l.discount/100)) * l.quantity / 11)" />
+                                    <t t-set="subtotalDiez" t-value="subtotalDiez+subtotal10" />
+                                </t>
+                            </t>
+                            <td class="campos w-60p" colspan="4" style="border:1px solid black">
+                                <span class="campos" style="padding-top:10px;padding-bottom:10px;">SUB
+                                    TOTALES: </span>
+                            </td>
+                            <td class="w-10p lineaDetalle" style="border:none !important">
+                            </td>
+                            <td class="w-10p lineaDetalle" id="exentasCampo"
+                                style="border:1px solid black; text-align:right;">
+                                <span t-esc="o.format_monto(subtotalExentas)" />
+                            </td>
+                            <td class="w-10p lineaDetalle" id="cincoCampo"
+                                style="border:1px solid black; text-align:right;">
+                                <span t-esc="o.format_monto(subtotalCinco)" />
+                            </td>
+                            <td class="w-10p lineaDetalle" id="diezCampo"
+                                style="border:1px solid black; text-align:right;">
+                                <span t-esc="o.format_monto(subtotalDiez)" />
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="tabla">
+                        <tr class="fs-14">
+                            <td class="campos w-20p">
+                                <span class="campos" style="padding-top:10px;padding-bottom:10px; text-align:right;">TOTAL
+                                    A PAGAR: </span>
+                            </td>
+                            <td class="w-60p" style="text-align:right;">
+                                <span>
+                                    <t t-esc="o.currency_id.currency_unit_label" />
+                                </span>
+                                <span></span>
+                                <span t-esc="o.amount_to_text(o.amount_total, o.currency_id)" />
+                            </td>
+                            <td class="w-20p text-right" style="text-align:right;">
+                                <t t-set="totalPagarNumeros" t-value="o.amount_total" />
+                                <span class="text-right" t-esc="o.format_monto(totalPagarNumeros)" />
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="tabla" id="IVA">
+                        <tr class="fs-14">
+                            <t t-set="totalIVA" t-value="0" />
+                            <td class="text-left w-30p">
+                                <p class="campos">LIQUIDACIÓN DEL IVA: </p>
+                            </td>
+                            <td class="campos w-5p">
+                                5%:
+                            </td>
+                            <td id="ivaCincoCampo" class="w-10p">
+                                <span t-esc="o.format_monto(ivaCinco)" />
+                                <t t-set="totalIVA" t-value="totalIVA+ivaCinco" />
+                            </td>
+                            <td class="campos w-5p">
+                                10%:
+                            </td>
+                            <td id="ivaDiezCampo" class="w-10p" >
+                                <span t-esc="o.format_monto(ivaDiez)" />
+                                <t t-set="totalIVA" t-value="totalIVA+ivaDiez" />
+                            </td>
+                            <td>
+                                <td class="campos w-20p;text-right">
+                                    TOTAL IVA:
+                                </td>
+                                <td class="w-25p text-right" style="text-align:right;">
+                                    <span t-esc="o.format_monto(totalIVA)" />
+                                </td>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <t t-if="o.journal_id.mostrar_qr">
+                        <table class="tabla">
+                            <tr>
+                                <td style="width:20%">
+                                    <div style="display:table-cell;vertical-align:top;">
+
+                                        <img t-att-src="image_data_uri(o.qr_code)"
+                                             style="max-width:150px;max-height:150px;margin-left:15px"
+                                        />
+                                    </div>
+                                </td>
+                                <td style="font-size:10px;width:80%;padding:2px;color:black">
+                                    <div style="display:table-cell;vertical-align:top">
+                                        <t t-if="o.journal_id.pie_factura">
+                                            <t t-raw="o.journal_id.pie_factura" />
+                                        </t>
+                                        <t t-else="">
+                                            <span></span>
+                                        </t>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+
+                    <table style="width:100%;border:1px solid black">
+                        <tr>
+                            <td style="heigth:30px">
+                                <strong style="visibility:hidden">AA</strong>
+                            </td>
+                        </tr>
+                        <tr style="border:1px solid black">
+
+                            <td
+                                    style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;">
+                                <strong>
+                                    Firma y sello del Cliente
+                                </strong>
+                            </td>
+                            <td
+                                    style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;">
+                                <strong>
+                                    Aclaración de firma
+                                </strong>
+                            </td>
+                            <td
+                                    style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;">
+                                <strong>
+                                    C.I. Nro. / RUC
+                                </strong>
+                            </td>
+                            <td
+                                    style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;">
+                                <strong>
+                                    Fecha
+                                </strong>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width:100%;border:1px solid black">
+                        <tr style="border:1px solid black">
+                            <td
+                                    style="border:1px solid black;width:70%; font-size:12px;vertical-align:middle">
+                                <span>AUTORIZADO COMO AUTOIMPRESOR Y TIMBRADO DE DOCUMENTOS NRO: </span>
+                                <t
+                                        t-foreach="o.journal_id.timbrados_ids.filtered(lambda x:x.tipo_documento==o.move_type)"
+                                        t-as="timb">
+                                    <t t-if="timb.active == 1 ">
+                                        <span t-field="timb.nro_autorizacion" />
+                                    </t>
+                                </t>
+                            </td>
+                            <td style="border:1px solid black;width:30%; font-size:12px">
+                                <span>Original: Cliente - Duplicado: Archivo Tributario</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+
+
+</odoo>

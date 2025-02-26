@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="novedades_batch_form_view" model="ir.ui.view">
+            <field name="name">novedades_batch_form_view</field>
+            <field name="model">rrhh_novedades.novedades_batch</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <button string="Cancelar" type="object" name="button_cancelar" attrs="{'invisible':[('state','!=','done')]}"/>
+                        <button string="Cambiar a borrador" type="object" name="button_draft" attrs="{'invisible':[('state','!=','cancel')]}"/>
+                        <button string="Agregar empleados" type="object" name="button_agregar_empleados" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="True"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="fecha" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="novedad_tipo_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="periodicidad" invisible="True"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="lines" string="Lineas">
+                                <field name="line_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom" limit="10">
+                                        <field name="employee_id"/>
+                                        <field name="contract_id" domain="[('employee_id','=',employee_id),('state','!=','cancel')]"/>
+                                        <field name="job_id"/>
+                                        <field name="fecha"/>
+                                        <field name="monto"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="novedades_batch_tree_view" model="ir.ui.view">
+            <field name="name">novedades_batch_tree_view</field>
+            <field name="model">rrhh_novedades.novedades_batch</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="fecha"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="novedades_batch_act_window" model="ir.actions.act_window">
+            <field name="name">Lote de novedades</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rrhh_novedades.novedades_batch</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_novedades_batch" name="Lote de novedades" parent="hr_payroll.menu_hr_payroll_payslips" action="novedades_batch_act_window"
+                  sequence="100"/>
+        <report id="rrhh_novedades.reporte_lote_novedades_action" model="rrhh_novedades.novedades_batch" string="Lote de novedades" report_type="xlsx"
+                name="rrhh_novedades.reporte_lote_novedades" file="Lote de novedades" attachment_use="False"/>
+    </data>
+    <data>
+        <record id="novedades_batch_add_employee_form_view" model="ir.ui.view">
+            <field name="name">novedades_batch_add_employee_form_view</field>
+            <field name="model">rrhh_novedades.novedades_batch.add_employees</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="batch_id" readonly="True"/>
+                            <field name="contract_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="employee_id"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="add_employees" string="Agregar Empleados" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="novedades_batch_add_employee_act_window" model="ir.actions.act_window">
+            <field name="name">Agregar empleados al Lote de Novedades</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rrhh_novedades.novedades_batch.add_employees</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</odoo>

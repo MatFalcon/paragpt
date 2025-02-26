@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="calendario_feriado_tree">
+            <field name="name">calendario_feriado_tree</field>
+            <field name="model">calendario.feriado</field>
+            <field name="arch" type="xml">
+                <tree string="Feriados">
+                    <field name="name"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="calendario_feriado_form">
+            <field name="name">calendario_feriado_form</field>
+            <field name="model">calendario.feriado</field>
+            <field name="arch" type="xml">
+                <form string="Feriado">
+                    <sheet>
+                        <group string="Datos Básicos">
+                            <field name="name"/>
+                            <field name="date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="calendario_feriado_action">
+            <field name="name">Feriados</field>
+            <field name="res_model">calendario.feriado</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Cree los feriados necesarios para el cálculo de la nómina (Los
+                    domingos se consideran como feriados automáticamente)
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="calendario_feriado_menuitem" name="Feriados"
+                  parent="hr_payroll.menu_hr_salary_configuration" sequence="22"
+                  action="calendario_feriado_action"/>
+    </data>
+</odoo>

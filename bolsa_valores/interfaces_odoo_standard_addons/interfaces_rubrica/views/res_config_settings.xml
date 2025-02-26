@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">res_config_settings_view_form_inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@data-key='account']" position="inside">
+                    <h2>Reporte Libro Inventario</h2>
+                    <div class="row mt16 o_settings_container" id="reporte_libro_inventario_account_reports_config">
+                        <div class="col-lg-6 col-12 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <div class="o_form_label">
+                                    Configuraciones de las Estructuras de Reportes utilizadas para el Libro Inventario
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16 ms-2">
+                                        <label for="reporte_libro_inventario_base_report_bg" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="reporte_libro_inventario_base_report_bg" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="show_libro_inventario_base_report_bg_details" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="show_libro_inventario_base_report_bg_details" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                    <div class="row mt16 ms-2">
+                                        <label for="reporte_libro_inventario_base_report_er" class="col-md-6 p-0 m-0 o_light_label"/>
+                                        <field name="reporte_libro_inventario_base_report_er" class="col-lg-6 p-0" required="True"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="rrhh_asistencias.marcadores_tree_view">
+            <field name="name">rrhh_asistencias.marcadores_tree_view</field>
+            <field name="model">rrhh_asistencias.marcadores</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <field name="codigo_interno"/>
+                    <field name="ip_address"/>
+                    <field name="port"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="rrhh_asistencias.marcadores_form_view">
+            <field name="name">rrhh_asistencias.marcadores_form_view</field>
+            <field name="model">rrhh_asistencias.marcadores</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Obtener marcaciones" type="object" name="get_attendances"
+                                class="oe_highlight"/>
+                        <button name="test_connection" string="Probar conexión" type="object"/>
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_id"/>
+                            <field name="codigo_interno"/>
+                            <field name="ip_address"/>
+                            <field name="port"/>
+                            <field name="device_password"/>
+                            <field name="active"/>
+                            <!--field name="usuario"/-->
+                        </group>
+                    </sheet>
+                    <div class="alert"
+                         invisible="not context.get('show_message1', False)">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">X</a>
+                        <strong>Exito!</strong>
+                        Conexión establecida con el dispositivo
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="rrhh_asistencias.marcadores_action_window">
+            <field name="name">Marcadores</field>
+            <field name="res_model">rrhh_asistencias.marcadores</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Marcadores" id="rrhh_asistencias.menu_marcadores"
+                  parent="rrhh_asistencias.menu_asistencias_padre"
+                  action="rrhh_asistencias.marcadores_action_window"/>
+    </data>
+</odoo>

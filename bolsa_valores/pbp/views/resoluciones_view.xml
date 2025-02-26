@@ -1,0 +1,53 @@
+<odoo>
+    <!-- Definición de la vista de formulario -->
+    <record id="view_resolucion_form" model="ir.ui.view">
+        <field name="name">resolucion.form</field>
+        <field name="model">resolucion</field>
+        <field name="arch" type="xml">
+            <form string="Resolución">
+                <sheet>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <field name="cliente"/>
+                        <field name="fecha_creacion"/>
+                        <field name="fecha_vencimiento"/>
+                        <field name="codigo"/>
+                    </group>
+                    <notebook>
+                        <page string="Custodias Vinculadas">
+                            <field name="novedades_sen_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Definición de la vista de árbol -->
+    <record id="view_resolucion_tree" model="ir.ui.view">
+        <field name="name">resolucion.tree</field>
+        <field name="model">resolucion</field>
+        <field name="arch" type="xml">
+            <tree string="Resolución">
+                <field name="cliente"/>
+                <field name="fecha_creacion"/>
+                <field name="fecha_vencimiento"/>
+                <field name="codigo"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Definición de la acción -->
+    <record id="action_resolucion" model="ir.actions.act_window">
+        <field name="name">Resoluciones</field>
+        <field name="res_model">resolucion</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

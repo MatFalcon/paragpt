@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record model="hr.payroll.structure.type" id="tipo_estructura_jubilacion">
+            <field name="name">Jubilación</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="wage_type">monthly</field>
+            <field name="default_schedule_pay">monthly</field>
+        </record>
+
+        <record model="hr.payroll.structure" id="estructura_jubilacion">
+            <field name="name">Plantilla - Estructura Jubilación</field>
+            <field name="use_worked_day_lines" eval="False"/>
+            <field name="schedule_pay">monthly</field>
+            <field name="type_id" ref="rrhh_liquidacion.tipo_estructura_jubilacion"/>
+        </record>
+
+        <record model="hr.salary.rule" id="regla_jubilacion_basico">
+            <field name="code">BASIC</field>
+            <field name="name">Días Trabajados</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="sequence">1000</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = 0</field>
+        </record>
+        <record model="hr.salary.rule" id="regla_jubilacion_salario_dias_trabajados">
+            <field name="code">DTRAB</field>
+            <field name="name">Salario por Días Trabajados</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="sequence">1001</field>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.DTRAB.amount if inputs.DTRAB else 0</field>
+        </record>
+<!--        <record model="hr.salary.rule" id="regla_jubilacion_preaviso">-->
+<!--            <field name="code">PREAV</field>-->
+<!--            <field name="name">Preaviso</field>-->
+<!--            <field name="category_id" ref="hr_payroll.BASIC"/>-->
+<!--            <field name="sequence">1002</field>-->
+<!--            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>-->
+<!--            <field name="amount_select">code</field>-->
+<!--            <field name="amount_python_compute">result = - inputs.PREAV.amount if inputs.PREAV else 0</field>-->
+<!--        </record>-->
+<!--        <record model="hr.salary.rule" id="regla_jubilacion_indemnizacion">-->
+<!--            <field name="code">INDEM</field>-->
+<!--            <field name="name">Indemnización</field>-->
+<!--            <field name="category_id" ref="hr_payroll.BASIC"/>-->
+<!--            <field name="sequence">1003</field>-->
+<!--            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>-->
+<!--            <field name="amount_select">code</field>-->
+<!--            <field name="amount_python_compute">result = inputs.INDEM.amount if inputs.INDEM else 0</field>-->
+<!--        </record>-->
+<!--        <record model="hr.salary.rule" id="regla_jubilacion_vac_causadas">-->
+<!--            <field name="code">VACCAU</field>-->
+<!--            <field name="name">Vacaciones Causadas</field>-->
+<!--            <field name="category_id" ref="hr_payroll.BASIC"/>-->
+<!--            <field name="sequence">1004</field>-->
+<!--            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>-->
+<!--            <field name="amount_select">code</field>-->
+<!--            <field name="amount_python_compute">result = inputs.VACCAU.amount if inputs.VACCAU else 0</field>-->
+<!--        </record>-->
+        <record model="hr.salary.rule" id="regla_jubilacion_vac_proporcionales">
+            <field name="code">VACPRO</field>
+            <field name="name">Vacaciones Proporcionales</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="sequence">1005</field>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.VACPRO.amount if inputs.VACPRO else 0</field>
+        </record>
+<!--        <record model="hr.salary.rule" id="regla_jubilacion_vac_acumuladas">-->
+<!--            <field name="code">VACACU</field>-->
+<!--            <field name="name">Vacaciones Acumuladas</field>-->
+<!--            <field name="category_id" ref="hr_payroll.BASIC"/>-->
+<!--            <field name="sequence">1006</field>-->
+<!--            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>-->
+<!--            <field name="amount_select">code</field>-->
+<!--            <field name="amount_python_compute">result = inputs.VACACU.amount if inputs.VACACU else 0</field>-->
+<!--        </record>-->
+        <record model="hr.salary.rule" id="regla_jubilacion_aguinaldo">
+            <field name="code">AGUIPR</field>
+            <field name="name">Aguinaldo Proporcional</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="sequence">1007</field>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.AGUIPR.amount if inputs.AGUIPR else 0</field>
+        </record>
+        <record model="hr.salary.rule" id="regla_jubilacion_otros_haberes">
+            <field name="code">OTRH</field>
+            <field name="name">Otros Haberes</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="sequence">1008</field>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.OTRH.amount if inputs.OTRH else 0</field>
+        </record>
+        <record model="hr.salary.rule" id="regla_jubilacion_otros_deberes">
+            <field name="code">OTRD</field>
+            <field name="name">Otros Deberes</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="sequence">1009</field>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = - inputs.OTRD.amount if inputs.OTRD else 0</field>
+        </record>
+        <record model="hr.salary.rule" id="regla_jubilacion_gross">
+            <field name="code">GROSS</field>
+            <field name="name">Liquidación Bruta</field>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="sequence">1100</field>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+        </record>
+        <record model="hr.salary.rule" id="regla_jubilacion_ips">
+            <field name="code">IPS</field>
+            <field name="name">Descuento por IPS</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="sequence">1201</field>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.IPS.amount if inputs.IPS else 0</field>
+        </record>
+<!--        <record model="hr.salary.rule" id="regla_jubilacion_amh">-->
+<!--            <field name="code">AMH</field>-->
+<!--            <field name="name">Descuento por AMH</field>-->
+<!--            <field name="category_id" ref="hr_payroll.DED"/>-->
+<!--            <field name="sequence">1202</field>-->
+<!--            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>-->
+<!--            <field name="amount_select">code</field>-->
+<!--            <field name="amount_python_compute">result = inputs.AMH.amount if inputs.AMH else 0</field>-->
+<!--        </record>-->
+        <record model="hr.salary.rule" id="regla_jubilacion_net">
+            <field name="code">NET</field>
+            <field name="name">Liquidación Neta</field>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="sequence">1300</field>
+            <field name="struct_id" ref="rrhh_liquidacion.estructura_jubilacion"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.GROSS - categories.DED</field>
+        </record>
+    </data>
+</odoo>

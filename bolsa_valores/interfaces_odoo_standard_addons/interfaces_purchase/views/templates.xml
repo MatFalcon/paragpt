@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+
+        <!-- Reporte xlsx -->
+        <report
+            id="interfaces_purchase.action_areport_costo_importacion"
+            model="stock.picking"
+            string="Reporte de Costo"
+            report_type="xlsx"
+            name="interfaces_purchase.report_costo_importacion_xls"
+            file="Reporte de Costo"
+            attachment_use="False"
+        />
+
+    </data>
+</odoo>

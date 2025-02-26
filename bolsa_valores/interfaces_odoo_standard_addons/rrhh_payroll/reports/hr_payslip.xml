@@ -1,0 +1,368 @@
+<odoo>
+    <data>
+        <template id="rrhh_payroll.multi_nomina">
+            <t t-call="web.basic_layout">
+                <t t-name="rrhh_payroll.report_nomina_run">
+                    <t t-foreach="docs.slip_ids.sorted(key=lambda payslip:(payslip.employee_id.apellido.upper() or payslip.id))" t-as="payslip">
+                        <div class="page">
+                            <t t-foreach="range(0,2)" t-as="c">
+                                <t t-call="rrhh_payroll.template_nomina">
+                                    <t t-set="o" t-value="payslip"/>
+                                </t>
+                            </t>
+                        </div>
+                        .
+                        <p style="page-break-before:always;"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="rrhh_payroll.single_nomina">
+            <t t-name="rrhh_payroll.report_nomina">
+                <t t-foreach="docs.sorted(key=lambda payslip:(payslip.employee_id.apellido.upper() or payslip.id))" t-as="payslip">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <t t-foreach="range(0,2)" t-as="c">
+                                <t t-call="rrhh_payroll.template_nomina">
+                                    <t t-set="o" t-value="payslip"/>
+                                </t>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="rrhh_payroll.template_nomina">
+            <style>
+                table.lineas {
+                margin-left:auto;
+                margin-right:auto;
+                }
+                table.lineas tr,table.lineas td,table.lineas th{
+                border:2px solid black;
+                padding:3px;
+                }
+                #cabecera,#montos,#pie{
+                font-size:12px;
+                }
+                table.aguinaldo {
+                width:100%;
+                text-align:left;
+                margin-top:20px;
+                margin-bottom:40px;
+                }
+                table.aguinaldo tr,table.aguinaldo td,table.aguinaldo th{
+                border:2px solid black;
+                padding:3px;
+                }
+            </style>
+            <t t-if="not payslip['es_nomina_vacaciones']">
+                <t t-if="'Aguinaldo' not in payslip['struct_id'].name">
+                    <div style="float:left;width:48%;border-left:1px dashed gray;padding-right:5px;">
+                        <div id="cabecera" style="margin-top:50px;">
+                            <table style="width:100%;border:1px solid white;border-collapse:separate;border-spacing:3px;">
+                                <tr style="text-align:center;" id="titulo">
+                                    <td colspan="2">
+                                        <img t-attf-src="data:image/jpg;base64,{{payslip['contract_id'].company_id.logo}}" style="width:160px; height:80px;"/>
+                                        <h3 style="text-decoration:underline;text-weight:bold;">Recibo de Salario</h3>
+                                    </td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td colspan="2">
+                                        Conforme al art. 236 del C. de trabajo - Numero de patronal:
+                                        <t t-esc="payslip['contract_id'].company_id.nro_patronal"/>
+                                        IPS:
+                                        <t t-esc="payslip['contract_id'].company_id.nro_ips"/>
+                                    </td>
+                                </tr>
+                                <tr id="razon_social">
+                                    <td style="font-weight:bold;text-align:right;">Razón Social:</td>
+                                    <td style="text-align:left;">
+                                        <t t-esc="payslip['contract_id'].company_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr id="nombre_empleado">
+                                    <td style="font-weight:bold;text-align:right;">Nombre y Apellido del Empleado:</td>
+                                    <td style="text-align:left;">
+                                        <t t-esc="payslip['employee_id'].name"/>
+                                    </td>
+                                </tr>
+                                <tr id="ci_empleado">
+                                    <td style="font-weight:bold;text-align:right;">Cédula de Identificación:</td>
+                                    <td style="text-align:left;">
+                                        <t t-esc="payslip['employee_id'].identification_id"/>
+                                    </td>
+                                </tr>
+                                <!--                            <tr id="periodo_pago">-->
+                                <!--                                <td style="font-weight:bold;text-align:right;">Periodo de Pago:</td>-->
+                                <!--                                <td style="text-align:left;">-->
+                                <!--                                    del-->
+                                <!--                                    <t t-esc="payslip['date_from'].strftime('%d/%m/%Y')"/>-->
+                                <!--                                    al-->
+                                <!--                                    <t t-esc="payslip['date_to'].strftime('%d/%m/%Y')"/>-->
+                                <!--                                </td>-->
+                                <!--                            </tr>-->
+                                <tr id="periodo_pago">
+                                    <td style="font-weight:bold;text-align:right;">Periodo de Pago:</td>
+                                    <td style="text-align:left;">
+                                        del
+                                        <t t-esc="payslip['date_from'].day"/>
+                                        al
+                                        <t t-esc="payslip['date_to'].day"/>
+                                        de
+                                        <t t-esc="payslip['mes_correspondiente']"/>
+                                        de
+                                        <t t-esc="payslip['date_to'].year"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;text-align:right;">Salario Gs.:</td>
+                                    <td style="text-align:left;">
+                                        <!--                                    <t t-esc="'{0:,}'.format(round(payslip['line_ids'].filtered(lambda x:x.code == 'BASIC').amount/30)).replace(',', '.')"/>-->
+                                        <t t-esc="'{0:,}'.format(round(payslip['computed_daily_wage'] * sum(payslip['worked_days_line_ids'].filtered(lambda line: line.code in ['WORK100']).mapped('number_of_days')))).replace(',', '.')"/>
+                                    </td>
+                                </tr>
+                                <!--                                <tr>-->
+                                <!--                                    <td style="font-weight:bold;text-align:right;">Salario Diario Gs.:</td>-->
+                                <!--                                    <td style="text-align:left;">-->
+                                <!--                                        &lt;!&ndash;                                    <t t-esc="'{0:,}'.format(round(payslip['line_ids'].filtered(lambda x:x.code == 'BASIC').amount/30)).replace(',', '.')"/>&ndash;&gt;-->
+                                <!--                                        <t t-esc="'{0:,}'.format(round(payslip['computed_daily_wage'])).replace(',', '.')"/>-->
+                                <!--                                    </td>-->
+                                <!--                                </tr>-->
+                            </table>
+                        </div>
+                        <br/>
+                        <div id="montos">
+                            <table class="lineas" style="width:80%;">
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th style="text-align:right;">Cantidad</th>
+                                    <th style="text-align:right;">Ingresos</th>
+                                    <th style="text-align:right;">Egresos</th>
+                                </tr>
+                                <t t-foreach="payslip['line_ids'].filtered(lambda x:x.salary_rule_id.appears_on_payslip and x.total != 0 and x.category_id.code not in ['NET','GROSS'])"
+                                   t-as="line">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="line.name"/>
+                                        </td>
+                                        <td style="text-align:right;" t-if="not payslip['legacy_payslip_details']">
+                                            <t t-esc="line.quantity"/>
+                                        </td>
+                                        <td style="text-align:right;" t-else="">
+                                            <t t-set="line_cantidad" t-value="1"/>
+                                            <t t-if="line.code in ['HEX50','HEX100','HORAD']">
+                                                <t t-set="line_cantidad"
+                                                   t-value="sum([int(worked_day_line.number_of_hours) for worked_day_line in payslip['worked_days_line_ids'].filtered(lambda x:x.code == line.code)])"/>
+                                            </t>
+                                            <t t-if="line.code in ['AUS','SUPA','SUNP','REP']">
+                                                <t t-set="line_cantidad"
+                                                   t-value="sum([int(worked_day_line.number_of_days) for worked_day_line in payslip['worked_days_line_ids'].filtered(lambda x:x.code == line.code)])"/>
+                                            </t>
+                                            <t t-if="line.code in ['BASIC']">
+                                                <t t-set="line_cantidad"
+                                                   t-value="sum([int(worked_day_line.number_of_days) if payslip['struct_id'].type_id.wage_type != 'hourly' else int(worked_day_line.number_of_days * 8 + worked_day_line.number_of_hours) for worked_day_line in payslip['worked_days_line_ids'].filtered(lambda x:x.code in ['WORK100'])]) - sum([int(worked_day_line.number_of_days) for worked_day_line in payslip['worked_days_line_ids'].filtered(lambda x:x.code in ['VAC'])])"/>
+                                            </t>
+                                            <t t-esc="line_cantidad"/>
+                                        </td>
+                                        <t t-if="line.category_id.code in ['BASIC','ALW','SUB']">
+                                            <td style="text-align:right;">
+                                                <t t-esc="'{0:,}'.format(round(line.total)).replace(',', '.')"/>
+                                            </td>
+                                            <td></td>
+                                        </t>
+                                        <t t-else="">
+                                            <td></td>
+                                            <td style="text-align:right;">
+                                                <t t-esc="'{0:,}'.format(round(line.total)).replace(',', '.')"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <tr style="font-weight:bold;">
+                                    <td>TOTALES</td>
+                                    <td></td>
+                                    <td style="text-align:right;">
+                                        <t t-esc="'{0:,}'.format(round(sum(payslip['line_ids'].filtered(lambda x:x.category_id.code in ['BASIC','ALW']).mapped('total')))).replace(',', '.')"/>
+                                    </td>
+                                    <td style="text-align:right;">
+                                        <t t-esc="'{0:,}'.format(round(sum(payslip['line_ids'].filtered(lambda x:x.category_id.code in ['DED','SUSAUDES']).mapped('total')))).replace(',', '.')"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-weight:bold;">
+                                    <td>NETO A PERCIBIR</td>
+                                    <td></td>
+                                    <td style="text-align:right;">
+                                        <t t-esc="'{0:,}'.format(round(sum(payslip['line_ids'].filtered(lambda x:x.category_id.code in ['NET']).mapped('total')))).replace(',', '.')"/>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <div id="pie">
+                            <table style="width:80%;margin-left:auto;margin-right:auto;">
+                                <tr>
+                                    <td style="width:50%;">
+                                        Fecha:
+                                        <strong t-esc="payslip['date_to'].strftime('%d/%m/%Y')"/>
+                                    </td>
+                                    <td style="width:50%;">
+                                        Recibí conforme la Liquidación que antecede
+                                        <br/>
+                                        con copia y firma del Empleador
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <table style="width:100%;text-align:center;">
+                                <tr>
+                                    <td>
+                                        ___________________________
+                                        <br/>
+                                        Firma Empleador
+                                        <br/>
+                                        <t t-esc="payslip['contract_id'].company_id.name"/>
+                                    </td>
+                                    <td>
+                                        ___________________________
+                                        <br/>
+                                        Firma Empleado
+                                        <br/>
+                                        <t t-esc="payslip['employee_id'].name"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div style="float:left;width:50%;border-left:1px dashed gray;padding:15px;">
+                        <div style="border:1px solid gray;padding:10px;">
+
+                            <table style="width:100%;text-align:right;">
+                                <tr>
+                                    <td>Empleador:</td>
+                                    <td style="font-weight:bold;padding-left:10px;text-align:left;"
+                                        t-esc="payslip['contract_id'].company_id.name"/>
+                                </tr>
+                                <tr>
+                                    <td>Registro Patronal Nro.:</td>
+                                    <td style="font-weight:bold;padding-left:10px;text-align:left;"
+                                        t-esc="payslip['company_id'].nro_patronal"/>
+                                </tr>
+                                <tr>
+                                    <td>Empleado:</td>
+                                    <td style="font-weight:bold;padding-left:10px;text-align:left;"
+                                        t-esc="payslip['employee_id'].name"/>
+                                </tr>
+                            </table>
+                            <table class="aguinaldo">
+                                <tr>
+                                    <th>CONCEPTO</th>
+                                    <th>MONTO</th>
+                                </tr>
+                                <tr height="50px">
+                                    <td>
+                                        <b>Aguinaldo</b>
+                                        correspondiente al año
+                                        <t t-esc="payslip['date_to'].year"/>
+                                    </td>
+                                    <td style="text-align:right;font-weight:bold;">
+                                        <t t-set="total_net"
+                                           t-value="round(sum(payslip['line_ids'].filtered(lambda x:x.category_id.code in ['NET']).mapped('total')))"/>
+                                        <t t-esc="'{0:,}'.format(total_net).replace(',', '.')"/>
+                                    </td>
+                                </tr>
+                                <tr height="50px">
+                                    <td colspan="2">
+                                        Son Guaraníes:
+                                        <b>
+                                            <t t-esc="payslip.numero_a_letras(total_net).upper()"/>
+                                        </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        Fecha de pago:
+                                        <span style="color:white;border-bottom: 1px solid black;">REY</span>
+                                        /
+                                        <span style="color:white;border-bottom: 1px solid black;">AYA</span>
+                                        /
+                                        <span style="color:white;border-bottom: 1px solid black;">NAMI</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span>
+                                Recibí conforme de
+                                <t t-esc="payslip['company_id'].name"/>
+                                la liquidación que antecede, con firma del empleador.
+                            </span>
+                            <table style="width:100%;text-align:center;margin-top:80px;">
+                                <tr>
+                                    <td>
+                                        ___________________________
+                                        <br/>
+                                        Firma Empleador
+                                        <br/>
+                                        <t t-esc="payslip['contract_id'].company_id.name"/>
+                                        <br/>
+                                        C.I.N.:
+                                        <t t-esc="payslip['company_id'].vat.split('-')[0] if payslip['company_id'].vat else ''"/>
+                                    </td>
+                                    <td>
+                                        ___________________________
+                                        <br/>
+                                        Firma Empleado
+                                        <br/>
+                                        <t t-esc="payslip['employee_id'].name"/>
+                                        <br/>
+                                        C.I.N.:
+                                        <t t-esc="payslip['employee_id'].identification_id.split('-')[0] if payslip['employee_id'].identification_id else ''"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <h3 id="nomina_vacaciones" style="text-decoration:underline;text-weight:bold;">El recibo de salarios
+                    para vacaciones, debe ser impreso desde la notifación de vacaciones
+                </h3>
+            </t>
+
+        </template>
+
+        <record model="report.paperformat" id="papel_recibos">
+            <field name="name">Recibo</field>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+        <record model="ir.actions.report" id="rrhh_payroll.recibo">
+            <field name="report_name">rrhh_payroll.single_nomina</field>
+            <field name="name">Recibo</field>
+            <field name="model">hr.payslip</field>
+            <field name="paperformat_id" ref="rrhh_payroll.papel_recibos"/>
+            <field name="report_type">qweb-pdf</field>
+        </record>
+        <record model="ir.actions.report" id="rrhh_payroll.recibo_run">
+            <field name="report_name">rrhh_payroll.multi_nomina</field>
+            <field name="name">Recibos</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="paperformat_id" ref="rrhh_payroll.papel_recibos"/>
+            <field name="report_type">qweb-pdf</field>
+        </record>
+    </data>
+</odoo>

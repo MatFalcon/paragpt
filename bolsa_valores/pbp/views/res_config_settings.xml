@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="productos_novedades">
+            <field name="name">Producto de Gastos Administrativos</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@data-key='account']" position="inside">
+                    <h2>Producto de Gastos Administrativos</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Producto de Gastos Administrativos</span>
+                                <div class="text-muted">
+                                    Producto utilizado para generar facturas por gastos administrativos
+                                </div>
+                                <div class="text-muted">
+                                    <field name="product_gastos_administrativos_id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Producto de Transferencia de Cartera</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Producto de Transferencia de Cartera</span>
+                                <div class="text-muted">
+                                    Producto utilizado para generar facturas por transferencia de Cartera
+                                </div>
+                                <div class="text-muted">
+                                    <field name="product_transferencia_cartera_id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

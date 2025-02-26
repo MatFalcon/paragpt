@@ -1,0 +1,17 @@
+<odoo>
+
+    <!-- stock.picking.type inherit form view -->
+    <record id="view_id" model="ir.ui.view">
+        <field name="name">stock.picking.type.inherit.view.form</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <!-- Add your xpath here -->
+            <xpath expr="//field[@name='show_reserved']" position="after">
+                <!-- Add your fields here -->
+                <field name="move_type_2"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

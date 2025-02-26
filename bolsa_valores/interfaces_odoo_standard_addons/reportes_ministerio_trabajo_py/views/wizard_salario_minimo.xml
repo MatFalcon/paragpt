@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="reportes_ministerio_trabajo_py.wizard_salario_minimo_form_view">
+            <field name="name">wizard_salario_minimo_form_view</field>
+            <field name="model">wizard_salario_minimo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="line_ids">
+                            <tree string="Salarios mínimos legales" editable="bottom">
+                                <field name="date_from"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="Actualizar salarios mínimos" class="oe_highlight" type="object"
+                                name="button_actualizar_salarios"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="reportes_ministerio_trabajo_py.wizard_salario_action_window">
+            <field name="name">Actualizar Salario Mínimo</field>
+            <field name="res_model">wizard_salario_minimo</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Actualizar Salario Mínimo" id="reportes_ministerio_trabajo_py.menu_wizard_salario_minimo"
+                  parent="hr_payroll.menu_hr_salary_configuration" sequence="201"
+                  action="reportes_ministerio_trabajo_py.wizard_salario_action_window"/>
+    </data>
+</odoo>

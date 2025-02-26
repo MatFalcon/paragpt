@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="resolucion_90_wizard_form_inherit" model="ir.ui.view">
+            <field name="name">resolucion_90_wizard_form_inherit</field>
+            <field name="model">resolucion_90.wizard</field>
+            <field name="inherit_id" ref="resolucion_90.wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tipo_obligacion']/.." position="inside">
+                    <field name="currency_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

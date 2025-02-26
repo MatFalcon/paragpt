@@ -1,0 +1,76 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="account_cajas.caja_tree_view">
+      <field name="name">account_cajas.caja_tree_view</field>
+      <field name="model">account.caja</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_cajas.caja_form_view">
+      <field name="name">account_cajas.caja_form_view</field>
+      <field name="model">account.caja</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Métodos de pago">
+                <field name="journal_ids"/>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="account_cajas.cajas_action_window">
+      <field name="name">Cajas</field>
+      <field name="res_model">account.caja</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="account_cajas.action_server">
+      <field name="name">account_cajas server</field>
+      <field name="model_id" ref="model_account_cajas_account_cajas"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="account_cajas" id="account_cajas.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="account_cajas.menu_1" parent="account_cajas.menu_root"/>
+    <menuitem name="Menu 2" id="account_cajas.menu_2" parent="account_cajas.menu_root"/>
+    -->
+    <!-- actions -->
+
+    <menuitem name="Cajas" id="account_cajas.menu_caja" parent="account.menu_finance_configuration" action="account_cajas.cajas_action_window"/>
+
+  </data>
+</odoo>

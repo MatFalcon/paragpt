@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="antiguedad_vacaciones_tree">
+            <field name="name">antiguedad_vacaciones_tree</field>
+            <field name="model">antiguedad.vacaciones</field>
+            <field name="arch" type="xml">
+                <tree string="Vacaciones por Antiguedad">
+                    <field name="antiguedad_dias"/>
+                    <field name="dias_vacaciones"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="antiguedad_vacaciones_form">
+            <field name="name">antiguedad_vacaciones_form</field>
+            <field name="model">antiguedad.vacaciones</field>
+            <field name="arch" type="xml">
+                <form string="Días de vacaciones por antiguedad">
+                    <sheet>
+                        <group>
+                            <field name="antiguedad_dias"/>
+                            <field name="dias_vacaciones"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="antiguedad_vacaciones_action">
+            <field name="name">Vacaciones por Antiguedad</field>
+            <field name="res_model">antiguedad.vacaciones</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Configure los días de según la antiguedad
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="antiguedad_vacaciones_menuitem" name="Días de vacaciones por antiguedad"
+                  parent="hr_payroll.menu_hr_salary_configuration" sequence="21"
+                  action="antiguedad_vacaciones_action"/>
+    </data>
+</odoo>

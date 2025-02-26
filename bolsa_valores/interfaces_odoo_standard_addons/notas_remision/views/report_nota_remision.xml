@@ -1,0 +1,739 @@
+<odoo>
+    <data>
+
+        <template id="remision_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="version_remision" t-value="'ORIGINAL'"/>
+                    <t t-if="o.state=='cancel'">
+                        <t t-set="mensaje_marca_agua" t-value="'REMISION ANULADA'"/>
+                    </t>
+                    <t t-elif="o.state=='draft'">
+                        <t t-set="mensaje_marca_agua" t-value="'BORRADOR'"/>
+                    </t>
+                    <t t-else="">
+                        <t t-set="mensaje_marca_agua" t-value=""/>
+                    </t>
+                    <t t-call="notas_remision.remision"/>
+                </t>
+            </t>
+        </template>
+        <template id="remision">
+            <!-- <t t-call="web.basic_layout"> -->
+            <!-- <t t-name="account.report_invoice_document"> -->
+            <div class="page">
+                <!--  <t t-foreach="range(0,1)" t-as="r"> -->
+                <!-- <t t-foreach="docs" t-as="o"> -->
+                <style>
+                    .tabla{
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    width:100%;
+                    }
+
+                    .tabla th{
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    }
+                    .tabla tr{
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    width:100%;
+                    }
+                    table {
+                    width: 100%;
+                    }
+                    .num_factura{
+                    font-size:14px;
+                    text-align:center;
+                    }
+
+                    .mt-5{
+                    margin-top:5px;
+                    }
+
+                    .campos {
+                    font-weight: bold;
+                    font-size: 12px;
+                    margin-left: 5px;
+                    margin-bottom: 0;
+                    margin-top: 0;
+                    }
+
+                    .campos2 {
+                    font-weight: bold;
+                    font-size: 8px;
+                    margin-left: 5px;
+                    margin-bottom: 0;
+                    margin-top: 0;
+                    }
+                    .campos3 {
+                    font-weight: bold;
+                    font-size: 12px;
+                    margin-left: 5px;
+                    margin-bottom: 0;
+                    margin-top: 0;
+                    }
+                    .fs-16{
+                    font-size:12px;
+                    }
+                    .fs-14 {
+                    font-size: 14px;
+                    padding-left:5px;
+
+                    }
+
+                    .fs-12 {
+                    font-size: 12px;
+                    padding-left:5px;
+                    line-height : 10pt;
+                    }
+
+                    .fs-10 {
+                    font-size: 8px;
+                    margin: 2px;
+                    text-align: justify;
+                    }
+
+                    .subrayado {
+                    border-bottom: 1px solid #000;
+                    line-height: 0.1em;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    }
+
+                    .blank_row {
+                    line-height: 150px;
+                    }
+
+                    .mt-80 {
+                    margin-top: 50px;
+                    }
+
+                    .row:after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                    }
+
+                    .left {
+                    margin-left:10px;
+                    width: 32%;
+                    }
+
+
+
+                    h4{
+                    font-size:14px;
+                    text-align: center;
+                    margin-bottom: 0;
+                    font-weight: bold;
+                    }
+
+                    .text-left{
+                    text-align: left;
+                    }
+
+                    .text-center{
+                    text-align: center;
+                    }
+
+                    img {
+                    padding-top:12px;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    }
+                    .w-5p{
+                    width:5%;
+                    }
+                    .w-10p{
+                    width:10%;
+                    }
+                    .w-15p{
+                    width:15%;
+                    }
+                    .w-20p{
+                    width:20%;
+                    }
+                    .w-25p{
+                    width:25%;
+                    }
+                    .w-30p{
+                    width:30%;
+                    }
+
+                    .w-40p{
+                    width:40%;
+                    }
+
+                    .w-60p{
+                    width:60%;
+                    }
+                    .w-70p{
+                    width:70%;
+                    }
+                    .w-75p{
+                    width:75%;
+                    }
+                    .w-30{
+                    width:30mm;
+                    }
+                    .w-50{
+                    width:50mm;
+                    }
+                    .w-75{
+                    width:75mm;
+                    }
+                    .w-65{
+                    width:5mm;
+                    }
+                    .w-40{
+                    width:40mm;
+                    max-width:40mm;
+                    }
+                    .w-5{
+                    width:5mm;
+                    }
+                    .w-10{
+                    width:10mm;
+                    }
+                    .w-15{
+                    width:15mm;
+                    }
+                    .text-right{
+                    text-align: right
+                    }
+
+                    .fila {
+                    border: 1px solid;
+                    }
+
+                    .columna {
+                    border: 1px solid;
+                    }
+                    .lineaDetalle{
+                    line-height: 14px;
+                    height: 14px;
+                    text-align:right
+                    }
+                    .ancho{
+                    min-height:100px;
+                    line-height: 12px;
+                    height: 10px;
+                    }
+
+                    .t-detalle {
+                    border: 1px solid black;
+                    height:450px;
+                    border-collapse: collapse;
+                    }
+                    .t-detalle td {
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-bottom: 0.5px solid white;
+                    border-top: 0.5px solid white;
+                    }
+                    .t-detalle td:empty {
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-top: 0.5px solid white;
+                    }
+                    p{
+                    margin-top:0;
+                    margin-bottom:2px;
+                    margin-left:2px;
+                    }
+
+                </style>
+                <!-- <t t-if="r == 0"> -->
+                <div class="col-xs-6" style="margin-left:2mm;">
+                    <table class="tabla">
+                        <tr>
+
+
+                            <td style="border-right: 1px solid black">
+                                <table style="width:100%;border:0px">
+                                    <tr style="border: 0px !important" class="text-center">
+                                        <td style="border: 0px">
+                                            <img t-att-src='image_data_uri(o.company_id.logo)' style="width:120mm;height:40mm"/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </td>
+                            <td width="30%" class="text-center" style="font-size:12px;vertical-align:middle">
+                                <strong class="campos">TIMBRADO N°
+
+                                    <t t-if="o.timbrado_id">
+                                        <span t-field="o.timbrado_id.name"/>
+                                    </t>
+
+                                </strong>
+                                <br/>
+
+                                <span class="campos">Inicio de vigencia:
+                                    <t t-if="o.timbrado_id">
+                                        <span t-esc="o.timbrado_id.inicio_vigencia.strftime('%d/%m/%Y')"/>
+                                    </t>
+                                </span>
+                                <br/>
+                                <span class="campos">Fin de vigencia:
+                                    <t t-if="o.timbrado_id">
+                                        <span t-esc="o.timbrado_id.fin_vigencia.strftime('%d/%m/%Y')"/>
+                                    </t>
+                                </span>
+
+
+                                <p class="campos">RUC: <t t-esc="o.company_id.vat"/>
+                                </p>
+
+                                <br></br>
+
+                                <p class="campos">NOTA DE REMISION</p>
+
+
+
+                                <p class="campos">
+                                    <span class="num_factura text-center" style="font-size:20px !important" t-field="o.name"/>
+                                </p>
+                                <p class="campos">
+                                    <span id="original_duplicado" class="text-center">
+                                        <t t-esc="version_remision"/>
+                                    </span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="position:absolute;opacity:0.20;z-index:1000;transform:rotate(310deg);-webkit-transform:rotate(310deg);width:50%;margin-left:210px;margin-top:600px">
+                        <p id="marca_agua" style="font-size:40px">
+                            <t t-esc="mensaje_marca_agua"/>
+                        </p>
+                    </div>
+                    <br/>
+                    <table class="tabla">
+                        <tr>
+                            <td class="campos" style="padding-left:5px;width:20%">
+                                FECHA DE EMISION:
+                            </td>
+                            <td class=" fs-16 text-left" style="width:20%">
+                                <t t-if="o.date_done">
+                                    <span t-esc="o.date_done.strftime('%d/%m/%Y')"/>
+                                </t>
+                                <t t-else="">
+                                    <span/>
+                                </t>
+                            </td>
+
+                            <td class="campos" style="padding-left:5px;width:20%">
+                                MOTIVO DE TRASLADO:
+                            </td>
+                            <td class=" fs-16 text-left" colspan="3" style="width:40%">
+                                <t t-if="o.motivo_traslado">
+                                    <span t-esc="o.motivo_traslado"/>
+                                </t>
+                                <t t-else="">
+                                    <span/>
+                                </t>
+                            </td>
+
+
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                NOMBRE:
+                            </td>
+                            <td class="w-50 fs-16 text-left">
+                                <t t-if="o.partner_id.parent_id">
+                                    <span t-field="o.partner_id.parent_id.name"/>
+                                </t>
+                                <t t-if="not o.partner_id.parent_id">
+                                    <span t-field="o.partner_id.name"/>
+                                </t>
+                            </td>
+                            <td class="campos w-5p">
+                                COMPROBANTE DE VENTA:
+                            </td>
+                            <td class="w-5p fs-16 text-left" colspan="3">
+                                <t t-if="o.comprobante_venta">
+                                    <span style="margin-left:5px" class="fs-16" t-field="o.comprobante_venta"/>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                DOMICILIO:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;">
+                                <span style="margin-left:5px" t-field="o.partner_id.street"/>
+                                -
+                                <span t-field="o.partner_id.city"/>
+                                -
+                                <span t-field="o.partner_id.state_id.name"/>
+                            </td>
+                            <td class="campos" style="padding-left:5px;border:none">
+                                COMPROBANTE DE VENTA NRO:
+                            </td>
+                            <td class="fs-16 text-left" colspan="3" style="border:none;">
+                                <span style="margin-left:5px" t-field="o.comprobante_venta_nro"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                RUC:
+                            </td>
+                            <td class="w-50 fs-16 text-left">
+                                <span t-field="o.partner_id.vat"/>
+                            </td>
+                            <td class="campos w-5p">
+                                FECHA DE EXPEDICION:
+                            </td>
+                            <td class="w-5p fs-16 text-left">
+                                <span style="margin-left:5px" t-field="o.fecha_expedicion"/>
+                            </td>
+                            <td class="campos w-5p">
+                                NRO. DE TIMBRADO:
+                            </td>
+                            <td class="w-5p fs-16 text-left">
+                                <span style="margin-left:5px" t-field="o.nro_timbrado_comprobante"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+
+                    <table class="tabla" style="width:100%;border:1px solid black">
+                        <tr>
+                            <td class="campos w-20p" style="padding-left:5px;">
+                                FECHA DE INICIO DE TRASLADO:
+                            </td>
+                            <td class="w-65p fs-16 text-left">
+                                <t t-if="o.fecha_inicio_traslado">
+                                    <span t-esc="o.fecha_inicio_traslado.strftime('%d/%m/%Y')"/>
+                                </t>
+                                <t t-else="">
+                                    <span/>
+                                </t>
+                            </td>
+
+                            <td class="campos w-20p" style="padding-left:5px;">
+                                FECHA ESTIMADA DE TERMINO DE TRASLADO:
+                            </td>
+                            <td class="fs-16 text-left">
+                                <t t-if="o.fecha_fin_traslado">
+                                    <span t-esc="o.fecha_fin_traslado.strftime('%d/%m/%Y')"/>
+                                </t>
+                                <t t-else="">
+                                    <span/>
+                                </t>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                DIRECCION DEL PUNTO DE PARTIDA:
+                            </td>
+                            <td class="w-50 fs-16 text-left" colspan="5">
+                                <t t-if="o.direccion_partida">
+                                    <span t-field="o.direccion_partida"/>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                CIUDAD:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;">
+                                <span style="margin-left:5px" t-field="o.ciudad_partida"/>
+                            </td>
+                            <td class="campos" style="padding-left:5px;border:none">
+                                DEPARTAMENTO:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;">
+                                <span style="margin-left:5px" t-field="o.departamento_partida"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                DIRECCION ENTREGA:
+                            </td>
+                            <td class="w-50 fs-16 text-left" colspan="5">
+                                <span t-field="o.direccion_entrega"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                CIUDAD:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;">
+                                <span style="margin-left:5px" t-field="o.ciudad_entrega"/>
+                            </td>
+                            <td class="campos" style="padding-left:5px;border:none">
+                                DEPARTAMENTO:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;" colspan="3">
+                                <span style="margin-left:5px" t-field="o.departamento_entrega"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                KMS ESTIMADOS DE RECORRIDO:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;">
+                                <span style="margin-left:5px" t-field="o.kms_recorridos"/>
+                            </td>
+                            <td class="campos" style="padding-left:5px;border:none">
+                                CAMBIO DE FECHA DE TERMINO DE TRASLADO Y/O PUNTO DE LLEGADA:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;" colspan="3">
+                                <span style="margin-left:5px" t-field="o.cambio"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                MOTIVO:
+                            </td>
+                            <td class="w-50 fs-16 text-left" colspan="5">
+                                <span t-field="o.motivo"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table class="tabla" style="width:100%;border:1px solid black">
+                        <tr>
+                            <td class="campos w-20p" style="padding-left:5px;">
+                                MARCA DEL VEHICULO DE TRANSPORTE:
+                            </td>
+                            <td class="w-65p fs-16 text-left">
+
+                                <span t-esc="o.marca_vehiculo"/>
+
+                            </td>
+
+                            <td class="campos w-20p" style="padding-left:5px;">
+                                NUMERO DE RUA DE REMOLQUE:
+                            </td>
+                            <td class="w-65p fs-16 text-left" colspan="3">
+
+                                <span t-esc="o.matricula_remolque"/>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                NRO DE REGISTRO UNICO DEL AUTOMOTOR:
+                            </td>
+                            <td class="w-50 fs-16 text-left" colspan="5">
+                                <t t-if="o.matricula">
+                                    <span t-field="o.matricula"/>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                NOMBRE Y APELLIDO DEL TRANSPORTISTA:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;" colspan="5">
+                                <span style="margin-left:5px" t-field="o.transportista"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                DOMICILIO:
+                            </td>
+                            <td class="w-50 fs-16 text-left">
+                                <span t-field="o.direccion_transportista"/>
+                            </td>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                RUC O CIC:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;" colspan="3">
+                                <span style="margin-left:5px" t-field="o.ruc_transportista"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                NOMBRE Y APELLIDO DEL CHOFER:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;" colspan="5">
+                                <span style="margin-left:5px" t-field="o.chofer"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                DOMICILIO:
+                            </td>
+                            <td class="w-50 fs-16 text-left">
+                                <span t-field="o.direccion_chofer"/>
+                            </td>
+                            <td class="campos w-5" style="padding-left:5px;">
+                                RUC O CIC:
+                            </td>
+                            <td class="fs-16 text-left" style="border:none;" colspan="3">
+                                <span style="margin-left:5px" t-field="o.ruc_chofer"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br/>
+                    <table class="tabla" id="tituloDetalle">
+                        <tr class="text-center">
+                            <th rowspan="2" class="w-10p mt-5">
+                                <p class="campos">CANT.</p>
+                            </th>
+                            <th rowspan="2" class="w-10p mt-5">
+                                <p class="campos">UNIDAD DE MEDIDA</p>
+                            </th>
+                            <th rowspan="2" class="w-40p" colspan="3">
+                                <p class="campos ">DESCRIPCION DE MERCADERIAS</p>
+                            </th>
+                        </tr>
+                    </table>
+                    <table class="t-detalle">
+                        <t t-set="prods" t-value="o.move_ids_without_package.mapped('product_id')"/>
+                        <t t-foreach="prods" t-as="prod">
+                            <tr class="fs-14" style="height:14px;line:height:14px; text-align:center;">
+                                <td class="w-10p no-border lineaDetalle text-center" style="text-align:center;">
+                                    <t t-set="cant"
+                                       t-value="sum(o.move_ids_without_package.filtered(lambda x: x.product_id == prod).mapped('quantity_done'))"/>
+                                    <span t-esc="'{0:,.0f}'.format(cant)"/>
+                                </td>
+                                <td class="w-10p no-border lineaDetalle text-center" style="text-align:center;">
+                                    <t t-set="um"
+                                       t-value="o.move_ids_without_package.filtered(lambda x: x.product_id == prod).mapped('product_uom.name')"/>
+                                    <span t-esc="um[0]"/>
+                                </td>
+                                <td class="w-40p no-border lineaDetalle" style="text-align:center !important">
+                                    <t t-if="prod">
+                                        <t t-set="name"
+                                           t-value="o.move_ids_without_package.filtered(lambda x: x.product_id == prod).mapped('sale_line_id.name')"/>
+					<t if="name">
+                                        	<span t-esc="name[0]"/>
+
+					</t>
+                                    </t>
+                                    <br/>
+                                </td>
+                            </tr>
+                        </t>
+                        <t t-foreach="o.move_ids_without_package" t-as="l">
+
+                        </t>
+                        <t t-foreach="25-len(o.move_ids_without_package)" t-as="restante">
+                            <tr>
+                                <td class="lineaDetalle"></td>
+                                <td class="lineaDetalle"></td>
+                                <td class="lineaDetalle"></td>
+                            </tr>
+                        </t>
+                    </table>
+                    <table style="width:100%;border:1px solid black">
+                        <tr>
+                            <td style="heigth:30px" >
+                                <strong style="visibility:hidden">AA</strong>
+                            </td>
+                        </tr>
+                        <tr style="border:1px solid black" colspan="3">
+                            <td style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;" >
+                                <strong>
+                                    Observaciones
+                                </strong>
+                                <span t-field="o.note"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="heigth:30px" >
+                                <strong style="visibility:hidden">AA</strong>
+                            </td>
+                        </tr>
+                        <tr style="border:1px solid black">
+
+                            <td style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;">
+                                <strong>
+                                    Firma y sello del Cliente
+                                </strong>
+                            </td>
+                            <td style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;">
+                                <strong>
+                                    Aclaración de firma
+                                </strong>
+                            </td>
+                            <td style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;">
+                                <strong>
+                                    C.I. Nro. / RUC
+                                </strong>
+                            </td>
+                            <td style="text-align:center;font-size:12px;width:25%;overflow: hidden;display: inline-block;white-space: nowrap;">
+                                <strong>
+                                    Fecha
+                                </strong>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width:100%;border:1px solid black">
+                        <tr style="border:1px solid black">
+                            <td style="border:1px solid black;width:70%; font-size:12px;vertical-align:middle">
+                                <span>AUTORIZADO COMO AUTOIMPRESOR Y TIMBRADO DE DOCUMENTOS NRO: </span>
+
+                                <span t-field="o.timbrado_id.name"/>
+
+                            </td>
+                            <td style="border:1px solid black;width:30%; font-size:12px">
+                                <span>Original: Cliente - Duplicado: Archivo Tributario</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- </t> -->
+                <!-- </t> -->
+                <!--    </t> -->
+            </div>
+            <!-- </t> -->
+            <!--  </t> -->
+
+        </template>
+
+        <!-- <template id="factura_autoimpresor.duplicado" inherit_id="factura_autoimpresor.factura">
+            <xpath expr="//span[@id='original_duplicado']" position="replace">
+                <span id='original_duplicado'>Duplicado</span>
+            </xpath>
+            <xpath expr="//table[1]" position="after">
+                <t t-if="o.state != 'cancel'">
+                    <div style="position:absolute;opacity:0.20;z-index:1000;transform:rotate(310deg);-webkit-transform:rotate(310deg);width:50%;margin-left:150px;margin-top:300px">
+                        <p style="font-size:40px">NO VALIDO COMO CREDITO FISCAL</p>
+                    </div>
+                </t>
+            </xpath>
+        </template> -->
+        <template id="duplicados_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="version_remision" t-value="'DUPLICADO'"/>
+                    <t t-if="o.state=='cancel'">
+                        <t t-set="mensaje_marca_agua" t-value="'REMISION ANULADA'"/>
+                    </t>
+                    <t t-else="">
+                        <t t-set="mensaje_marca_agua" t-value="'DUPLICADO'"/>
+                    </t>
+                    <t t-call="notas_remision.remision"/>
+                </t>
+            </t>
+        </template>
+        <record id="paperformat_remision" model="report.paperformat">
+            <field name="name">Notas de Remision</field>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">1</field>
+            <field name="dpi">90</field>
+        </record>
+        <report id="remision_report_action" print_report_name="(object.name)" model="stock.picking" string="Nota de remisión (Original)" report_type="qweb-pdf" paperformat="notas_remision.paperformat_remision" name="notas_remision.remision_template" />
+        <report id="remision_duplicado_report_action" print_report_name="(object.name)" model="stock.picking" string="Nota de remisión (Duplicado)" report_type="qweb-pdf" paperformat="notas_remision.paperformat_remision" name="notas_remision.duplicados_template" />
+    </data>
+</odoo>

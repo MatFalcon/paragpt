@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_hhrr_asistencias_inherit" model="ir.ui.view">
+        <field name="name">res.config.hhrr.asistencias.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_attendance.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='overtime_settings']/div/div/div/label[@for='overtime_employee_threshold']/.." position="inside">
+                <br/>
+                <br/>
+                <label for="overtime_employee_threshold_early_leaves" class="o_form_label">
+                    Tiempo de tolerancia a favor de la empresa
+                </label>
+                <div class="text-muted">
+                    Permitir un periodo de tiempo (en horas de trabajo) en el que la salida anticipada no se descontará, en beneficio del empleado.
+                </div>
+                <span>Periodo de tiempo</span>
+                <field name="overtime_employee_threshold_early_leaves" class="text-center oe_inline"
+                       attrs="{'required': [('hr_attendance_overtime', '=', True)]}"/>
+                <span>Minutos</span>
+            </xpath>
+            <xpath expr="//div[@data-key='hr_attendance']" position="inside">
+                <h2>Considerar asistencias</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-4 col-lg-4 o_setting_box" title="Llegada anticipada">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_llegada_anticipada"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Llegada anticipada</span>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4 o_setting_box" title="Llegada tardia">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_llegada_tardia"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Llegada tardia</span>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4 o_setting_box" title="Salida anticipada">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_salida_anticipada"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Salida anticipada</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-4 col-lg-4 o_setting_box" title="Horas extra 50%">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_horas_extra_50"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Horas extra 50%</span>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4 o_setting_box" title="Horas extra 100%">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_horas_extra_100"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Horas extra 100%</span>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4 o_setting_box" title="Horas extra Nocturnas">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_horas_extra_nocturnas"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Horas extra Nocturnas</span>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4 o_setting_box" title="Horas Nocturnas">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_horas_nocturnas"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Horas Nocturnas</span>
+                        </div>
+                    </div>
+
+                </div>
+                <h2>Configuracion de Horas Nocturnas</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-4 col-lg-4 o_setting_box" title="Horas Nocturnas dentro del horario planeado">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_horas_nocturnas_en_planeado"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Horas Nocturnas dentro del horario planeado</span>
+                        </div>
+                    </div>
+                </div>
+                <h2>Configuracion de horas plus</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-4 col-lg-4 o_setting_box" title="Horas Plus">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_plus_hora"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Considerar Horas Plus</span>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4" title="Inicio hora plus">
+                        <div class="o_setting_left_pane">
+                            <span class="o_form_label">Inicio hora plus</span>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <field name="inicio_plus" widget="float_time"/>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4" title="Fin hora plus">
+                        <div class="o_setting_left_pane">
+                            <span class="o_form_label">Fin hora plus</span>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <field name="fin_plus" widget="float_time"/>
+                        </div>
+                    </div>
+                </div>
+                <h2>Configuracion de horario mixto</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-4 col-lg-4 o_setting_box" title="Horario Mixto">
+                        <div class="o_setting_left_pane">
+                            <field name="considerar_mix_hora"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Considerar Horario Mixto</span>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4" title="Inicio horario mixto">
+                        <div class="o_setting_left_pane">
+                            <span class="o_form_label">Inicio horario mixto</span>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <field name="inicio_mix" widget="float_time"/>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4" title="Fin horario mixto">
+                        <div class="o_setting_left_pane">
+                            <span class="o_form_label">Fin horario mixto</span>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <field name="fin_mix" widget="float_time"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

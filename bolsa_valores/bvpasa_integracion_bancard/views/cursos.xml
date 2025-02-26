@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="cursos_action_view">
+        <field name="name">Cursos
+        </field>
+        <field name="res_model">bvpasa_integracion_bancard.cursos</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            </p>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="cursos_tree_view">
+        <field name="name">cursos_tree_view</field>
+        <field name="model">bvpasa_integracion_bancard.cursos</field>
+        <field name="arch" type="xml">
+            <tree string="Cursos" create="0" editable="top">
+                <field name="course_id" readonly="1"/>
+                <field name="name" readonly="1"/>
+                <field name="product_id" options="{'no_open':True, 'no_create': True}"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cursos_search_view">
+        <field name="name">cursos_search_view</field>
+        <field name="model">bvpasa_integracion_bancard.cursos</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="course_id"/>
+                <field name="name"/>
+                <field name="product_id"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="bvpasa_integracion_bancard.menu_cursos" name="Cursos" sequence="109" parent="account.menu_finance_receivables"
+              action="cursos_action_view"/>
+
+</odoo>

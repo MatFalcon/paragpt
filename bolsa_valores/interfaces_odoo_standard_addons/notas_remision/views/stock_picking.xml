@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">view_picking_form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="es_nota_remision" invisible="True"/>                
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page name="page_notas_remision" string="Datos de la nota de remision" attrs="{'invisible':[('es_nota_remision','=',False)] }">
+                        <group>
+                            <group>
+                                <field name="timbrado_id" widget="selection" domain="[('tipo_documento','=','nota_remision'),('company_id','=',company_id)]" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])], 'required':[('es_nota_remision','=',True)]}"/>
+                                <field name="motivo_traslado" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="comprobante_venta" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="comprobante_venta_nro" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="nro_timbrado_comprobante" string="Timbrado del comprobante" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="fecha_expedicion" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="fecha_inicio_traslado" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="direccion_partida" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="ciudad_partida" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="departamento_partida" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="kms_recorridos" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+
+                            </group>
+                            <group>
+                                <field name="fecha_fin_traslado" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="direccion_entrega" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="ciudad_entrega" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="departamento_entrega" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="cambio" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="motivo" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="marca_vehiculo" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="matricula" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="transportista" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="ruc_transportista" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="direccion_transportista" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="matricula_remolque" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="chofer" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="ruc_chofer" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                                <field name="direccion_chofer" attrs="{'readonly':[('state','not in',['draft','assigned','waiting','confirmed'])]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>
+
+    

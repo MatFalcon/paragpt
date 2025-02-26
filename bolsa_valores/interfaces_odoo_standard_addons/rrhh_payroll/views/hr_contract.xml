@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_contract_view_form">
+            <field name="name">rrhh_payroll.hr_contract_view_form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='information']/group/group/div/field[@name='wage']/.." position="after">
+                    <field name="seguro_ips"/>
+                </xpath>
+                <xpath expr="//field[@name='calendar_mismatch']" position="before">
+                    <field name="structure_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

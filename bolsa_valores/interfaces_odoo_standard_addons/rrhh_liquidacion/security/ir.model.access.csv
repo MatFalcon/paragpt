@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wizard_calculo_renuncia,access_wizard_calculo_renuncia,model_wizard_calculo_renuncia,hr_payroll.group_hr_payroll_manager,1,1,1,1
+access_wizard_calculo_despido,access_wizard_calculo_despido,model_wizard_calculo_despido,hr_payroll.group_hr_payroll_manager,1,1,1,1
+access_wizard_calculo_jubilacion,access_wizard_calculo_jubilacion,model_wizard_calculo_jubilacion,hr_payroll.group_hr_payroll_manager,1,1,1,1

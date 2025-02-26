@@ -1,0 +1,12 @@
+<odoo>
+        <data>
+                <record id="transferencia_rule" model="ir.rule">
+                        <field name="name">Transferencias</field>
+                        <field name="model_id" ref="interfaces_transferencias.model_account_transferencia"/>
+                        <field name="global" eval="True"/>
+                        <field name="domain_force">['|',('company_id','=',False),('company_id','in',company_ids)]</field>
+                </record>
+
+        </data>
+</odoo>
+

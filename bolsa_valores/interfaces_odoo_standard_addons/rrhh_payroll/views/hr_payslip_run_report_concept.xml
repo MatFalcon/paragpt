@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_payslip_run_report_concept_form_view">
+            <field name="name">hr_payslip_run_report_concept_form_view</field>
+            <field name="model">hr.payslip.run.report_concept_wiz</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="element_ids">
+                            <tree string="Conceptos" editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="title"/>
+                                <field name="elements"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="Actualizar conceptos para el Reporte de Salarios"
+                                class="oe_highlight" type="object"
+                                name="button_actualizar_elementos"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hr_payslip_run_report_concept_action">
+            <field name="name">Actualizar elementos del reporte de salarios</field>
+            <field name="res_model">hr.payslip.run.report_concept_wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Actualizar elementos del reporte de salarios"
+                  id="rrhh_payroll.hr_payslip_run_report_concept_menuitem"
+                  parent="hr_payroll.menu_hr_salary_configuration" sequence="201"
+                  action="rrhh_payroll.hr_payslip_run_report_concept_action"/>
+    </data>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_interfaces_cheques_interfaces_cheques,interfaces_cheques.interfaces_cheques,model_interfaces_cheques_interfaces_cheques,base.group_user,1,1,1,1

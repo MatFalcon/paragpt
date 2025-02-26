@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- BS REPORT  -->
+
+    <record id="account_financial_report_l10n_py_balance_general" model="account.financial.html.report">
+        <field name="name">Balance General</field>
+        <field name="date_range" eval="True"/>
+        <field name="unfold_all_filter" eval="True"/>
+        <field name="parent_id" ref="l10n_py.account_reports_py_statements_menu"/>
+        <field name="country_id" ref="base.py"/>
+    </record>
+
+    <!-- <record id="account_financial_report_line_ch_1" model="account.financial.html.report.line">
+        <field name="name">ASSETS</field>
+        <field name="code">CH_1</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="1"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_ch_bilan"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">CH_10 + CH_14</field>
+    </record> -->
+    <record id="account_financial_report_line_py_A_ROOT" model="account.financial.html.report.line">
+        <field name="name">Activo</field>
+        <field name="code">AC_ROOT</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="1"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_balance_general"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">AC_GRP+ANC_GRP</field>
+    </record>
+    <record id="account_financial_report_line_py_AC_GRP" model="account.financial.html.report.line">
+        <field name="name">Activo corriente</field>
+        <field name="code">AC_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_line_py_A_ROOT"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">DIS_LINE+INV_TEMP_LINE+CRED_LINE+INV_LINE+GTO_PAG_AD_LINE+OT_AC_LINE</field>
+    </record>
+    <record id="account_financial_report_line_DIS_line" model="account.financial.html.report.line">
+        <field name="name">Disponibilidades</field>
+        <field name="code">DIS_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_line_py_AC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Disponibilidades')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_INV_TEMP_line" model="account.financial.html.report.line">
+        <field name="name">Inversiones temporarias</field>
+        <field name="code">INV_TEMP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="2"/>
+        <field name="parent_id" ref="account_financial_report_line_py_AC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Inversiones temporarias')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_CRED_line" model="account.financial.html.report.line">
+        <field name="name">Créditos</field>
+        <field name="code">CRED_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="3"/>
+        <field name="parent_id" ref="account_financial_report_line_py_AC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Créditos')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_INV_line" model="account.financial.html.report.line">
+        <field name="name">Inventarios</field>
+        <field name="code">INV_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="4"/>
+        <field name="parent_id" ref="account_financial_report_line_py_AC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Inventarios')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_GTO_PAG_AD_line" model="account.financial.html.report.line">
+        <field name="name">Gastos pagados por adelantado</field>
+        <field name="code">GTO_PAG_AD_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="5"/>
+        <field name="parent_id" ref="account_financial_report_line_py_AC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Gastos pagados por adelantado')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_OT_AC_line" model="account.financial.html.report.line">
+        <field name="name">Otros activos</field>
+        <field name="code">OT_AC_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="6"/>
+        <field name="parent_id" ref="account_financial_report_line_py_AC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Otros activos')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_py_ANC_GRP" model="account.financial.html.report.line">
+        <field name="name">Activo no corriente</field>
+        <field name="code">ANC_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_line_py_A_ROOT"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">CRED_LP_LINE+INV_A_R_LP_LINE+INV_LP_LINE+PROP_PL_EQ_LINE+OTRO_AC_LP_LINE+CAR_DIF_LINE+AC_INT_LINE</field>
+    </record>
+
+    <record id="account_financial_report_line_CRED_LP_line" model="account.financial.html.report.line">
+        <field name="name">Créditos a largo plazo</field>
+        <field name="code">CRED_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ANC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Créditos a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_INV_A_R_LP_line" model="account.financial.html.report.line">
+        <field name="name">Inventarios a realizar a largo plazo</field>
+        <field name="code">INV_A_R_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="2"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ANC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Inventarios a realizar a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_INV_LP_line" model="account.financial.html.report.line">
+        <field name="name">Inversiones a largo plazo</field>
+        <field name="code">INV_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="3"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ANC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Inversiones a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_PROP_PL_EQ_line" model="account.financial.html.report.line">
+        <field name="name">Propiedad, planta y equipo</field>
+        <field name="code">PROP_PL_EQ_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="4"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ANC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Propiedad, planta y equipo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_OTRO_AC_LP_line" model="account.financial.html.report.line">
+        <field name="name">Otros activos a largo plazo</field>
+        <field name="code">OTRO_AC_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="5"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ANC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Otros activos a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_CAR_DIF_line" model="account.financial.html.report.line">
+        <field name="name">Cargos diferidos</field>
+        <field name="code">CAR_DIF_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="6"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ANC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Cargos diferidos')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_AC_INT_line" model="account.financial.html.report.line">
+        <field name="name">Activos intangibles</field>
+        <field name="code">AC_INT_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="7"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ANC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Activos intangibles')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">sum</field>
+    </record>
+    <record id="account_financial_report_line_py_P_ROOT" model="account.financial.html.report.line">
+        <field name="name">Pasivo</field>
+        <field name="code">P_ROOT</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="1"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_balance_general"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">PC_GRP+PNC_GRP</field>
+    </record>
+    <record id="account_financial_report_line_py_PC_GRP" model="account.financial.html.report.line">
+        <field name="name">Pasivo corriente</field>
+        <field name="code">PC_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_line_py_P_ROOT"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">PC_AC_COM_LINE+PC_DEU_FIN_LINE+PC_OR_CP_LINE+PC_PROV_LINE+PC_ING_DIF_LINE</field>
+    </record>
+
+    <record id="account_financial_report_line_PC_AC_COM_line" model="account.financial.html.report.line">
+        <field name="name">Acreedores comerciales</field>
+        <field name="code">PC_AC_COM_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Acreedores comerciales')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_PC_DEU_FIN_line" model="account.financial.html.report.line">
+        <field name="name">Deudas financieras</field>
+        <field name="code">PC_DEU_FIN_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="2"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Deudas financieras')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_PC_OT_CP_line" model="account.financial.html.report.line">
+        <field name="name">Otras cuentas por pagar</field>
+        <field name="code">PC_OR_CP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="3"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Otras cuentas por pagar')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_PC_PROV_line" model="account.financial.html.report.line">
+        <field name="name">Provisiones</field>
+        <field name="code">PC_PROV_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="3"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Provisiones')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_PC_ING_DIF_line" model="account.financial.html.report.line">
+        <field name="name">Ingresos diferidos</field>
+        <field name="code">PC_ING_DIF_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="4"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Ingresos diferidos')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_py_PNC_GRP" model="account.financial.html.report.line">
+        <field name="name">Pasivo no corriente</field>
+        <field name="code">PNC_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="2"/>
+        <field name="parent_id" ref="account_financial_report_line_py_P_ROOT"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">PC_AC_COM_LP_LINE+PNC_DEU_FIN_LP_LINE+PNC_OT_CP_LP_LINE+PNC_PROV_OB_LP_LINE+PNC_ING_DIF_LP_LINE</field>
+    </record>
+    <record id="account_financial_report_line_PNC_AC_COM_LP_line" model="account.financial.html.report.line">
+        <field name="name">Acreedores comerciales a largo plazo</field>
+        <field name="code">PC_AC_COM_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PNC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Acreedores comerciales a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_PNC_DEU_FIN_LP_line" model="account.financial.html.report.line">
+        <field name="name">Deudas financieras a largo plazo</field>
+        <field name="code">PNC_DEU_FIN_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="2"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PNC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Deudas financieras a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_PNC_OT_CP_LP_line" model="account.financial.html.report.line">
+        <field name="name">Otras cuentas por pagar a largo plazo</field>
+        <field name="code">PNC_OT_CP_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="3"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PNC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Otras cuentas por pagar a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_PNC_PROV_OB_LP_line" model="account.financial.html.report.line">
+        <field name="name">Provisiones para obligaciones a largo plazo</field>
+        <field name="code">PNC_PROV_OB_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="4"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PNC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Provisiones para obligaciones a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_PNC_ING_DIF_LP_line" model="account.financial.html.report.line">
+        <field name="name">Ingresos diferidos a largo plazo</field>
+        <field name="code">PNC_ING_DIF_LP_LINE</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="5"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PNC_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Ingresos diferidos a largo plazo')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_py_PN_ROOT" model="account.financial.html.report.line">
+        <field name="name">Patrimonio neto</field>
+        <field name="code">PN_ROOT</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="2"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_balance_general"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">PN_CP_GRP+PN_RES_GRP+PN_RESU_GRP</field>
+    </record>
+    <record id="account_financial_report_line_py_PN_CP_GRP" model="account.financial.html.report.line">
+        <field name="name">Capital</field>
+        <field name="code">PN_CP_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PN_ROOT"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Capital')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_py_PN_RES_GRP" model="account.financial.html.report.line">
+        <field name="name">Reservas</field>
+        <field name="code">PN_RES_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="2"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PN_ROOT"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Reservas')]"/>
+        <field name="hide_if_zero" eval="True"/>
+        <field name="hide_if_empty" eval="True"/>
+        <field name="formulas">-sum</field>
+    </record>
+    <record id="account_financial_report_line_py_PN_RESU_GRP" model="account.financial.html.report.line">
+        <field name="name">Resultados</field>
+        <field name="code">PN_RESU_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="3"/>
+        <field name="parent_id" ref="account_financial_report_line_py_PN_ROOT"/>
+        <field name="groupby">account_id</field>
+        <field name="formulas">ER_RES_EJERC</field>
+    </record>
+    <record id="account_financial_report_line_py_PPN_ROOT" model="account.financial.html.report.line">
+        <field name="name">Pasivo + Patrimonio neto</field>
+        <field name="code">PPN_ROOT</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="3"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_balance_general"/>
+        <field name="domain" eval=""/>
+        <field name="formulas">P_ROOT+PN_ROOT</field>
+    </record>
+
+    <!-- Estado de Resultado -->
+
+    <record id="account_financial_report_l10n_py_estado_resultados" model="account.financial.html.report">
+        <field name="name">Estado de resultados</field>
+        <field name="date_range" eval="True"/>
+        <field name="unfold_all_filter" eval="True"/>
+        <field name="parent_id" ref="l10n_py.account_reports_py_statements_menu"/>
+        <field name="country_id" ref="base.py"/>
+    </record>
+    <record id="account_financial_report_line_py_ER_RESUL_BRU_VT_GRP" model="account.financial.html.report.line">
+        <field name="name">Ganancias (o Pérdidas) brutas en ventas</field>
+        <field name="code">ER_RESUL_BRU_VT_GRP</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="2"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/>
+        <field name="formulas">ER_ING_OP_ROOT-ER_COS_OP_ROOT</field>
+    </record>
+
+
+
+    <record id="account_financial_report_line_py_ER_ING_OP_GRP" model="account.financial.html.report.line">
+        <field name="name">Ingresos operativos</field>
+        <field name="code">ER_ING_OP_ROOT</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="0"/>
+        <!-- <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/> -->
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_BRU_VT_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Ingresos operativos')]"/>
+        <field name="formulas">-sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_COS_OP_GRP" model="account.financial.html.report.line">
+        <field name="name">Costos operativos</field>
+        <field name="code">ER_COS_OP_ROOT</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="1"/>
+        <!-- <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/> -->
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_BRU_VT_GRP"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Costos operativos')]"/>
+        <field name="formulas">sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_RESUL_BRUT_TOT" model="account.financial.html.report.line">
+        <field name="name">Ganancias (o Pérdidas) brutas totales</field>
+        <field name="code">ER_RESUL_BRUT_TOT</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="8"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/>
+        <field name="formulas">ER_RESUL_BRU_VT_GRP+ER_ING_BAGF_GRP-ER_COS_BAGF_GRP+ER_OTRO_ING_GRP</field>
+
+    </record>
+
+    
+
+    <record id="account_financial_report_line_py_ER_ING_BAGF_GRP" model="account.financial.html.report.line">
+        <field name="name">Ingresos por actividades biológicas, agricolas, ganadaderas y/o forestales</field>
+        <field name="code">ER_ING_BAGF_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="3"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_BRUT_TOT"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', 'in', ['Ingresos por activos biológicos','Ingresos por activos agrícolas','Ingresos por activos ganaderos','Ingresos por activos forestales'])]"/>
+        <field name="formulas">-sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_COS_BAGF_GRP" model="account.financial.html.report.line">
+        <field name="name">Costos por actividades biológicas, agricolas, ganadaderas y/o forestales</field>
+        <field name="code">ER_COS_BAGF_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="4"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_BRUT_TOT"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', 'in', ['Costo de producción y tenencia de activos biológicos','Costo de producción y tenencia de activos agrícolas','Costo de producción y tenencia de activos ganaderos','Costo de producción y tenencia de activos forestales'])]"/>
+        <field name="formulas">sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_OTRO_ING_GRP" model="account.financial.html.report.line">
+        <field name="name">Otros ingresos</field>
+        <field name="code">ER_OTRO_ING_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="5"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_BRUT_TOT"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Otros ingresos')]"/>
+        <field name="formulas">-sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_RESUL_COM_ADM" model="account.financial.html.report.line">
+        <field name="name">Ganancias (o Pérdidas) antes de gastos financieros</field>
+        <field name="code">ER_RESUL_COM_ADM</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="8"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/>
+        <field name="formulas">ER_RESUL_BRUT_TOT -ER_GTO_COM_GRP-ER_GTO_ADM_GRP</field>
+
+    </record>
+
+    <record id="account_financial_report_line_py_ER_GTO_COM_GRP" model="account.financial.html.report.line">
+        <field name="name">Gastos de comercialización</field>
+        <field name="code">ER_GTO_COM_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="6"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_COM_ADM"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Gastos comerciales')]"/>
+        <field name="formulas">sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_GTO_ADM_GRP" model="account.financial.html.report.line">
+        <field name="name">Gastos de administración</field>
+        <field name="code">ER_GTO_ADM_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="7"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_COM_ADM"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Gastos administrativos')]"/>
+        <field name="formulas">sum</field>
+
+    </record>
+     <record id="account_financial_report_line_py_ER_RESUL_OPER" model="account.financial.html.report.line">
+        <field name="name">Ganancias (o Pérdidas) operativas</field>
+        <field name="code">ER_RESUL_OPER</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="12"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/>
+        <field name="formulas">ER_RESUL_COM_ADM-ER_GTO_BANC_GRP-ER_GTO_PREV_GRP-ER_GTO_DEPR_GRP</field>
+
+    </record>
+
+    <record id="account_financial_report_line_py_ER_GTO_BANC_GRP" model="account.financial.html.report.line">
+        <field name="name">Gastos bancarios y financieros</field>
+        <field name="code">ER_GTO_BANC_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="9"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_OPER"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Gastos financieros')]"/>
+        <field name="formulas">sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_GTO_PREV_GRP" model="account.financial.html.report.line">
+        <field name="name">Previsiones</field>
+        <field name="code">ER_GTO_PREV_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="10"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_OPER"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Previsiones')]"/>
+        <field name="formulas">sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_GTO_DEPR_GRP" model="account.financial.html.report.line">
+        <field name="name">Depreciaciones y amortización de activos</field>
+        <field name="code">ER_GTO_DEPR_GRP</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="11"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_OPER"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Depreciaciones y amortizaciones')]"/>
+        <field name="formulas">sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_RESUL_ANT_IMP_REN" model="account.financial.html.report.line">
+        <field name="name">Ganancias (o Pérdidas) antes del Impuesto a la Renta</field>
+        <field name="code">ER_RESUL_ANT_IMP_REN</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="14"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/>
+        <field name="formulas">ER_RESUL_OPER+ER_OTRO_RESUL_NO_OPER</field>
+
+    </record>
+   
+    <record id="account_financial_report_line_py_ER_OTRO_RESUL_NO_OPER" model="account.financial.html.report.line">
+        <field name="name">Otros resultados no operativos</field>
+        <field name="code">ER_OTRO_RESUL_NO_OPER</field>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="13"/>
+        <field name="parent_id" ref="account_financial_report_line_py_ER_RESUL_ANT_IMP_REN"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Otros resultados no operativos')]"/>
+        <field name="formulas">-sum</field>
+    </record>
+    
+    <record id="account_financial_report_line_py_ER_IMP_REN" model="account.financial.html.report.line">
+        <field name="name">Impuesto a la Renta</field>
+        <field name="code">ER_IMP_REN</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="15"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/>
+        <field name="groupby">account_id</field>
+        <field name="domain" eval="[('account_id.tag_ids.name', '=', 'Impuesto a la renta')]"/>
+        <field name="formulas">sum</field>
+
+    </record>
+    <record id="account_financial_report_line_py_ER_RES_EJERC" model="account.financial.html.report.line">
+        <field name="name">Ganacias o Pérdidas netas del ejercicio</field>
+        <field name="code">ER_RES_EJERC</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="16"/>
+        <field name="financial_report_id" ref="account_financial_report_l10n_py_estado_resultados"/>
+        <field name="formulas">ER_RESUL_ANT_IMP_REN-ER_IMP_REN</field>
+
+    </record>
+
+
+</odoo>

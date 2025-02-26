@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_leave_form_inherit">
+            <field name="name">hr_leave_form</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='col_left']/field[@name='employee_ids']" position="attributes">
+                    <attribute name="attrs">{'invisible':True,'required':False}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='col_left']/field[@name='employee_id']" position="attributes">
+                    <attribute name="attrs">{
+                        'required': [('holiday_type', '=', 'employee')],
+                        'invisible': ['|', ('holiday_type', '!=', 'employee'), ('state', 'not in', ['draft','confirm'])],
+                        'readonly': [('state', 'in', ['cancel', 'refuse', 'validate1', 'validate'])]
+                        }
+                    </attribute>
+                </xpath>
+                <xpath expr="//group[@name='col_left']/field[@name='employee_id']" position="after">
+                    <field name="contract_id"
+                           attrs="{
+                            'required': [('holiday_type', '=', 'employee')],
+                            'invisible': ['|', ('holiday_type', '!=', 'employee'), ('state', 'not in', ['draft','confirm'])],
+                            'readonly': [('state', 'in', ['cancel', 'refuse', 'validate1', 'validate'])]
+                            }"
+                           domain="[('employee_id','=',employee_id)]"/>
+                </xpath>
+                <xpath expr="//field[@name='request_hour_from']" position="attributes">
+                    <attribute name="widget">float_time</attribute>
+                </xpath>
+                <xpath expr="//field[@name='request_hour_to']" position="attributes">
+                    <attribute name="widget">float_time</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

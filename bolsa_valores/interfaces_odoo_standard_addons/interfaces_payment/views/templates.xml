@@ -1,0 +1,224 @@
+<odoo>
+    <data>
+
+        <template id="interfaces_payment.reporte_pagos_editado_multi">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <style>
+                        hr{
+                        border-top:1px solid black;
+                        }
+                        th,tr,td{
+                        font-size:12px;
+                        padding:2px;
+                        }
+                        th{
+                        text-align:center;
+                        }
+                        .numero{
+                        text-align:right;
+                        }
+                        .izquierda{
+                        text-align:left;
+                        }
+                        #duplicado{
+                        position:absolute;
+                        z-index:0;
+                        background:white;
+                        display:block;
+                        min-height:50%;
+                        min-width:50%;
+                        color:yellow;
+                        }
+
+                        #bg-text
+                        {
+                        color:lightgrey;
+                        font-size:90px;
+                        transform:rotate(300deg);
+                        -webkit-transform:rotate(300deg);
+                        }
+                        .page{
+                        z-index:1;
+                        }
+
+
+                    </style>
+                    <t t-foreach="range(2)" t-as="katsuragi">
+                        <div class="page" id="original">
+                            <div>
+                                <h3 style="text-align:center">Recibo de dinero</h3>
+                                <table style="width:100%;">
+                                    <td class="izquierda" style="width:50%">
+                                        <strong>Número:</strong>
+                                        <span t-esc="recibo_name"/>
+                                        <br/>
+                                        <strong>Fecha:</strong>
+                                        <span t-esc="fecha"/>
+                                        <br/>
+                                    </td>
+                                    <td style="width:50%">
+
+                                        <strong>Monto total:</strong>
+                                        <span t-esc="env['interfaces_tools.tools'].format_amount(monto_total,moneda)"/>
+                                        <span t-esc="moneda.symbol"/>
+                                        <br/>
+                                        <strong>Usuario:</strong>
+                                        <span t-esc="usuario.name"/>
+                                        <br/>
+                                    </td>
+                                </table>
+                            </div>
+                            <div style="font-size:12px;">
+                                <table style="width:100%">
+                                    <th style="width:20%"></th>
+                                    <th style="width:80%"></th>
+                                    <tr>
+                                        <td>
+                                            <strong>Recibimos de:</strong>
+                                        </td>
+                                        <td>
+                                            <span t-esc="partner.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>RUC:</strong>
+                                        </td>
+                                        <td>
+                                            <span t-esc="partner.vat"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>La cantidad de:</strong>
+                                        </td>
+                                        <td style="font-style:italic;background-color:gray;border-radius: 6px;padding:7px">
+                                            <span t-esc="moneda.currency_unit_label"/>
+                                            <span t-esc="env['interfaces_tools.tools'].numero_a_letra(monto_total)"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>En concepto de:</strong>
+                                        </td>
+                                        <td>
+                                            Pago según se detalla
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table style="width:60%;margin-right:100%;">
+                                <tr>
+                                    <td colspan="4" style="text-align:center">
+                                        <strong>Facturas</strong>
+                                    </td>
+                                </tr>
+                                <tr style="border:1px solid black;border-radius:12px">
+                                    <th>Fecha</th>
+                                    <th>Empresa</th>
+                                    <th>Nro. Factura</th>
+                                    <th>Monto</th>
+                                </tr>
+
+                                <t t-foreach="facturas" t-as="i">
+                                    <tr>
+                                        <td>
+                                            <span t-field="i.invoice_date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="partner.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="i.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="i.currency_id.symbol"/>
+                                            <span t-esc="env['interfaces_tools.tools'].format_amount(i.amount_total,i.currency_id)"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+
+
+                            <table style="width:100%">
+                                <tr>
+                                    <td colspan="6" style="text-align:center">
+                                        <strong>Líneas de pago</strong>
+                                    </td>
+                                </tr>
+                                <tr style="border:1px solid black;">
+                                    <th>Tipo</th>
+                                    <th>Banco</th>
+                                    <th>Nro. documento</th>
+                                    <th>Monto</th>
+                                </tr>
+
+                                <t t-foreach="payments" t-as="o">
+                                    <tr>
+                                        <td style="text-align:left">
+                                            <span t-field="o.tipo_pago"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-field="o.bank_id.name"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <t t-if="o.tipo_pago=='Efectivo'">
+                                                <span></span>
+                                            </t>
+                                            <t t-if="o.tipo_pago=='Cheque'">
+                                                <span t-field="o.nro_cheque"/>
+                                            </t>
+                                            <t t-if="o.tipo_pago=='TCredito'">
+                                                <span t-field="o.nro_documento"/>
+                                            </t>
+                                            <t t-if="o.tipo_pago=='Transferencia'">
+                                                <span t-field="o.nro_documento"/>
+                                            </t>
+                                            <t t-if="o.tipo_pago=='Retencion'">
+                                                <t t-if="o.nro_documento">
+                                                    <span t-field="o.nro_documento"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span></span>
+                                                </t>
+                                            </t>
+                                        </td>
+                                        <td class="numero">
+                                            <span t-esc="moneda.symbol"/>
+                                            <span t-esc="env['interfaces_tools.tools'].format_amount(o.amount,moneda)"/>
+
+                                        </td>
+                                    </tr>
+                                </t>
+
+                            </table>
+                            <br/>
+                            <div style="text-align:right, font-weight: 700;font-style: italic;color: #A0A0A0;">
+                                <t t-if="katsuragi &lt; 1">
+                                    <span style="font-size:12px;">Original</span>
+                                </t>
+                                <t t-else="">
+                                    <span style="font-size:12px;">Duplicado</span>
+                                </t>
+                            </div>
+
+                            <hr style="color:black"/>
+                            <br/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+                id="interfaces_payment.reporte_pagos_editado_action"
+                model="account.payment"
+                string="Recibo"
+                report_type="qweb-pdf"
+                name="interfaces_payment.reporte_pagos_editado_multi"
+                paperformat="base.paperformat_us"
+        />
+
+    </data>
+</odoo>

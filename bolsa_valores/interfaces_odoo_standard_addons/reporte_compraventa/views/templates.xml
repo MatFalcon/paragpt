@@ -1,0 +1,22 @@
+<odoo>
+        <report
+                id="reporte_compra_xlsx_action"
+                model="reporte_compraventa.wizardcompra"
+                string="Exportar a xlsx"
+                report_type="xlsx"
+                name="reporte_compraventa.reporte_compra_xlsx"
+                file="Libro de compras"
+                attachment_use="False"
+        />
+        <report
+                id="reporte_venta_xlsx_action"
+                model="reporte_compraventa.wizardventa"
+                string="Exportar a xlsx"
+                report_type="xlsx"
+                name="reporte_compraventa.reporte_venta_xlsx"
+                file="Libro de ventas"
+                attachment_use="False"
+        />
+
+
+</odoo>

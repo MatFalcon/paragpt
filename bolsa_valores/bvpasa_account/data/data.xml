@@ -1,0 +1,139 @@
+<odoo>
+    <data noupdate="1">
+        <record forcecreate="True" id="enviar_recibos_conciliados_dia" model="ir.cron">
+            <field name="name">Enviar recibos conciliados del día</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">24</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field ref="account.model_account_payment" name="model_id"/>
+            <field name="state">code</field>
+            <field name="code">model.enviarRecibosDia()</field>
+            <field eval="False" name="doall"/>
+            <!--            <field name="function">True</field>-->
+        </record>
+
+
+        <record forcecreate="True" id="enviar_recordatorio_cuentas_cobrar_dia" model="ir.cron">
+            <field name="name">Enviar recordatorio de cuentas a cobrar</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">7</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field ref="base.model_res_partner" name="model_id"/>
+            <field name="state">code</field>
+            <field name="code">model.enviarCuentasCobrar()</field>
+            <field eval="False" name="doall"/>
+            <!--            <field name="function">True</field>-->
+        </record>
+
+    </data>
+    <data noupdate="1">
+        <record id="mail_template_factura_anulada" model="mail.template">
+            <field name="name">Factura anulada: Enviar por Email</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="subject">{{object.company_id.name}} Factura Anulada - {{ object.name }})</field>
+            <field name="email_from">{{(object.user_id.email_formatted)}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    Estimado/a <t t-out="object.partner_id.name or ''" contenteditable="false" data-oe-t-inline="true"/>,<br/>
+                    Le informamos que la factura <b><t t-out="object.name or ''" contenteditable="false" data-oe-t-inline="true"/></b> se encuentra anulada.
+                    <br/>
+                    <br/><br/>
+                    No dude en contactarnos en caso de alguna duda.<br/><br/>
+                    Atentamente,<br/>
+                    Bolsa de Valores y Productos de Asunción S.A.<br/>
+                    Bulnes 830 c/ España<br/>
+                    Asunción – Paraguay<br/>
+                    +595 21 728-9123/5<br/>
+                    www.bolsadevalores.com.py<br/><br/><br/>
+                    Saludos.
+                </div>
+
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <record id="mail_template_cuentas_cobrar" model="mail.template">
+            <field name="name">Recordatorio de pago: Enviar por Email</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">{{object.company_id.name}} Recordatorio de pago - {{ object.name }})</field>
+            <field name="email_from">{{(object.user_id.email_formatted)}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    Estimado/a <t t-out="object.name or ''" contenteditable="false" data-oe-t-inline="true"/>,<br/>
+                    Adjunto encontrará los importes pendientes de pago.
+                    <br/>
+                    <br/>
+                    <h3 style="margin:0px 0 12px 0;box-sizing:border-box;">Detalle de las facturas</h3>
+                    <t t-out="object.facturas_pendientes_texto" contenteditable="false" data-oe-t-inline="true">
+                    </t>
+                    <br/>
+                    Por favor, tome las medidas pertinentes en la brevedad posible.
+                    <br/>
+                    Las cuentas habilitadas para el efecto son:<br/>
+                    <table>
+                        <tr>
+                            <td>
+                                Moneda
+                            </td>
+                            <td>
+                                Tipo
+                            </td>
+                            <td>
+                                Entidad
+                            </td>
+                            <td>
+                                Número
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Guaraníes
+                            </td>
+                            <td>
+                                Cuenta Corriente
+                            </td>
+                            <td>
+                                Banco Itaú
+                            </td>
+                            <td>
+                                423308
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Dólares
+                            </td>
+                            <td>
+                                Caja de Ahorro
+                            </td>
+                            <td>
+                                Banco Itaú
+                            </td>
+                            <td>
+                                15381677
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br/><br/>
+                    No dude en contactarnos en caso de alguna duda.<br/><br/>
+                    Atentamente,<br/>
+                    Bolsa de Valores y Productos de Asunción S.A.<br/>
+                    Bulnes 830 c/ España<br/>
+                    Asunción – Paraguay<br/>
+                    +595 21 728-9123/5<br/>
+                    www.bolsadevalores.com.py<br/><br/><br/>
+                    Saludos.
+                </div>
+
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

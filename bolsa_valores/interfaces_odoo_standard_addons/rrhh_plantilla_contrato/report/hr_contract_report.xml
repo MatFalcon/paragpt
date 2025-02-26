@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <template id="hr_contract_report_plantilla_contrato_t">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <style>
+                            body{
+                            font-size:17px;
+                            }
+                        </style>
+                        <t t-foreach="docs" t-as="s">
+                            <span t-raw="s.contenido" style="text-align:justify;"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <record id="paperformat_plantilla_contrato" model="report.paperformat">
+            <field name="name">Plantilla Contrato</field>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+
+        <record model="ir.actions.report" id="hr_contract_report_plantilla_contrato">
+            <field name="name">Plantilla de Contrato</field>
+            <field name="model">hr.contract</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">rrhh_plantilla_contrato.hr_contract_report_plantilla_contrato_t</field>
+            <field name="paperformat_id" ref="rrhh_plantilla_contrato.paperformat_plantilla_contrato"/>
+            <field name="binding_model_id" ref="hr_contract.model_hr_contract"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

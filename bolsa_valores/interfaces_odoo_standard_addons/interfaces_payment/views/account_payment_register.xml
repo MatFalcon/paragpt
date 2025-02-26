@@ -1,0 +1,30 @@
+<odoo>
+    <!-- account.payment.register inherit form view -->
+    <record id="view_id_account_payment_register" model="ir.ui.view">
+        <field name="name">account.payment.register.inherit.view.form</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            <!-- Add your xpath here -->
+            <xpath expr="//group[1]/group[@name='group2']" position="after">
+                <!-- Add your fields here -->
+                <group name="group2.1">
+                    <field name="tipo_pago"/>
+                    <field name="nro_cheque"
+                            attrs="{'required':[('tipo_pago','=','Cheque')],'invisible':[('tipo_pago','!=','Cheque')]}"/>
+                    <field name="bank_id"
+                            attrs="{'required':[('tipo_pago','in',['Cheque','Transferencia'])],'invisible':[('tipo_pago','not in',['Cheque','Transferencia'])]}"/>
+                    <field name="fecha_cheque"
+                            attrs="{'required':[('tipo_pago','in',['Cheque'])],'invisible':[('tipo_pago','not in',['Cheque'])]}"/>
+                    <field name="fecha_vencimiento_cheque"
+                            attrs="{'required':[('tipo_pago','in',['Cheque'])],'invisible':[('tipo_pago','not in',['Cheque'])]}"/>
+                    <field name="nro_cuenta"
+                            attrs="{'required':[('tipo_pago','in',['Cheque'])],'invisible':[('tipo_pago','not in',['Cheque'])]}"/>
+                    <field name="nro_documento"
+                            attrs="{'required':[('tipo_pago','in',['TCredito','Transferencia','TDebito','Otros'])],'invisible':[('tipo_pago','not in',['TCredito','Transferencia','Retencion','TDebito','Otros'])]}"/>
+                    <field name="observaciones"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

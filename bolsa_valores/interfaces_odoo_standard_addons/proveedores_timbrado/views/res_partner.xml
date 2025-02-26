@@ -1,0 +1,17 @@
+<odoo>
+    <!-- res.partner inherit form view -->
+    <record id="view_id_res_partner_i2" model="ir.ui.view">
+        <field name="name">res.partner.inherit.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Add your xpath here -->
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <!-- Add your fields here -->
+                <page name="timbrado" string="Timbrado">
+                    <field name="timbrado_id"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

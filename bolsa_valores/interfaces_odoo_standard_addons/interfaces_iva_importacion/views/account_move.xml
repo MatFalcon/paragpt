@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="account_move_form_inherit" model="ir.ui.view">
+            <field name="name">account_move_form_inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='partner_id']/../.." position="inside">
+                    <group string="Facturas de Importación" attrs="{'invisible':([('move_type','not in',['in_invoice'])])}">
+                        <field name="es_factura_exterior"
+                               attrs="{
+                               'readonly':([('state','!=','draft')]),
+                               'invisible':([('es_despacho_importacion','=',True)]),
+                               }"/>
+                        <field name="es_despacho_importacion"
+                               attrs="{
+                               'readonly':([('state','!=','draft')]),
+                               'invisible':([('es_factura_exterior','=',True)]),
+                               }"/>
+                        <field name="importacion_factura_compra_ids" widget="many2many_tags"
+                               attrs="{
+                               'readonly':([('state','!=','draft')]),
+                               'invisible':([('es_despacho_importacion','=',False)]),
+                               'required':([('es_despacho_importacion','=',True)]),
+                               }"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

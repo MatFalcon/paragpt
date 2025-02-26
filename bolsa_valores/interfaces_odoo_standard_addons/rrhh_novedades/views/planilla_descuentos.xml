@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="planilla_descuentos_form_view" model="ir.ui.view">
+            <field name="name">planilla_descuentos_form_view</field>
+            <field name="model">rrhh_novedades.planilla_descuentos</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <button string="Cancelar" type="object" name="button_cancelar" attrs="{'invisible':[('state','!=','done')]}"/>
+                        <button string="Cambiar a borrador" type="object" name="button_draft" attrs="{'invisible':[('state','!=','cancel')]}"/>
+                        <!-- <button string="Calcular saldos" type="object" name="button_calcular_saldos" attrs="{'invisible':[('state','!=','draft')]}"/> -->
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="True"/>
+                            </h1>
+                        </div>
+                        <group>
+
+                            <group>
+                                <field name="fecha" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="user_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="tipo_id" attrs="{'readonly':[('state','!=','draft')],'required':True}" widget="selection"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="lines" string="Lineas">
+                                <field name="line_ids"  attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom" limit="10">
+                                        <field name="employee_id"/>
+                                        <field name="job_id"/>
+                                        <field name="doma"/>
+                                        <field name="pollo"/>
+                                        <field name="lechuga"/>
+                                        <field name="huevo"/>
+                                        <field name="despensa"/>
+                                        <field name="otros"/>
+                                        <field name="total_egresos"/>
+                                        <field name="comentarios"/>
+                                        <!-- <field name="neto_cobrar"/>
+                                        <field name="saldo_calculado"/> -->
+
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="planilla_descuentos_tree_view" model="ir.ui.view">
+            <field name="name">planilla_descuentos_tree_view</field>
+            <field name="model">rrhh_novedades.planilla_descuentos</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="fecha"/>
+                    <field name="tipo_id"/>
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- model.name action window -->
+        <record id="planilla_descuentos_act_window" model="ir.actions.act_window">
+            <field name="name">Planillas de despensas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rrhh_novedades.planilla_descuentos</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_planilla_descuentos" name="Planillas de despensas" parent="hr_payroll.menu_hr_payroll_payslips" action="planilla_descuentos_act_window" sequence="100"/>
+
+
+        <report
+                id="rrhh_novedades.reporte_descuentos_action"
+                model="rrhh_novedades.planilla_descuentos"
+                string="Planilla de despensas"
+                report_type="xlsx"
+                name="rrhh_novedades.reporte_descuentos"
+                file="Planilla de despensas"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

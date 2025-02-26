@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <record id="reporte_vacaciones_wizard_form" model="ir.ui.view">
+            <field name="name">reporte_vacaciones_wizard_form</field>
+            <field name="model">reporte_vacaciones_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="year"/>
+                        <field name="month"/>
+                    </group>
+                    <footer>
+                        <button string="Generar Reporte de Vacaciones" class="oe_highlight" type="object"
+                                name="print_report"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="reporte_vacaciones_wizard_action">
+            <field name="name">Generar Reporte de Vacaciones</field>
+            <field name="res_model">reporte_vacaciones_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Generar Planilla Vacaciones"
+                  id="reporte_vacaciones_wizard_menuitem" sequence="15"
+                  parent="hr_payroll.menu_hr_payroll_report"
+                  action="reporte_vacaciones_wizard_action"/>
+
+        <record model="ir.actions.report" id="rrhh_payroll.reporte_vacaciones">
+            <field name="report_name">rrhh_payroll.reporte_vacaciones_t</field>
+            <field name="name">Print to XLSX</field>
+            <field name="model">reporte_vacaciones_wizard</field>
+            <field name="report_type">xlsx</field>
+        </record>
+
+    </data>
+</odoo>

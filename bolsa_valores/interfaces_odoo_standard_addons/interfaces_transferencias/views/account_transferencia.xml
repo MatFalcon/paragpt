@@ -1,0 +1,127 @@
+<odoo>
+    <data>
+        <record id="transferencia_form_view" model="ir.ui.view">
+            <field name="name">transferencia_form_view</field>
+            <field name="model">account.transferencia</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <button string="Cambiar a borrador" type="object" name="button_draft" attrs="{'invisible':[('state','!=','cancel')]}"/>
+                        <button string="Cancelar" type="object" name="button_cancel" attrs="{'invisible':[('state','!=','done')]}"/>
+                        <button string="Reprocesar transferencia" type="object" name="reprocesar_transferencia" groups="base.group_no_one" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h3>
+                            <field name="name" readonly="True" class="oe_title"/>
+                        </h3>
+
+                        <group>
+                            <group>
+                                <field name="fecha" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="journal_source_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="journal_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="move_id" attrs="{'invisible':[('move_id','=',False)]}"/>
+
+                            </group>
+                            <group>
+                                <field name="nro_boleta_deposito" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="memo" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="user_id" readonly="True"/>
+                                <field name="company_id" readonly="True"/>
+                                <field name="total_transferencia"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Pagos a transferir" attrs="{'invisible':[('state','!=','draft')]}">
+
+                                <button string="Borrar todas las lineas" type="object" name="borrar_lineas" attrs="{'invisible':[('state','!=','draft')]}"/>
+                                <field name="temp_payment_ids" domain="[('journal_actual_id.es_diario_tesoreria','=',True),('payment_type', '=', 'inbound'),('journal_actual_id','=',journal_source_id)]">
+                                    <tree>
+                                        <field name="journal_id" string="Diario de Pago"/>
+                                        <field name="date" string="Fecha de Pago"/>
+                                        <field name="name" string="Nro."/>
+                                        <field name="tipo_pago"/>
+                                        <field name="bank_id"/>
+                                        <field name="nro_cheque"/>
+                                        <field name="fecha_cheque"/>
+                                        <field name="fecha_vencimiento_cheque"/>
+                                        <field name="nro_documento"/>
+                                        <field name="amount"/>
+                                        <field name="currency_id"/>
+                                        <field name="state" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Movimientos" attrs="{'invisible':[('state','=','draft')]}">
+                                
+                                <field name="payment_ids">
+                                    <tree create="false" edit="false">
+                                        <field name="journal_id" string="Diario de Pago"/>
+                                        <field name="name"/>
+                                        <field name="tipo_pago"/>
+                                        <field name="bank_id"/>
+                                        <field name="nro_cheque"/>
+                                        <field name="fecha_cheque"/>
+                                        <field name="fecha_vencimiento_cheque"/>
+                                        <field name="nro_documento"/>
+                                        <field name="amount"/>
+                                        <field name="currency_id"/>
+                                        <field name="state" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Transferencias internas generadas" groups="base.group_no_one">
+                                <field name="transfer_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="transferencia_tree_view" model="ir.ui.view">
+            <field name="name">transferencia_tree_view</field>
+            <field name="model">account.transferencia</field>
+            <field name="arch" type="xml">
+                <tree decoration-muted="state=='cancel'" decoration-success="state=='done'" decoration-danger="state=='draft'">
+                    <field name="name"/>
+                    <field name="nro_boleta_deposito"/>
+                    <field name="fecha"/>
+                    <field name="journal_source_id"/>
+                    <field name="journal_id"/>
+                    <field name="user_id"/>
+                    <field name="state"/>
+                    <field name="total_transferencia" sum="Total de transferencias"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="transferencia_search_view" model="ir.ui.view">
+            <field name="name">transferencia_search_view</field>
+            <field name="model">account.transferencia</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="nro_boleta_deposito"/>
+                    <field name="memo"/>
+                    <field name="journal_id" string="Diario de destino"/>
+                    <field name="journal_source_id" string="Diario de origen"/>
+                    <field name="user_id" string="Usuario"/>
+                    <field name="payment_ids" string="Nro. cheque o Nro. documento" filter_domain="['|',('payment_ids.nro_cheque','ilike',self),('payment_ids.nro_documento','ilike',self)]"/>
+                  <!--   <filter name="Confirmado" domain=[('state','=','done')]/> 
+                    <filter name="Cancelado"  domain=[('state','=','cancel')]/> 
+                    <filter name="Borrador"  domain=[('state','=','draft')]/>  -->
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="interfaces_transferencias.transferencia_action_window">
+            <field name="name">Transferencias</field>
+            <field name="res_model">account.transferencia</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="Transferencias" id="menu_transferencias" parent="account.menu_finance_receivables" action="interfaces_transferencias.transferencia_action_window"/>
+    </data>
+</odoo>

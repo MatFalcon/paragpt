@@ -1,0 +1,204 @@
+<odoo>
+    <data>
+        <record id="paperformat_reporte_sesion" model="report.paperformat">
+            <field name="name">Sesión de caja</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">216</field>
+            <field name="page_width">333</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">60</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <template id="account_cajas.template_reporte_sesion_caja">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <style>
+                            body{
+                            font-size:12px;
+                            }
+                            .fs-12{
+                            font-size:12px;
+                            }
+                            .table{
+                            line-height:10px;
+                            }
+                            .table td{
+                            padding-top:6px;
+                            padding-bottom:6px;
+                            }
+                            .list-inline{
+                            font-size:10px;
+                            }
+                        </style>
+                        <table style="border:none;width:100%">
+                            <tr style="border:none">
+                                <td style="width:20%;padding:5px" class="text-center">
+                                    <img src='/web/binary/company_logo' style="max-width:50px"/>
+                                </td>
+                                <td style="padding-top:15px">
+					<p class="bold" style="padding-top:-15px;margin-top:-15px;margin-bottom:2px;padding-left:5px;font-size:14px;" t-esc="docs.company_id.name"/>
+                                           
+                                    
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <strong><h2 style="font-size:14px;">Extracto de caja: <span t-field="docs.name"/>
+                        </h2>
+                        </strong>
+                        <strong class="fs-12" style="width:15%;display:inline-block">Caja: </strong>
+                        <span class="fs-12" t-field="docs.caja_id"/>
+                        <br/>
+                        <strong class="fs-12" style="width:15%;display:inline-block">Cajero: </strong>
+                        <span class="fs-12" t-field="docs.user_id"/>
+                        <br/>
+                        <strong class="fs-12" style="width:15%;display:inline-block">Estado: </strong>
+                        <span class="fs-12" t-field="docs.state"/>
+                        <br/>
+                        <strong class="fs-12" style="width:15%;display:inline-block">Apertura: </strong>
+                        <span class="fs-12" t-field="docs.fecha_hora_inicio"/>
+                        <br/>
+                        <strong class="fs-12"  style="width:15%;display:inline-block">Cierre: </strong>
+                        <span class="fs-12" t-field="docs.fecha_hora_fin"/>
+                        <br/> <br/>
+                        <h4>Métodos de pago</h4>
+                        <t t-foreach="docs.statement_ids.filtered(lambda x: x.line_ids)" t-as="statement">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr style="background-color:grey">
+                                        <th colspan="4">
+                                            <span t-field="statement.journal_id"/>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Saldo de apertura
+                                        </th>
+                                        <th>
+                                            Transacciones
+                                        </th>
+                                        <th>
+                                            Saldo de cierre
+                                        </th>
+                                        <th>
+                                            Diferencia
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span t-field="statement.balance_start"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="statement.total_entry_encoding"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="statement.balance_end_real"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="statement.difference"/>
+                                        </td>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8">
+                                            <span t-field="statement.journal_id"/>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            Fecha
+                                        </th>
+                                        <th>
+                                            Nro Recibo
+                                        </th>
+                                        <th>
+                                            Factura
+                                        </th>
+                                        <th>
+                                            Tipo de Pago
+                                        </th>
+                                        <th>
+                                            Banco
+                                        </th>
+                                        <th>
+                                            Nro Cheque
+                                        </th>
+                                        <th>
+                                            Nro Documento
+                                        </th>
+                                        <th>
+                                            Monto
+                                        </th>
+                                    </tr>
+                                </tbody>
+                                <t t-foreach="statement.line_ids" t-as="line">
+                                    <t t-foreach="line.payment_id" t-as="payment">
+                                        <tr>
+                                            <td>
+                                                <span t-field="line.date"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.payment_ref"/>
+                                            </td>
+                                            <td>
+                                                <t t-foreach="payment.reconciled_invoice_ids" t-as="invoice">
+                                                    <t t-set="etiqueta" t-value="invoice.display_name"/>
+                                                    <t t-esc="etiqueta"/>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.tipo_pago"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.bank_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.nro_cheque"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.nro_documento"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-field="line.amount"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                            </table>
+                        </t>
+                        <table style="width: 100%">
+                            <tr>
+                                <td colspan="2" style="height:100px; border-bottom: 1px solid lightgray">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center">
+                                    <label>Firmado por</label>
+                                </td>
+                                <td style="text-align: center">
+                                    <label>Verificado por</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report id="reporte_sesion_caja" model="account.caja.session" string="Reporte de sesión de caja" report_type="qweb-pdf" name="account_cajas.template_reporte_sesion_caja" paperformat="paperformat_reporte_sesion"/>
+    </data>
+</odoo>

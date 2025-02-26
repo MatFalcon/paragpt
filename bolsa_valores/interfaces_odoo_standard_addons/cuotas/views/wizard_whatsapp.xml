@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+
+        <record id="wizard_whatsapp_form" model="ir.ui.view">
+            <field name="name">cuotas.wizard.whatsapp</field>
+            <field name="model">cuotas.wizard.whatsapp</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+
+                        <field name="text"/>
+
+                    </group>
+                    <footer>
+                        <button string="Ir a Whatsapp" type="object" name="button_enviar_mensaje" class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+
+
+</odoo>

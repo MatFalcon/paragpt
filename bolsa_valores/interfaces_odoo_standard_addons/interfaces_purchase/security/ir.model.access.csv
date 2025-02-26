@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_interfaces_purchase_interfaces_purchase,interfaces_purchase.interfaces_purchase,model_interfaces_purchase_interfaces_purchase,base.group_user,1,1,1,1

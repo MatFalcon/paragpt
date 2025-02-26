@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        
+        <record id="view_account_payment_form" model="ir.ui.view">
+            <field name="name">view_account_payment_form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='nro_documento']" position="after">
+                    <field name="motivo_transferencia" attrs="{'readonly':[('state','!=','draft')],'invisible':[('payment_type','!=','Transferencia')]}"/>
+                </xpath>
+                
+            </field>
+        </record>
+        
+        <record id="view_account_payment_search" model="ir.ui.view">
+            <field name="name">view_account_payment_search</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="nro_cheque"/>
+                    <field name="nro_recibo"/>
+                    <field name="nro_documento"/>
+                </xpath>
+                
+            </field>
+        </record>
+    </data>
+</odoo>

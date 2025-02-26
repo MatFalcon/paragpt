@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <template id="reporte_libro_diario.report_diario">
+            <t t-call="web.html_container">
+                <!-- <t t-call="web.internal_layout"> -->
+                <t t-call="reporte_libro_diario.custom_bridge_layout">
+                    <div class="page">
+                        <style>
+                            table{
+                            font-size:12px;
+
+                            }
+                        </style>
+
+                        <!-- <h4 class="text-center">Libro diario</h4> -->
+                        <strong>
+                            Fecha de inicio:
+                            <t t-esc="fecha_inicio" />
+                        </strong>
+                        <br />
+                        <strong>
+                            Fecha de fin:
+                            <t t-esc="fecha_fin" />
+                        </strong>
+                        <br />
+                        <br />
+                        <table style="padding:1px">
+                            <tr>
+                                <th style="width:25%;text-align:center">Cuenta</th>
+                                <th style="width:25%;text-align:center">Descripción</th>
+                                <th style="width:25%;text-align:center">Detalle</th>
+                                <th style="width:12%;text-align:center">Débito</th>
+                                <th style="width:13%;text-align:center">Crédito</th>
+                            </tr>
+                            <t t-foreach="docs" t-as="l">
+                                <tr>
+                                    <td colspan="4">
+                                        <strong>
+                                            Asiento:
+                                            <t t-esc="l.id" />
+                                        </strong>
+                                        <strong>
+                                            Fecha:
+                                            <t t-esc="l.date.strftime('%d/%m/%Y')" />
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <t t-foreach="l.line_ids" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="line.account_id.display_name" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.name" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.ref" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.debit" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.credit" />
+                                        </td>
+                                    </tr>
+
+                                </t>
+
+                            </t>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+        <report id="reporte_libro_diario.reporte_diario_action" string="Libro diario" model="reporte_libro_diario.wizard" report_type="qweb-pdf" name="reporte_libro_diario.report_diario" />
+
+        <report id="reporte_libro_diario.reporte_diario_action_xlsx" model="reporte_libro_diario.wizard" string="Libro diario" report_type="xlsx" name="reporte_libro_diario.report_diario_xlsx" file="Libro diario" attachment_use="False" />
+
+    </data>
+
+</odoo>

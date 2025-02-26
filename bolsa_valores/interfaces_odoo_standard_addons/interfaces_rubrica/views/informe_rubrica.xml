@@ -1,0 +1,80 @@
+<odoo>
+    <data>
+
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="interfaces_info_rubrica_tree">
+            <field name="name">interfaces_info_rubrica_tree</field>
+            <field name="model">interfaces_rubrica.informe_rubrica</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <!-- <field name="type" /> -->
+                    <field name="page_qty" />
+                    <field name="company_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="interfaces_info_rubrica_form">
+            <field name="name">interfaces_info_rubrica_form</field>
+            <field name="model">interfaces_rubrica.informe_rubrica</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="descargar_pdf" type="object" string="Descargar PDF"
+                            class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}" />
+                        <!-- <button name="reset_formulario" type="object" string="Reset PDF"
+                            class="oe_highlight" attrs="{'invisible':[('state','!=','printed')]}"/> -->
+                        <button name="cancelar_rubrica" type="object" string="Cancelar"
+                            class="oe_highlight" attrs="{'invisible':[('state','!=','printed')]}"/>
+                        <button name="reset_formulario" type="object" string="Convertir a Borrador"
+                            class="oe_highlight" attrs="{'invisible':[('state','!=','cancel')]}"/>
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="type"  required="1" attrs="{'readonly':[('state','!=','draft')]}" />
+                                <field name="company_id" required="1"
+                                    attrs="{'readonly':[('state','!=','draft')]}" />
+                                <field name="rubrica_id" required="1"
+                                    attrs="{'readonly':[('state','!=','draft')]}" />
+                                <field name="nro_rub_act" readonly="True" force_save="True"/>
+                                <field name="nro_rub_ini" readonly="True" force_save="True"/>
+                                <field name="nro_rub_fin" readonly="True" force_save="True"/>
+                                <field name="fecha_inicio" required="True"
+                                    attrs="{'readonly':[('state','!=','draft')]}" />
+                                <field name="fecha_fin" required="True"
+                                    attrs="{'readonly':[('state','!=','draft')]}" />
+                                <field name="detallado" readonly="False" attrs="{'invisible': [('type', '!=', 'mayor')]}" />
+                                <field name="page_qty" readonly="True"  />
+
+                                <button name="generar_pdf" type="object" string="Generar Archivo"
+                                    class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}" />
+                            </group>
+
+                            <group >
+                                <field name="archivo_rub" nolabel="1" readonly="True" widget="pdf_viewer"
+                                    filename="archivo_nombre" style="width:700%" />
+                            </group>
+                            <!-- <group>
+                                <field name="archivo"  widget="pdf_viewer" nolabel="1" filename="archivo_nombre" readonly="True"/>
+                            </group> -->
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="interfaces_info_rubrica_action_window">
+            <field name="name">Informe de Rúbricas</field>
+            <field name="res_model">interfaces_rubrica.informe_rubrica</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_informe_rubirca" name="Informes de Rúbrica"
+            parent="account.menu_finance_entries" action="interfaces_info_rubrica_action_window"
+            sequence="100" />
+    </data>
+</odoo>

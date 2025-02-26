@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_apicontinental_motivo_transaccion,apicontinental.motivo_transaccion,model_apicontinental_listado_motivo_transaccion,base.group_user,1,1,1,1
+access_apicontinental_procedencia_fondo,apicontinental.procedencia_fondo,model_apicontinental_listado_procedencia_fondo,base.group_user,1,1,1,1
+access_apicontinental_listado_sucursal,apicontinental.listado_sucursal,model_apicontinental_listado_sucursal,base.group_user,1,1,1,1
+access_apicontinental_requests_logs,apicontinental.requests_logs,model_apicontinental_requests_logs,base.group_user,1,0,0,0

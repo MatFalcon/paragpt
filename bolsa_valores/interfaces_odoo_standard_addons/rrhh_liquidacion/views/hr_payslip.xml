@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_hr_payslip_form" model="ir.ui.view">
+            <field name="name">view_hr_payslip_form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Datos de Liquidación" name="datos_liquidacion" attrs="{'invisible':[('structure_type_tag','!=','liquidacion')]}">
+                        <group>
+                            <field name="liquidacion_dias_tabajados"/>
+                            <field name="liquidacion_antiguedad"/>
+                            <field name="liquidacion_fecha_inicio"/>
+                            <field name="liquidacion_fecha_fin"/>
+                            <field name="liquidacion_motivo"/>
+                            <field name="liquidacion_dias_indemnizacion"/>
+                            <field name="liquidacion_preaviso_sin_comunicar"/>
+                            <field name="liquidacion_dias_vacaciones_causadas"/>
+                            <field name="liquidacion_dias_vacaciones_proporcionales"/>
+                            <field name="liquidacion_dias_vacaciones_acumuladas"/>
+                            <field name="liquidacion_periodo_prueba"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

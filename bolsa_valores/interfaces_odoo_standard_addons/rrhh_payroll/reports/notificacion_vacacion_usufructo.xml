@@ -1,0 +1,115 @@
+<odoo>
+    <data>
+
+        <template id="rrhh_payroll.notificacion_vacacion_usufructo_template_t">
+            <div style="float:left;width:48%;margin-left:10px;border-left:1px dashed gray;padding-left:15px;">
+                <div id="cabecera">
+                    <strong>Usufructo de Vacaciones</strong>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <span>
+                        <strong>
+                            <t t-esc="doc.fecha_notificacion_vacaciones.day"/>
+                            de
+                            <t t-esc="doc.get_mes(doc.fecha_notificacion_vacaciones.month)"/>
+                            de
+                            <t t-esc="doc.fecha_notificacion_vacaciones.year"/>
+                        </strong>
+                    </span>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <div id="destinatario">
+                    <span>Señor
+                        <strong t-esc="doc.employee_id.name"/>
+                        <br/>Presente
+                    </span>
+                </div>
+                <br/>
+                <br/>
+                <div id="cuerpo">
+                    <span>El Sr/a.
+                        <strong t-esc="doc.company_id.name"/>
+                        donde prestó servicios desde el
+                        <strong><t t-esc="doc.get_dia(doc.contract_id.date_start.weekday())"/>,
+                            <t t-esc="doc.contract_id.date_start.day"/>
+                            de
+                            <t t-esc="doc.get_mes(doc.contract_id.date_start.month)"/>
+                            de
+                            <t t-esc="doc.contract_id.date_start.year"/>
+                        </strong>
+                        , de acuerdo con mi antiguedad y de conformidad con el artículo 218 del código del trabajo, me
+                        ha otorgado
+                        <!--                            <strong t-esc="doc.obtener_vacaciones_antiguedad(doc.fecha_inicio_vacaciones,doc.contract_id.date_start)"/>-->
+                        <strong t-esc="doc.dias_vacaciones"/>
+                        días de vacaciones, a usufructuar desde el
+                        <strong><t t-esc="doc.get_dia(doc.fecha_inicio_vacaciones.weekday())"/>,
+                            <t t-esc="doc.fecha_inicio_vacaciones.day"/>
+                            de
+                            <t t-esc="doc.get_mes(doc.fecha_inicio_vacaciones.month)"/>
+                            de
+                            <t t-esc="doc.fecha_inicio_vacaciones.year"/>
+                        </strong>
+                        al
+                        <strong><t t-esc="doc.get_dia(doc.fecha_fin_vacaciones.weekday())"/>,
+                            <t t-esc="doc.fecha_fin_vacaciones.day"/>
+                            de
+                            <t t-esc="doc.get_mes(doc.fecha_fin_vacaciones.month)"/>
+                            de
+                            <t t-esc="doc.fecha_fin_vacaciones.year"/>
+                        </strong>
+                        inclusive, correspondiente al periodo
+                        <strong t-esc="doc.periodo_usufructuado or doc.fecha_inicio_vacaciones.year"/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        Atentamente,
+                    </span>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <table style="float:right;text-align:center;">
+                        <tr>
+                            <td>--------------------------------------------</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong t-esc="doc.employee_id.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Firma del Empleado
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </template>
+        <template id="rrhh_payroll.notificacion_vacacion_usufructo_template">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <t t-foreach="range(0,2)" t-as="c">
+                            <t t-call="rrhh_payroll.notificacion_vacacion_usufructo_template_t">
+                                <t t-set="doc" t-value="doc"/>
+                            </t>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <record model="ir.actions.report" id="rrhh_payroll.notificacion_vacacion_usufructo_report">
+            <field name="name">Usufructo de Vacaciones</field>
+            <field name="model">notificacion.vacacion</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">rrhh_payroll.notificacion_vacacion_usufructo_template</field>
+            <field name="paperformat_id" ref="rrhh_payroll.papel_recibos"/>
+            <field name="binding_model_id" ref="rrhh_payroll.model_notificacion_vacacion"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

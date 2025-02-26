@@ -1,0 +1,16 @@
+<odoo>
+    <!-- model.name inherit pivot view -->
+    <record id="pivot_helpdek_view_id" model="ir.ui.view">
+        <field name="name">pivot</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_pivot_analysis"/>
+        <field name="arch" type="xml">
+            <!-- Add you xpath here -->
+           <xpath expr="//field[@name='comentario']" position="before">
+               <!-- Add your fields here -->
+                <field name="rating_selection" string="Calificacion"/>
+           </xpath>
+            
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,121 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="standard_ruc.view_company_form">
+            <field name="name">standard_ruc.view_company_form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" string="RUC" required="False"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="standard_ruc.view_partner_form">
+            <field name="name">standard_ruc.view_partner_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="before">
+                    <field name="obviar_validacion" string="No validar RUC" attrs="{'readonly':[('parent_id','!=',False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" string="RUC" attrs="{'readonly':[('parent_id','!=',False)]}"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="view_res_partner_filter_ruc" model="ir.ui.view">
+            <field name="name">view_res_partner_filter_ruc</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="name"
+                           filter_domain="['|','|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self),('vat','ilike',self)]"/>
+                </field>
+            </field>
+        </record>
+        <!--record model="ir.ui.view" id="standard_ruc.external_layout_standard">
+            <field name="name">standard_ruc.external_layout_standard</field>
+            <field name="inherit_id" ref="web.external_layout_standard"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='footer']" position="replace">
+                    <div class="footer">
+                        <div class="text-center" style="border-top: 1px solid black;">
+                            <ul class="list-inline mb4">
+                                <li t-if="company.phone">Teléfono:
+                                    <span t-field="company.phone"/>
+                                </li>
+                                <li t-if="company.email">Email:
+                                    <span t-field="company.email"/>
+                                </li>
+                                <li t-if="company.website">Web:
+                                    <span t-field="company.website"/>
+                                </li>
+                                <li t-if="company.vat">RUC:
+                                    <span t-field="company.vat"/>
+                                </li>
+                            </ul>
+
+                            <div name="financial_infos">
+                                <span t-field="company.report_footer"/>
+                            </div>
+
+                            <div class="text-muted">
+                                Página:
+                                <span class="page"/>
+                                /
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record-->
+
+
+        <!-- actions opening views on models -->
+        <!--
+        <record model="ir.actions.act_window" id="standard_ruc.action_window">
+          <field name="name">standard_ruc window</field>
+          <field name="res_model">standard_ruc.standard_ruc</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+        -->
+
+        <!-- server action to the one above -->
+        <!--
+        <record model="ir.actions.server" id="standard_ruc.action_server">
+          <field name="name">standard_ruc server</field>
+          <field name="model_id" ref="model_standard_ruc_standard_ruc"/>
+          <field name="state">code</field>
+          <field name="code">
+            action = {
+              "type": "ir.actions.act_window",
+              "view_mode": "tree,form",
+              "res_model": self._name,
+            }
+          </field>
+        </record>
+        -->
+
+        <!-- Top menu item -->
+        <!--
+        <menuitem name="standard_ruc" id="standard_ruc.menu_root"/>
+        -->
+        <!-- menu categories -->
+        <!--
+        <menuitem name="Menu 1" id="standard_ruc.menu_1" parent="standard_ruc.menu_root"/>
+        <menuitem name="Menu 2" id="standard_ruc.menu_2" parent="standard_ruc.menu_root"/>
+        -->
+        <!-- actions -->
+        <!--
+        <menuitem name="List" id="standard_ruc.menu_1_list" parent="standard_ruc.menu_1"
+                  action="standard_ruc.action_window"/>
+        <menuitem name="Server to list" id="standard_ruc" parent="standard_ruc.menu_2"
+                  action="standard_ruc.action_server"/>
+        -->
+    </data>
+</odoo>

@@ -1,0 +1,90 @@
+<odoo>
+    <data>
+        <record id="interfaces_timbrado.account_invoice_form_view" model="ir.ui.view">
+            <field name="name">interfaces_timbrado.account_invoice_form_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='other_info']/group/group/field[@name='journal_id']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="journal_id" groups="account.group_account_invoice" options="{'no_create': True}" attrs="{'readonly':[('move_name','!=',False)]}"/>
+                </xpath>
+                <!--xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="replace">
+                    <field name="price_total" required="True"/>
+                </xpath-->
+
+                <xpath expr="//h1" position="replace">
+                    <h1 class="mt0">
+                        <div>
+                            <label for="fake_number" string="Factura Borrador" attrs="{'invisible': ['|',('state','not in',('draft')), ('type','!=','out_invoice')]}"/>
+                            <label for="fake_number" string="Nota de crédito Borrador" attrs="{'invisible': ['|',('state','not in',('draft')), ('type','!=','out_refund')]}"/>
+                            <field name="fake_number" readonly="1" class="oe_inline"/>
+                            <field name="move_name" readonly="1" class="oe_inline" attrs="{'invisible':[('fake_number','!=',False)]}"/>
+                        </div>
+                    </h1>
+
+                </xpath>
+
+                <xpath expr="//header" position="inside">
+                    <button string="Actualizar Nro. de factura" type="object" name="button_actualizar_nro_factura" attrs="{'invisible':['|',('type','!=','out_invoice'),('state','not in',['open','paid','cancel'])]}" groups="account.group_account_manager"/>
+                </xpath>
+               
+            </field>
+        </record>
+        <record id="interfaces_timbrado.account_invoice_tree_view" model="ir.ui.view">
+            <field name="name">interfaces_timbrado.account_invoice_tree_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='number']" position="replace">
+                    <field name="fake_number" string="Número"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed_invoice_signed']" position="replace">
+                    <field name="amount_untaxed_invoice_signed" string="Tax Excluded" sum="Total" invisible="True"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_tax_signed']" position="replace">
+                    <field name="amount_tax_signed" string="Tax" sum="Total" invisible="True"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="interfaces_timbrado.account_invoice_supplier_form_view" model="ir.ui.view">
+            <field name="name">interfaces_timbrado.account_invoice_supplier_form_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='other_info']/group/group/field[@name='journal_id']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="journal_id" groups="account.group_account_invoice" options="{'no_create': True}" attrs="{'readonly':[('move_name','!=',False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='reference']" position="replace">
+                    <field name="reference" string="Nro. factura del proveedor" required="True" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                    <field name="timbrado_proveedor" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="replace">
+                    <field name="price_total" required="True"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="interfaces_timbrado.account_invoice_supplier_tree_view" model="ir.ui.view">
+            <field name="name">interfaces_timbrado.account_invoice_supplier_tree_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='reference']" position="replace">
+                    <field name="reference" string="Nro. factura del proveedor"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

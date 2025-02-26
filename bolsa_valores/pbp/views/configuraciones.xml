@@ -1,0 +1,31 @@
+<odoo>
+    <record id="view_configuracion_instrumento_form" model="ir.ui.view">
+        <field name="name">pbp.configuracion_instrumento.form</field>
+        <field name="model">pbp.configuracion_instrumento</field>
+        <field name="arch" type="xml">
+            <form string="Configuración de Instrumentos">
+                <sheet>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <field name="tipo_instrumento_id"/>
+                        <field name="producto_por_defecto_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_configuracion_instrumento_tree" model="ir.ui.view">
+        <field name="name">pbp.configuracion_instrumento.tree</field>
+        <field name="model">pbp.configuracion_instrumento</field>
+        <field name="arch" type="xml">
+            <tree string="Configuración de Instrumentos">
+                <field name="tipo_instrumento_id"/>
+                <field name="producto_por_defecto_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+</odoo>

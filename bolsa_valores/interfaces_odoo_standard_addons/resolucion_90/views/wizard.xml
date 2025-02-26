@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <!-- model.name form view -->
+        <record id="wizard_form" model="ir.ui.view">
+            <field name="name">wizard_form</field>
+            <field name="model">resolucion_90.wizard</field>
+            <field name="arch" type="xml">
+                <form >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="tipo_obligacion"/>
+                                <field name="mes"/>
+                                <field name="anho"/>
+                                <field name="version"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button string="Generar archivo" type="object" name="button_generar_archivo" class="oe_highlight"/>
+                            <button string="Cancelar" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- model.name action window -->
+        <record id="wizard_action_window" model="ir.actions.act_window">
+            <field name="name">Resolución 90</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">resolucion_90.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_wizard" name="Resolución 90" parent="account.menu_finance_reports" action="wizard_action_window" sequence="100"/>
+
+    </data>
+
+
+</odoo>

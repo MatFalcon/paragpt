@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_inherited_form" model="ir.ui.view">
+        <field name="name">view.users.inherited.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_show_rules']" position="after">
+                <field name="is_readonly" invisible="1"/>
+                <button name="toggle_readonly" type="object" class="oe_stat_button" string="Set Readonly" icon="fa-eye" attrs="{'invisible': [('is_readonly', '=', True)]}"/>
+                <button name="toggle_readonly" type="object" class="oe_stat_button" string="Unset Readonly" icon="fa-eye-slash" attrs="{'invisible': [('is_readonly', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

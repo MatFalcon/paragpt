@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'hr'), ('name', '=', 'hr_job_comp_rule')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        <record model="ir.rule" id="hr.hr_job_comp_rule">
+            <field name="active" eval="False"/>
+        </record>
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'hr'), ('name', '=', 'hr_job_comp_rule')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+    </data>
+    <data noupdate="1">
+        <record id="rrhh_novedades.seq_planilla_name" model="ir.sequence">
+            <field name="name">Secuencia de Planillas de descuentos</field>
+            <field name="code">seq_planilla_desc</field>
+            <field name="implementation">no_gap</field>
+            <field name="prefix">Desc/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="company_id"></field>
+        </record>
+        <record id="rrhh_novedades.seq_novedades_batch" model="ir.sequence">
+            <field name="name">Secuencia de Novedades Batch</field>
+            <field name="code">seq_nov_batch</field>
+            <field name="implementation">no_gap</field>
+            <field name="prefix">NB/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="company_id"></field>
+        </record>
+
+        <record id="rrhh_novedades.seq_novedad_name" model="ir.sequence">
+            <field name="name">Secuencia de novedades</field>
+            <field name="code">seq_novedad</field>
+            <field name="implementation">no_gap</field>
+            <field name="prefix">Nov/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="company_id"></field>
+        </record>
+        <record id="rrhh_novedades.seq_planilla_tractor" model="ir.sequence">
+            <field name="name">Secuencia de Planillas de horas tractor</field>
+            <field name="code">seq_planilla_ht</field>
+            <field name="implementation">no_gap</field>
+            <field name="prefix">HT/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="company_id"></field>
+        </record>
+        <record id="rrhh_novedades.seq_planilla_adelanto_name" model="ir.sequence">
+            <field name="name">Secuencia de Planillas de adelantos</field>
+            <field name="code">seq_planilla_adelanto</field>
+            <field name="implementation">no_gap</field>
+            <field name="prefix">Ade/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="company_id"></field>
+        </record>
+    </data>
+</odoo>

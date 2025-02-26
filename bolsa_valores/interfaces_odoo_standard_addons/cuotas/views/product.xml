@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <!-- model.name inherit form view -->
+        <record id="product_template_only_form_view" model="ir.ui.view">
+            <field name="name">product_template_only_form_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_account_income_id']" position="after">
+                    <field name="analytic_income_account_id"/>
+                </xpath>
+                <xpath expr="//field[@name='property_account_expense_id']" position="after">
+                    <field name="analytic_expense_account_id"/>
+                </xpath>
+                
+            </field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

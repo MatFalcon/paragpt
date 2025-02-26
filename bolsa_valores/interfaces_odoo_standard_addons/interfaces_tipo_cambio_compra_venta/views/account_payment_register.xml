@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_payment_register_form_inherit" model="ir.ui.view">
+            <field name="name">account_payment_register_form_inherit</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount']/.." position="after">
+                    <field name="currency_rate" attrs="{
+                    'readonly':[('freeze_currency_rate','=',False)],
+                    'required':True,
+                    }" force_save="True"/>
+                    <field name="freeze_currency_rate"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

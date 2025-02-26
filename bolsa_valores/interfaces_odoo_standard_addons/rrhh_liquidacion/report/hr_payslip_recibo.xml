@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="rrhh_liquidacion.nomina_liquidacion">
+            <div style="page-break-before:always;">
+                <div style="font-size:20px;font-weight:bold;text-align:center;">
+                    <span>Liquidación final de haberes</span>
+                    <br/>
+                    <span t-esc="payslip.employee_id.name"/>
+                    <br/>
+                    <span t-if="payslip.liquidacion_motivo" t-esc="payslip.liquidacion_motivo"/>
+                </div>
+                <table class="table table-sm table-bordered" style="margin-top:20px;text-align:left;width:60%;margin-left:auto;margin-right:auto;">
+                    <tr>
+                        <td>
+                            Fecha de Ingreso:
+                        </td>
+                        <td t-esc="payslip.liquidacion_fecha_inicio"/>
+                    </tr>
+                    <tr>
+                        <td>
+                            Fecha de Salida:
+                        </td>
+                        <td t-esc="payslip.liquidacion_fecha_fin"/>
+                    </tr>
+                    <tr>
+                        <td>
+                            Antiguedad:
+                        </td>
+                        <td t-esc="payslip.liquidacion_antiguedad"/>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Sueldo Mensual:
+                        </td>
+                        <t t-set="monthly_wage" t-value="2323"/>
+                        <t t-if="payslip.contract_id.wage_type == 'monthly'" t-set="monthly_wage" t-value="payslip.computed_daily_wage * 30"/>
+                        <t t-if="payslip.contract_id.wage_type == 'hourly'" t-set="monthly_wage"
+                           t-value="payslip.computed_daily_wage * (number_of_planned_worked_days or 26) * 8"/>
+                        <t t-if="payslip.contract_id.wage_type == 'daily'" t-set="monthly_wage"
+                           t-value="payslip.computed_daily_wage * (number_of_planned_worked_days or 26)"/>
+
+                        <td t-esc="'{0:,}'.format(round(monthly_wage)).replace(',', '.')"/>
+                    </tr>
+                </table>
+                <table class="table table-sm table-bordered" style="text-align:right;width:80%;margin-left:auto;margin-right:auto;">
+                    <tr style="text-align:center;">
+                        <th>Conceptos de Pagos y Descuentos</th>
+                        <th>Días o Porcentajes</th>
+                        <th>Gs.</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">
+                            Sueldo del mes de
+                            <t t-esc="payslip._get_mes(payslip.liquidacion_fecha_fin.month)"/>
+                        </td>
+                        <td>
+                            <!--                            <t t-esc="(payslip.liquidacion_fecha_fin.day - ((payslip.liquidacion_fecha_inicio.day - 1)-->
+                            <!--                                                                       if payslip.liquidacion_fecha_inicio.month == payslip.liquidacion_fecha_fin.month-->
+                            <!--                                                                       else 0-->
+                            <!--                                                                       ) if payslip.liquidacion_fecha_fin.day &lt;= 30 else 30)"/>-->
+                            <t t-esc="payslip.liquidacion_dias_tabajados"/>
+                        </td>
+                        <td>
+                            <t t-set="salario_mes" t-value="sum([line.total for line in payslip.line_ids if line.code in ['DTRAB',]])"/>
+                            <t t-esc="'{0:,}'.format(round(salario_mes)).replace(',', '.')"/>
+                        </td>
+                    </tr>
+                    <t t-set="monto_novedades_bonificaciones" t-value="0"/>
+
+                    <t t-set="monto_vacaciones_causadas" t-value="sum([line.total for line in payslip.line_ids if line.code in ['VACCAU',]])"/>
+                    <tr t-if="monto_vacaciones_causadas">
+                        <td style="text-align:left;">Vacaciones Causadas</td>
+                        <td>
+                            <t t-esc="payslip.liquidacion_dias_vacaciones_causadas"/>
+                        </td>
+                        <td>
+                            <t t-esc="'{0:,}'.format(round(monto_vacaciones_causadas)).replace(',', '.')"/>
+                        </td>
+                        <t t-set="monto_novedades_bonificaciones" t-value="monto_novedades_bonificaciones+monto_vacaciones_causadas"/>
+                    </tr>
+                    <t t-set="monto_vacaciones_proporcionales" t-value="sum([line.total for line in payslip.line_ids if line.code in ['VACPRO',]])"/>
+                    <tr t-if="monto_vacaciones_proporcionales">
+                        <td style="text-align:left;">Vacaciones Proporcionales</td>
+                        <td>
+                            <t t-esc="payslip.liquidacion_dias_vacaciones_proporcionales"/>
+                        </td>
+                        <td>
+                            <t t-esc="'{0:,}'.format(round(monto_vacaciones_proporcionales)).replace(',', '.')"/>
+                        </td>
+                        <t t-set="monto_novedades_bonificaciones" t-value="monto_novedades_bonificaciones+monto_vacaciones_proporcionales"/>
+                    </tr>
+                    <t t-set="monto_vacaciones_acumuladas" t-value="sum([line.total for line in payslip.line_ids if line.code in ['VACACU',]])"/>
+                    <tr t-if="monto_vacaciones_acumuladas">
+                        <td style="text-align:left;">Vacaciones Acumuladas</td>
+                        <td>
+                            <t t-esc="payslip.liquidacion_dias_vacaciones_acumuladas"/>
+                        </td>
+                        <td>
+                            <t t-esc="'{0:,}'.format(round(monto_vacaciones_acumuladas)).replace(',', '.')"/>
+                        </td>
+                        <t t-set="monto_novedades_bonificaciones" t-value="monto_novedades_bonificaciones+monto_vacaciones_acumuladas"/>
+                    </tr>
+                    <t t-if="'Despido' in payslip.liquidacion_motivo">
+                        <t t-set="monto_indemnizacion" t-value="sum([line.total for line in payslip.line_ids if line.code in ['INDEM',]])"/>
+                        <tr t-if="monto_indemnizacion">
+                            <td style="text-align:left;">Indemnización</td>
+                            <td>
+                                <t t-esc="payslip.liquidacion_dias_indemnizacion"/>
+                            </td>
+                            <td>
+                                <t t-esc="'{0:,}'.format(round(monto_indemnizacion)).replace(',', '.')"/>
+                            </td>
+                            <t t-set="monto_novedades_bonificaciones" t-value="monto_novedades_bonificaciones+monto_indemnizacion"/>
+                        </tr>
+                    </t>
+                    <t t-if="'Despido' in payslip.liquidacion_motivo">
+                        <t t-set="monto_preaviso" t-value="sum([line.total for line in payslip.line_ids if line.code in ['PREAVdes','PREAVren']])"/>
+                        <tr t-if="monto_preaviso">
+                            <td style="text-align:left;">Preaviso</td>
+                            <td>
+                                <t t-esc="payslip.liquidacion_preaviso_sin_comunicar"/>
+                            </td>
+                            <td>
+                                <t t-esc="'{0:,}'.format(round(monto_preaviso)).replace(',', '.')"/>
+                            </td>
+                            <t t-set="monto_novedades_bonificaciones" t-value="monto_novedades_bonificaciones+monto_preaviso"/>
+                        </tr>
+                    </t>
+
+                    <tr t-foreach="payslip.line_ids.filtered(lambda l:l.category_id.code in ['ALW','BASIC'] and l.code not in ['DTRAB','AGUIPR','VACCAU','VACPRO','VACACU','PREAV','PREAVdes','PREAVren','INDEM'] and l.total != 0)"
+                        t-as="line">
+                        <td t-esc="line.name" style="text-align:left;"/>
+                        <td t-esc="1"/>
+                        <td t-esc="'{0:,}'.format(round(line.total)).replace(',', '.')"/>
+                        <t t-set="monto_novedades_bonificaciones" t-value="monto_novedades_bonificaciones+line.total"/>
+                    </tr>
+                    <tr style="font-weight:bold;">
+                        <td style="text-align:right;">Subtotal</td>
+                        <td colspan="2">
+                            <t t-esc="'{0:,}'.format(round(salario_mes+monto_novedades_bonificaciones)).replace(',', '.')"/>
+                        </td>
+                    </tr>
+                    <tr style="font-weight:bold;">
+                        <td colspan="3">Menos</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">Retención Aporte Obrero IPS</td>
+                        <td>9%</td>
+                        <td>
+                            <t t-set="monto_ips" t-value="sum([line.total for line in payslip.line_ids if line.code in ['IPS',]])"/>
+                            <t t-esc="'{0:,}'.format(round(monto_ips)).replace(',', '.')"/>
+                        </td>
+                    </tr>
+                    <t t-set="monto_novedades_descuentos" t-value="0"/>
+                    <t t-if="'Renuncia' in payslip.liquidacion_motivo">
+                        <t t-set="monto_preaviso" t-value="sum([line.total for line in payslip.line_ids if line.code in ['PREAVdes','PREAVren']])"/>
+                        <tr t-if="monto_preaviso">
+                            <td style="text-align:left;">Preaviso</td>
+                            <td>
+                                <t t-esc="payslip.liquidacion_preaviso_sin_comunicar"/>
+                            </td>
+                            <td>
+                                <t t-esc="'{0:,}'.format(round(monto_preaviso)).replace(',', '.')"/>
+                            </td>
+                            <t t-set="monto_novedades_descuentos" t-value="monto_novedades_descuentos+monto_preaviso"/>
+                        </tr>
+                    </t>
+                    <t t-set="monto_novedades_descuentos" t-value="0"/>
+                    <tr t-foreach="payslip.line_ids.filtered(lambda l:l.category_id.code == 'DED' and l.total != 0 and l.code not in ['IPS','PREAVdes','PREAVren'])"
+                        t-as="line">
+                        <td t-esc="line.name" style="text-align:left;"/>
+                        <td t-esc="1"/>
+                        <td t-esc="'{0:,}'.format(round(line.total)).replace(',', '.')"/>
+                        <t t-set="monto_novedades_descuentos" t-value="monto_novedades_descuentos+line.total"/>
+                    </tr>
+                    <tr style="font-weight:bold;">
+                        <td>Subtotal</td>
+                        <td colspan="2">
+                            <t t-esc="'{0:,}'.format(round(monto_ips + monto_preaviso + monto_novedades_descuentos)).replace(',', '.')"/>
+                        </td>
+                    </tr>
+                    <!--                            <tr>-->
+                    <!--                                <td style="color:white;">.</td>-->
+                    <!--                            </tr>-->
+                    <tr style="font-weight:bold;">
+                        <td>Sub total a percibir</td>
+                        <td colspan="2">
+                            <t t-set="monto_netbeta" t-value="sum([line.total for line in payslip.line_ids if line.code in ['NETbeta',]])"/>
+                            <t t-set="style_monto_a_percibir" t-value=""/>
+                            <t t-if="monto_netbeta &lt; 0" t-set="style_monto_a_percibir" t-value="'color:red;'"/>
+                            <span t-att-style="style_monto_a_percibir" t-esc="'{0:,}'.format(round(monto_netbeta)).replace(',', '.')"/>
+                        </td>
+                    </tr>
+                    <!--                            <tr>-->
+                    <!--                                <td style="color:white;">.</td>-->
+                    <!--                            </tr>-->
+                    <tr>
+                        <td style="text-align:left;">
+                            Aguinaldo proporcional
+                            <t t-esc="payslip.liquidacion_fecha_fin.year"/>
+                        </td>
+                        <td colspan="2">
+                            <t t-set="monto_aguinaldo" t-value="sum([line.total for line in payslip.line_ids if line.code in ['AGUIPR',]])"/>
+                            <t t-esc="'{0:,}'.format(round(monto_aguinaldo)).replace(',', '.')"/>
+                        </td>
+                    </tr>
+                    <tr style="font-weight:bold;">
+                        <td>Total Liq. de Haberes</td>
+                        <td colspan="2">
+                            <t t-set="monto_final" t-value="sum([line.total for line in payslip.line_ids if line.code in ['NET',]])"/>
+                            <t t-esc="'{0:,}'.format(round(monto_final)).replace(',', '.')"/>
+                        </td>
+                    </tr>
+                </table>
+                <div style="margin-top:20px;">
+                    Recibi la suma de Gs.
+                    <t t-esc="'{0:,}'.format(round(monto_final)).replace(',', '.')"/>
+                    .- (
+                    <t t-esc="payslip.numero_a_letras(monto_final).upper()"/>
+                    ).- de mi plena conformidad, en concepto de cancelación del importe
+                    correspondiente a la liquidación final de haberes que antecede y que me
+                    corresponde, no teniendo nada más que reclamar a
+                    <t t-esc="payslip.contract_id.company_id.name"/>
+                    por ningun concepto laboral.
+                </div>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:50%">
+                            <div style="margin-top:100px;border-top:1px solid black;width:50%;text-align:center;">
+                                <t t-esc="payslip.employee_id.name"/>
+                                <br/>
+                                C.I.N.:
+                                <t t-esc="payslip.employee_id.identification_id"/>
+                            </div>
+                        </td>
+                        <t t-if="payslip.testigo_id">
+                            <td style="width:50%">
+                                <div style="margin-top:100px;border-top:1px solid black;width:50%;text-align:center;">
+                                    Testigo:
+                                    <t t-esc="payslip.testigo_id.name"/>
+                                    <br/>
+                                    C.I.N.:
+                                    <t t-esc="payslip.testigo_id.identification_id"/>
+                                </div>
+                            </td>
+                        </t>
+                    </tr>
+                </table>
+            </div>
+            <style>
+                .wrapper_liquidacion{
+                width:60%;
+                -webkit-transform: rotate(90deg);
+                margin-top:150px;
+                margin-right:0px;
+                margin-left:auto;
+                margin-bottom:auto;
+                text-align: justify;
+                text-justify: inter-word;
+                }
+                table.table_firmas tr,td{
+                border: 1px solid white;
+                }
+                table.testigos td{
+                width:30%;
+                }
+            </style>
+
+            <div style="page-break-before:always;">
+                ..
+                <div class="wrapper_liquidacion">
+                    <div id="nota_cabecera">
+                        <strong>Señor/a:</strong>
+                        <t t-if="any([motivo in payslip['liquidacion_motivo'] for motivo in ['Renuncia','Jubilación']])">
+                            <t t-esc="payslip['contract_id'].company_id.name"/>
+                        </t>
+                        <t t-if="'Despido' in payslip['liquidacion_motivo']">
+                            <t t-esc="payslip['employee_id'].name"/>
+                        </t>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <strong>Presente</strong>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <t t-if="'Renuncia' in payslip['liquidacion_motivo']">
+                            <t t-if="'Fallecimiento' in payslip['liquidacion_motivo']">
+                                <span>Ref: Fallecimiento</span>
+                            </t>
+                            <t t-if="any([motivo in payslip['liquidacion_motivo'] for motivo in ['Renuncia','Jubilación']])">
+                                <span>Ref: Presentar renuncia</span>
+                            </t>
+                        </t>
+                    </div>
+                    <t t-if="'Renuncia' in payslip['liquidacion_motivo']">
+                        <div id="nota_cuerpo">
+                            <br/>
+                            <t t-if="'Fallecimiento' in payslip['liquidacion_motivo']">
+                                <span>
+                                    Por la presente, me dirijo a Ud., y por su intermedio a quienes corresponda, con el fin de
+                                    comunicar el deceso del señor
+                                    <t t-esc="payslip['employee_id'].name"/>
+                                    en la fecha
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].day"/>
+                                    de
+                                    <t t-esc="payslip['mes_correspondiente'].capitalize()"/>
+                                    de
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].year"/>
+                                    según se refleja en el certificado del acta de defunción, por ende,
+                                    desde la fecha indicada el contrato laboral se da por terminado.
+                                    <br/>
+                                    Yo _________________________________________________________________________________
+                                    he percibido todos sus haberes y derechos satisfactoriamente, no tengo
+                                    derecho de reclamo alguno en concepto de vacaciones, indemnizaciones, antigüedad,
+                                    aguinaldo, etc.
+                                </span>
+                            </t>
+                            <t t-elif="'Jubilación' in payslip['liquidacion_motivo']">
+                                <!--                                        <span>De mi consideración:</span>-->
+                                <br/>
+                                <span>
+                                    Me dirijo a Ustedes, a los efectos de comunicarles, con vigencia al día
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].day"/>
+                                    de
+                                    <t t-esc="payslip['mes_correspondiente'].capitalize()"/>
+                                    del
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].year"/>
+                                    , que presento mi renuncia como empleado de la
+                                    Empresa, a fin de acogerme a la jubilación del I.P.S.
+                                    <br/>
+                                    <br/>
+                                    Esta decisión la tomo a fin de acogerme al beneficio de la jubilación del
+                                    Instituto de Previsión Social. Estoy muy agradecido a la Empresa por la
+                                    oportunidad laboral que me ha brindado y solicito a la Firma se sirva
+                                    exonerarme del pago del preaviso legal.
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span>De mi consideración:</span>
+                                <br/>
+                                <span>
+                                    Por la presente me dirijo a Usted y por su intermedio a quienes corresponda, con el fin de comunicar que a partir
+                                    del
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].day"/>
+                                    de
+                                    <t t-esc="payslip['mes_correspondiente'].capitalize()"/>
+                                    de
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].year"/>
+                                    dejaré de prestar servicio en la empresa de
+                                    <t t-esc="payslip['contract_id'].company_id.name"/>
+                                    manifestando que renuncio a mi trabajo voluntariamente y tener el propósito de dedicarme a otra actividad. Dejo
+                                    expresa constancia que he percibido todos mis haberes y derechos
+                                    satisfactoriamente,
+                                    ni
+                                    tengo
+                                    derecho de reclamos alguno en conceptos de vacaciones, indemnizaciones, antigüedad, aguinaldo, etc.
+                                </span>
+                            </t>
+                            <br/>
+
+                            <br/>
+                            <span>
+                                Suscriben como testigos de este acto el Señor/a ...................................................................... y el
+                                Señor/a ......................................................................
+                            </span>
+                            <t t-if="'Jubilación' in payslip['liquidacion_motivo']">
+                                , ambos compañeros de trabajo.
+
+                            </t>
+                            <br/>
+                            <br/>
+                            <t t-if="'Fallecimiento' not in payslip['liquidacion_motivo'] and 'Jubilación' not in payslip['liquidacion_motivo']">
+                                <span>
+                                    Solicito que con la liquidación de mis haberes, se me otorgue un certificado de Trabajo.
+                                </span>
+                                <br/>
+                            </t>
+                            <span>
+                                Sin otro particular, le saludo atentamente.
+                            </span>
+                        </div>
+                        <div id="nota_pie" style="margin-top:100px;">
+                            <table class="table_firmas" style="text-align:center;margin-right:0px;margin-left:auto;">
+                                <tr style="border-top:3px dotted black;text-align:left;color:white;">
+                                    <td colspan="2">.</td>
+                                </tr>
+                                <tr style="border-bottom:1px dotted black;text-align:left;">
+                                    <td>Aclaración:
+                                    </td>
+                                    <t t-if="'Fallecimiento' in payslip['liquidacion_motivo']">
+                                        <td style="border-bottom:1px dotted black;">
+
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td>
+                                            <t t-esc="payslip['employee_id'].name"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr style="border-bottom:1px dotted black;text-align:left;">
+                                    <td>C.I.:
+                                    </td>
+                                    <t t-if="'Fallecimiento' in payslip['liquidacion_motivo']">
+                                        <td style="border-bottom:1px dotted black;">
+
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td>
+                                            <t t-esc="payslip['employee_id'].identification_id"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="nota_pie" style="margin-top:100px">
+                            <table class="table_firmas testigos" style="width:100%;text-align:center;">
+                                <tr style="text-align:left;">
+                                    <td style="border-bottom:1px dotted black;">
+                                        Aclaración Testigo:
+                                    </td>
+                                    <td style="width:5%;color:white;">.</td>
+                                    <td style="border-bottom:1px dotted black;">
+                                        Aclaración Testigo:
+                                    </td>
+                                </tr>
+                                <tr style="color:white;">
+                                    <td>.</td>
+                                </tr>
+                                <tr style="text-align:left;">
+                                    <td style="border-bottom:1px dotted black;">
+                                        C.I. Testigo:
+                                    </td>
+                                    <td style="width:5%;color:white;">.</td>
+
+                                    <td style="border-bottom:1px dotted black;">
+                                        C.I. Testigo:
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                    <t t-if="'Despido' in payslip['liquidacion_motivo']">
+                        <div id="nota_cuerpo">
+                            <t t-if="not payslip['liquidacion_periodo_prueba']">
+                                <span>
+                                    Nos dirigimos a Ud. con el objeto de comunicarle la decisión de la Empresa
+                                    <t t-esc="payslip['contract_id'].company_id.name"/>
+                                    de dar por terminado el contrato de trabajo existente
+                                    <t t-if="'Despido injustificado' in payslip['liquidacion_motivo']">
+                                        por razones administrativas y de reorganización,
+                                    </t>
+                                    <!--                                    <t t-if="'Despido justificado' in payslip['liquidacion_motivo']">-->
+                                    <!--                                        a causa de-->
+                                    <!--                                        <t t-esc="payslip['causa_despido_justificado']"/>-->
+                                    <!--                                        ,-->
+                                    <!--                                    </t>-->
+                                    quedando Ud. debidamente
+                                    <t t-if="'Despido injustificado' in payslip['liquidacion_motivo']">
+                                        preavisado/a, y conforme a la normativa laboral vigente, según su antigüedad, le corresponden
+                                        <t t-esc="payslip['liquidacion_preaviso_sin_comunicar']"/>
+                                        días de preaviso,
+                                    </t>
+                                    <t t-if="'Despido justificado' in payslip['liquidacion_motivo']">
+                                        informado, y conforme a la normativa laboral vigente, según el código laboral Artículo 185, no le corresponde preaviso
+                                        al tratarse de un despido justificado,
+                                    </t>
+                                    debiendo en consecuencia asistir a su lugar de trabajo hasta el día
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].day"/>
+                                    de
+                                    <t t-esc="payslip['mes_correspondiente'].capitalize()"/>
+                                    de
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].year"/>
+                                    inclusive, fecha en que le serán abonados sus beneficios legales correspondientes.
+                                    <t t-if="'Despido injustificado' in payslip['liquidacion_motivo']">
+                                        Durante el término del preaviso, podrá Ud. gozar de una licencia de dos horas diarias durante la jornada de trabajo o de
+                                        un día a la semana, a su elección, para buscar otra ocupación.
+                                        Le recordamos que durante la vigencia del preaviso
+                                        no se alteran las condiciones de trabajo estipuladas, debiendo Ud. cumplir normalmente con las prestaciones, salvo la
+                                        excepción mencionada en el párrafo precedente.
+                                    </t>
+                                    <t t-if="'Despido justificado' in payslip['liquidacion_motivo']">
+                                        Le recordamos que hasta la fecha final de sus deberes
+                                        no se alteran las condiciones de trabajo estipuladas, debiendo Ud. cumplir normalmente con las prestaciones.
+                                    </t>
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span>
+                                    Nos dirigimos a Ud. con el objeto de comunicarle la decisión de la Empresa
+                                    <t t-esc="payslip['contract_id'].company_id.name"/>
+                                    de dar por terminado el contrato de trabajo existente por razones administrativas y de reorganización,
+                                    quedando Ud. debidamente preavisado/a, y conforme a la normativa laboral vigente, según su antigüedad, no le corresponden
+                                    días de preaviso alguno
+                                    , debiendo en consecuencia asistir a su lugar de trabajo hasta el día
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].day"/>
+                                    de
+                                    <t t-esc="payslip['mes_correspondiente'].capitalize()"/>
+                                    de
+                                    <t t-esc="payslip['liquidacion_fecha_fin'].year"/>
+                                    inclusive, fecha en que le serán abonados sus beneficios legales correspondientes.
+                                </span>
+                            </t>
+                        </div>
+                        <br/>
+                        <br/>
+                        <span>Atentamente,</span>
+                        <div id="nota_pie" style="margin-right:0px;margin-left:auto;margin-top:100px;width:40%;">
+                            <table style="text-align:center;width:100%;">
+                                <tr style="border-top:1px solid black;text-align:left;color:white;">
+                                    <td colspan="2">.</td>
+                                </tr>
+                                <tr style="border-bottom:1px dotted black;text-align:left;">
+                                    <td>Aclaración:
+                                    </td>
+                                    <td>
+                                        <t t-esc="payslip['contract_id'].company_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom:1px dotted black;text-align:left;">
+                                    <td>C.I.:
+                                    </td>
+                                    <td>
+                                        <t t-esc="payslip['contract_id'].company_id.vat"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div id="nota_pie2">
+                            RECIBI ORIGINAL: ..........................................(firma del empleado)
+                            <br/>
+                            Aclaración de firma:
+                            <t t-esc="payslip['employee_id'].name"/>
+                            <br/>
+                            C.I.:
+                            <t t-esc="payslip['employee_id'].identification_id"/>
+                            <br/>
+                            Fecha de recepción: ....../....../..........
+                            <br/>
+                            <t t-if="not payslip['liquidacion_periodo_prueba'] and 'Despido injustificado' in payslip['liquidacion_motivo']">
+                                Opto por:
+                                <br/>
+                                ___ 2 hs. Diarias
+                                <br/>
+                                ___ 1 día a la semana
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <t t-if="'Jubilación' in payslip['liquidacion_motivo']">
+                <div style="page-break-before:always;">
+                    ...
+                    <div class="wrapper_liquidacion2 wrapper_liquidacion">
+                        <div id="nota_cabecera">
+                            <t t-esc="payslip['liquidacion_fecha_fin'].day"/>
+                            de
+                            <t t-esc="payslip['mes_correspondiente'].capitalize()"/>
+                            de
+                            <t t-esc="payslip['liquidacion_fecha_fin'].year"/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            Señor/a
+                            <t t-esc="payslip['employee_id'].name"/>
+                            Presente:
+                        </div>
+                        <div id="nota_cuerpo">
+                            Cumplimos en dirigirle la presente para comunicarle hemos resuelto aceptar su
+                            desvinculación voluntaria a fin de acogerse a la Jubilación, que presentara por nota de fecha
+                            <t t-esc="payslip['liquidacion_fecha_fin'].day"/>
+                            de
+                            <t t-esc="payslip['mes_correspondiente'].capitalize()"/>
+                            de
+                            <t t-esc="payslip['liquidacion_fecha_fin'].year"/>
+                            y que conforme a su solicitud queda exonerado/a del preaviso que debía otorgar.
+                            <br/>
+                            <br/>
+                            La liquidación correspondiente, se encuentra a su disposición.
+                            Deseándole éxitos, le saludamos atentamente.
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div id="nota_pie">
+
+                            <table class="testigos" style="width:40%;text-align:center;margin-top:0px;;margin-left:auto;margin-right:0px">
+                                <tr style="text-align:left;color:white;">
+                                    <td style="border-top:3px dotted black;">
+                                        .
+                                    </td>
+                                </tr>
+                                <tr style="text-align:center;">
+                                    <td>
+                                        Representante del Empleador
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="testigos" style="width:60%;text-align:left;margin-top:150px;;margin-left:0px;margin-right:auto">
+                                <tr>
+                                    <td>
+                                        Recibí Conforme:
+                                    </td>
+                                    <td/>
+                                </tr>
+                                <tr style="color:white;">
+                                    <td>.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Aclaración:
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="rrhh_liquidacion.single_nomina" inherit_id="rrhh_payroll.single_nomina">
+            <xpath expr="//t[@t-call='rrhh_payroll.template_nomina']" position="attributes">
+                <attribute name="t-if">not payslip.es_liquidacion</attribute>
+            </xpath>
+            <xpath expr="//t[@t-call='rrhh_payroll.template_nomina']" position="after">
+                <t t-call="rrhh_liquidacion.nomina_liquidacion" t-if="payslip.es_liquidacion"/>
+            </xpath>
+        </template>
+        <template id="rrhh_liquidacion.multi_nomina" inherit_id="rrhh_payroll.multi_nomina">
+            <xpath expr="//t[@t-call='rrhh_payroll.template_nomina']" position="attributes">
+                <attribute name="t-if">not payslip.es_liquidacion</attribute>
+            </xpath>
+            <xpath expr="//t[@t-call='rrhh_payroll.template_nomina']" position="after">
+                <t t-call="rrhh_liquidacion.nomina_liquidacion" t-if="payslip.es_liquidacion"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

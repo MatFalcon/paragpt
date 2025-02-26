@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_employee_form_inherit">
+            <field name="name">hr_employee_form_inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']/.." position="replace">
+                    <h1 class="d-flex">
+                        <field name="name" class="oe_read_only"/>
+                    </h1>
+                    <h1 class="d-flex">
+                        <field name="apellido" class="oe_edit_only" placeholder="Apellido o apellidos del empleado."/>
+                    </h1>
+                    <h1 class="d-flex">
+                        <field name="nombre" class="oe_edit_only" placeholder="Nombre o nombres del empleado."/>
+                    </h1>
+                </xpath>
+                <xpath expr="//notebook/page[@name='hr_settings']/group" position="inside">
+                    <group name="bank_account" string="Cuenta Bancaria">
+                        <field name="bank_id"/>
+                        <field name="bank_account"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='children']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='children']" position="after">
+                    <field name="underage_children_count"/>
+                    <field name="children_ids">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="birthday"/>
+                            <field name="age"/>
+                        </tree>
+                    </field>
+                </xpath>
+
+                <xpath expr="//group[@name='active_group']/field[@name='employee_type']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//group[@name='payroll_group']" position="attributes">
+                    <attribute name="invisible" eval="False"/>
+                </xpath>
+                <xpath expr="//group[@name='payroll_group']" position="inside">
+                    <field name="mtess_report_employee_type"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record model="ir.ui.view" id="hr_employee_form_inherit2">
+            <field name="name">hr_employee_form_inherit2</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='personal_information']/group/group/field[@name='bank_account_id']" position="replace">
+                    <field name="bank_account_id" invisible="True"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

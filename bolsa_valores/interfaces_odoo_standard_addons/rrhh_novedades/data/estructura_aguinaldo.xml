@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="hr.salary.rule" id="regla_aguinaldo_anticipo_aguinaldo">
+            <field name="name">Anticipo de Aguinaldo</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="code">ANTIAGUI</field>
+            <field name="sequence">200</field>
+            <field name="struct_id" ref="reportes_ministerio_trabajo_py.estructura_aguinaldo"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = 0
+if payslip.novedades_ids:
+    result = sum(payslip.novedades_ids.filtered(lambda x:x.tipo_id.tipo_novedad_adelanto_aguinaldo).mapped('monto'))
+            ]]></field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

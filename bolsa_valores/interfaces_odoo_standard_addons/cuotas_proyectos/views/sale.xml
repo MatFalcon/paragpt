@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <!-- model.name inherit form view -->
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name"></field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Crear hitos" type="object" name="crear_hitos" attrs="{'invisible':[('state','not in',['sale','done'])]}"/>
+                <button string="Crear cuotas" type="object" name="crear_cuotas" attrs="{'invisible':[('state','not in',['sale','done'])]}"/>
+                
+            </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page name='hitos' string="Hitos">
+                        <field name="hitos_ids">
+                            <tree editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="deadline"/>
+                                <field name="milestone_id" readonly="True"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Cuotas" name="cuotas">
+                        <field name="cuotas_ids">
+                            <tree editable="bottom">
+                                <field name="project_ids" invisible="True"/>
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="product_id"/>
+                                <field name="currency_id"/>
+                                <field name="tipo_cuota"/>
+				<field name="proveedor_id" attrs="{'required':[('tipo_cuota','=','purchase')]}"/>
+                                <field name="amount"/>
+                                <field name="tipo_facturacion"/>
+                                <field name="milestone_id" widget="selection" domain="[('project_id','in',project_ids)]" attrs="{'readonly':[('tipo_facturacion','=','fecha')]}"/>
+                                <field name="fecha_facturacion"/>
+                                <field name="cuota_id" optional="hide" readonly="True"/>
+                            </tree>
+                        </field>
+                    </page>                  
+                </xpath>
+                
+            </field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

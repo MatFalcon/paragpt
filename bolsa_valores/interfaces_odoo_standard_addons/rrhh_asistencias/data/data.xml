@@ -1,0 +1,119 @@
+<odoo>
+    <data>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'hr'), ('name', '=', 'hr_employee_comp_rule')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        <record model="ir.rule" id="hr.hr_employee_comp_rule">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="rrhh_asistencias.secuencia_marcacion" model="ir.sequence">
+            <field name="name">rrhh_asistencias.secuencia_marcacion</field>
+            <field name="code">secuencia_marcacion</field>
+            <field name="prefix">M</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+        </record>
+
+        <record id="cron_obtener_marcaciones" model="ir.cron">
+            <field name="name">Obtener marcaciones</field>
+            <field name="model_id" ref="model_rrhh_asistencias_marcadores"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="active" eval="True"/>
+            <field name="interval_number">3</field>
+            <field name="interval_type">hours</field>
+            <field name="state">code</field>
+            <field name="priority">5</field>
+            <field name="numbercall">-1</field>
+            <field name="code">model.obtener_marcaciones_cron()</field>
+        </record>
+        <record id="crear_asistencias" model="ir.cron">
+            <field name="name">Crear Asistencias</field>
+            <field name="model_id" ref="rrhh_asistencias.model_rrhh_asistencias_marcaciones"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="active" eval="True"/>
+            <field name="interval_number">2</field>
+            <field name="interval_type">hours</field>
+            <field name="state">code</field>
+            <field name="priority">5</field>
+            <field name="numbercall">-1</field>
+            <field name="code"><![CDATA[
+marcaciones_nuevas = model.search([
+    ('marcacion_procesada','=',False),
+    ('asistencia_creada','=',False),
+])
+marcaciones_a_reprocesar = model.search([
+    ('marcacion_procesada','=',True),
+    ('asistencia_creada','=',False),
+])
+marcaciones_nuevas = marcaciones_nuevas.filtered(lambda x:x.employee_id)
+marcaciones_a_reprocesar = marcaciones_a_reprocesar.filtered(lambda x:x.employee_id)
+
+marcaciones_nuevas.create_attendances()
+marcaciones_a_reprocesar.create_attendances()
+            ]]></field>
+        </record>
+
+        <record model="hr.work.entry.type" id="tipo_entrada_horas_extra_50">
+            <field name="name">Horas extra 50%</field>
+            <field name="code">HEX50</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_horas_extra_100">
+            <field name="name">Horas extra 100%</field>
+            <field name="code">HEX100</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_horas_extra_nocturnas">
+            <field name="name">Horas extra Nocturnas</field>
+            <field name="code">HEXNOC</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_horas_nocturnas">
+            <field name="name">Horas Nocturnas</field>
+            <field name="code">HNOC</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_llegada_anticipada">
+            <field name="name">Llegada anticipada</field>
+            <field name="code">LLA</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_llegada_tardia">
+            <field name="name">Llegada tardia</field>
+            <field name="code">LLT</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_salida_anticipada">
+            <field name="name">Salida anticipada</field>
+            <field name="code">SAA</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_horario_plus">
+            <field name="name">Horario Plus</field>
+            <field name="code">HTP</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_horario_mix">
+            <field name="name">Horario Mixto</field>
+            <field name="code">HMX</field>
+            <field name="round_days">FULL</field>
+        </record>
+
+        <record model="ir.actions.server" id="wizard_reset_marcaciones_action_server">
+            <field name="name">Reprocesar Marcaciones</field>
+            <field name="model_id" ref="rrhh_asistencias.model_rrhh_asistencias_marcaciones"/>
+            <field name="binding_model_id" ref="rrhh_asistencias.model_rrhh_asistencias_marcaciones"/>
+            <field name="state">code</field>
+            <field name="code"><![CDATA[
+action = records.reset_marcaciones()
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+
+        <record model="antiguedad.vacaciones" id="antiguedad_vacaciones_0">
+            <field name="antiguedad_dias">0</field>
+            <field name="dias_vacaciones">12</field>
+        </record>
+        <record model="antiguedad.vacaciones" id="antiguedad_vacaciones_6">
+            <field name="antiguedad_dias">2190</field>
+            <field name="dias_vacaciones">18</field>
+        </record>
+        <record model="antiguedad.vacaciones" id="antiguedad_vacaciones_11">
+            <field name="antiguedad_dias">4015</field>
+            <field name="dias_vacaciones">30</field>
+        </record>
+
+        <record id="crear_notificaciones_vacaciones_cron" model="ir.cron">
+            <field name="name">Crear notificaciones de vacaciones</field>
+            <field name="model_id" ref="rrhh_payroll.model_notificacion_vacacion"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="active" eval="True"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="state">code</field>
+            <field name="priority">5</field>
+            <field name="numbercall">-1</field>
+            <field name="code">model.obtener_contratos_a_notificar()</field>
+        </record>
+
+    </data>
+
+
+    <data noupdate="False">
+
+        <record model="ir.actions.server" id="notificacion_vacaciones_generar_nominas_action">
+            <field name="name">Generar Nóminas</field>
+            <field name="model_id" ref="rrhh_payroll.model_notificacion_vacacion"/>
+            <field name="state">code</field>
+            <field name="code">records.generar_nominas()</field>
+            <field name="binding_model_id" ref="rrhh_payroll.model_notificacion_vacacion"/>
+        </record>
+        <record model="ir.actions.server" id="notificacion_vacaciones_cancelar_notificacion_action">
+            <field name="name">Cancelar Notificaciones</field>
+            <field name="model_id" ref="rrhh_payroll.model_notificacion_vacacion"/>
+            <field name="state">code</field>
+            <field name="code">records.cancelar_notificacion()</field>
+            <field name="binding_model_id" ref="rrhh_payroll.model_notificacion_vacacion"/>
+        </record>
+
+        <record model="hr.payslip.input.type" id="tipo_input_comisiones">
+            <field name="name">Comisiones</field>
+            <field name="code">COM</field>
+        </record>
+        <record model="hr.payslip.input.type" id="tipo_input_extras">
+            <field name="name">Extras</field>
+            <field name="code">EXT</field>
+        </record>
+        <record model="hr.payslip.input.type" id="tipo_input_otros_pagos">
+            <field name="name">Otros Pagos</field>
+            <field name="code">OP</field>
+        </record>
+        <record model="hr.payslip.input.type" id="tipo_input_otras_bonificaciones">
+            <field name="name">Otras Bonificaciones</field>
+            <field name="code">OB</field>
+        </record>
+        <record model="hr.payslip.input.type" id="tipo_input_adelantos">
+            <field name="name">Adelantos</field>
+            <field name="code">ADE</field>
+        </record>
+        <record model="hr.payslip.input.type" id="tipo_input_otros_descuentos">
+            <field name="name">Otros Descuentos</field>
+            <field name="code">OD</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="categoria_regla_suspension_ausencia_descuento">
+            <field name="name">Suspensión/Ausencia/Descuento</field>
+            <field name="code">SUSAUDES</field>
+        </record>
+
+        <record model="hr.work.entry.type" id="tipo_entrada_suspension_pagada">
+            <field name="name">Suspensión pagada</field>
+            <field name="code">SUPA</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_suspension_no_pagada">
+            <field name="name">Suspensión no pagada</field>
+            <field name="code">SUNP</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_amonestacion">
+            <field name="name">Amonestación</field>
+            <field name="code">AMON</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_ausencia">
+            <field name="name">Ausencia</field>
+            <field name="code">AUS</field>
+            <field name="round_days">FULL</field>
+        </record>
+        <record model="hr.work.entry.type" id="tipo_entrada_reposo">
+            <field name="name">Reposo</field>
+            <field name="code">REP</field>
+            <field name="round_days">FULL</field>
+        </record>
+
+        <record model="hr.leave.type" id="tipo_ausencia_supension_pagada">
+            <field name="name">Suspensión pagada</field>
+            <field name="code">SUPA</field>
+            <!--            <field name="validation_type">hr</field>-->
+            <field name="request_unit">day</field>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="requires_allocation">no</field>
+            <field name="work_entry_type_id" ref="rrhh_payroll.tipo_entrada_suspension_pagada"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record model="hr.leave.type" id="tipo_ausencia_supension_no_pagada">
+            <field name="name">Suspensión no pagada</field>
+            <field name="code">SUNP</field>
+            <!--            <field name="validation_type">hr</field>-->
+            <field name="request_unit">day</field>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="requires_allocation">no</field>
+            <field name="work_entry_type_id" ref="rrhh_payroll.tipo_entrada_suspension_no_pagada"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record model="hr.leave.type" id="tipo_ausencia_amonestacion">
+            <field name="name">Amonestación</field>
+            <field name="code">AMON</field>
+            <!--            <field name="validation_type">hr</field>-->
+            <field name="request_unit">day</field>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="requires_allocation">no</field>
+            <field name="work_entry_type_id" ref="rrhh_payroll.tipo_entrada_amonestacion"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record model="hr.leave.type" id="tipo_ausencia_ausencia">
+            <field name="name">Ausencia</field>
+            <field name="code">AUS</field>
+            <!--            <field name="validation_type">hr</field>-->
+            <field name="request_unit">day</field>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="requires_allocation">no</field>
+            <field name="work_entry_type_id" ref="rrhh_payroll.tipo_entrada_ausencia"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record model="hr.leave.type" id="tipo_ausencia_reposo">
+            <field name="name">Reposo</field>
+            <field name="code">REP</field>
+            <!--            <field name="validation_type">hr</field>-->
+            <field name="request_unit">day</field>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="requires_allocation">no</field>
+            <field name="work_entry_type_id" ref="rrhh_payroll.tipo_entrada_reposo"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

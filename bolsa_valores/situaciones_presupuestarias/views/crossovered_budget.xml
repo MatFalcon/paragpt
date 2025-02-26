@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="crossovered_budget_view_form" model="ir.ui.view">
+            <field name="name">crossovered_budget_view_form</field>
+            <field name="model">crossovered.budget</field>
+            <field name="inherit_id" ref="account_budget.crossovered_budget_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_from']" position="attributes">
+                    <attribute name="required"> 1 </attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_to']" position="attributes">
+                    <attribute name="required"> 1 </attribute>
+                </xpath>
+                <xpath expr="//field[@name='crossovered_budget_line']" position="before">
+                    <group attrs="{'invisible':[('state','!=','draft')]}">
+                        <group>
+                            <field name="archivo_xlsx" filename="nombre_xlsx" nolabel="1"/>
+                            <field name="nombre_xlsx" invisible="1"/>
+                        </group>
+                        <group>
+                            <button name="cargar_lineas" string="Cargar al sistema" type="object"
+                                    class="oe_highlight"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

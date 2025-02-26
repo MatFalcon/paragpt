@@ -1,0 +1,176 @@
+<odoo>
+    <data>
+
+        <record id="hr_contract_active_history_wizard_form" model="ir.ui.view">
+            <field name="name">hr_contract_active_history_wizard_form</field>
+            <field name="model">hr.contract.active_history.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="companies_ids" widget="many2many_tags" options="{'no_quick_create':True, 'no_create_edit':True}"/>
+                        <field name="report_type"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <footer>
+                        <button string="Generar Reporte de Empleados Activos PDF" class="oe_highlight" type="object"
+                                name="print_report_pdf"/>
+                        <button string="Generar Reporte de Empleados Activos XLSX" class="oe_highlight" type="object"
+                                name="print_report_xlsx"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hr_contract_active_history_wizard_action">
+            <field name="name">Generar Reporte de Empleados Activos</field>
+            <field name="res_model">hr.contract.active_history.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Empleados Activos"
+                  id="hr_contract_active_history_wizard_menuitem" sequence="100"
+                  parent="hr.hr_menu_hr_reports"
+                  action="hr_contract_active_history_wizard_action"/>
+
+        <template id="reportes_ministerio_trabajo_py.report_contract_h_pdf_t">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="doc.report_type == 'full'">
+                    <t t-foreach="companies_ids" t-as="company">
+                        <t t-set="company_contracts" t-value="contracts.filtered(lambda x:x.company_id == company)"/>
+                        <t t-if="company_contracts">
+                            <t t-call="web.basic_layout">
+                                <div class="page">
+                                    <div style="text-align:center;">
+                                        Empleados Activos
+                                    </div>
+                                    <div style="text-align:center;">
+                                        Patrón:
+                                        <t t-esc="company.name"/>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        Empleados activos entre las fechas:
+                                        <span t-field="doc.date_from" t-field-options="{'format': 'DD/MM/YYYY'}"/>
+                                        -
+                                        <span t-field="doc.date_to" t-field-options="{'format': 'DD/MM/YYYY'}"/>
+                                    </div>
+                                    <table style="width:100%;margin-top:100px;" class="table">
+                                        <tr>
+                                            <th>Empleado</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Fecha Fin</th>
+                                            <th>Cuenta Corriente</th>
+                                        </tr>
+                                        <t t-foreach="company_contracts" t-as="contract">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="contract.employee_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="contract.date_start" t-field-options="{'format': 'DD/MM/YYYY'}"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="contract.date_end" t-field-options="{'format': 'DD/MM/YYYY'}"/>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                    <div>
+                                        Total empleados activos:
+                                        <t t-esc="len(company_contracts)"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                    <t t-foreach="companies_ids" t-as="company">
+                        <t t-set="company_contracts" t-value="contracts.filtered(lambda x:x.company_id == company)"/>
+                        <t t-if="not company_contracts">
+                            <t t-call="web.basic_layout">
+                                <div class="page">
+                                    <div style="text-align:center;">
+                                        Empleados Activos
+                                    </div>
+                                    <div style="text-align:center;">
+                                        Patrón:
+                                        <t t-esc="company.name"/>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        Empleados activos entre las fechas:
+                                        <span t-field="doc.date_from" t-field-options="{'format': 'DD/MM/YYYY'}"/>
+                                        -
+                                        <span t-field="doc.date_to" t-field-options="{'format': 'DD/MM/YYYY'}"/>
+                                    </div>
+                                    <div>
+                                        No existen empleados activos en ésta compañía para el periodo selecionado
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+                <t t-if="doc.report_type == 'simple'">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div style="text-align:center;">
+                                Empleados Activos
+                            </div>
+                            <div style="text-align:center;">
+                                Empleados activos entre las fechas:
+                                <span t-field="doc.date_from" t-field-options="{'format': 'DD/MM/YYYY'}"/>
+                                -
+                                <span t-field="doc.date_to" t-field-options="{'format': 'DD/MM/YYYY'}"/>
+                            </div>
+                            <style>
+                                .rows tr:nth-child(even) {background-color: LightGray;}
+                                .rows tr:nth-child(odd) {background-color: White;}
+                            </style>
+                            <table style="width:100%" class="rows">
+                                <tr>
+                                    <th>Empleador</th>
+                                    <th style="text-align:right;">Nro de empleados Activos</th>
+                                </tr>
+                                <tr t-foreach="companies_ids.filtered(lambda x:x in contracts.mapped('company_id'))" t-as="company_id">
+                                    <td t-esc="company_id.name"/>
+                                    <td style="text-align:right;" t-esc="len(contracts.filtered(lambda contract:contract.company_id == company_id))"/>
+                                </tr>
+                                <tr t-foreach="companies_ids.filtered(lambda x:x not in contracts.mapped('company_id'))" t-as="company_id">
+                                    <td t-esc="company_id.name"/>
+                                    <td style="text-align:right;">
+                                        <span>
+                                            No existen empleados activos en para el periodo selecionado
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+                id="reportes_ministerio_trabajo_py.report_contract_h_pdf"
+                model="hr.contract.active_history.wizard"
+                string="Empleados Activos"
+                report_type="qweb-pdf"
+                name="reportes_ministerio_trabajo_py.report_contract_h_pdf_t"
+                paperformat="base.paperformat_euro"
+                menu="False"
+        />
+        <report
+                id="report_contract_h_xlsx"
+                model="hr.contract.active_history.wizard"
+                string="Print to XLSX"
+                report_type="xlsx"
+                name="reportes_ministerio_trabajo_py.report_contract_h_xlsx_t"
+                file="Empleados Activos"
+                attachment_use="False"
+        />
+
+    </data>
+</odoo>

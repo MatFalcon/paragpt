@@ -1,0 +1,269 @@
+<odoo>
+    <data>
+        <template id="interfaces_purchase.report_costo_importacion">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <style>
+                        p, b, span, strong{
+                        font-size:14px;
+                        }
+                        .borde1 {
+                        border:1px solid black;
+                        }
+                        .col-1 {
+                        margin:0px;
+                        }
+                        .col-2 {
+                        margin:0px;
+                        }
+                        .col-3 {
+                        margin:0px;
+                        }
+                    </style>
+                    <div class="page">
+                        <div class="row">
+                            <div class='col-2'>
+                                <p>Proveedor:</p>
+                            </div>
+                            <div class='col-2'>
+                                <p>
+                                    <t t-esc="purchase.partner_id.name" />
+                                </p>
+                            </div>
+                            <div class='col-2'>
+                                <p>Despacho Nro.:</p>
+                            </div>
+                            <div class='col-2'>
+                                <p>
+                                    -
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class='col-2'>
+                                <p>Factura Nro.:</p>
+                            </div>
+                            <div class='col-2'>
+                                <p>
+                                    <t t-esc="invoices[0].name" />
+                                </p>
+                            </div>
+                            <div class='col-2'>
+                                <p>Deposito:</p>
+                            </div>
+                            <div class='col-2'>
+                                <t t-esc="pickings[0].location_dest_id.name" />
+                            </div>
+                        </div>
+                        <br/>
+                        <!-- <h3>Lineas de costos</h3> -->
+                        <div id="landed_list">
+                            <div class="row borde1">
+                                <div class="col-3">
+                                    <strong>Descripción</strong>
+                                </div>
+                                <div class="col-3">
+                                    <strong>Proveedor</strong>
+                                </div>
+                                <div class="col-2" style="text-align:right">
+                                    <strong>Cambio</strong>
+                                </div>
+                                <div class="col-2" style="text-align:right">
+                                    <strong>Valor USD</strong>
+                                </div>
+                                <div class="col-2" style="text-align:right">
+                                    <strong>Valor PYG</strong>
+                                </div>
+                                <!-- <div class="col-2">
+                                    <strong>Incidencia</strong>
+                                </div> -->
+                            </div>
+                            <t t-set="total_landed" t-value="0" />
+                            <t t-set="total_landed_gs" t-value="0" />
+                            <t t-set="total_landed_us" t-value="0" />
+                            <t t-foreach="invoices" t-as="invo">
+                                <t t-set="total_landed" t-value="total_landed + invo.amount_total" />
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p>
+                                            <t t-esc="invo.name" />
+                                        </p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p>
+                                            <t t-esc="invo.partner_id.name" />
+                                        </p>
+                                    </div>
+                                    <div class="col-2" style="text-align:right">
+                                        <p>
+                                            <t
+                                                t-esc="round((1 / (invo.currency_id.with_context(date=invo.invoice_date).rate)),0)"
+                                                t-options="{'widget': 'monetary',  'display_currency': company_id.currency_id}" />
+                                        </p>
+                                    </div>
+                                    <div class="col-2" style="text-align:right">
+                                        <t t-set="total_landed_us"
+                                            t-value="total_landed_us + invo.amount_total" />
+                                        <p>
+                                            <t t-esc="invo.amount_total"
+                                                t-options="{'widget': 'monetary',  'display_currency': invo.currency_id}" />
+                                        </p>
+                                    </div>
+                                    <div class="col-2" style="text-align:right">
+                                        <t t-set="total_landed_gs"
+                                            t-value="total_landed_gs + invo.currency_id._convert(invo.amount_total, company_id.currency_id, company_id, invo.invoice_date)" />
+                                        <p>
+                                            <t
+                                                t-esc="invo.currency_id._convert(invo.amount_total, company_id.currency_id, company_id, invo.invoice_date)"
+                                                t-options="{'widget': 'monetary',  'display_currency': company_id.currency_id}" />
+                                        </p>
+                                    </div>
+                                    <!-- <div class="col-2">
+                                            <p>
+                                    <t t-esc="l.additional_landed_cost" />
+                                            </p>
+                                    </div> -->
+                                </div>
+                            </t>
+                            <t t-foreach="landeds" t-as="landed">
+                                <t t-foreach="landed.valuation_adjustment_lines" t-as="l">
+                                    <t t-set="total_landed"
+                                        t-value="total_landed + l.additional_landed_cost" />
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <p>
+                                                <t t-esc="l.cost_line_id.name"/>
+                                            </p>
+                                        </div>
+                                        <div class="col-3">
+                                            <p>
+                                                <t t-esc="landed.vendor_bill_id.partner_id.name" />
+                                            </p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p> 0 <!-- <t
+                                                    t-esc="round((1
+                                                /
+                                                (purchase.currency_id.with_context(date=purchase.effective_date).rate)),0)"
+                                                t-options="{'widget': 'monetary',
+                                                'display_currency': company_id.currency_id}" /> -->
+                                            </p>
+                                        </div>
+                                        <div class="col-2" style="text-align:right">
+                                            <p>0 <!-- <t t-set="total_landed_us"
+                                                t-value="total_landed_us +
+                                                company_id.currency_id._convert(l.additional_landed_cost,
+                                                purchase.currency_id, company_id,
+                                                purchase.effective_date)" />
+                                                <t
+                                                t-esc="company_id.currency_id._convert(l.additional_landed_cost,
+                                                purchase.currency_id, company_id,
+                                                purchase.effective_date)"
+                                                    t-options="{'widget':
+                                                'monetary',  'display_currency':
+                                                purchase.currency_id}" /> -->
+                                            </p>
+                                        </div>
+                                        <div class="col-2" style="text-align:right">
+                                            <t t-set="total_landed_gs"
+                                                t-value="total_landed_gs + l.additional_landed_cost" />
+                                            <p>
+                                                <t t-esc="l.additional_landed_cost"
+                                                    t-options="{'widget': 'monetary',  'display_currency': landed.currency_id}" />
+                                            </p>
+                                        </div>
+                                        <!-- <div class="col-2">
+                                            <p>
+                                        <t t-esc="l.additional_landed_cost" />
+                                            </p>
+                                        </div> -->
+                                    </div>
+                                </t>
+                            </t>
+                            <div class="row borde1">
+                                <div class="col-8">
+                                    <p>Total:</p>
+                                </div>
+                                <div class="col-2" style="text-align:right">
+                                    <p>
+                                        <t t-esc="total_landed_us"
+                                            t-options="{'widget': 'monetary',  'display_currency': purchase.currency_id}" />
+                                    </p>
+                                </div>
+                                <div class="col-2" style="text-align:right">
+                                    <p>
+                                        <t t-esc="total_landed_gs"
+                                            t-options="{'widget': 'monetary',  'display_currency': company_id.currency_id}" />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <!-- <h3>Productos</h3> -->
+                        <div id="product_list">
+                            <div class="row borde1">
+                                <div class="col-2">
+                                    <strong>Codigo</strong>
+                                </div>
+                                <div class="col-4">
+                                    <strong>Descripcion</strong>
+                                </div>
+                                <div class="col-2" style="text-align:right">
+                                    <strong>Valor Original</strong>
+                                </div>
+                                <div class="col-2" style="text-align:right">
+                                    <strong>Cantidad</strong>
+                                </div>
+                                <div class="col-2" style="text-align:right">
+                                    <strong>Nuevo Valor</strong>
+                                </div>
+                            </div>
+                            <t t-foreach="prod_list" t-as="prod">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p>
+                                            <t t-esc="prod['default_code']" />
+                                        </p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>
+                                            <t t-esc="prod['name']" />
+                                        </p>
+                                    </div>
+                                    <div class="col-2" style="text-align:right">
+                                        <p>
+                                            <t
+                                                t-esc="prod['price_unit']"
+                                                t-options="{'widget': 'monetary',  'display_currency': purchase.currency_id}" />
+                                        </p>
+                                    </div>
+                                    <div class="col-2" style="text-align:right">
+                                        <p>
+                                            <t t-esc="prod['product_qty']" />
+                                        </p>
+                                    </div>
+                                    <div class="col-2" style="text-align:right">
+                                        <!-- <t t-esc="prod['standard_price']"/> -->
+                                        <p>
+                                            <t
+                                                t-esc="prod['standard_price']"
+                                                t-options="{'widget': 'monetary',  'display_currency': company_id.currency_id}" />
+                                        </p>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <report id="interfaces_purchase.report_costo_importacion_action" model="purchase.order"
+            string="Reporte de Costeo" report_type="qweb-pdf"
+            name="interfaces_purchase.report_costo_importacion" paperformat="base.paperformat_us" />
+
+        <!-- <report id="interfaces_purchase.report_costo_importacion_picking_action"
+        model="stock.picking"
+            string="Reporte de Costeo" report_type="qweb-pdf"
+        name="interfaces_purchase.report_costo_importacion" paperformat="base.paperformat_us" /> -->
+    </data>
+</odoo>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+
+        <record id="py_sale_tax_10" model="account.tax.template">
+            <field name="name">IVA 10%</field>
+            <field name="type_tax_use">sale</field>
+            <field name="amount">10</field>
+            <field name="amount_type">percent</field>
+            <field name="price_include">True</field>
+            <field name="include_base_amount">True</field>
+            <field name="description">IVA 10%</field>
+            <field name="tax_group_id" ref="tax_group_10"/>
+            <field name="chart_template_id" ref="l10npy_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__99'),
+            }),
+        ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__99'),
+            }),
+        ]"/>
+        </record>
+
+        <record id="py_sale_tax_5" model="account.tax.template">
+            <field name="name">IVA 5%</field>
+            <field name="type_tax_use">sale</field>
+            <field name="amount">5</field>
+            <field name="amount_type">percent</field>
+            <field name="price_include">True</field>
+            <field name="include_base_amount">True</field>
+            <field name="description">IVA 5%</field>
+            <field name="tax_group_id" ref="tax_group_5"/>
+            <field name="chart_template_id" ref="l10npy_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__99'),
+            }),
+        ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__99'),
+            }),
+        ]"/>
+        </record>
+
+
+
+
+
+        <record id="py_sale_tax_0" model="account.tax.template">
+            <field name="name">Exentas</field>
+            <field name="type_tax_use">sale</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="price_include">True</field>
+            <field name="include_base_amount">True</field>
+            <field name="description">Exentas</field>
+            <field name="tax_group_id" ref="tax_group_0"/>
+            <field name="chart_template_id" ref="l10npy_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__99'),
+            }),
+        ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__99'),
+            }),
+        ]"/>
+        </record>
+
+        <record id="py_purchase_tax_10" model="account.tax.template">
+            <field name="name">IVA 10%</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="amount">10</field>
+            <field name="amount_type">percent</field>
+            <field name="price_include">True</field>
+            <field name="include_base_amount">True</field>
+            <field name="description">IVA 10%</field>
+            <field name="tax_group_id" ref="tax_group_10"/>
+            <field name="chart_template_id" ref="l10npy_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__17'),
+            }),
+        ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__17'),
+            }),
+        ]"/>
+        </record>
+        <record id="py_purchase_tax_5" model="account.tax.template">
+            <field name="name">IVA 5%</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="amount">5</field>
+            <field name="amount_type">percent</field>
+            <field name="price_include">True</field>
+            <field name="include_base_amount">True</field>
+            <field name="description">IVA 5%</field>
+            <field name="tax_group_id" ref="tax_group_5"/>
+            <field name="chart_template_id" ref="l10npy_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__17'),
+            }),
+        ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__17'),
+            }),
+        ]"/>
+        </record>
+
+
+
+
+        <record id="py_purchase_tax_0" model="account.tax.template">
+            <field name="name">Exentas</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="price_include">True</field>
+            <field name="include_base_amount">True</field>
+            <field name="description">Exentas</field>
+            <field name="tax_group_id" ref="tax_group_0"/>
+            <field name="chart_template_id" ref="l10npy_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__17'),
+            }),
+        ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+            }),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'account_id': ref('__coapy__17'),
+            }),
+        ]"/>
+        </record>
+
+    </data>
+
+
+</odoo>

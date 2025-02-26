@@ -1,0 +1,20 @@
+<odoo>
+  <data>
+    <record id="acquirer_form_pagopar" model="ir.ui.view">
+      <field name="name">acquirer.form.pagopar</field>
+      <field name="model">payment.acquirer</field>
+      <field name="inherit_id" ref="payment.payment_acquirer_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='country_ids']" position="before">
+          <field name="envio_flete"/>
+        </xpath>
+        <xpath expr='//group[@name="acquirer"]' position='inside'>
+          <group attrs="{'invisible': [('provider', '!=', 'pagopar')]}">
+            <field name="pagopar_private_key" attrs="{'required':[ ('provider', '=', 'pagopar'), ('state', '!=', 'disabled')]}"/>
+            <field name="pagopar_public_key" attrs="{'required':[ ('provider', '=', 'pagopar'), ('state', '!=', 'disabled')]}"/>
+          </group>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">res_config_settings_view_form_inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@id='reportes_ministerio_trabajo_py_default_structures_config']/div/div/div" position="inside">
+                    <div class="row mt16 ms-2">
+                        <label for="payroll_structure_default_despido" class="col-md-6 p-0 m-0 o_light_label"/>
+                        <field name="payroll_structure_default_despido" class="col-lg-6 p-0"
+                               domain="[('type_id.structure_type_tag','=','liquidacion')]" required="True"/>
+                    </div>
+                    <div class="row mt16 ms-2">
+                        <label for="payroll_structure_default_renuncia" class="col-md-6 p-0 m-0 o_light_label"/>
+                        <field name="payroll_structure_default_renuncia" class="col-lg-6 p-0"
+                               domain="[('type_id.structure_type_tag','=','liquidacion')]" required="True"/>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

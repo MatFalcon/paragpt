@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bvpasa_presupuestos_bvpasa_presupuestos,bvpasa_presupuestos.bvpasa_presupuestos,model_bvpasa_presupuestos_bvpasa_presupuestos,base.group_user,1,1,1,1
