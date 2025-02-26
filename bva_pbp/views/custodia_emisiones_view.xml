@@ -1,0 +1,197 @@
+<odoo>
+  <data>
+
+    <record id="pbp_novedades_sen_form" model="ir.ui.view">
+        <field name="name">pbp.novedades.sen.form</field>
+        <field name="model">pbp.novedades_sen</field>
+        <field name="arch" type="xml">
+            <form string="Custodia Anual">
+                <header>
+                  <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                  <group string="Resolución a la cual pertenece">
+                      <field name="resolucion_id"/>
+                  </group>
+                  <group col="2" string="Datos Custodia Anual">
+                      <group>
+                          <field name="emisor_descripcion"/>
+                          <field name="emisor_id" string="Emisor ID" invisible="1"/>
+                          <field name="cod_negociacion"/>
+                          <field name="tipo_contrato_codigo"/>
+                          <field name="contrato_id"/>
+                          <field name="instrumento"/>
+                          <field name="fecha_vencimiento"/>
+                          <field name="cantidad_emitida"/>
+                          <field name="product_id"/>
+                          <field name="monto_custodiado"/>
+                          <!-- <field name="plazo"/> -->
+                          <field name="custodia_diaria"/>
+                          
+                      </group>
+                      <group>
+                          <field name="partner_id"/>
+                          <field name="tipo_contrato_descripcion"/>
+                          <field name="persona_id"/>
+                          <!-- <field name="fecha_emision"/> -->
+                          <field name="monto_emitido"/>
+                          <field name="plazo_emision" string="Plazo Anual"/>
+                          <field name="state"/>
+                          <field name="currency_id"/>
+                          <!-- <field name="fecha_inicial"/> -->
+                          <field name="arancel_anual"/>
+                          <field name="arancel_custodia"/>
+                          <field name="iva_custodia"/>
+                      </group>
+                  </group>
+                  <group string="Total Custodia Anual">
+                      <group>
+                          <field name="total_custodia"/>
+                      </group>
+                  </group>
+                  <hr></hr>
+                  <group string="Datos de Emisión y Custodia por Titulo Emitido">
+                      <group>
+                          <field name="instrumento_emision"/>
+                          <field name="tasa_instrumento"/>
+                          <field name="monto_moneda_original" string="Monto en moneda original"/>
+                          <field name="tc_cierre_mes"/>
+                          <field name="monto_pyg"/>
+                          <field name="invoice_id"/>
+                      </group>
+                      <group>
+                          <field name="inicio_colocacion"/>
+                          <field name="fecha_vencimiento"/>
+                          <field name="fecha_reporte"/>
+                          <field name="plazo_por_titulo"/>
+                          <field name="dias_reporte"/>
+                      </group>
+                  </group>
+                  <group>
+                      <group string="Emision">
+                          <field name="product_emision_id" string="Producto Emision"/>
+                          <field name="emision_tasa_arancel" />
+                          <field name="emision_arancel"/>
+                          <field name="emision_iva"/>
+                          <field name="emision_total"/>
+                          <field name="emision_arancel_pyg"/>
+                      </group>
+
+                      <group string="Custodia">
+                          <field name="product_custodia_id" string="Producto Custodia"/>
+                          <field name="custodia_tasa_arancel" type="float"/>
+                          <field name="custodia_arancel"/>
+                          <field name="custodia_iva"/>
+                          <field name="custodia_total"/>
+                          <field name="custodia_arancel_pyg"/>
+                      </group>
+                  </group>
+
+                  <group string="Totales por Titulo Emitido">
+                      <group>
+                          <field name="total_emision_custodia"/>
+                      </group>
+                      <group>
+                          <field name="total_emision_custodia_pyg"/>
+                      </group>
+                  </group>
+              </sheet>
+              <div class="oe_chatter">
+                  <field name="message_follower_ids" widget="mail_followers"/>
+                  <field name="message_ids" widget="mail_thread"/>
+              </div>
+          </form>
+        </field>
+    </record>
+
+    <record id="pbp_novedades_sen_tree" model="ir.ui.view">
+        <field name="name">pbp.novedades.sen.tree</field>
+        <field name="model">pbp.novedades_sen</field>
+        <field name="arch" type="xml">
+            <tree string="Channel" default_order="inicio_colocacion asc">
+                <field name="id" />
+                <field name="tipo_contrato_descripcion" />
+                <field name="cod_negociacion" />
+                <field name="instrumento" />
+                <field name="partner_id" />
+                <field name="product_id" />
+                <field name="inicio_colocacion" />
+                <field name="cantidad_emitida" sum="Total"/>
+                <field name="currency_id" />
+                <field name="state" />
+                <field name="monto_emitido" sum="Total"/>
+                <field name="total_custodia" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pbp_novedades_sen_dialog_tree" model="ir.ui.view">
+        <field name="name">pbp.novedades.sen.dialog.tree</field>
+        <field name="model">pbp.novedades_sen</field>
+        <field name="arch" type="xml">
+            <tree string="Channel">
+                <field name="id" />
+                <field name="tipo_contrato_descripcion" />
+                <field name="cod_negociacion" />
+                <field name="instrumento" />
+                <field name="partner_id" />
+                <field name="product_id" />
+                <field name="inicio_colocacion" />
+                <field name="cantidad_emitida" />
+                <field name="currency_id" />
+                <field name="state" invisible="1" />
+                <field name="monto_emitido" />
+                <field name="total_custodia" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="novedades_sen_filter_view" model="ir.ui.view">
+        <field name="name">Custodia Anual</field>
+        <field name="model">pbp.novedades_sen</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="cod_negociacion"/>
+                <filter string="Pendientes" name="filter_pendiente" domain="[('state', '=', 'pendiente')]"/>
+                <filter string="En borrador" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Publicadas" name="filter_publicado" domain="[('state', '=', 'publicado')]"/>
+                <separator/>
+                 <group expand="0" string="Group By">
+                  <filter string="Producto" name="filter_state" domain="[ ]"
+                          context="{'group_by': 'product_id'}" />
+                  <filter string="Moneda" name="filter_state" domain="[ ]"
+                          context="{'group_by': 'currency_id'}" />
+                  <filter string="Cliente" name="filter_state" domain="[ ]"
+                          context="{'group_by': 'partner_id'}" />
+                  <filter string="Fecha emision" name="filter_fecha_emision" domain="[ ]"
+                          context="{'group_by': 'fecha_emision'}" />
+                  <filter string="Fecha reporte" name="filter_fecha_reporte" domain="[ ]"
+                          context="{'group_by': 'fecha_reporte'}" />
+                  <filter string="Fecha vencimiento" name="filter_fecha_vencimiento" domain="[ ]"
+                          context="{'group_by': 'fecha_vencimiento'}" />
+               </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="novedades_sen_action" model="ir.actions.act_window">
+        <field name="name">Registro de Custodias</field>
+        <field name="res_model">pbp.novedades_sen</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+        <field name="context">{'edit': 1, 'tree_view_ref': 'pbp.pbp_novedades_sen_tree'}</field>
+    </record>
+
+    <!-- record de action p/ Configuraciones -->
+    <record id="action_configuracion_instrumento" model="ir.actions.act_window">
+        <field name="name">Configuración de Instrumentos</field>
+        <field name="res_model">pbp.configuracion_instrumento</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+  </data>
+</odoo>

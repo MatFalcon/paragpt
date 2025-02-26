@@ -1,0 +1,81 @@
+<odoo>
+    <record id="gastos_administrativos_filter_view" model="ir.ui.view">
+        <field name="name">Gastos Administrativos</field>
+        <field name="model">pbp.gastos_administrativos</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <filter string="Verificado" name="filter_verificado" domain="[('state', '=', 'verificado')]"/>
+                <filter string="Cancelado" name="filter_cancelado" domain="[('state', '=', 'cancelado')]"/>
+                <filter string="No Verificado" name="filter_no_verificado" domain="[('state', '=', 'no_verificado')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Partner" name="filter_partner" domain="[ ]" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Fecha de Operación" name="filter_fecha_operacion" domain="[ ]" context="{'group_by': 'fecha_operacion'}"/>
+                    <filter string="Compañía" name="filter_company" domain="[ ]" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="gastos_administrativos_tree" model="ir.ui.view">
+        <field name="name">pbp.gastos_administrativos.tree</field>
+        <field name="model">pbp.gastos_administrativos</field>
+        <field name="arch" type="xml">
+            <tree string="Gastos Administrativos">
+                <field name="id"/>
+                <field name="partner_id"/>
+                <field name="fecha_operacion"/>
+                <field name="motivo"/>
+                <field name="monto" sum="Total"/>
+                <field name="state"/>
+                <field name="observacion"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="gastos_administrativos_form" model="ir.ui.view">
+        <field name="name">pbp.gastos_administrativos.form</field>
+        <field name="model">pbp.gastos_administrativos</field>
+        <field name="arch" type="xml">
+            <form string="Gastos Administrativos">
+                <header>
+                    <button name="button_verificar" type="object" string="Verificar" invisible="'state', '!=', 'no_verificado'"/>
+                    <button name="button_cancelar" type="object" string="Cancelar" invisible="'state', 'not in', ['no_verificado', 'verificado']"/>
+                    <button name="button_set_to_draft" type="object" string="Restablecer" invisible="state != 'cancelado'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="no_verificado,verificado,cancelado"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="fecha_operacion"/>
+                            <field name="fecha_correccion"/>
+                            <field name="motivo"/>
+                            <field name="observacion"/>
+                        </group>
+                        <group>
+                            <field name="monto" readonly="1"/>
+                            <field name="invoice_id"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="gastos_administrativos_action" model="ir.actions.act_window">
+        <field name="name">Gastos Administrativos</field>
+        <field name="res_model">pbp.gastos_administrativos</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+        <field name="context">{'edit': 0, 'tree_view_ref': 'pbp.gastos_administrativos_tree'}</field>
+    </record>
+
+
+
+
+</odoo>

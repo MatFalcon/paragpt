@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+       <record id="action_report_presupuesto_xlsx" model="ir.actions.report">
+        <field name="name">Imprimir reporte de presupuesto</field>
+        <field name="model">crossovered.budget</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">situaciones_presupuestarias.reporte_presupuestos_xlsx</field>
+        <field name="report_file">situaciones_presupuestarias.reporte</field>
+        <field name="binding_model_id" ref="account_budget.model_crossovered_budget"/>
+        <field name="binding_type">report</field>
+        <field name="attachment_use" eval="False"/>
+    </record>
+    </data>
+</odoo>

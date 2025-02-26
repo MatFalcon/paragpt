@@ -1,4 +1,0 @@
-[submodule "interfaces_odoo_standard_addons"]
-	path = interfaces_odoo_standard_addons
-	url = git@github.com:interfacespy/interfaces_odoo_standard_addons.git
-	branch = 15.0

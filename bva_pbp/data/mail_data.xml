@@ -1,0 +1,70 @@
+<odoo>
+    <data noupdate="1">
+       <record id="mail_template_vencimientos_interes" model="mail.template">
+            <field name="name">Vencimiento de Interes: Enviar por Email</field>
+            <field name="model_id" ref="pbp.model_pbp_vencimiento_interes"/>
+            <field name="subject">{{object.company_id.name}} (Vencimiento de Interes a Fecha {{object.fecha_vencimiento }})</field>
+            <field name="email_from">administracion@bolsadevalores.com.py</field>
+            <field name="email_to">{{object.email_to}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    Buenos días estimados, <br/>
+                    Aguardamos los fondos correspondientes al vencimiento de intereses del día de hoy de
+                    <t t-out="object.partner_id.name or ''" contenteditable="false" data-oe-t-inline="true"/>.<br/>
+                    Favor remitir comprobante de transferencia una vez realiza la operación.
+                    <br/>
+                    El importe asciende a:
+                    <t t-out="object.texto" contenteditable="false" data-oe-t-inline="true">
+                    </t>
+                    <br/>
+                    En caso de haber realizado la transferencia, hacer caso omiso al presente recordatorio.<br/>
+                    Atentamente,<br/>
+                    Bolsa de Valores y Productos de Asunción S.A.<br/>
+                    Bulnes 830 c/ España<br/>
+                    Asunción – Paraguay<br/>
+                    +595 21 728-9123/5<br/>
+                    www.bolsadevalores.com.py<br/><br/><br/>
+                    Saludos.
+                </div>
+
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        <!-- Template de email para vencimiento de cartera propia  -->
+         <record id="mail_template_vencimientos_capital_interes" model="mail.template">
+            <field name="name">Vencimiento de Capital e Interes: Enviar por Email</field>
+            <field name="model_id" ref="bva_pbp.model_pbp_vencimiento_capital_interes"/>
+            <field name="subject">{{object.company_id.name}} (Vencimiento de Capital e Intereses de Cartera Propia a Fecha {{object.fecha_vencimiento }})</field>
+            <field name="email_from">administracion@bolsadevalores.com.py</field>
+            <field name="email_to">{{object.email_to}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">Buenos días equipo Administración y Finanzas,</p>
+                    <br/>
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">En fecha tenemos vencimientos correspondientes a la Cartera
+                        Propia según se detalla a continuación:</p><br/>
+                    <t t-out="object.texto" contenteditable="false" data-oe-t-inline="true"/>
+                    <br/>
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                        Favor tomar los recaudos necesarios de endoso y presentación
+                        de documentación de respaldo en caso de que las entidades así lo requieran y
+                        validar la acreditación de los importes en las cuentas habilitadas para el
+                        efecto.</p>
+                    <br/>
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">Atentamente,<br/>
+                    Bolsa de Valores y Productos de Asunción S.A.<br/>
+                    Bulnes 830 c/ España<br/>
+                    Asunción – Paraguay<br/>
+                    +595 21 728-9123/5<br/>
+                    <a href="http://www.bolsadevalores.com.py"
+                       style="text-decoration:none;box-sizing:border-box;background-color:transparent;color:#008f8c;">
+                        www.bolsadevalores.com.py</a></p>
+                </div>
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+
+</odoo>

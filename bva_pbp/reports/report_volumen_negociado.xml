@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <report
+                id="pbp.report_action_volumen_negociado"
+                model="wizard_reporte_volumen_negociado"
+                string="Reporte de Volumen Negociado"
+                report_type="xlsx"
+                name="pbp.reporte_volumen_negociado_xlsx"
+                file="Reporte de Volumen Negociado"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

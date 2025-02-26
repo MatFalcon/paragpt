@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="operacion_futuro_view_tree" model="ir.ui.view">
+            <field name="name">operacion_futuro_view_tree</field>
+            <field name="model">pbp.operacion_futuro</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="operacion_cartera_id"/>
+                    <field name="miembro_compensador_id"/>
+                    <field name="cuenta_registro_cod"/>
+                    <field name="fecha"/>
+                    <field name="contrato"/>
+                    <field name="precio"/>
+                    <field name="cantidad"/>
+                    <field name="importe"/>
+                    <field name="volumen"/>
+                    <field name="tipo_operacion"/>
+                    <field name="hora_ingreso"/>
+                    <field name="proceso_descripcion"/>
+                    <field name="currency_id"/>
+                    <field name="mercado"/>
+                    <field name="fecha_liquidacion_contrato"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="view_pbp_operacion_futuro_form" model="ir.ui.view">
+              <field name="name">pbp.operacion_futuro.form</field>
+              <field name="model">pbp.operacion_futuro</field>
+              <field name="arch" type="xml">
+                <form string="Operación a Futuro">
+                  <sheet>
+                    <group string="Información General">
+                      <group string="Detalles de la Operación">
+                        <field name="operacion_cartera_id"/>
+                        <field name="fecha"/>
+                        <field name="mercado"/>
+                        <field name="tipo_operacion"/>
+                      </group>
+                      <group string="Detalles del Producto">
+                        <field name="producto_descripcion"/>
+                        <field name="contrato"/>
+                        <field name="volumen"/>
+                        <field name="currency_id"/>
+                      </group>
+                    </group>
+                    <group string="Detalles Financieros">
+                      <group>
+                        <field name="precio"/>
+                        <field name="cantidad"/>
+                        <field name="importe"/>
+                      </group>
+                    </group>
+                    <group string="Relaciones">
+                      <group string="Miembro Compensador">
+                        <field name="miembro_compensador_id"/>
+                        <field name="cuenta_registro_cod"/>
+                      </group>
+                      <group string="Información Adicional">
+                        <field name="hora_ingreso"/>
+                        <field name="proceso_descripcion"/>
+                        <field name="fecha_liquidacion_contrato"/>
+                      </group>
+                    </group>
+                  </sheet>
+                </form>
+              </field>
+            </record>
+
+            <record id="view_pbp_operacion_futuro_search" model="ir.ui.view">
+              <field name="name">pbp.operacion_futuro.search</field>
+              <field name="model">pbp.operacion_futuro</field>
+              <field name="arch" type="xml">
+                <search string="Buscar Operaciones a Futuro">
+                  <field name="operacion_cartera_id"/>
+                  <field name="fecha"/>
+                  <field name="mercado"/>
+                  <field name="tipo_operacion"/>
+                  <field name="producto_descripcion"/>
+                  <field name="contrato"/>
+                  <field name="miembro_compensador_id"/>
+                  <field name="currency_id"/>
+                  <group string="Filtros Predeterminados">
+                    <filter name="tipo_compra" string="Compras" domain="[('tipo_operacion', '=', 'Compra')]"/>
+                    <filter name="tipo_venta" string="Ventas" domain="[('tipo_operacion', '=', 'Venta')]"/>
+                  </group>
+                  <group string="Agrupaciones">
+                    <filter name="group_by_fecha" string="Fecha" context="{'group_by': 'fecha'}"/>
+                    <filter name="group_by_mercado" string="Mercado" context="{'group_by': 'mercado'}"/>
+                    <filter name="group_by_tipo" string="Tipo de Operación" context="{'group_by': 'tipo_operacion'}"/>
+                    <filter name="group_by_compensador" string="Miembro Compensador" context="{'group_by': 'miembro_compensador_id'}"/>
+                  </group>
+                </search>
+              </field>
+            </record>
+
+        <record id="operacion_futuro_act_window" model="ir.actions.act_window">
+            <field name="name">Operaciones a Futuro</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.operacion_futuro</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

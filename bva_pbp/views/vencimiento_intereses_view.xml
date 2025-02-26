@@ -1,0 +1,62 @@
+<odoo>
+    <!-- Definición de la vista de formulario -->
+    <record id="view_vencimiento_interes_form" model="ir.ui.view">
+        <field name="name">vencimiento.interes.form</field>
+        <field name="model">pbp.vencimiento_interes</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="fecha_vencimiento"/>
+                        <field name="destinatarios" widget="many2many_tags"/>
+                        <field name="texto"/>
+                        <field name="email_to"/>
+                        <field name="user_id"/>
+                        <field name="partner_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Liquidaciones">
+                            <field name="registros">
+                                <tree>
+                                    <field name="id_pbp"/>
+                                    <field name="cliente_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="fecha_vencimiento"/>
+                                    <field name="currency_id"/>
+                                    <field name="serie"/>
+                                    <field name="monto"/>
+                                    <field name="correo_enviado"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Definición de la vista de árbol -->
+    <record id="view_vencimiento_interes_tree" model="ir.ui.view">
+        <field name="name">vencimiento.interes.tree</field>
+        <field name="model">pbp.vencimiento_interes</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="fecha_vencimiento"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Definición de la acción -->
+    <record id="action_vencimiento_intereses" model="ir.actions.act_window">
+        <field name="name">Intereses</field>
+        <field name="res_model">pbp.vencimiento_interes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

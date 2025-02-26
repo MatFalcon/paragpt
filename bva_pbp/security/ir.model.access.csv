@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pbp_novedades_sen,pbp.novedades_sen,model_pbp_novedades_sen,base.group_user,1,1,1,1
+access_resolucion_user,resolucion user,model_resolucion,base.group_user,1,1,1,1
+access_pbp_tipo_instrumento_user,pbp.tipo_instrumento.user,model_pbp_tipo_instrumento,,1,1,1,1
+access_pbp_configuracion_instrumento_user,pbp.configuracion_instrumento.user,model_pbp_configuracion_instrumento,,1,1,1,1
+access_pbp_cartera_inversion_user,pbp.cartera_inversion.user,model_pbp_cartera_inversion,,1,1,1,1
+access_pbp_vencimiento_capital_interes_user,pbp.vencimiento_capital_interes.user,model_pbp_vencimiento_capital_interes,,1,1,1,1
+access_pbp_gastos_administrativos_user,pbp.gastos_administrativos.user,model_pbp_gastos_administrativos,,1,1,1,1
+access_pbp_transferencia_cartera_user,pbp.transferencia_cartera.user,model_pbp_transferencia_cartera,,1,1,1,1
+access_pbp_novedades,pbp.novedades,model_pbp_novedades,base.group_user,1,1,1,1
+access_voucher_wizard,voucher.wizard,model_voucher_wizard,,1,1,1,1
+
+

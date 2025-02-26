@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="vencimiento_contrato_gestion_contrato">
+            <field name="name">vencimiento.contrato.gestion.contrato</field>
+            <field name="model">vencimiento_contrato.gestion_contrato</field>
+            <field name="arch" type="xml">
+                <tree string="Contratos">
+                    <field name="nombre_contrato" readonly="1"/>
+                    <field name="name" readonly="1"/>
+                    <field name="fecha_inicio" readonly="1"/>
+                    <field name="fecha_fin" readonly="1"/>
+                    <field name="contrato_indefinido" readonly="1"/>
+                    <field name="state" widget="badge" decoration-info="state == 'por_iniciar'" decoration-success="state == 'vigente'" decoration-danger="state == 'vencido'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="vencimiento_contrato_gestion_contrato_form">
+    <field name="name">vencimiento.contrato.gestion.contrato.form</field>
+    <field name="model">vencimiento_contrato.gestion_contrato</field>
+    <field name="arch" type="xml">
+        <form string="Contrato">
+            <!-- Statusbar -->
+            <header>
+                <field name="state" widget="statusbar"/>
+                <button name="set_no_vigente" type="object" string="Establecer como no vigente" class="btn btn-danger" invisible="state == 'no_vigente'"/>
+            </header>
+            <sheet>
+                <!-- Información principal -->
+                <group>
+                    <field name="nombre_contrato" readonly="1"/>
+                    <field name="name" readonly="1"/>
+                </group>
+                <!-- Fechas y opciones -->
+                <group>
+                    <field name="fecha_inicio" readonly="1"/>
+                    <field name="fecha_fin" readonly="1"/>
+                    <field name="contrato_indefinido" readonly="1"/>
+                </group>
+            </sheet>
+            <!-- Chatter -->
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+        </form>
+    </field>
+</record>
+
+
+        <record model="ir.actions.act_window" id="gestion_contrato_action">
+            <field name="name">Gestion de contratos
+            </field>
+            <field name="res_model">vencimiento_contrato.gestion_contrato</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="gestion_contrato" name="Gestion de contratos" parent="contacts.menu_contacts"
+                  action="gestion_contrato_action"/>
+
+    </data>
+</odoo>

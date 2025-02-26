@@ -1,0 +1,140 @@
+<odoo>
+    <data>
+          <record id="novedades_action" model="ir.actions.act_window">
+              <field name="name">Novedades</field>
+              <field name="res_model">pbp.novedades</field>
+              <field name="view_mode">tree,form</field>
+              <field name="context">{'edit': 0, 'tree_view_ref': 'pbp.pbp_novedades_tree'}</field>
+            </record>
+
+            <record id="pbp_novedades_tree" model="ir.ui.view">
+              <field name="name">pbp.novedades.tree</field>
+              <field name="model">pbp.novedades</field>
+              <field name="arch" type="xml">
+                <tree string="Channel">
+                  <field name="id_vvalores" />
+                  <field name="id" string="ID ODOO" />
+                  <field name="cliente_id" />
+                  <field name="partner_id" />
+                  <field name="contrato_id" />
+                  <field name="product_id" />
+                  <field name="contrato_descripcion" />
+                  <field name="contrato_tipo_descripcion" />
+                  <field name="fecha_operacion" />
+                  <field name="state" />
+                  <field name="volumen_gs" sum="Total"/>
+                  <field name="total" sum="Total"/>
+                  <field name="total_iva" sum="Total"/>
+                  <field name="subtotal" sum="Total"/>
+                  <field name="subtotal2" invisible="1"/>
+                </tree>
+              </field>
+            </record>
+
+           <record id="view_pbp_novedades_search" model="ir.ui.view">
+            <field name="name">pbp.novedades.search</field>
+            <field name="model">pbp.novedades</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Novedades">
+                    <field name="id_pbp"/>
+                    <field name="fecha_operacion"/>
+                    <field name="tipo_operacion"/>
+                    <field name="state"/>
+                    <field name="contrato_descripcion"/>
+                    <field name="mercado"/>
+                    <field name="instrumento"/>
+                    <field name="partner_id"/>
+                    <field name="currency_id"/>
+                    <group string="Filtros Predeterminados">
+                        <filter name="state_pendiente" string="Pendiente" domain="[('state', '=', 'pendiente')]"/>
+                        <filter name="state_publicado" string="Publicado" domain="[('state', '=', 'publicado')]"/>
+                        <filter name="tipo_compra" string="Compras" domain="[('tipo_operacion', '=', 'Compra')]"/>
+                        <filter name="tipo_venta" string="Ventas" domain="[('tipo_operacion', '=', 'Venta')]"/>
+                    </group>
+                    <group string="Agrupaciones">
+                        <filter name="group_by_fecha" string="Fecha de Operación" context="{'group_by': 'fecha_operacion'}"/>
+                        <filter name="group_by_cliente" string="Cliente" context="{'group_by': 'partner_id'}"/>
+                        <filter name="group_by_tipo" string="Tipo de Operación" context="{'group_by': 'tipo_operacion'}"/>
+                    </group>
+                </search>
+            </field>
+            </record>
+
+            <record id="pbp_novedades_dialog_tree" model="ir.ui.view">
+              <field name="name">pbp.novedades.dialog.tree</field>
+              <field name="model">pbp.novedades</field>
+              <field name="arch" type="xml">
+                <tree string="Channel">
+                  <field name="id_pbp" />
+                  <field name="id" string="ID ODOO" />
+                  <field name="cliente_id" />
+                  <field name="partner_id" />
+                  <field name="contrato_id" />
+                  <field name="product_id" />
+                  <field name="fecha_operacion" />
+                  <field name="state" invisible="1" />
+                  <field name="volumen_gs" />
+                  <field name="total" />
+                  <field name="total_iva" />
+                  <field name="subtotal" />
+                </tree>
+              </field>
+            </record>
+
+           <record id="view_pbp_novedades_form" model="ir.ui.view">
+                <field name="name">pbp.novedades.form</field>
+                <field name="model">pbp.novedades</field>
+                <field name="arch" type="xml">
+                    <form string="Novedades">
+                        <sheet>
+                            <group string="Información General">
+                                <group string="Identificación">
+                                    <field name="id_pbp"/>
+                                    <field name="fecha_operacion"/>
+                                    <field name="fecha_vencimiento"/>
+                                    <field name="plazo"/>
+                                    <field name="cliente_id"/>
+                                    <field name="partner_id"/>
+                                </group>
+                                <group string="Datos del Contrato">
+                                    <field name="tipo_operacion"/>
+                                    <field name="state"/>
+                                    <field name="contrato_descripcion"/>
+                                    <field name="contrato_id"/>
+                                    <field name="contrato_tipo_descripcion"/>
+                                </group>
+                            </group>
+                            <group string="Detalles del Mercado">
+                                <group string="Información del Mercado">
+                                    <field name="mercado"/>
+                                    <field name="instrumento"/>
+                                    <field name="volumen_gs"/>
+                                    <field name="volumen_gs_usd"/>
+                                </group>
+                                <group string="Detalles Financieros">
+                                    <field name="tasa_interes"/>
+                                    <field name="liquidacion"/>
+                                    <field name="porcentaje"/>
+                                </group>
+                            </group>
+                            <group string="Relaciones">
+                                <group string="Productos y Facturación">
+                                    <field name="product_id"/>
+                                    <field name="currency_id"/>
+                                    <field name="invoice_id"/>
+                                </group>
+                            </group>
+                            <group string="Totales">
+                                <group string="Cálculo de Montos">
+                                    <field name="total"/>
+                                    <field name="total_iva"/>
+                                        <field name="subtotal"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+    </data>
+</odoo>

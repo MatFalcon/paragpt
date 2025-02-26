@@ -1,0 +1,15 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Grupo: Administrador de contrato -->
+        <record id="group_administrador_contrato" model="res.groups">
+            <field name="name">Administrador de contrato</field>
+            <field name="category_id" eval="False"/> <!-- Categoría indefinida -->
+        </record>
+
+        <!-- Grupo: Contratos: solo lectura -->
+        <record id="group_contratos_lectura" model="res.groups">
+            <field name="name">Contratos: solo lectura</field>
+            <field name="category_id" eval="False"/> <!-- Categoría indefinida -->
+        </record>
+    </data>
+</odoo>

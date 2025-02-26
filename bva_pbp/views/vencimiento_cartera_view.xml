@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <!-- Vistas para el modelo pbp.vencimiento_capital_interes -->
+        <record id="vencimiento_capital_interes_tree_view" model="ir.ui.view">
+            <field name="name">pbp.vencimiento_capital_interes.tree</field>
+            <field name="model">pbp.vencimiento_capital_interes</field>
+            <field name="arch" type="xml">
+                <tree string="Vencimientos de Capital e Intereses">
+                    <field name="color" invisible="1"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="destinatarios"/>
+                    <field name="serie"/>
+                    <field name="total"/>
+                    <field name="email_to"/>
+                    <field name="user_id"/>
+                    <field name="state" widget="badge" options="{'color_field': 'color'}"/>
+                    <field name="currency_id"/>
+                    <field name="instrumento"/>
+<!--                    <field name="company_id"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="vencimiento_capita_interes_search_view" model="ir.ui.view">
+            <field name="name">vencimiento.capital.interes.search</field>
+            <field name="model">pbp.vencimiento_capital_interes</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id" operator="child_of"/>
+                    <filter name="fecha_vencimiento" string="Fecha Vencimiento" date="fecha_vencimiento"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Fecha_vencimiento" name="filter_fecha_vencimiento" domain="[]"
+                                context="{'group_by': 'fecha_vencimiento'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="convenient_capital_interes_form_view" model="ir.ui.view">
+            <field name="name">pbp.vencimiento_capital_interes.form</field>
+            <field name="model">pbp.vencimiento_capital_interes</field>
+            <field name="arch" type="xml">
+                <form string="Vencimiento de Capital e Intereses">
+                    <sheet>
+                        <group>
+                            <field name="fecha_vencimiento"/>
+                            <field name="destinatarios"/>
+                            <field name="registros"/>
+                        </group>
+                        <group>
+                            <field name="texto"/>
+                            <field name="email_to"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="company_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para pbp.vencimiento_capital_interes -->
+        <record id="action_vencimiento_intereses_cartera" model="ir.actions.act_window">
+            <field name="name">Vencimientos de Inversiones</field>
+            <field name="res_model">pbp.vencimiento_capital_interes</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+<!--            <field name="context">{'create': False}</field>-->
+        </record>
+    </data>
+</odoo>

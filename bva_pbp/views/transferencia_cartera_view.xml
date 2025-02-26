@@ -1,0 +1,75 @@
+<odoo>
+    <record id="transferencia_cartera_filter_view" model="ir.ui.view">
+        <field name="name">Transferencias de Cartera</field>
+        <field name="model">pbp.transferencia_cartera</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="emisor_id"/>
+                <field name="receptor_id"/>
+                <field name="fecha"/>
+                <filter string="Con Factura" name="filter_con_factura" domain="[('invoice_id', '!=', False)]"/>
+                <filter string="Sin Factura" name="filter_sin_factura" domain="[('invoice_id', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Emisor" name="filter_emisor" domain="[ ]" context="{'group_by': 'emisor_id'}"/>
+                    <filter string="Receptor" name="filter_receptor" domain="[ ]" context="{'group_by': 'receptor_id'}"/>
+                    <filter string="Fecha" name="filter_fecha" domain="[ ]" context="{'group_by': 'fecha'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="transferencia_cartera_tree" model="ir.ui.view">
+        <field name="name">pbp.transferencia_cartera.tree</field>
+        <field name="model">pbp.transferencia_cartera</field>
+        <field name="arch" type="xml">
+            <tree string="Transferencias de Cartera">
+                <field name="id_pbp"/>
+                <field name="emisor_id"/>
+                <field name="receptor_id"/>
+                <field name="fecha"/>
+                <field name="monto" sum="Total"/>
+                <field name="motivo"/>
+                <field name="invoice_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="transferencia_cartera_form" model="ir.ui.view">
+        <field name="name">pbp.transferencia_cartera.form</field>
+        <field name="model">pbp.transferencia_cartera</field>
+        <field name="arch" type="xml">
+            <form string="Transferencias de Cartera">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_pbp"/>
+                            <field name="emisor_id"/>
+                            <field name="receptor_id"/>
+                            <field name="fecha"/>
+                        </group>
+                        <group>
+                            <field name="monto"/>
+                            <field name="motivo"/>
+                            <field name="invoice_id"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="transferencia_cartera_action" model="ir.actions.act_window">
+        <field name="name">Transferencias de Cartera</field>
+        <field name="res_model">pbp.transferencia_cartera</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'edit': 0, 'tree_view_ref': 'pbp.transferencia_cartera_tree'}</field>
+    </record>
+
+
+
+
+</odoo>

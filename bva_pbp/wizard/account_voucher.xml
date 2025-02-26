@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record id="view_voucher_wizard" model="ir.ui.view">
+            <field name="name">voucher.wizard.form</field>
+            <field name="model">voucher.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generar Voucher">
+                    <group>
+                        <field name="cuenta"/>
+                        <field name="vencimiento_id" readonly="1"/>
+                        <field name="partner_id" string="Emisor"/>
+                        <field name="saldo_actual"/>
+                        <field name="amount" string="Monto"/>
+                    </group>
+                    <footer>
+                        <button string="Generar" type="object" name="crear_voucher" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_generic_wizard" model="ir.actions.act_window">
+            <field name="name">Abrir Wizard de Vouchers</field>
+            <field name="res_model">voucher.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_voucher_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

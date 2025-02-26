@@ -1,0 +1,77 @@
+<odoo>
+    <data>
+        <record id="sincronizacion_logs_view_form" model="ir.ui.view">
+            <field name="name">sincronizacion_logs_view_form</field>
+            <field name="model">pbp.sincronizacion_logs</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <sheet>
+                        <h3 class="oe_title">
+                            <field name="name" readonly="1"/>
+                        </h3>
+                        <group>
+                            <group>
+                                <field name="tipo_sincronizacion" readonly="1"/>
+                                <field name="fecha_sincronizacion" readonly="1"/>
+                                <field name="cant_registros_obtenidos" readonly="1"/>
+                                <field name="sincronizacion_correcta" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="error_msg" readonly="1"/>
+                                <field name="registros_fallidos" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="detalle_ids">
+                                <tree editable="bottom">
+                                    <field name="sincronizacion"/>
+                                    <field name="registro"/>
+                                    <field name="error_msg"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="sincronizacion_logs_view_tree" model="ir.ui.view">
+            <field name="name">sincronizacion_logs_view_tree</field>
+            <field name="model">pbp.sincronizacion_logs</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false">
+                    <field name="name"/>
+                    <field name="tipo_sincronizacion"/>
+                    <field name="fecha_sincronizacion"/>
+                    <field name="cant_registros_obtenidos"/>
+                    <field name="sincronizacion_correcta"/>
+                    <field name="registros_fallidos"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sincronizacion_logs_search_view">
+            <field name="name">sincronizacion_logs_search_view</field>
+            <field name="model">pbp.sincronizacion_logs</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="tipo_sincronizacion"/>
+                    <field name="fecha_sincronizacion"/>
+                </search>
+            </field>
+        </record>
+        <record id="sincronizacion_logs_act_window" model="ir.actions.act_window">
+            <field name="name">Sincronización Logs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.sincronizacion_logs</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
+
+
+
