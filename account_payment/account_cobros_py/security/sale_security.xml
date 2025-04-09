@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <!--Grupo para cobros en el recibo para Usuarios -->
+        <record id="group_cobros_recibo_usuario" model="res.groups">
+            <field name="name">Cobros Recibo Usuario</field>
+        </record>
+
+        <!--Grupo para cobros en el recibo para Tesoreria -->
+        <record id="group_cobros_recibo_tesoreria" model="res.groups">
+            <field name="name">Cobros Recibo Tesoreria</field>
+        </record>
+
+        <!--Grupo para Cobros en el Recibo Gerencia-->
+		<record id="group_cobros_recibo_gerencia" model="res.groups">
+            <field name="name">Cobros Recibo Gerencia</field>
+            <field name="implied_ids" eval="[(4, ref('account_cobros_py.group_cobros_recibo_tesoreria'))]"/>
+        </record>
+
+       <!--Grupo para Cobros en el Recibo Gerencia-->
+		<record id="group_limitar_talonarios_recibos" model="res.groups">
+            <field name="name">Limitar talonarios de recibos</field>
+        </record>
+
+    <record id="base.user_admin" model="res.users">
+        <field name="groups_id" eval="[(4, ref('account_cobros_py.group_cobros_recibo_gerencia'))]"/>
+    </record>
+
+
+
+        <!--REGLAS RECIBOS COBROS-->
+        <record id="regla_recibo_cobros" model="ir.rule">
+            <field name="name">mis recibos</field>
+            <field name="model_id" ref="model_account_recibo"/>
+            <field name="groups" eval="[(4, ref('account_cobros_py.group_cobros_recibo_usuario'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">
+                [('cobrador.id','=',user.id),('company_id','in',company_ids)]
+            </field>
+        </record>
+
+            <!--REGLAS RECIBOS COBROS POR COMPAÑIA TESORERIA-->
+        <record id="regla_recibo_cobros_company_tesoreria" model="ir.rule">
+            <field name="name">mis recibos</field>
+            <field name="model_id" ref="model_account_recibo"/>
+            <field name="groups" eval="[(4, ref('account_cobros_py.group_cobros_recibo_tesoreria'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">
+               ['|',('company_id','=',False),('company_id', 'in', company_ids)]
+            </field>
+        </record>
+
+                <!--REGLAS RECIBOS COBROS POR COMPAÑIA GERENCIA-->
+        <record id="regla_recibo_cobros_company_gerencia" model="ir.rule">
+            <field name="name">mis recibos</field>
+            <field name="model_id" ref="model_account_recibo"/>
+            <field name="groups" eval="[(4, ref('account_cobros_py.group_cobros_recibo_tesoreria'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">
+                ['|',('company_id','=',False),('company_id', 'in', company_ids)]
+            </field>
+        </record>
+
+                        <!--REGLAS TALONARIOS DE RECIBO-->
+        <record id="regla_talonario_recibo_company" model="ir.rule">
+            <field name="name">mis recibos</field>
+            <field name="model_id" ref="model_account_recibo_talonario"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">
+                ['|',('company_id','=',False),('company_id', 'in', company_ids)]
+            </field>
+        </record>
+
+        <record id="regla_talonario_por_usuario" model="ir.rule">
+            <field name="name">Talonario por usuario</field>
+            <field name="model_id" ref="model_account_recibo_talonario"/>
+            <field name="groups" eval="[(4, ref('account_cobros_py.group_limitar_talonarios_recibos'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">
+            [('id','in',user.talonario_recibo_ids.ids)]
+            </field>
+        </record>
+
+
+
+
+
+
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="view_action_rechazo_cheque_wizard_wizard" model="ir.ui.view">
+            <field name="name">action.rechazo.cheque.wizard.wizard.form</field>
+            <field name="model">action.rechazo.cheque.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Rechazo de cheque">
+                    <sheet>
+                        <group>
+                            <field name="check_id" readonly="1"/>
+                            <field name="date" required="1"/>
+                            <field name="journal_id" required="1"/>
+                            <field name="account_id" required="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_rechazar" string="Confirmar rechazo" type="object" class="oe_highlight"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

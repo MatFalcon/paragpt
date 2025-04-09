@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+   <!--Herencia res.users para asignacion de obras-->
+        <record id="view_users_form_recibo_inh" model="ir.ui.view">
+            <field name="name">view.users.form.inh</field>
+            <field name="model">res.users</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_cobros_py.view_users_form_recibo_inh"/>
+            <field name="arch" type="xml">
+                <field name="talonario_recibo_ids" position="after">
+                    <field name="recibo_required"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

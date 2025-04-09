@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="check_form_view_recibo_inh" model="ir.ui.view">
+            <field name="name">check.form.account_cobros.inh</field>
+            <field name="model">account.check.third</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_check.view_account_check_third_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bank_id']" position="after">
+                    <field name="cuit"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

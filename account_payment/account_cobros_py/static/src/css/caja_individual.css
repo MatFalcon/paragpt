@@ -1,0 +1,187 @@
+.page{
+    font-size: 25px;
+}
+.mayuscula{
+    text-transform: uppercase;
+}
+.sin-borde {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+    font-size: 11px;
+
+}
+
+.sin-borde th{
+    border-collapse: collapse;
+    border: solid black 1px;
+    background-color:rgba(0,0,0,0.15) ;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    /*border-left: 0.5px solid black ;*/
+    /*border-right: 0.5px solid black ;*/
+    font-size: 11px;
+}
+
+table.sin-borde th:nth-child(1){
+    width: 7%;
+    text-align: center !important;
+}
+table.sin-borde th:nth-child(2){
+    width: 15%;
+    text-align: center !important;
+}
+table.sin-borde th:nth-child(3){
+    width: 4%;
+    font-size: 11px !important;
+}
+table.sin-borde th:nth-child(4){
+    width: 7%;
+    font-size: 11px !important;
+}
+table.sin-borde th:nth-child(5){
+    width: 7%;
+    font-size: 11px !important;
+}
+table.sin-borde th:nth-child(6){
+    width: 7%;
+}
+table.sin-borde th:nth-child(7){
+    margin-left: 5px;
+    width: 7%;
+}
+table.sin-borde th:nth-child(8){
+    width: 10%;
+}
+table.sin-borde th:nth-child(9){
+    width: 5%;
+}
+table.sin-borde th:nth-child(10){
+    width: 5%;
+}
+
+table.sin-borde td{
+    border: solid black 1px;
+}
+
+table.sin-borde td:nth-child(1){
+    text-align: center !important;
+}
+table.sin-borde td:nth-child(2){
+    text-align: center !important;
+}
+table.sin-borde td:nth-child(3){
+    text-align: center !important;
+}
+table.sin-borde td:nth-child(8){
+    text-align: center !important;
+}
+
+
+thead { display: table-header-group }
+tr { page-break-inside: avoid }
+
+hr {
+    border-bottom: 0.5px solid black;
+    /*border-top: none ;*/
+}
+
+/*.linea{*/
+/*    border-bottom: 0.5px solid black;*/
+/*}*/
+
+.filtros{
+    margin-bottom: 0px;
+    font-size: 11px;
+}
+
+.con-bordes{
+    border: 0.5px solid black;
+    font-size: 11px;
+}
+
+td{
+    padding: 0px 2px 0px 2px;
+}
+
+.totales{
+  border-collapse: collapse;
+  float: left;
+    width: 30%;
+}
+.totales th {
+    background-color:rgba(0,0,0,0.15) ;
+  border: black 1px solid;
+  text-align: left;
+  width:20%;
+  height: 10px ;
+  font-size: 12px;
+}
+.totales #tituloizquierda {
+    background-color:rgba(0,0,0,0.15) ;
+  border: black 1px solid;
+  text-align: left;
+  width:20%;
+  height: 10px ;
+  font-size: 12px;
+}
+
+.totales #vacio{
+  border: none !important;
+}
+
+.totales2 #vacio{
+  border:none;
+}
+.totales td{
+  border: black 1px solid;
+  text-align: right;
+  width:5%;
+  font-size: 12px;
+}
+
+.totales2{
+ border-collapse: collapse;
+  float: left;
+    width: 30%;
+}
+.totales2 th {
+    background-color:rgba(0,0,0,0.15) ;
+  border: black 1px solid;
+  text-align: left;
+  width:20%;
+  height: 10px ;
+  font-size: 12px;
+}
+.totales2 #tituloizquierda {
+    background-color:rgba(0,0,0,0.15) ;
+  border: black 1px solid;
+  text-align: left;
+  width:20%;
+  height: 10px ;
+  font-size: 12px;
+}
+
+.totales2 td{
+  border: black 1px solid;
+  text-align: right;
+  width:5%;
+  font-size: 12px;
+}
+.firmas  td{
+    border: solid black 1px;
+    width: 200px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+    /*border: none;*/
+    height: 100px;
+}
+
+.firmas #sborde{
+    border: none;
+}

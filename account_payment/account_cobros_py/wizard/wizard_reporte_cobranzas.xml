@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+        <record id="reporte_cobranzas_wizard_view" model="ir.ui.view">
+            <field name="name">reporte cobranzas wizard</field>
+            <field name="model">account_cobros.wizard.reporte.cobranzas</field>
+            <field name="arch" type="xml">
+               <form>
+                   <group >
+                       <group string="Como desea Filtrar el reporte?">
+                           <field name="orden" string="Filtar por"/>
+                            <field name="company_id" invisible="1"/>
+                       </group>
+                       <group string="Como desea Agrupar el reporte?">
+                           <field name="agrupar" string="Agrupar por"/>
+                       </group>
+
+                   </group>
+                  <group string="Campos para el filtro">
+                      <field name="desde" required="orden == 'fecha'"  />
+                      <field name="hasta" required="orden == 'fecha'" />
+                      <field name="talonario_id" required="orden == 'talonario'"  options="{'no_create_edit': True, 'no_create': True,'no_open':True}"  />
+                      <field name="cobrador" required="orden == 'cobrador'" options="{'no_create_edit': True, 'no_create': True,'no_open':True}" />
+                      <field name="cliente"  options="{'no_create_edit': True, 'no_create': True,'no_open':True}" />
+                      <field name="detalle_factura" string="Mostrar Facturas de los Recibos?"/>
+                  </group>
+
+
+                   <footer>
+                       <button name="check_report" type="object" string="Generar PDF" class="oe_highlight"/>
+                       <!--<button name="print_report_xlsx" type="object" string="Generar Xlsx" class="oe_highlight"/>-->
+                       <button string="Cancelar" special="cancel"/>
+                   </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_reporte_cobranzas_wizard" model="ir.actions.act_window">
+            <field name="name">Reporte de Cobranzas</field>
+            <field name="res_model">account_cobros.wizard.reporte.cobranzas</field>
+            <field name="type">ir.actions.act_window</field>
+
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="reporte_cobranzas_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="cobranzas_report" name="Reporte de Cobranzas" action="action_reporte_cobranzas_wizard" parent="account.menu_finance_reports" sequence="10"/>
+
+    </data>
+</odoo>

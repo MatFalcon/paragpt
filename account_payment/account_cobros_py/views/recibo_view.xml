@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_recibo_cobranzas" model="ir.actions.act_window">
+            <field name="name">Recibos de cobros</field>
+            <field name="res_model">account.recibo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{ }</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Recibos de cobros
+                </p></field>
+        </record>
+        <record id="cobros_form_view_id" model="ir.ui.view">
+            <field name="name">recibos.form</field>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!-- Campos invisibles -->
+                    <field name="id" invisible="1"/>
+                    <field name="is_move_sent" invisible="1"/>
+                    <field name="is_reconciled" invisible="1"/>
+                    <field name="is_matched" invisible="1"/>
+                    <field name="payment_method_code" invisible="1"/>
+                    <field name="show_partner_bank_account" invisible="1"/>
+                    <field name="require_partner_bank_account" invisible="1"/>
+                    <field name="available_payment_method_line_ids" invisible="1"/>
+                    <field name="suitable_journal_ids" invisible="1"/>
+                    <field name="country_code" invisible="1"/>
+                    <field name="partner_type" invisible="1"/>
+                    <field name="posted_before" invisible="1"/>
+                    <field name="reconciled_invoices_type" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="paired_internal_transfer_payment_id" invisible="1"/>
+                    <group>
+                        <field name="journal_id" domain="[('recibo_diario','=', True)]" required="1"/>
+                        <field name="date" invisible="cheque_tercero == True"/>
+                        <field name="ref"/>
+                        <field name="state" invisible="1"/>
+                        <field name="payment_type" invisible="1"/>
+                        <field name="partner_type" invisible="1"/>
+                        <field name="partner_id" invisible="1"/>
+                        <field name="cheque_tercero" invisible="1"/>
+                        <field name="recibo_id" invisible="1"/>
+                        <field name="tipo_diario" invisible="1"/>
+                        <field name="cobrar_dif_moneda" invisible="1"/>
+                    </group>
+                    <group invisible="cheque_tercero != True" required="cheque_tercero == True" string="Datos del Cheque">
+                        <field name="ver_cuenta_banco_recibo" invisible="1"/>
+                        <field name="banco_cheque_recibo" string="Banco del Cheque" widget="selection"/>
+                        <field name="banco_cuenta_recibo"  domain="[('partner_id','=',partner_id), ('bank_id','=', banco_cheque_recibo)]" invisible="ver_cuenta_banco_recibo == False" string="Cuenta de banco" widget="selection"/>
+                        <field name="titular_recibo" string="Titular"/>
+                        <field name="cobrar_dif_moneda" string="cobrar diferencia de moneda" readonly="1"/>
+                        <field name="monto_moneda_pago" string="monto"/>
+                        <field name="nro_cuenta_recibo" invisible="banco_cuenta_recibo != False"/>
+                        <field name="numero_cheque_recibo" string="Numero del Cheque"/>
+                        <field name="fecha_cheque_recibo" string="Fecha Emision"/>
+                        <field name="fecha_cheque_diferido" string="Fecha Pago Cheque"/>
+                        <field name="date" invisible="1"/>
+                        <field name="cotizacion" required="cheque_tercero == False" invisible="cobrar_dif_moneda == False" string="Cotizacion"/>
+                        <field name="monto_cheque_recibo" required="cheque_tercero == False" invisible="cobrar_dif_moneda == False" string="Monto del cheque"/>
+                    </group>
+                    <group>
+                        <field name="moneda_pago" invisible="1"  string="Moneda Alternativa de Pago"/>
+                        <field name="ver_monto_alternativo_2" invisible="1"/>
+                        <!--                         <field name="monto_alternativo_2" string="Monto Alternativa de Pago" invisible="ver_monto_alternativo_2 == False" required="ver_monto_alternativo_2 == True"/> -->
+                        <field name="cotizacion" invisible="(cobrar_dif_moneda == False or cheque_tercero == True)"/>
+                        <field name="monto_moneda_pago" invisible="(cobrar_dif_moneda == False or cheque_tercero == True)"/>
+                        <field name="currency_id" readonly="1"/>
+                        <field help="Especificar el monto en moneda de la factura" name="amount" string="Monto del cobro"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="recibos_form_view" model="ir.ui.view">
+            <field name="name">recibos.form</field>
+            <field name="model">account.recibo</field>
+            <field name="arch" type="xml">
+                <form string="Recibos">
+                    <header>
+                        <!-- Estado del recibo mostrado como barra de estado -->
+                        <field name="state" widget="statusbar"/>
+                        <!-- Botón para confirmar recibo con un mensaje de confirmación, visible en estado borrador -->
+                        <button class="oe_highlight" confirm="¿Está seguro que desea CONFIRMAR EL RECIBO ?" invisible="state != 'borrador'" name="confirmar_recibo" string="Confirmar recibo" type="object"/>
+                        <!-- Botón para anular recibo, visible en estado borrador -->
+                        <button class="oe_highlight" invisible="state != 'borrador'" name="%(open_recibo_anular_wizard_action_id)d" string="Anular" type="action"/>
+                        <!-- Botón para volver a borrador, visible solo para ciertos grupos y en estados distintos a borrador -->
+                        <button class="oe_highlight" groups="account_cobros_py.group_cobros_recibo_gerencia" invisible="state in ('borrador')" name="set_borrador" string="Volver a borrador" type="object"/>
+                    </header>
+                    <sheet>
+                        <group readonly="state != 'borrador'" string="Datos del recibo">
+                            <!-- Grupo de campos relacionados con el recibo -->
+                            <group readonly="state != 'borrador'">
+                                <!-- Campo invisible -->
+                                <field invisible="1" name="asignar_manualmente"/>
+                                <!-- Campo de selección de cliente, no editable ni creable -->
+                                <field domain="[('customer','=',True)]" name="partner_id" options="{'no_create_edit': True, 'no_create': True,'no_open':True}" readonly="state != 'borrador'"/>
+                                <!-- Campo de fecha, solo editable en estado borrador -->
+                                <field name="fecha" readonly="state != 'borrador'"/>
+                                <!-- Campo de cobrador, no editable ni creable -->
+                                <field name="cobrador" options="{'no_create_edit': True, 'no_create': True,'no_open':True}" readonly="state != 'borrador'"/>
+                                <!-- Campo de tipo, solo editable en estado borrador -->
+                                <field name="tipo" readonly="state != 'borrador'"/>
+                                <!-- Campo de talonario, no editable ni creable, con dominio para estado en uso -->
+                                <field domain="[('state','=','en_uso')]" name="talonario_id" options="{'no_create_edit': True, 'no_create': True,'no_open':True}" readonly="state != 'borrador'"/>
+                                <!-- Campo de nombre, requerido si se asigna manualmente, solo editable en estado borrador -->
+                                <field force_save="1" name="name" readonly="state != 'borrador' or asignar_manualmente == False" required="asignar_manualmente == True"/>
+                                <!-- Campo de moneda de la factura, solo lectura -->
+                                <field force_save="1" help="Moneda del recibo se basa en la moneda de las facturas" name="currency_invoice" options="{'no_create_edit': True, 'no_create': True,'no_open':True}" readonly="1" string="Moneda del Recibo"/>
+                                <!-- Campo de moneda del cobro, requerido y solo editable en estado borrador -->
+                                <field domain="[('ambito','in',('venta',False))]" force_save="1" help="Moneda con que se realizarán los cobros de las facturas" name="currency_id" options="{'no_create_edit': True, 'no_create': True,'no_open':True}" readonly="state != 'borrador'" required="1" string="Moneda del Cobro"/>
+                                <!-- Campo de último número, invisible si el nombre no está vacío -->
+                                <field invisible="name != False" name="ultimo_numero"/>
+                                <!-- Campo de compañía, solo lectura -->
+                                <field name="company_id" options="{'no_open': True}" readonly="1" string="Compañía"/>
+                                <!-- Campos adicionales, invisibles o de solo lectura según el contexto -->
+                                <field invisible="1" name="invoice_ids"/>
+                                <field invisible="1" name="moneda_company"/>
+                                <field force_save="1" invisible="move_diferencia_id == False" name="move_diferencia_id" readonly="1"/>
+                                <field invisible="1" name="existe_pago_gs_extranjero"/>
+                                <field name="obs"/>
+                                <field name="concepto"/>
+                                <field name="concepto_auto"/>
+                                <field name="print_concepto_auto"/>
+                                <button name="compute_concepto" type="object" string="Obtener concepto"/>
+                            </group>
+                            <!-- Grupo de montos -->
+                            <group>
+                                <group string="Montos">
+                                    <field name="amount" readonly="1"/>
+                                    <field invisible="1" name="get_parcial"/>
+                                    <field name="total_cobros" readonly="1"/>
+                                    <field name="saldo" readonly="1" string="Diferencia"/>
+                                    <field invisible="1" name="diferencia_2"/>
+                                    <field invisible="1" name="dif_moneda"/>
+                                    <field force_save="1" name="diferencia_cambio" readonly="1"/>
+                                    <field name="account_analytic_id" string="Cuenta analitica" />
+
+                                    <!--                                    <button name="_verificar_lineas" type="object" string="Calc. dif. cambio" class="btn btn-warning"/>-->
+                                </group>
+                                <!-- Grupo de cobros en diferentes monedas, invisible si no aplica -->
+                                <group invisible="cobrar_dif_moneda == False" string="Cobro en Diferentes monedas">
+                                    <field force_save="1" help="El cobro de diferente moneda está activado porque la moneda de la factura no coincide con la moneda del recibo" name="cobrar_dif_moneda" readonly="1"/>
+                                    <field invisible="1" name="move_id" string="Asiento"/>
+                                    <field force_save="1" help="El valor del campo se calcula en base al monto total cobrado por la cotización de la fecha del recibo" invisible="cobrar_dif_moneda == False" name="debia_cobrar" readonly="1"/>
+                                    <field force_save="1" help="El valor del campo es el cálculo del monto alternativo de pago de los cobros" invisible="cobrar_dif_moneda == False" name="cobre" readonly="1"/>
+                                    <field force_save="1" invisible="cobrar_dif_moneda == False" name="diario_diferencia" readonly="1"/>
+                                    <field force_save="1" invisible="1" name="cuenta_diferencia" readonly="1"/>
+                                </group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Facturas">
+                                <header>
+                                    <!-- Botón para asignar facturas, invisible en ciertos estados -->
+                                    <button class="btn-primary" invisible="state in ('confirmado') or partner_id == False or currency_id == False" name="retornar_asignacion" string="Asignar facturas" type="object"/>
+                                    <!-- Botón para eliminar asignación de facturas, invisible en ciertos estados -->
+                                    <button invisible="state in ('confirmado') or partner_id == False or currency_id == False" name="eliminar_asignacion" string="Eliminar facturas" type="object"/>
+                                </header>
+                                <!-- Campo de relación para pagos de facturas, solo lectura fuera del estado borrador -->
+                                <field context="{'default_partner_id': partner_id, 'default_currency_id': currency_id}" mode="tree,kanban" name="pagos_facturas_ids" readonly="state != 'borrador'">
+                                    <form>
+                                        <label for="invoice_id" string="Factura"/>
+                                        <div>
+                                            <field context="{'tree_view_ref': 'account_cobros_py.vista_facturas_recibos_recibos'}" domain="[('no_ver_factura_recibo', '=', False), ('state', '!=', 'cancel'), ('state', '=', 'open'), ('currency_id', '=', currency_id), ('partner_id', 'child_of', partner_id), '|', ('move_type', '=', 'out_invoice'), ('move_type', '=', 'out_refund')]" name="invoice_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}"/>
+                                        </div>
+                                        <label for="invoice_date" string="Fecha Factura"/>
+                                        <div>
+                                            <field name="invoice_date" string="Fecha Factura"/>
+                                        </div>
+                                        <label for="amount_total" string="Monto Factura"/>
+                                        <div>
+                                            <field force_save="1" name="amount_total" readonly="1" string="Monto Factura" sum="Total de la Factura"/>
+                                        </div>
+                                        <label for="monto" string="Pago"/>
+                                        <div>
+                                            <field name="monto" sum="Total del Pago" readonly="amount_total &lt; 0" force_save="1"/>
+                                        </div>
+                                        <label for="residual" string="Monto Adeudado"/>
+                                        <field force_save="1" name="residual" readonly="1" string="Monto Adeudado"/>
+                                        <field invisible="1" name="currency_invoice"/>
+                                        <field invisible="1" name="fecha_pago"/>
+                                        <field invisible="1" name="currency_id"/>
+                                        <field invisible="1" name="partner_id"/>
+                                        <field invisible="1" name="amount"/>
+                                    </form>
+                                    <tree editable="bottom">
+                                        <field column_invisible="1" name="moneda_company"/>
+                                        <field column_invisible="parent.tipo == 'move'" domain="[('no_ver_factura_pago', '=', False), ('move_id.state', '=', 'posted'), ('partner_id', 'child_of', partner_id), ('account_id.account_type', '=', 'asset_receivable')]" name="move_line_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}"/>
+                                        <field column_invisible="parent.tipo == 'move_line'" context="{'tree_view_ref': 'account_cobros_py.vista_facturas_recibos_recibos'}" domain="[('no_ver_factura_recibo', '=', False), ('payment_state', 'in', ('not_paid', 'partial')),('amount_residual','!=',0), ('state', '!=', 'cancel'), ('partner_id', 'child_of', partner_id), '|', ('move_type', '=', 'out_invoice'), ('move_type', '=', 'out_refund')]" name="invoice_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}"/>
+                                        <field name="invoice_date" string="Fecha Factura"/>
+                                        <field force_save="1" name="amount_total" readonly="1" string="Monto Factura" sum="Total de la Factura"/>
+                                        <field name="monto" sum="Total del Pago" readonly="amount_total &lt; 0" force_save="1"/>
+                                        <field force_save="1" column_invisible="1"  name="monto_gs" sum="Total del Pago"/>
+                                        <field force_save="1" name="residual" readonly="1" string="Monto Adeudado"/>
+                                        <field column_invisible="1" name="currency_invoice"/>
+                                        <field column_invisible="1" name="partner_id"/>
+                                        <field column_invisible="1" name="fecha_pago"/>
+                                        <field column_invisible="1" name="currency_id"/>
+                                        <field column_invisible="1" name="retencion"/>
+                                        <field column_invisible="1" name="amount"/>
+                                        <field name="account_receivable" optional="hide"/>
+                                    </tree>
+                                    <kanban class="o_kanban_mobile">
+                                        <field name="invoice_id"/>
+                                        <field force_save="1" name="amount_total" readonly="1"/>
+                                        <field force_save="1" name="monto" readonly="1"/>
+                                        <field force_save="1" name="residual" readonly="1"/>
+                                        <field invisible="1" name="amount"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                    <a class="fa fa-times pull-right" t-if="!read_only_mode" type="delete"/>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <strong>
+                                                                <span>
+                                                                    <t t-esc="record.invoice_id.value"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 text-muted">
+                                                            <span>
+                                                                Pago:
+                                                                <t t-esc="record.monto.value"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <a style="position: absolute; right: 0; padding: 4px; display: inline-block" t-if="! read_only_mode" type="delete">
+                                                        X
+                                                    </a>
+                                                </div>
+                                                <hr/>
+                                            </t>
+                                        </templates>
+                                    </kanban></field>
+                            </page>
+                            <page string="Cobros">
+                                <!-- Campo para relación de pagos, solo lectura fuera de estado borrador -->
+                                <field context="{'default_payment_type': 'inbound', 'form_view_ref': 'account_cobros_py.cobros_form_view_id',    'default_amount':amount,'default_partner_id': partner_id, 'default_date': fecha,'default_partner_type': 'customer','default_recibo_id': id, 'default_moneda_pago': currency_id, 'default_currency_id': currency_invoice, 'default_journal_id': False,'default_ref': obs,'default_amount': amount}" name="payment_ids" readonly="state != 'borrador'">
+                                    <tree>
+                                        <field name="journal_id" readonly="not state" string="Forma de pago"/>
+                                        <field column_invisible="not parent.cobrar_dif_moneda and not parent.move_diferencia_id" name="monto_moneda_pago" string="Monto en la Moneda Alternativa"/>
+                                        <field name="amount" readonly="not state" string="Monto en la Moneda del Recibo"/>
+                                        <field name="state" readonly="not state"/>
+                                    </tree></field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form></field>
+        </record>
+        <record id="recibo_tree_view" model="ir.ui.view">
+            <field name="name">recibos.tree</field>
+            <field name="model">account.recibo</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="dias_en_borrador>0" string="Recibos">
+                    <field invisible="1" name="dias_en_borrador"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <field name="talonario_id"/>
+                    <field name="fecha"/>
+                    <field name="cobrador"/>
+                    <field name="company_id" string="Compañia"/>
+                </tree></field>
+        </record>
+        <record id="view_account_recibo_search" model="ir.ui.view">
+            <field name="name">account.recibo.search</field>
+            <field name="model">account.recibo</field>
+            <field name="arch" type="xml">
+                <search string="Recibos">
+                    <field filter_domain="[('name','ilike',self)]" name="name" string="Nro. de Recibo"/>
+                    <separator/>
+                    <field name="partner_id"/>
+                    <field name="cobrador" string="Cobrador"/>
+                    <field groups="base.group_multi_company" name="company_id" string="Compañia"/>
+                    <field name="talonario_id"/>
+                    <field name="currency_id"/>
+                    <separator/>
+                    <field filter_domain="[('pagos_facturas_ids.invoice_id','ilike',self)]" name="pagos_facturas_ids" string="Facturas"/>
+                    <field name="payment_ids"/>
+                    <separator/>
+                    <filter domain="[('state','=','borrador')]" name="state_borrador" string="Borrador"/>
+                    <filter domain="[('state','=','confirmado')]" name="state_confirmado" string="Confirmado"/>
+                    <filter domain="[('state','=','anulado')]" name="state_anulado" string="Anulado"/>
+                    <separator/>
+                    <filter context="{'group_by': 'partner_id'}" domain="[]" name="partner_id" string="Cliente"/>
+                    <filter context="{'group_by': 'state'}" domain="[]" name="state" string="Estado"/>
+                    <filter context="{'group_by': 'currency_id'}" domain="[]" groups="base.group_multi_currency" name="currency_id" string="Moneda"/>
+                    <filter context="{'group_by': 'company_id'}" domain="[]" groups="base.group_multi_company" name="company_id" string="Compañia"/>
+                </search></field>
+        </record>
+        <record id="action_talonario_cobranzas" model="ir.actions.act_window">
+            <field name="name">Talonarios de recibos</field>
+            <field name="res_model">account.recibo.talonario</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{ }</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Talonarios de Recibo
+                </p></field>
+        </record>
+        <record id="recibos_talonarios_form_view" model="ir.ui.view">
+            <field name="name">recibos.talonario.form</field>
+            <field name="model">account.recibo.talonario</field>
+            <field name="arch" type="xml">
+                <form string="Talonarios">
+                    <header>
+                        <!-- Estado del talonario mostrado como barra de estado -->
+                        <field name="state" widget="statusbar"/>
+                        <!-- Botón para poner en uso el talonario, visible en estado 'usado' -->
+                        <button invisible="state != 'usado'" name="set_enuso" string="Poner en Uso" type="object"/>
+                        <!-- Botón para finalizar el talonario, visible en estado 'en_uso' -->
+                        <button class="oe_highlight" invisible="state != 'en_uso'" name="set_utilizado" string="Finalizar Talonario" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <h2>
+                                Nombre del Talonario:
+                                <!-- Campo nombre del talonario, solo lectura fuera de estado 'en_uso' -->
+                                <field name="name" readonly="state != 'en_uso'"/>
+                            </h2>
+                        </group>
+                        <group string="Datos del talonario">
+                            <!-- Campos de datos del talonario -->
+                            <field invisible="1" name="es_ultimo_nro"/>
+                            <field domain="[('ambito','in',('venta',False))]" name="currency_id" readonly="state != 'en_uso'"/>
+                            <field name="prefijo" placeholder="Ejemplo: 001"/>
+                            <field name="cantidad_digitos"/>
+                            <field name="desde" readonly="state != 'en_uso'"/>
+                            <field name="hasta" readonly="state != 'en_uso'"/>
+                            <field name="numero_actual" invisible="es_ultimo_nro == True"  readonly="state != 'en_uso'"/>
+                            <field name="company_id" options="{'no_open': True}" readonly="1" string="Compañia"/>
+                            <field name="asignar_manualmente"/>
+                            <field name="requiere_caja" help="Seleccionar esta opción para los casos donde se deba abrir una caja para cobrar"/>
+                        </group>
+                        <group>
+                            <notebook>
+                                <page string="Recibos">
+                                    <!-- Campo de relación para los recibos, solo lectura -->
+                                    <field name="recibo_ids" readonly="1" widget="many2many">
+                                        <tree decoration-danger="dias_en_borrador > 0" string="Recibos">
+                                            <field invisible="1" name="dias_en_borrador"/>
+                                            <field name="name"/>
+                                            <field name="partner_id"/>
+                                            <field name="state"/>
+                                            <field name="cobrador"/>
+                                            <field name="fecha"/>
+                                            <field name="amount" string="Importe"/>
+                                        </tree></field>
+                                </page>
+                                <page string="Usuarios">
+                                    <!-- Campo de relación para los usuarios del talonario, solo lectura fuera de estado 'en_uso' -->
+                                    <field name="usuario_talonario_ids" readonly="state != 'en_uso'">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="login"/>
+                                        </tree></field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form></field>
+        </record>
+        <record id="recibos_talonario_tree" model="ir.ui.view">
+            <field name="name">recibos.talonario.tree</field>
+            <field name="model">account.recibo.talonario</field>
+            <field name="arch" type="xml">
+                <tree string="Talonarios de Recibos">
+                    <field name="name"/>
+                    <field name="numero_actual"/>
+                    <field name="desde"/>
+                    <field name="hasta"/>
+                    <field name="state" string="Estado"/>
+                    <field name="company_id" string="Compañia"/>
+                </tree></field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,372 @@
+<odoo>
+    <template id="report_caja">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+              <t t-call="web.basic_layout">
+                  <div class="header" >
+                      <link rel="stylesheet" href="/account_cobros_py/static/src/css/header.css"/>
+                      <div class="col-8 pull-left">
+                          <img t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" width="200" height="80   "/>
+<!--                          <h3><span t-field="o.company_id.name"/> </h3>-->
+                          <!--<h5><span t-field="o.company_id.street"/> </h5>-->
+                          <!--<h6> <span t-field="o.company_id.city"/> - <span t-field="o.company_id.country_id.name"/> </h6>-->
+                      </div>
+                      <!--Fecha y paginacion de hoja-->
+                      <br>  </br>
+                      <div class="datoscompa">
+                          <p><span t-field="o.company_id.name"></span></p>
+                          <p><span t-field="o.company_id.street"></span></p>
+                          <p><span t-field="o.company_id.city"></span>-<span t-field="o.company_id.country_id.name"></span></p>
+                          <p><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></p>
+                          <p><span>Pag: </span><span class="page" /> de <span class="topage" /></p>
+                      </div>
+                  </div>
+                  <link rel="stylesheet" href="/account_cobros_py/static/src/css/caja_individual.css"/>
+                  <div class="page">
+                      <!--******************************************-->
+                      <!--***** INICIO DEL REPORTE DE COBROS *******-->
+                      <!--******************************************-->
+                      <br></br>
+                      <br></br>
+                          <div class="row">
+                             <div class="col-12">
+                                 <h6 class="text-center"><strong>Reporte de la Caja Cobranza - <span t-field="o.date"/></strong> </h6>
+                                 <h6 class="text-center"><strong>Responsable: <span t-field="o.usuario"/></strong> </h6>
+                             </div>
+                         </div>
+                         <div class="row" style="font-size:9px;">
+                             <div class="col-12">
+                                 <t t-set="cobrador_actual"/>
+                                 <t t-set="moneda_py"/>
+                                 <t t-set="moneda_usd"/>
+                                 <t t-set="subtotal_efe" t-value="0"/>
+                                 <t t-set="subtotal_efe_usd" t-value="0"/>
+                                 <t t-set="subtotal_che" t-value="0"/>
+                                 <t t-set="subtotal_che_usd" t-value="0"/>
+                                 <t t-set="subtotal_rete" t-value="0"/>
+                                 <t t-set="subtotal_rete_usd" t-value="0"/>
+                                 <t t-set="subtotal_tranfer" t-value="0"/>
+                                 <t t-set="subtotal_tranfer_usd" t-value="0"/>
+                                 <t t-set="total_efe" t-value="0"/>
+                                 <t t-set="total_efe_usd" t-value="0"/>
+                                 <t t-set="total_che" t-value="0"/>
+                                 <t t-set="total_che_usd" t-value="0"/>
+                                 <t t-set="total_rete" t-value="0"/>
+                                 <t t-set="total_rete_usd" t-value="0"/>
+                                 <t t-set="total_transfer_usd" t-value="0"/>
+                                 <t t-set="total_transfer" t-value="0"/>
+                                 <t t-set="longitud" t-value="0"/>
+                                 <t t-set="cobros" t-value="o.lista_cobros()"/>
+                                 <t t-set="cobros_usd" t-value="o.lista_cobros_usd()"/>
+                                 <br></br>
+<!--                                 <center><h2><stong>Reporte de la Caja Cobranza - <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></stong></h2></center>-->
+                                 <br></br>
+                                 <t t-if="len(cobros)>0">
+<!--                                     <h6>Cobrador: <strong><span t-field="cobros[0].recibo_id.cobrador"/> </strong></h6>-->
+                                     <t t-set="moneda_py" t-value="cobros[0].recibo_id.currency_id"/>
+                                     <h6>Moneda: <strong><span t-esc="moneda_py.name"/> </strong></h6>
+                                 </t>
+<!--                                 <t t-else="">-->
+<!--                                     <h6>Cobrador:</h6>-->
+<!--                                 </t>-->
+                                 <t t-if="len(cobros_usd)>0">
+                                     <t t-set="moneda_usd" t-value="cobros_usd[0].recibo_id.currency_id"/>
+                                 </t>
+                                 <t t-if="len(cobros)>0">
+                                     <table class="sin-borde" >
+                                         <thead class="con-bordes">
+                                             <tr class="active">
+                                                 <th>Fecha de Recibo</th>
+                                                 <th>Cliente</th>
+                                                 <th>Nro. Recibo</th>
+                                                 <th>Pago Efe</th>
+                                                 <th>Tranf.</th>
+                                                 <th>Pago Ch</th>
+                                                 <th>Ret</th>
+                                                 <th>Banco</th>
+                                                 <th>N° Cheque</th>
+                                                 <th>Fecha Venc.</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             <t t-foreach="cobros" t-as="c">
+
+                                                 <tr class="con-bordes">
+                                                     <t t-set="longitud" t-value="longitud+1"/>
+                                                     <td><span t-field="c.recibo_id.fecha"/> </td>
+                                                     <td><span t-field="c.partner_id"/> </td>
+                                                     <td><span t-field="c.recibo_id.name"/></td>
+                                                     <t t-if="c.journal_id.payment_subtype == 'third_check'">
+                                                         <td>0</td>
+                                                         <td>0</td>
+                                                         <td><span t-esc="o.agregar_punto_de_miles(c.monto_cheque_recibo,moneda_py)"/></td>
+                                                         <td>0</td>
+                                                         <td><span t-field="c.banco_cheque_recibo"/></td>
+                                                         <td><span t-field="c.numero_cheque_recibo"/></td>
+                                                         <td><span t-field="c.payment_date"/></td>
+                                                         <t t-set="subtotal_che" t-value="subtotal_che + c.monto_cheque_recibo"/>
+                                                         <t t-set="total_che" t-value="total_che + c.monto_cheque_recibo"/>
+                                                     </t>
+                                                    <t t-elif="c.journal_id.tipo_reporte == 'efectivo'">
+                                                        <td><span t-esc="o.agregar_punto_de_miles(c.amount,moneda_py)"/></td>
+                                                        <t t-set="subtotal_efe" t-value="subtotal_efe + c.amount"/>
+                                                        <t t-set="total_efe" t-value="total_efe+c.amount"/>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+
+                                                    </t>
+                                                     <t t-elif="c.journal_id.tipo_reporte == 'transferencia'">
+                                                        <td>0</td>
+                                                        <td><span t-esc="o.agregar_punto_de_miles(c.amount,moneda_py)"/></td>
+                                                        <t t-set="subtotal_tranfer" t-value="subtotal_tranfer + c.amount"/>
+                                                        <t t-set="total_transfer" t-value="total_transfer+c.amount"/>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td><span t-esc="c.journal_id.name"/></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </t>
+                                                    <t t-elif="c.journal_id.tipo_reporte == 'retencion'">
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <t t-set="subtotal_rete" t-value="subtotal_rete + c.amount"/>
+                                                        <t t-set="total_rete" t-value="total_rete + c.amount"/>
+                                                        <td><span t-esc="o.agregar_punto_de_miles(c.amount,moneda_py)"/></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+
+                                                    </t>
+                                                    <t t-set="cobrador_actual" t-value="c.create_uid"/>
+                                                </tr>
+
+                                             </t>
+
+                                             <tr class="con-bordes">
+
+                                                 <td><strong>Totales: </strong></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td><strong><span t-esc="o.agregar_punto_de_miles(total_efe,moneda_py)"/></strong></td>
+                                                 <td><strong><span t-esc="o.agregar_punto_de_miles(total_transfer,moneda_py)"/></strong></td>
+                                                 <td><strong><span t-esc="o.agregar_punto_de_miles(total_che,moneda_py)"/></strong></td>
+                                                 <td><strong><span t-esc="o.agregar_punto_de_miles(total_rete,moneda_py)"/></strong></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+
+                                             </tr>
+                                         </tbody>
+
+                                     </table>
+                                 </t>
+                                 <br></br>
+                                 <br></br>
+                                 <br></br>
+
+                                 <t t-if="len(cobros_usd)>0">
+                                     <h6>Moneda: <strong><span t-esc="moneda_usd.name[0:3]"/> </strong></h6>
+<!--                                 TABLA DE COBROS EN DOLARES-->
+                                     <table class="sin-borde" >
+                                         <thead class="con-bordes">
+                                             <tr class="active">
+                                                 <th>Fecha de Recibo</th>
+                                                 <th>Cliente</th>
+                                                 <th>Nro. Recibo</th>
+                                                 <th>Pago Efe</th>
+                                                 <th>Transf.</th>
+                                                 <th>Pago Ch</th>
+                                                 <th>Ret</th>
+                                                 <th>Banco</th>
+                                                 <th>N° Cheque</th>
+                                                 <th>Fecha Venc.</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             <t t-foreach="cobros_usd" t-as="c">
+
+                                                 <tr class="con-bordes">
+                                                     <t t-set="longitud" t-value="longitud+1"/>
+                                                     <td><span t-field="c.recibo_id.fecha"/> </td>
+                                                     <td><span t-field="c.partner_id"/> </td>
+                                                     <td><span t-field="c.recibo_id.name"/></td>
+                                                     <t t-if="c.journal_id.payment_subtype == 'third_check'">
+                                                         <td>0</td>
+                                                         <td>0</td>
+                                                         <td><span t-esc="o.agregar_punto_de_miles(c.monto_cheque_recibo,moneda_usd)"/></td>
+                                                         <td>0</td>
+                                                         <td><span t-field="c.banco_cheque_recibo"/></td>
+                                                         <td><span t-field="c.numero_cheque_recibo"/></td>
+                                                         <td><span t-field="c.payment_date"/></td>
+                                                         <t t-set="subtotal_che_usd" t-value="subtotal_che_usd + c.monto_cheque_recibo"/>
+                                                         <t t-set="total_che_usd" t-value="total_che_usd + c.monto_cheque_recibo"/>
+                                                     </t>
+                                                    <t t-elif="c.journal_id.tipo_reporte == 'efectivo'">
+                                                        <td><span t-esc="o.agregar_punto_de_miles(c.amount,moneda_usd)"/></td>
+                                                        <t t-set="subtotal_efe_usd" t-value="subtotal_efe_usd + c.amount"/>
+                                                        <t t-set="total_efe_usd" t-value="total_efe_usd+c.amount"/>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+
+                                                    </t>
+                                                    <t t-elif="c.journal_id.tipo_reporte == 'transferencia'">
+                                                        <td>0</td>
+                                                        <td><span t-esc="o.agregar_punto_de_miles(c.amount,moneda_usd)"/></td>
+                                                        <t t-set="subtotal_tranfer_usd" t-value="subtotal_tranfer_usd + c.amount"/>
+                                                        <t t-set="total_transfer_usd" t-value="total_transfer_usd+c.amount"/>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td><span t-esc="c.journal_id.name"/></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </t>
+                                                    <t t-elif="c.journal_id.tipo_reporte == 'retencion'">
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <t t-set="subtotal_rete_usd" t-value="subtotal_rete_usd + c.amount"/>
+                                                        <t t-set="total_rete_usd" t-value="total_rete_usd + c.amount"/>
+                                                        <td><span t-esc="o.agregar_punto_de_miles(c.amount,moneda_usd)"/></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </t>
+                                                    <t t-set="cobrador_actual" t-value="c.create_uid"/>
+                                                </tr>
+
+                                             </t>
+
+                                             <tr class="con-bordes">
+
+                                                 <td><strong>Totales: </strong></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td><strong><span t-esc="o.agregar_punto_de_miles(total_efe_usd,moneda_usd)"/></strong></td>
+                                                 <td><strong><span t-esc="o.agregar_punto_de_miles(total_transfer_usd,moneda_usd)"/></strong></td>
+                                                 <td><strong><span t-esc="o.agregar_punto_de_miles(total_che_usd,moneda_usd)"/></strong></td>
+                                                 <td><strong><span t-esc="o.agregar_punto_de_miles(total_rete_usd,moneda_usd)"/></strong></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+
+
+                                             </tr>
+
+                                         </tbody>
+
+                                     </table>
+                                 </t>
+<!--                                 TOTALES-->
+                                 <div style="page-break-before: always;">
+                                     <t t-if="len(cobros)>0 or len(cobros_usd)>0">
+                                         <br/><br/><br/>
+                                         <div class="row">
+                                         <div class="col-12">
+                                             <h6 class="text-center"><strong>Reporte de la Caja Cobranza - <span t-field="o.date"/></strong> </h6>
+                                             <h6 class="text-center"><strong>Responsable: <span t-field="o.usuario"/></strong> </h6>
+                                         </div>
+                                    </div>
+                                     </t>
+                                     <br/><br/><br/>
+                                <t t-if="len(cobros)>0">
+                                    <table class='totales'>
+                                        <tr>
+                                              <td id="tituloizquierda">Total Cheques GS</td>
+                                              <td><span t-esc="o.agregar_punto_de_miles(total_che,moneda_py)"/> </td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <td id="tituloizquierda">Total Efectivo GS</td>
+                                              <td><span t-esc="o.agregar_punto_de_miles(total_efe,moneda_py)"/> </td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <td id="tituloizquierda">Total Transferencia GS</td>
+                                              <td><span t-esc="o.agregar_punto_de_miles(total_transfer,moneda_py)"/> </td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <th>Subtotal GS</th>
+                                              <td><strong><span t-esc="o.agregar_punto_de_miles(total_efe+total_che+total_transfer,moneda_py)"/></strong></td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <td id="tituloizquierda">Total Retenciones GS</td>
+                                              <td><span t-esc="o.agregar_punto_de_miles(total_rete,moneda_py)"/> </td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <th>Total GS</th>
+                                              <td><strong> <span t-esc="o.agregar_punto_de_miles(total_efe+total_rete+total_che+total_transfer,moneda_py)"/></strong></td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                    </table>
+
+                                </t>
+                                 <t t-if="len(cobros_usd)>0">
+                                    <table class='totales2'>
+                                        <tr>
+                                              <td id="tituloizquierda">Total Cheques USD</td>
+                                              <td><span t-esc="o.agregar_punto_de_miles(total_che_usd,moneda_usd)"/> </td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <td id="tituloizquierda">Total Efectivo USD</td>
+                                              <td><span t-esc="o.agregar_punto_de_miles(total_efe_usd,moneda_usd)"/> </td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <td id="tituloizquierda">Total Transferencia USD</td>
+                                              <td><span t-esc="o.agregar_punto_de_miles(total_transfer_usd,moneda_usd)"/> </td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <th>Subtotal USD</th>
+                                              <td><strong><span t-esc="o.agregar_punto_de_miles(total_efe_usd+total_che_usd+total_transfer_usd,moneda_usd)"/></strong></td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <td id="tituloizquierda">Total Retenciones USD</td>
+                                              <td><span t-esc="o.agregar_punto_de_miles(total_rete_usd,moneda_usd)"/> </td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                        <tr>
+                                              <th>Total USD</th>
+                                              <td><strong> <span t-esc="o.agregar_punto_de_miles(total_efe_usd+total_rete_usd+total_che_usd+total_transfer_usd,moneda_usd)"/></strong></td>
+                                              <td id='vacio'></td>
+                                        </tr>
+                                    </table>
+
+                                </t>
+                                 <table class='firmas'>
+                                      <tr>
+                                            <td></td>
+                                            <td></td>
+                                      </tr>
+                                      <tr>
+                                            <td id="sborde"><strong>Realizado por</strong></td>
+                                            <td id="sborde"><strong>Controlado por</strong></td>
+                                      </tr>
+                                    </table>
+                                 </div>
+                                 <br></br>
+                                 <br></br>
+                             </div>
+                         </div>
+
+                  </div>
+              </t>
+          </t>
+       </t>
+
+    </template>
+</odoo>

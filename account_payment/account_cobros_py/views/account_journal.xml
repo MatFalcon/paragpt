@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <!-- Herencia de vista de diario para especificar diarios que podran aparecer en los recibos -->
+        <record id="view_account_journal_recibo_inh" model="ir.ui.view">
+            <field name="name">view.account_journale.inh</field>
+            <field name="model">account.journal</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="after">
+                    <field name="recibo_diario"/>
+            </xpath>
+            <xpath expr="//field[@name='recibo_diario']" position="after">
+                    <field name="tipo_reporte" string="Tipo para Reporte" invisible="recibo_diario == False" help="Especficiar en que columna saldra en el reporte de cobranza"/>
+            </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

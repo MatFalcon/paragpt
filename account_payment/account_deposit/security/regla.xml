@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+            <!--REGLA DEPOSITO EN CUENTA-->
+        <record id="regla_deposito_cuenta" model="ir.rule">
+            <field name="name">mis depositos en cuenta</field>
+            <field name="model_id" ref="model_depositos_cheques"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">
+               ['|',('company_id','=',False),('company_id', 'in', company_ids)]
+            </field>
+        </record>
+</odoo>

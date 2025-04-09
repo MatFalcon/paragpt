@@ -1,0 +1,277 @@
+#primer_cuadro
+{
+    position: absolute;
+    top:0.10cm;
+    border:1px solid black;
+    width: 800px;
+    height: 700px;
+    /*margin-left: 0.5cm;*/
+}
+#contenedor_imagen{
+
+}
+#imagen_iso{
+    margin-left: 3.90cm;
+    position: absolute;
+    top: 0.5cm;
+   width: 200px;
+  height: 20px;
+
+}
+#pl
+{
+    text-align: center;
+    font-size: 8px;
+    /*font-weight:900;*/
+}
+#Almacenamiento{
+    position: absolute;
+    top:0.25cm;
+    font-size: 8px;
+    margin-left: 3.20cm;
+    /*font-weight:900;*/
+
+}
+#Importador{
+    position: absolute;
+    top:0.45cm;
+    font-size: 8px;
+    /*text-align: center;*/
+    margin-left: 4.80cm;
+
+
+}
+#Servicios{
+        /*border:1px solid black;*/
+    position: absolute;
+    top:0.65cm;
+    font-size: 8px;
+    margin-left: 4.35cm;
+        width: 250px;
+
+
+}
+#Matriz{
+    /*border:1px solid black;*/
+    position: absolute;
+    top:0.85cm;
+    font-size: 8px;
+    margin-left: 3.85cm;
+    width: 250px;
+
+}
+#Asunción{
+
+    /*border:1px solid black;*/
+    position: absolute;
+    top:1.10cm;
+    font-size: 8px;
+    margin-left: 5.50cm;
+}
+#Sucursal{
+    font-size: 8px;
+    margin-left: 0.90cm;
+    /*border:1px solid black;*/
+    position: absolute;
+    top:1.30cm;
+    width: 400px;
+
+}
+#Ciudad
+{
+    margin-left: 5.10cm;
+    position: absolute;
+    top:1.55cm;
+    font-size: 8px;
+    text-align: center;
+
+}
+#tel{
+    margin-left: 5.10cm;
+    position: absolute;
+    top:1.75cm;
+    font-size: 8px;
+    text-align: center;
+
+}
+#cabecera_izq{
+    position: absolute;
+    top:1.60cm;
+    /*line-height: 0.3px;*/
+    height: 150px;
+    width: 500px;
+    /*border: 1px solid red ;*/
+}
+
+#ruc{
+    font-weight:900;
+    font-size: 20px;
+}
+#recibo{
+    position: absolute;
+    top: 1cm;
+    font-weight:900;
+    font-size: 20px;
+}
+#gs{
+    position: absolute;
+    top: 1.50cm;
+    font-weight:900;
+    font-size: 20px;
+}
+#nro{
+    position: absolute;
+    top: 2cm;
+    font-weight:900;
+    font-size: 20px;
+}
+#original{
+    position: absolute;
+    top: 2.50cm;
+    font-weight:900;
+    font-size: 20px;
+
+}
+#puntos{
+    margin-left: 7cm;
+}
+#fecha
+{
+        /*border: 1px solid black;*/
+    position: absolute;
+    top:17cm;
+    margin-left: 3.80cm;
+}
+#fir
+{
+    /*border: 1px solid black;*/
+    margin-left: 10cm;
+    font-weight:900;
+}
+#canti{
+    background-color: lightgray;
+
+}
+#fecha1
+{
+        /*border: 1px solid black;*/
+
+    font-weight:900;
+    position: absolute;
+    top:17.50cm;
+    margin-left: 4.20cm;
+}
+#concepto
+{
+    /*border:1px solid red;*/
+    position: absolute;
+    top:6cm;
+    width: 797px;
+    margin-left: 0.10cm;
+}
+#nro_factura{
+    position: absolute;
+    top: 6cm;
+    margin-left: 7.50cm;
+    font-size: 15px;
+}
+#monto_letra{
+    position: absolute;
+    top:-0.05cm;
+    width: 678px;
+    /*border:1px solid grey;*/
+    background-color: lightgray;
+    /*margin-left: 1cm;*/
+}
+#cantidad{
+    /*color: red;*/
+    position: absolute;
+    top:5cm;
+    width: 600px;
+    margin-left: 0.10cm;
+}
+#recibimos{
+    /*border:1px solid red;*/
+    position: absolute;
+    top:4cm;
+    width: 20cm;
+    margin-left: 0.10cm;
+}
+#cabecera_der{
+    /*border:1px solid red;*/
+    height: 250px;
+    width: 250px;
+    margin-left: 12cm;
+
+}
+#segundo_cuadro
+{
+    top:18.80cm;
+    position: absolute;
+    border:1px solid black;
+    width: 800px;
+    height: 700px;
+    /*margin-left: 0.5cm;*/
+
+
+}
+#monto{
+    text-align: center;
+    /*border:1px solid black;*/
+    width: 4cm;
+}
+#fp{
+    text-align: center;
+    /*border:1px solid black;*/
+    width: 4cm;
+}
+#detalle
+{
+    text-align: center;
+    border-right:1px solid black;
+    width: 4cm;
+}
+#importe{
+    text-align: center;
+    border-right:1px solid black;
+    width: 4cm;
+}
+#tercer_cuadro
+{
+
+    top:24.30cm;
+    position: absolute;
+    /*border:1px solid black;*/
+    width: 800px;
+    height: 450px;
+    /*margin-left: 0.5cm;*/
+
+
+}
+.tabla_monto
+{
+    border:1px solid black;
+    margin-left: 0.5cm;
+}
+.tabla_descripcion{
+    position: absolute;
+    top:7.10cm;
+    /*border:1px solid black;*/
+    margin-left: 12cm;
+
+}
+#monto_valor{
+    /*border-left: 1px solid black;*/
+    text-align: center;
+}
+
+#detalles{
+    text-align: center;
+    border: 1px solid black;
+}
+
+#importes
+{
+    text-align: center;
+    border: 1px solid black;
+}

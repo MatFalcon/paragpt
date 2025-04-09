@@ -1,0 +1,76 @@
+<odoo>
+    <data>
+
+        <!-- Vista de formulario para la acción de cheque -->
+        <record model="ir.ui.view" id="check_action_form_view">
+            <field name="name">account.check.action.wizard.form</field>
+            <field name="model">account.check.action</field>
+            <field name="arch" type="xml">
+                <form string="Check Action">
+                    <field name="action_type" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <p invisible="action_type != 'conciliar'">Los cheques serán conciliados, ¿está seguro?</p>
+                    <group>
+                        <field name="date" invisible="action_type == 'conciliar'"/>
+                    </group>
+                    <footer>
+                        <button string="Confirmar" name="action_confirm" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de formulario para la acción de cheques de terceros -->
+        <record model="ir.ui.view" id="check_third_action_form_view">
+            <field name="name">account.check.third.action.wizard.form</field>
+            <field name="model">account.check.third.action</field>
+            <field name="arch" type="xml">
+                <form string="Check Third Action">
+                    <field name="action_type" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <group>
+                        <field name="date"/>
+                        <field name="journal_id" invisible="action_type != 'deposit'" required="action_type == 'deposit'"/>
+                        <field name="account_id" invisible="action_type != 'deposit'" required="action_type == 'deposit'"/>
+                    </group>
+                    <p>El cheque será acreditado en cuenta, ¿está seguro?</p>
+                    <footer>
+                        <button string="Confirmar" name="action_confirm" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para debitar cheques -->
+        <record id="action_check_debit" model="ir.actions.act_window">
+            <field name="name">Check Debit</field>
+            <field name="res_model">account.check.action</field>
+            <field name="target">new</field>
+            <field name="context">{'default_action_type': 'debit'}</field>
+            <field name="view_id" ref="check_action_form_view"/>
+        </record>
+
+        <!-- Acción para acreditar cheques de terceros -->
+        <record id="action_check_credit" model="ir.actions.act_window">
+            <field name="name">Check Credit</field>
+            <field name="res_model">account.check.third.action</field>
+            <field name="target">new</field>
+            <field name="context">{'default_action_type': 'deposit'}</field>
+            <field name="view_id" ref="check_third_action_form_view"/>
+        </record>
+
+        <!-- Acción para conciliar cheques -->
+        <record id="action_check_conciliar" model="ir.actions.act_window">
+            <field name="name">Conciliar cheques</field>
+            <field name="res_model">account.check.action</field>
+            <field name="target">new</field>
+            <field name="context">{'default_action_type': 'conciliar'}</field>
+            <field name="view_id" ref="check_action_form_view"/>
+        </record>
+
+    </data>
+</odoo>

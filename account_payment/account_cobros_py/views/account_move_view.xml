@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="vista_facturas_recibos_recibos">
+        <field name="name">Facturas</field>
+        <field name="model">account.move</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Facturas" >
+               <field name="partner_id" string="Cliente" />
+                <field name="nro_factura"/>
+                <field name="invoice_date"/>
+                <field name="invoice_date_due"/>
+                <field name="amount_total_signed" string="Total" />
+                <field name="no_ver_factura_recibo" invisible="1"/>
+                <field name="state" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="move_type" invisible="0"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="account_move_line_inherit_cobros_view" model="ir.ui.view">
+                <field name="name">account.move.line.form.recibo</field>
+                <field name="model">account.move.line</field>
+                <field name="inherit_id" ref="account.view_move_line_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='move_id']" position="after">
+                        <field name="recibo_id" invisible="recibo_id == False"/>
+                    </xpath>
+                </field>
+        </record>
+
+<!--       <record id="view_move_form_inherited_recibos" model="ir.ui.view">-->
+<!--            <field name="name">account.move.form.recibos.vinculados</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="inherit_id" ref="account.view_move_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//page[@name='other_info']" position="inside">-->
+<!--                    <group string="Recibos Vinculados">-->
+<!--                        <field name="recibos_vinculados_ids"-->
+<!--                               widget="one2many_list"-->
+<!--                               string="Recibos Vinculados"-->
+<!--                               context="{'default_factura_id': active_id}" />-->
+<!--                    </group>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+        <record id="view_move_form_inherited_recibos_statusbar" model="ir.ui.view">
+            <field name="name">account.move.form.recibos.vinculados.statusbar</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <!-- Agregar contador junto a las Órdenes de Venta -->
+                <xpath expr="//button[@name='action_view_source_sale_orders']" position="after">
+                    <button name="action_open_recibos_vinculados"
+                            type="object"
+                            string="Recibos Vinculados"
+                            icon="fa-file"
+                            class="oe_stat_button">
+                        <field name="recibos_vinculados_count" widget="statinfo" />
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

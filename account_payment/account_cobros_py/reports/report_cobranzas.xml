@@ -1,0 +1,363 @@
+<odoo>
+    <template id="report_cobranzas">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="header">
+                        <link rel="stylesheet" href="/account_cobros_py/static/src/css/planilla-de-cobros.css"/>
+                      <div class="col-8 pull-left">
+                            <img t-att-src="image_data_uri(o.company_id.logo)" width="200" height="80"/>
+<!--                          <h3><span t-field="o.company_id.name"/> </h3>-->
+                          <!--<h5><span t-field="o.company_id.street"/> </h5>-->
+                          <!--<h6> <span t-field="o.company_id.city"/> - <span t-field="o.company_id.country_id.name"/> </h6>-->
+                      </div>
+                      <!--Fecha y paginacion de hoja-->
+                      <br>  </br>
+                      <div class="datoscompa">
+                          <p><span t-field="o.company_id.name"></span></p>
+                          <p><span t-field="o.company_id.street"></span></p>
+                          <p><span t-field="o.company_id.city"></span>-<span t-field="o.company_id.country_id.name"></span></p>
+                          <p><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></p>
+                          <p><span>Pag: </span><span class="page" /> de <span class="topage" /></p>
+                      </div>
+                    </div>
+
+                    <link rel="stylesheet" href="/account_cobros_py/static/src/css/planilla-de-cobros.css"/>
+                    <div class="page">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="text-center">PLANILLA DE COBROS</h4>
+                            </div>
+                        </div>
+                        <h6 class="text-center"><strong><u>Filtros Establecidos</u></strong></h6>
+                        <div class="row">
+
+                            <div class="col-6">
+                                <t t-if="o.desde">
+                                    <h6 class="subrayado negrita">Fecha Inicio: <span t-field="o.desde"  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/> </h6>
+                                </t>
+                                <t t-if="o.hasta">
+                                    <h6 class="subrayado negrita">Fecha Fin: <span t-field="o.hasta"  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/></h6>
+                                </t>
+
+                            </div>
+                            <div class="col-6">
+
+                                <t t-if="o.cobrador">
+                                    <h6 class="subrayado negrita">Cobrador: <span t-esc="o.cobrador.name"/></h6>
+                                </t>
+
+                                <t t-if="o.talonario_id">
+                                    <h6 class="subrayado negrita">Talonario: <span t-esc="o.talonario_id.name"/></h6>
+                                </t>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-12">
+                                <t t-if="len(dic_agrupados) &gt; 0">
+                                    <h6 class="text-center">Moneda PYG</h6>
+                                    <table class="tabla-dinamica">
+                                        <thead>
+                                            <th>Cliente</th>
+                                            <th>Fecha</th>
+                                            <th>Recibo</th>
+                                            <t t-foreach="lista_tipo" t-as="tipo">
+                                                <th><span t-esc="tipo"/></th>
+                                            </t>
+                                            <th>Total</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <t t-foreach="dic_agrupados" t-as="dic">
+                                                <t t-if="o.agrupar == 'cobrador'">
+                                                    <tr class="negrita mayuscula gris">
+                                                        <td colspan="3"> Cobrador: <span class="mayuscula"
+                                                                                         t-esc="dic[0]"/></td>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="o.agrupar == 'talonario_id'">
+                                                    <tr class="negrita mayuscula gris">
+                                                        <td colspan="3"> Timbrado: <span class="mayuscula"
+                                                                                         t-esc="dic[0]"/></td>
+                                                    </tr>
+                                                </t>
+                                                <t t-foreach="dic[1][0]" t-as="rec" class="lineas-colores">
+                                                    <t t-if="o.detalle_factura">
+                                                        <tr class="recibo-detalle">
+                                                            <td><span t-esc="rec[0].partner_id.name"/></td>
+                                                            <td><span t-field="rec[0].fecha"/></td>
+                                                            <td><span t-esc="rec[0].name"/></td>
+                                                            <t t-set="total" t-value="0"/>
+                                                            <t t-foreach="rec[1]" t-as="l">
+                                                                <td><span t-esc="o.agregar_punto_de_miles(l,'PYG')"/></td>
+                                                                <t t-set="total" t-value="total+l"/>
+                                                            </t>
+                                                            <td><span t-esc="o.agregar_punto_de_miles(total,'PYG')"/></td>
+                                                            <tr>
+                                                                <td colspan="2">Detalles de Facturas</td>
+                                                                <td>Monto</td>
+                                                                <t t-foreach="lista_tipo" t-as="c2">
+                                                                    <td></td>
+                                                                </t>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr t-foreach="rec[0].pagos_facturas_ids" t-as="linea">
+                                                                <td colspan="2"><span
+                                                                        t-field="linea.invoice_id.nro_factura"/></td>
+                                                                <td><span
+                                                                        t-esc="o.agregar_punto_de_miles(linea.monto,'PYG')"/></td>
+                                                                <t t-foreach="lista_tipo" t-as="c2">
+                                                                    <td></td>
+                                                                </t>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tr>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <tr class="recibo">
+                                                            <td><span t-esc="rec[0].partner_id.name"/></td>
+                                                            <td><span t-field="rec[0].fecha"/></td>
+                                                            <td><span t-esc="rec[0].name"/></td>
+                                                            <t t-set="total" t-value="0"/>
+                                                            <t t-foreach="rec[1]" t-as="l">
+                                                                <td><span t-esc="o.agregar_punto_de_miles(l,'PYG')"/></td>
+                                                                <t t-set="total" t-value="total+l"/>
+                                                            </t>
+                                                            <td><span t-esc="o.agregar_punto_de_miles(total,'PYG')"/></td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <t t-if="o.agrupar">
+                                                    <tr class="negrita mayuscula verde">
+                                                        <td colspan="3">Sub-Total </td>
+                                                        <t t-set="suma1" t-value="0"/>
+                                                        <t t-foreach="dic[1][1]" t-as="rec">
+                                                            <td><span t-esc="o.agregar_punto_de_miles(rec,'PYG')"/></td>
+                                                            <t t-set="suma1" t-value="suma1+rec"/>
+                                                        </t>
+                                                        <td><span t-esc="o.agregar_punto_de_miles(suma1,'PYG')"/> </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+
+                                            <tr class="negrita mayuscula gris">
+                                                <td colspan="3">Total cobranza</td>
+                                                <t t-set="suma1" t-value="0"/>
+                                                <t t-foreach="lista_total_tipo" t-as="lis">
+                                                    <td><span t-esc="o.agregar_punto_de_miles(lis,'PYG')"/></td>
+                                                    <t t-set="suma1" t-value="suma1+lis"/>
+                                                </t>
+                                                <td><span t-esc="o.agregar_punto_de_miles(suma1,'PYG')"/> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                                    <br/>
+                                </t>
+                                <t t-if="len(lista_total_tipo_dls) &gt; 1">
+                                    <h6 class="text-center">Moneda USD</h6>
+                                    <table class="tabla-dinamica">
+                                        <thead>
+                                            <th>Cliente</th>
+                                            <th>Fecha</th>
+                                            <th>Recibo</th>
+                                            <!-- <t t-set="col-2" t-value="len(lista_tipo_dls)"/> -->
+                                            <t t-foreach="lista_tipo_dls" t-as="tipo">
+                                                <th><span t-esc="tipo"/></th>
+                                            </t>
+                                            <th>Total</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <t t-foreach="dic_agrupados_dls" t-as="dic">
+                                                <t t-if="o.agrupar == 'cobrador'">
+                                                    <tr class="negrita mayuscula gris">
+                                                        <td colspan="3"> Cobrador: <span class="mayuscula"
+                                                                                         t-esc="dic[0]"/></td>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="o.agrupar == 'talonario_id'">
+                                                    <tr class="negrita mayuscula gris">
+                                                        <td colspan="3"> Timbrado: <span class="mayuscula"
+                                                                                         t-esc="dic[0]"/></td>
+                                                    </tr>
+                                                </t>
+                                                <t t-foreach="dic[1][0]" t-as="rec" class="lineas-colores">
+                                                    <t t-if="o.detalle_factura">
+                                                        <tr class="recibo-detalle">
+                                                            <td><span t-esc="rec[0].partner_id.name"/></td>
+                                                            <td><span t-esc="rec[0].fecha"/></td>
+                                                            <td><span t-esc="rec[0].name"/></td>
+                                                            <t t-set="total" t-value="0"/>
+                                                            <t t-foreach="rec[1]" t-as="l">
+                                                                <td><span t-esc="o.agregar_punto_de_miles(l,'USD')"/></td>
+                                                                <t t-set="total" t-value="total+l"/>
+                                                            </t>
+                                                            <td><span t-esc="o.agregar_punto_de_miles(total,'USD')"/></td>
+                                                            <tr>
+                                                                <td colspan="2">Detalles de Facturas</td>
+                                                                <td>Monto</td>
+                                                                <t t-foreach="lista_tipo_dls" t-as="c2">
+                                                                    <td></td>
+                                                                </t>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr t-foreach="rec[0].pagos_facturas_ids" t-as="linea">
+                                                                <td colspan="2"><span
+                                                                        t-field="linea.invoice_id.nro_factura"/></td>
+                                                                <td><span
+                                                                        t-esc="o.agregar_punto_de_miles(linea.monto,'USD')"/></td>
+                                                                <t t-foreach="lista_tipo_dls" t-as="c2">
+                                                                    <td></td>
+                                                                </t>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tr>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <tr class="recibo">
+                                                            <td><span t-esc="rec[0].partner_id.name"/></td>
+                                                            <td><span t-esc="rec[0].fecha"/></td>
+                                                            <td><span t-esc="rec[0].name"/></td>
+                                                            <t t-set="total" t-value="0"/>
+                                                            <t t-foreach="rec[1]" t-as="l">
+                                                                <td><span t-esc="o.agregar_punto_de_miles(l,'USD')"/></td>
+                                                                <t t-set="total" t-value="total+l"/>
+                                                            </t>
+                                                            <td><span t-esc="o.agregar_punto_de_miles(total,'USD')"/></td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <t t-if="o.agrupar">
+                                                    <tr class="negrita mayuscula verde">
+                                                        <td colspan="3">Sub-Total </td>
+                                                        <t t-set="suma1" t-value="0"/>
+                                                        <t t-foreach="dic[1][1]" t-as="rec">
+                                                            <td><span t-esc="o.agregar_punto_de_miles(rec,'USD')"/></td>
+                                                            <t t-set="suma1" t-value="suma1+rec"/>
+                                                        </t>
+                                                        <td><span t-esc="o.agregar_punto_de_miles(suma1,'USD')"/> </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+
+                                            <tr class="negrita mayuscula gris">
+                                                <td colspan="3">Total cobranza</td>
+                                                <t t-set="suma1" t-value="0"/>
+                                                <t t-foreach="lista_total_tipo_dls" t-as="lis">
+                                                    <td><span t-esc="o.agregar_punto_de_miles(lis,'USD')"/></td>
+                                                    <t t-set="suma1" t-value="suma1+lis"/>
+                                                </t>
+                                                <td><span t-esc="o.agregar_punto_de_miles(suma1,'USD')"/> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </t>
+                            </div>
+                        </div>
+                        <br/><br/><br/>
+                        <div class="row">
+
+                            <div class="col-6 ">
+                                <t t-if="len(dic_diario) &gt; 0">
+                                    <table class="diario">
+                                        <thead>
+                                            <tr>
+                                                <th>Diarios en Guaranies</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="total_diario" t-value="0"/>
+                                            <tr t-foreach="dic_diario" t-as="diario">
+                                                <td><span t-esc="diario[0].name"/></td>
+                                                <td><span t-esc="o.agregar_punto_de_miles(diario[1],'PYG')"/></td>
+                                                <t t-set="total_diario" t-value="total_diario+diario[1]"/>
+                                            </tr>
+                                            <tr>
+                                                <td>Total</td>
+                                                <td><span t-esc="o.agregar_punto_de_miles(total_diario,'PYG')"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            </div>
+                            <div class="col-6 ">
+                                <t t-if="len(dic_diario_dls) &gt; 0">
+                                    <table class="diario">
+                                        <thead>
+                                            <tr>
+                                                <th>Diarios en Dolares</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="total_diario" t-value="0"/>
+                                            <tr t-foreach="dic_diario_dls" t-as="diario">
+                                                <td><span t-esc="diario[0].name"/></td>
+                                                <td><span t-esc="o.agregar_punto_de_miles(diario[1],'USD')"/></td>
+                                                <t t-set="total_diario" t-value="total_diario+diario[1]"/>
+                                            </tr>
+                                            <tr>
+                                                <td>Total</td>
+                                                <td><span
+                                                        t-esc="o.agregar_punto_de_miles(total_diario,'USD')"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </t>
+
+                            </div>
+
+
+                        </div>
+                        <br/><br/><br/>
+                        <div class="firma">
+                        <div class="row">
+                            <div class="col-6">
+                                <span >_________________________</span>
+                            </div>
+                            <div class="col-6">
+                                <span >_________________________</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span >Realizado por</span>
+                            </div>
+                            <div class="col-6">
+                                <span >Controlado por</span>
+                            </div>
+                        </div>
+                        </div>
+
+
+
+                    </div>
+<!--                    <div class="footer">-->
+<!--                        <div class="text-center footer-2" style="border-top: 1px solid black;">-->
+<!--                        <div class="row footer-2">-->
+
+<!--                                <div class="col-4">-->
+<!--                                    <span t-field="o.company_id.phone"/>-->
+<!--                                </div>-->
+<!--                                <div class="col-4">-->
+<!--                                <span t-field="o.company_id.email"/>-->
+<!--                                </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                    <span t-field="o.company_id.website"/>-->
+<!--                            </div>-->
+
+<!--                                </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </t>
+            </t>
+        </t>
+
+    </template>
+</odoo>

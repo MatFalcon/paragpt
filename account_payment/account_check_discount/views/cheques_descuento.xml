@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de árbol para Descuento de Cheques -->
+        <record model="ir.ui.view" id="descuento_cheque_tree_view">
+            <field name="name">descuento.cheque.tree</field>
+            <field name="model">descuento.cheques</field>
+            <field name="arch" type="xml">
+                <tree string="Descuentos">
+                    <field name="name"/>
+                    <field name="cuenta"/>
+                    <field name="fecha"/>
+                    <field name="monto_a_depositar" string="Total Cheques"/>
+                    <field name="total_depositado"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista de formulario para Descuento de Cheques -->
+        <record model="ir.ui.view" id="cheques_discount_form_view">
+            <field name="name">cheques.desc.form</field>
+            <field name="model">descuento.cheques</field>
+            <field name="arch" type="xml">
+                <form string="Descuento de Cheques">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="borrador,enviado,confirmado,anulado"/>
+                        <button name="confirmar" type="object" string="Confirmar Descuento" class="oe_highlight"/>
+                        <button name="enviar" type="object" string="Enviar Descuento"/>
+                        <button name="anular" type="object" string="Anular"/>
+                        <button name="pasar_borrador" type="object" string="Pasar a Borrador"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="fecha"/>
+                                <field name="cuenta" domain="[('type','in',('bank','cash'))]" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                                <field name="currency_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                                <label for="monto_a_depositar"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="monto_a_depositar"/>
+                                </div>
+                                <field name="total_depositado" readonly="1" invisible="1"/>
+                                <field name="diario_provision_intereses" readonly="1" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="asiento_contable_envio" readonly="1" invisible="1"/>
+                                <field name="asiento_contable" readonly="1" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Cheques">
+                                <field name="cheques" widget="many2many" domain="[('state','=','handed'),('currency_id','=',currency_id)]" string="Cheques a descontar">
+                                    <tree>
+                                        <field name="number" string="Número"/>
+                                        <field name="bank_id" string="Banco"/>
+                                        <field name="issue_date" string="Fecha de Emisión"/>
+                                        <field name="payment_date" string="Fecha de Pago"/>
+                                        <field name="amount" sum="Monto" string="Monto"/>
+                                        <field name="state" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de búsqueda -->
+        <record model="ir.ui.view" id="descuento_bol_search_view">
+            <field name="name">descuento.bol.search</field>
+            <field name="model">descuento.cheques</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="cuenta"/>
+                    <field name="cheques" string="Nro. de Cheque" filter_domain="[('cheques.number','ilike',self)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Acción de ventana -->
+        <record model="ir.actions.act_window" id="action_descuento_cheques">
+            <field name="name">Descuento de Cheques</field>
+            <field name="res_model">descuento.cheques</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Crear Descuento de Cheque</p>
+            </field>
+        </record>
+
+        <!-- Elementos de menú -->
+        <menuitem action="action_descuento_cheques" id="menu_action_descuento_cheques" parent="account.menu_finance_entries"/>
+
+        <!-- Herencia de vistas -->
+        <record id="view_py_check_reject_disc" model="ir.ui.view">
+            <field name="name">py.check.third.disc</field>
+            <field name="model">account.check.third</field>
+            <field name="inherit_id" ref="account_check.view_account_check_third_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='deposit_account_move_id']" position="after">
+                    <field name="asiento_descuento" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_py_company_disc" model="ir.ui.view">
+            <field name="name">py.company.disc</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="cuenta_cheques_descontados"/>
+                    <field name="cuenta_avales_otorgados"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

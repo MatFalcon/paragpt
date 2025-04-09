@@ -1,0 +1,760 @@
+ /*###################PRIMERA SECCION##################*/
+ .container01{
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 10px;
+    height: 20cm;
+    /*width: 17.10cm;*/
+    width: 25.85cm;
+}
+#logo{
+    position: absolute;
+    margin-left:20px;
+    text-align: center;
+    padding:0;
+}
+
+#imagen{
+    max-height: 37%;
+    /*margin-top:1cm*/
+}
+
+.info-empresa{
+    position:absolute;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width: 10cm;
+    height: 5cm;
+    text-align: center;
+    margin-left:6.5cm;
+    font-size:16px;
+    font-weight:700;
+}
+
+#nombre_companhia{
+    font-size: 15px;
+    position: absolute;
+    top:0.25cm;
+    left: 8cm;
+    font-weight: bold;
+    width: 10.0cm;
+}
+#dato1{
+    position: absolute;
+    font-size: 12px;
+    top:1.75cm;
+    left: 5.50cm;
+    width: 8cm;
+}
+#dato02{
+    position: absolute;
+    font-size: 14px;
+    top:0.70cm;
+    width: 9cm;
+    left: 8.10cm;
+}
+#dato_localidad{
+    position: absolute;
+    font-size: 14px;
+    top:1.05cm;
+    width: 9cm;
+    left: 10.10cm;
+}
+#dato3{
+    position: absolute;
+    font-size: 14px;
+    width: 06cm;
+    top:1.50cm;
+    left: 9.30cm;
+}
+#dato4{
+    position: absolute;
+    font-size: 12px;
+    top:2.80cm;
+    width: 15.0cm;
+    left: 1.0cm;
+    /*border: 1px solid black;*/
+}
+
+#dato4_con{
+     position: absolute;
+    font-size: 12px;
+    top:3.15cm;
+    width: 14.0cm;
+    left: 3.50cm;
+}
+
+#dato5{
+    position: absolute;
+    font-size: 14px;
+    width: 10cm;
+    top:2.50cm;
+    left: 9.80cm;
+}
+#dato6{
+    position: absolute;
+    font-size: 14px;
+    width: 8cm;
+    top:2.95cm;
+    left: 10.40cm;
+}
+#dato7{
+    position: absolute;
+    font-size: 14px;
+    top:3.45cm;
+    width: 8.0cm;
+    left: 10.0cm;
+}
+#dato8{
+    position: absolute;
+    font-size: 14px;
+    top:3.90cm;
+    width: 6.50cm;
+    left: 10.10cm;
+}
+.container02{
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    height: 4.70cm;
+    width: 8.50cm;
+    position: absolute;
+    left: 17.70cm;
+}
+
+#ruc{
+    font-size: 19px;
+    position: inherit;
+    top:1.10cm;
+    /*font-weight: bold;*/
+    left: 2.65cm;
+    width: 6.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#ruc02{
+    font-size: 19px;
+    position: inherit;
+    top:2.20cm;
+    /*font-weight: bold;*/
+    left: 2.65cm;
+    width: 6.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+
+#valor_ruc{
+     font-weight: bold;
+     font-size: 18px;
+     margin-left: 0.60cm;
+}
+
+#valor_ruc02{
+     font-weight: bold;
+     font-size: 18px;
+     margin-left: 0.60cm;
+}
+
+#recibo{
+    font-weight: bold;
+    font-size: 21px;
+    position: inherit;
+    top:0.30cm;
+    left: 2.15cm;
+    /*font-weight: bold;*/
+    width: 8.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#recibo02{
+    font-weight: bold;
+    font-size: 21px;
+    position: inherit;
+    top:1.30cm;
+    left: 2.15cm;
+    width: 8.50cm;
+    height: 0.50cm;
+}
+
+#nro_recibo{
+    font-size: 20px;
+    position: inherit;
+    text-align: center;
+    top:2.0cm;
+    left: 1cm;
+    width: 7.50cm;
+    font-weight: bold;
+    /*border: 1px solid black;*/
+}
+#nro_recibo02{
+    font-size: 20px;
+    position: inherit;
+    text-align: center;
+    top:3.20cm;
+    left: 1cm;
+    width: 7.50cm;
+    font-weight: bold;
+    /*border: 1px solid black;*/
+}
+#monto{
+        /*border: 1px solid black;*/
+        width: 6cm;
+        position:absolute;
+        top:4.5cm;
+        font-size:21px;
+        margin-left: 0.10cm;
+}
+#monto02{
+        /*border: 1px solid black;*/
+        width: 6cm;
+        position:absolute;
+        top:5.1cm;
+        font-size:21px;
+        margin-left: 0.10cm;
+}
+#simbolo{
+    position: absolute;
+    width: 2cm;
+    top:4.5cm;
+    font-size:21px;
+    left:-1.5cm;
+    text-align:right;
+}
+#simbolo02{
+    position: absolute;
+    width: 2cm;
+    top:5.1cm;
+    font-size:21px;
+    left:-1.5cm;
+    text-align:right;
+}
+#canti{
+
+    background-color:lightgrey;
+    margin-left: 0.50cm;
+    width: 7.0cm;
+    height: 1.0cm;
+    padding-left: 0.12cm;
+    border: 2px solid black;
+}
+#canti02{
+
+    background-color:lightgrey;
+    margin-left: 0.50cm;
+    width: 7.0cm;
+    height: 1.0cm;
+    padding-left: 0.12cm;
+    border: 2px solid black;
+}
+
+.container03{
+     font-size:18px;
+    position: absolute;
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    height: 4.20cm;
+    width: 25.85cm;
+    top: 4.75cm;
+    padding-left: 10px;
+}
+
+#monto_letra {
+    width: 20.1cm;
+    position: absolute;
+    left: 3.8cm;
+    height: 2.4cm;
+    top: 3.8cm;
+    line-height: 1.5;
+    border: 2px solid black;
+    /* white-space: nowrap; */
+    border-radius: 15px;
+    padding: 2.5px 10px;
+    overflow: hidden;
+    display: flex;
+    text-align: left;
+    margin-left:8px;
+}
+
+.linea-monto {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.linea-monto::after {
+    content: "------------------------------------------------------------------------------------------------------------------------------------";
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+
+
+#cuadro_redondeado{
+    width: 24cm;
+    position: absolute;
+    left: 0.5cm;
+    height: 1cm;
+    top: 5cm;
+    line-height: 1.5;
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 2.5px 10px;
+    overflow-wrap: break-word;
+    text-align: left;
+}
+
+/*CONTENEDOR NRO 4*/
+.container04{
+    position: absolute;
+    width: 25.85cm;
+    height: 8cm;
+    top:9cm;
+    /*border-bottom: 1px solid black;*/
+    /*border: 2px solid black;*/
+    /*border-radius: 30px;*/
+}
+
+#recibimos{
+    /*border: 1px solid;*/
+    width: 18.50cm;
+    position: inherit;
+    top:2cm;
+}
+#reci_name {
+    display: inline-block;
+    border-bottom: 1px dashed black;
+    width: 12cm;
+    margin-left: 0.30cm;
+    margin-top: 0.2cm; /* Asegura una separación limpia en caso de solapamientos */
+    vertical-align: middle; /* Alinea al centro del texto */
+}
+
+#reci_name2 {
+    display: inline-block;
+    border-bottom: 1px dashed black;
+    width: 12cm;
+    margin-left: 0.30cm;
+    margin-top: 0.2cm; /* Asegura una separación adecuada */
+    vertical-align: middle; /* Alinea al centro del texto */
+}
+
+#ruc_cliente{
+    /*border: 1px solid;*/
+    width: 5cm;
+    position: inherit;
+    top: 2.0cm;
+    left: 16.2cm;
+    /*margin-left: 3cm;*/
+}
+#ruc_num{
+    position:absolute;
+    top: 0.11cm;
+    display: inline-block; /* Asegura que el borde se aplique correctamente */
+    border-bottom: 1px dashed black; /* Borde punteado */
+    width: 4cm; /* Ajusta el ancho según el espacio requerido */
+    margin-left: 0.30cm; /* Margen desde el texto anterior */
+}
+
+#ruc_num2{
+    position: absolute;
+    top: 0.20cm;
+    display: inline-block;
+    border-bottom: 1px dashed black;
+    width: 4cm;
+    margin-left: 0.30cm;
+}
+
+#cantidad{
+    width: 24cm;
+    page-break-before: always;
+    /*border: 1px solid;*/
+    position: inherit;
+    top:4.0cm;
+}
+
+#concepto{
+    font-size:18px;
+    position: inherit;
+    top:6.50cm;
+    width: 24cm;
+}
+#concepto_text{
+    margin-left:8px;
+}
+
+#concepto_txt {
+    width: 20cm;
+    position: relative;
+    height: auto;
+    line-height: 1.5;
+    border-bottom: 1px dashed black;
+    padding: 2.5px 10px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    text-align: left;
+    white-space: normal;
+}
+
+#formas_pago {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8.6cm;
+    margin-left: 1.5cm;
+    font-weight:bold;
+}
+
+.forma-pago {
+    font-size: 19px;
+    margin-right: 12px;
+}
+
+.cuadro {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid black;
+    display: inline-block;
+    margin-right: 3px;
+}
+
+#detalles_pago {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    position:absolute;
+    margin-top:0.9cm;
+    font-weight: bold;
+    margin-left: 6px;
+}
+
+.detalle-pago {
+    white-space: nowrap;
+}
+
+.linea-cheque {
+    display: inline-block;
+    width: 150px;
+    border-bottom: 1px dashed black;
+    margin-left: 7px;
+    vertical-align: middle; /* Alinea verticalmente con el texto */
+    padding-bottom: 2px; /* Ajusta la posición del borde */
+    margin-top: 5px;
+}
+
+.linea-banco {
+    display: inline-block;
+    border-bottom: 1px dashed black;
+    margin-left: 5px;
+    vertical-align: middle; /* Asegura que ambos estén alineados */
+}
+
+
+.detalle-firma {
+    font-size: 14px;
+    font-style: italic;
+    align-self: flex-end;
+}
+
+
+#descripcion{
+    position: inherit;
+    width: 13.50cm;
+    /*border-bottom: 1px solid black;*/
+    border-right: 1px solid black;
+    text-align: center;
+    padding-top:0.32cm;
+    padding-left: 2.60cm;
+    padding-bottom: 0.34cm;
+}
+#lugar_fecha{
+    position: inherit;
+    font-weight: bold;
+    font-size: 24px;
+    top:13cm;
+    left: 0.50cm;
+    text-align: center;
+    width: 10cm;
+    border-top: 1px dashed;
+}
+#firma{
+    position: inherit;
+    font-weight: bold;
+    top:13cm;
+    text-align: center;
+    left: 19.2cm;
+    font-size: 24px;
+    width: 5cm;
+    border-top: 1px dashed;
+}
+#linea_horizontal{
+    width: 25cm;
+    border-top: 2px solid;
+    font-weight: bold;
+    text-align: right;
+    position: inherit;
+    top:14cm;
+}
+ #linea_mitad{
+    width: 26cm;
+    position: absolute;
+    top:21cm;
+    border: 1px dashed;
+}
+ #lugar_fecha_div_1{
+     position: absolute;
+     font-weight: bold;
+     font-size: 20px;
+     text-align: center;
+     width: 10cm;
+     margin-top: 2.8cm;
+     margin-left: 0.1cm;
+ }
+ /*###################SEGUNDA SECCION##################*/
+.container01_2{
+    position: absolute;
+     border: 2px solid black;
+    border-radius: 10px;
+    height: 19.0cm;
+    width: 25.85cm;
+    top:22.3cm;
+}
+#logo_2{
+    position: absolute;
+    margin-left:20px;
+    text-align: center;
+    padding:0;
+}
+
+#imagen_2{
+    margin-top: 0.10cm;
+    margin-left: 0.30cm;
+    max-height: 37%;
+    width: 13cm;
+
+}
+#nombre_companhia_2{
+    font-weight: bold;
+    font-size: 15px;
+    position: absolute;
+    top:0.25cm;
+    left: 8cm;
+    width: 10.0cm;
+}
+#dato1_2{
+    position: inherit;
+    font-size: 12px;
+    top:1.75cm;
+    left: 5.50cm;
+    width: 8cm;
+}
+#dato2_2{
+    position: inherit;
+    font-size: 12px;
+    top:2.10cm;
+    width: 9cm;
+    left: 4.50cm;
+}
+#dato3_2{
+    position: inherit;
+    font-size: 12px;
+    width: 12cm;
+    top:2.45cm;
+    left: 3.50cm;
+}
+#dato4_2{
+    position: inherit;
+    font-size: 12px;
+    top:2.80cm;
+    width: 15.0cm;
+    left: 1.0cm;
+    /*border: 1px solid black;*/
+}
+#linea_horizontal_2{
+    position: absolute;
+    top:3.60cm;
+    left: 0.45cm;
+    border: 2px solid black;
+    width: 16.0cm;
+}
+#dato4_con_2{
+     position: inherit;
+    font-size: 12px;
+    top:3.15cm;
+    width: 14.0cm;
+    left: 3.50cm;
+}
+#dato5_2{
+    position: inherit;
+    font-size: 12px;
+    width: 10cm;
+    top:3.70cm;
+    left: 1.0cm;
+}
+#dato6_2{
+    position: inherit;
+    font-size: 12px;
+    width: 5cm;
+    top:3.70cm;
+    left: 9cm;
+}
+#dato7_2{
+    position: inherit;
+    font-size: 12px;
+    top:4.05cm;
+    width: 6.50cm;
+    left: 9cm;
+}
+#dato8_2{
+    position: inherit;
+    font-size: 12px;
+    top:4.05cm;
+    width: 6.50cm;
+    left: 3cm;
+}
+.container02_2{
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    height: 4.70cm;
+    width: 8.50cm;
+    position: absolute;
+    left: 17.70cm;
+    top:21.3cm;
+}
+#inicio-vigencia_02{
+    font-size: 15px;
+    position: inherit;
+    top:1.10cm;
+    left: 1.85cm;
+    width: 6.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#fin-vigencia_02{
+    font-size: 15px;
+    position: inherit;
+    top:1.65cm;
+    left: 1.95cm;
+    width: 6.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#timbrado_02{
+    font-size: 15px;
+    position: inherit;
+    top:0.50cm;
+    left: 1cm;
+    /*font-weight: bold;*/
+    width: 7.0cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+
+#nc_factura_02{
+    font-size: 16px;
+    position: inherit;
+    top:2.90cm;
+    left: 2.0cm;
+    /*font-weight: bold;*/
+    width: 6.0cm;
+    height: 0.50cm;
+}
+
+#factura_02{
+    font-size: 16px;
+    position: inherit;
+    top:1.60cm;
+    left: 3.0cm;
+    /*font-weight: bold;*/
+    width: 3.50cm;
+    height: 0.50cm;
+    /*border: 1px solid black;*/
+}
+#nro_factura_02{
+    font-size: 20px;
+    position: inherit;
+    top:3.60cm;
+    left: 2cm;
+    width: 7.50cm;
+    /*border: 1px solid black;*/
+}
+.container03_02{
+    font-size: 18px;
+    position: absolute;
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    height: 4.20cm;
+    width: 25.85cm;
+    top: 26.20cm;
+     padding-left: 10px;
+}
+#fecha_emision_02{
+    position:inherit;
+    padding-top:0.20cm;
+    padding-left:0.20cm;
+    border-bottom: 1px solid black;
+    /*border-right: 1px solid black;*/
+    width: 15cm;
+    height: 0.95cm;
+}
+#cond_venta_02{
+    position:inherit;
+    font-weight: bold;
+    padding-top:0.20cm;
+    padding-left:0.20cm;
+    left:15cm;
+    border-bottom: 1px solid black;
+    width: 10.85cm;
+    height: 0.95cm;
+}
+#razon_social_02{
+    position:inherit;
+    top:1.10cm;
+    padding-left:0.20cm;
+    padding-bottom: 0.30cm;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+#ruc_cliente_02{
+    width: 5cm;
+    position: inherit;
+    top: 2.0cm;
+    left: 16.2cm;
+}
+#telefono_02{
+    position:inherit;
+    top: 2.50cm;
+    left: 17.30cm;
+    width: 6cm;
+    /*border: 1px solid black;*/
+}
+#direccion_02{
+    position:inherit;
+    top:2.50cm;
+    padding-left:0.20cm;
+    width: 17.10cm;
+}
+/*CONTENEDOR NRO 4-2*/
+.container04_02{
+    position: absolute;
+    width: 25.85cm;
+    height: 8cm;
+    top:31cm;
+    border: 2px solid black;
+    border-radius: 30px;
+}
+#lugar_fecha_div_2{
+    position: absolute;
+     font-weight: bold;
+     font-size: 20px;
+     text-align: center;
+     width: 10cm;
+     margin-top: 2.8cm;
+     margin-left: 0.1cm;
+}

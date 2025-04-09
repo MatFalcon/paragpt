@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record id="view_report_wizard" model="ir.ui.view">
+        <field name="name">sati.payment.report.wizard.form</field>
+        <field name="model">sati_payment_report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Payment Report">
+                <group>
+                    <field name="start_date" required="1"/>
+                    <field name="end_date" required="1"/>
+                    <field name="journal_ids" widget="many2many_tags"/>
+                    <field name="type" required="1"/>
+                    <field name="partner_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_print_report" string="Generar PDF" type="object" class="btn-primary"/>
+                    <button name="action_print_report_xlsx" string="Generar XLSX" type="object" class="btn-success"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard" model="ir.actions.act_window">
+        <field name="name">Payment Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sati_payment_report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_report_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_action_wizard" name="Payment Report" action="action_wizard" parent="account.menu_finance_reports"/>
+    </data>
+</odoo>

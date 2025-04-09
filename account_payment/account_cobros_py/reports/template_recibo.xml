@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="template_recibo">
+           <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div id="primer_cuadro">
+                            <div class="head">
+                                  <p id="ruc">
+                                      <strong>RUC:</strong>
+                                      <span id="ruc_valor" style="text-align: center;"><span t-field="o.company_id.ruc"/>-<span t-field="o.company_id.dv"/></span>
+                                  </p>
+                                  <p id="nro_recibo" style="font-size:15px;">
+                                      <strong>Recibo Nro:</strong>
+                                      <span t-field="o.name"/>
+                                  </p>
+                                  <p id="monto" style="background-color: lightgrey; font-size:15px;">
+                                      <t t-if="o.currency_invoice">
+                                          <span id="canti" t-esc="o.agregar_punto_de_miles(o.total_cobros,o.currency_invoice.name)"/>
+                                      </t>
+                                      <t t-else="">
+                                          <span id="canti" t-esc="o.agregar_punto_de_miles(o.total_cobros,o.currency_id.name)"/>
+                                      </t>
+                                  </p>
+                                  <p id="recibimos" style="font-size:18px;"><strong> Recibı́(mos) de:</strong>
+                                      <span t-field="o.partner_id.name" style="font-size:18px;"/>
+                                      <strong>con RUC/C.I: </strong><span t-field="o.partner_id.rucdv"/>
+                                  </p>
+                                  <span id="cantidad" style="font-size:18px;"><strong>la cantidad de</strong>
+                                      <t t-if="o.currency_invoice">
+                                          <t t-if="'PYG' in o.currency_invoice.name">
+                                              <span style="background-color: lightgray;" id="monto_letra" t-esc="o.calcular_letras(o.total_cobros)"/>
+                                          </t>
+                                          <t t-if="'USD' in o.currency_invoice.name">
+                                              <span style="background-color: lightgray;" id="monto_letra" t-esc="o.calcular_letras_dolar(o.total_cobros)"/>
+                                          </t>
+                                      </t>
+                                      <t t-else="">
+                                          <t t-if="'PYG' in o.currency_id.name">
+                                              <span style="background-color: lightgray;" id="monto_letra" t-esc="o.calcular_letras(o.total_cobros)"/>
+                                          </t>
+                                          <t t-if="'USD' in o.currency_id.name">
+                                              <span style="background-color: lightgray;" id="monto_letra" t-esc="o.calcular_letras_dolar(o.total_cobros)"/>
+                                          </t>
+                                      </t>
+                                  </span>
+                                  <p id="concepto" style="font-size:18px;">
+                                      <strong> en concepto de:</strong>
+                                      <t t-if="o.print_concepto_auto">
+                                          <span t-field="o.concepto_auto"/>
+                                      </t>
+                                      <t t-else="">
+                                          <span t-field="o.concepto"/>
+                                      </t>
+                                  </p>
+                            </div>
+                            <br/>
+                            <div class="page">
+                                <t t-if="o.tipo == 'move'">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="flex: 1;">
+                                                <table style="width: 100%;">
+                                                    <thead>
+                                                        <th id="nro_factura" style="font-size:16px; text-align: center;">Factura(s) Nro:</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr t-foreach="o.pagos_facturas_ids" t-as="line">
+                                                            <td style="font-size:16px; text-align: center;">
+                                                                <span t-field="line.invoice_id.nro_factura"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="flex: 1;">
+                                                <table style="width: 100%;">
+                                                    <thead>
+                                                        <th id="detalle" style="font-size:16px; text-align:center;">Detalle</th>
+                                                        <th id="importe" style="font-size:16px; text-align:center;">Importe</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr t-foreach="o.pagos_facturas_ids" t-as="line">
+                                                            <td style="font-size:16px; text-align: center;">
+                                                                <span t-field="line.invoice_id.nro_factura"/>
+                                                            </td>
+                                                            <td id="importes" style="font-size:16px; text-align: center;">
+                                                                <t t-if="o.currency_id">
+                                                                    <span t-esc="o.agregar_punto_de_miles(line.monto,line.currency_invoice.name)"/>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span t-esc="o.agregar_punto_de_miles(line.monto,line.currency_id.name)"/>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="flex: 1;">
+                                                <table style="width: 100%;">
+                                                    <thead>
+                                                        <th id="fp" style="font-size:16px; text-align:center;">Forma de Pago</th>
+                                                        <th id="mon" style="font-size:16px; text-align:center;"> Monto</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr t-foreach="o.payment_ids" t-as="line">
+                                                            <td style="font-size:16px; text-align: center;">
+                                                                <span t-field="line.journal_id"/>
+                                                            </td>
+                                                            <td style="font-size:16px; text-align: center;">
+                                                                <span t-field="line.amount"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
+                                <t t-if="o.tipo == 'move_line'">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="flex: 1;">
+                                                <table style="width: 100%;">
+                                                    <thead>
+                                                        <th style="font-size:16px; text-align:center;width:4cm;">Apunte</th>
+                                                        <th style="font-size:16px; text-align:center;width:3cm;">Fecha Factura</th>
+                                                        <th style="font-size:16px; text-align:center;width:3cm;">Monto Factura</th>
+                                                    </thead>
+                                                    <tr t-foreach="o.pagos_facturas_ids" t-as="line">
+                                                        <tbody>
+                                                            <td style="font-size:16px; text-align: center;">
+                                                                <span t-field="line.move_line_id.name"/>
+                                                            </td>
+                                                            <td style="font-size:16px; text-align: center;">
+                                                                <span t-field="line.invoice_date"/>
+                                                            </td>
+                                                            <td style="font-size:16px; text-align: center;">
+                                                                <span t-field="line.amount_total"/>
+                                                            </td>
+                                                        </tbody>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="flex: 1;">
+                                                <table style="width: 100%;">
+                                                    <thead>
+                                                        <th style="font-size:16px; text-align:center;width:4cm;">Forma de Pago</th>
+                                                        <th style="font-size:16px; text-align:center;width:4cm;">Monto</th>
+                                                    </thead>
+                                                    <tr t-foreach="o.payment_ids" t-as="line">
+                                                        <tbody>
+                                                            <td style="font-size:16px; text-align: center;width:5cm;">
+                                                                <span t-field="line.journal_id"/>
+                                                            </td>
+                                                            <td style="font-size:16px; text-align: center;">
+                                                                <span t-field="line.amount"/>
+                                                            </td>
+                                                        </tbody>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
+                            </div>
+                             <div class="footer row">
+                                <div class="col-4" style="max-width: 35%;">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <p style="font-size:18px; margin: 0;">
+                                        <span t-field="o.fecha"/>
+                                    </p>
+                                    <p style="font-size:18px; margin: 0;">
+                                        Fecha
+                                    </p>
+                                </div>
+                            
+                                <div class="col-8 d-flex flex-column align-items-start">
+                                    <t t-if="o.company_id.logo_recibo_firma">
+                                        <img t-att-src="image_data_uri(o.company_id.logo_recibo_firma)" width="450px" height="150px" class="logo"/>
+                                    </t>
+                                    <t t-else="">
+                                        <p style="font-size:18px; margin: 0;">
+                                            ..................................................................
+                                        </p>
+                                        <p style="font-size:18px; margin: 0;">
+                                            Firma
+                                        </p>
+                                    </t>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

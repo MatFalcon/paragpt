@@ -1,0 +1,83 @@
+.contenedor{
+    font-size:8px;
+    font-family:  "DejaVu Serif", "STIX", serif;
+}
+
+.con-bordes{
+    border: 0.5px solid black;
+}
+
+.titulo{
+    margin-left:8cm;
+}
+.logo{
+   width:15cm;height: 4cm;
+    margin-top: 1cm;
+}
+
+table.tabla{
+    width: 100%;
+
+}
+td{
+    border: 0.5px solid black;
+    padding:2px ;
+    text-align: center;
+}
+
+th{
+    text-align: center;
+    border: 1px solid black;
+    vertical-align: middle;
+}
+
+/*Cliente*/
+table.tabla th:nth-child(1){
+    width: 35%;
+}
+/*Fecha, Nro de retencion y  Nro de factura*/
+table.tabla th:nth-child(2),
+table.tabla th:nth-child(3),
+table.tabla th:nth-child(4){
+    width: 15%;
+    text-align: center;
+}
+
+/*Total*/
+table.tabla th:nth-child(5){
+    width: 10%;
+
+}
+/*Cliente*/
+table.tabla td:nth-child(1){
+    text-align: left;
+}
+/*Fecha, Nro de retencion y  Nro de factura*/
+table.tabla td:nth-child(2),
+table.tabla td:nth-child(3),
+table.tabla td:nth-child(4){
+    text-align: center;
+}
+/*Total*/
+table.tabla td:nth-child(7){
+    text-align: right;
+}
+table.tabla td:nth-child(8){
+    text-align: right;
+}
+
+thead { display: table-header-group }
+tr { page-break-inside: avoid }
+
+.negrita{
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: right;
+}
+
+.derecha{
+    text-align: right !important;
+}
+.mayusculas{
+    text-transform: uppercase !important;
+}
