@@ -1,0 +1,56 @@
+<odoo>
+    <data noupdate="1">
+        <record id="estado_activo" model="pbp.estado.vencimiento">
+            <field name="name">Vencido</field>
+            <field name="value">vencido</field>
+        </record>
+        <record id="estado_vencido" model="pbp.estado.vencimiento">
+            <field name="name">Cobrado</field>
+            <field name="value">cobrado</field>
+        </record>
+        <record id="estado_pagado" model="pbp.estado.vencimiento">
+            <field name="name">Por Cobrar</field>
+            <field name="value">pendiente</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="acciones" model="pbp.instrumento.vencimiento">
+            <field name="name">Acciones</field>
+            <field name="value">acciones</field>
+        </record>
+        <record id="bonos" model="pbp.instrumento.vencimiento">
+            <field name="name">Bonos</field>
+            <field name="value">bonos</field>
+        </record>
+        <record id="bonos_cartulares" model="pbp.instrumento.vencimiento">
+            <field name="name">Bonos Cartulares</field>
+            <field name="value">bonos_cartulares</field>
+        </record>
+        <record id="bonos_corporativos" model="pbp.instrumento.vencimiento">
+            <field name="name">Bonos Corporativos</field>
+            <field name="value">bonos_corporativos</field>
+        </record>
+        <record id="bonos_del_tesoro" model="pbp.instrumento.vencimiento">
+            <field name="name">Bonos del Tesoro</field>
+            <field name="value">bonos_del_tesoro</field>
+        </record>
+        <record id="bonos_financieros" model="pbp.instrumento.vencimiento">
+            <field name="name">Bonos Financieros</field>
+            <field name="value">bonos_financieros</field>
+        </record>
+        <record id="bonos_subordinados" model="pbp.instrumento.vencimiento">
+            <field name="name">Bonos Subordinados</field>
+            <field name="value">bonos_subordinados</field>
+        </record>
+        <record id="cda" model="pbp.instrumento.vencimiento">
+            <field name="name">CDA</field>
+            <field name="value">cda</field>
+        </record>
+        <record id="fondos" model="pbp.instrumento.vencimiento">
+            <field name="name">Fondos</field>
+            <field name="value">fondos</field>
+        </record>
+
+
+    </data>
+</odoo>

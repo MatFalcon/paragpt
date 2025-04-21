@@ -128,7 +128,7 @@
                                 <group string="Cálculo de Montos">
                                     <field name="total"/>
                                     <field name="total_iva"/>
-                                        <field name="subtotal"/>
+                                    <field name="subtotal"/>
                                 </group>
                             </group>
                         </sheet>

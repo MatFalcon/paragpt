@@ -96,7 +96,14 @@
                                 string="Generar Asientos de Devengamiento"
                                 class="btn-primary"
                                 icon="fa-plus"
-                                invisible="move_count > 0"/>
+                                />
+<!--                        invisible="move_count > 0"-->
+                        <button name="generar_reporte_excel"
+            type="object"
+            string="Generar Reporte Excel"
+            class="btn-primary"
+            icon="fa-file-excel-o"/>
+
 
                     </header>
                     <sheet>
@@ -132,6 +139,7 @@
 
                         <group>
                             <group string="Datos de inversion">
+<!--                                <field name="reporte_excel" filename="reporte_nombre" widget="binary" string="Descargar Reporte Excel"/>-->
                                 <field name="emision"/>
                                 <field name="serie"/>
                                 <field name="fecha_compra"/>

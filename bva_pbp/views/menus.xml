@@ -7,8 +7,12 @@
                   <menuitem id="novedades_menu_action" name="Negociaciones" action="novedades_action" sequence="3"/>
               </menuitem>
               <menuitem id="cartera_inversion_first_level" name="Cartera de inversiones" sequence="20">
-                <menuitem id="cartera_inversion_menu" name="Cartera" action="action_cartera_inversion" sequence="1" />
-                <menuitem id="vencimiento_inversiones" name="Vencimientos" action="action_vencimiento_intereses_cartera" sequence="3"/>
+                  <menuitem id="cartera_inversion_menu" name="Cartera" action="action_cartera_inversion" sequence="1"/>
+                  <menuitem id="vencimiento_inversiones" name="Vencimientos"
+                            action="action_vencimiento_intereses_cartera" sequence="3"/>
+                  <menuitem id="reporte_vencimientos_menu" name="Reporte Vencimientos"
+                    action="action_vencimiento_wizard_report" sequence="4"/>
+
               </menuitem>
               <menuitem id="negociaciones_menu" name="Negociaciones" sequence="30">
                   <menuitem id="sistema_tradicional_menu" name="Sistema Tradicional" action="novedades_series_action"/>

@@ -2,17 +2,23 @@ import datetime
 import calendar
 
 from odoo import models, fields, api, exceptions
-
+import io
+import xlsxwriter
+import base64
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
-
-
+#generar_asientos_devengamiento
+#crear_asiento_devengar
 
 class CarteraInversion(models.Model):
     _name = 'pbp.cartera_inversion'
     _order = 'state, fecha_compra desc'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'id'
+
+    reporte_excel = fields.Binary(string="Reporte Excel", readonly=True)
+    reporte_nombre = fields.Char(string="Nombre del Archivo", readonly=True)
+
 
     emision = fields.Char(string='Emisión')
     serie = fields.Char(string="Serie", required=True)
@@ -183,6 +189,22 @@ class CarteraInversion(models.Model):
 
     )
 
+    def generar_asientos_masivamente(self):
+        # generar_asientos_devengamiento
+        # crear_asiento_devengar
+
+        regs_cartera = self.env["pbp.cartera_inversion"].search([('instrumento', 'not in', ('bonos_del_tesoro', 'fondos'))])
+        for cartera in regs_cartera:
+            try:
+                cartera.generar_asientos_devengamiento()
+                cartera.crear_asiento_devengar()
+            except:
+                pass
+
+
+
+
+
     @api.depends('move_ids')
     def _compute_move_count(self):
         """Cuenta los registros relacionados en move_ids."""
@@ -217,8 +239,130 @@ class CarteraInversion(models.Model):
             'context': self.env.context,
         }
 
+    def calcular_dias(self, fecha_inicio, fecha_fin):
+        # Convertir las fechas de string a objeto datetime
+        formato = "%Y-%m-%d"
+        fecha_inicio = datetime.strptime(fecha_inicio, formato)# + timedelta(days=1)  # Sumar 1 día
+        #fecha_inicio = fecha_inicio#datetime.strptime(fecha_inicio, formato) + timedelta(days=1)  # Sumar 1 día
+
+        fecha_fin = datetime.strptime(fecha_fin, formato)
+
+        # Calcular la diferencia en días
+        diferencia = (fecha_fin - fecha_inicio).days
+        print("Diferencia", diferencia)
+        return diferencia
+
+    def generar_reporte_excel(self):
+        """Genera un reporte ultra detallado en Excel con todos los cálculos explicados paso a paso."""
+        for record in self:
+            output = io.BytesIO()
+            workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+            sheet = workbook.add_worksheet("Reporte Devengamiento")
+
+            # Formatos
+            bold = workbook.add_format({'bold': True, 'bg_color': '#D3D3D3', 'border': 1})
+            currency_format = workbook.add_format({'num_format': '#,##0.00', 'border': 1})
+            center_format = workbook.add_format({'align': 'center', 'border': 1})
+            wrap_format = workbook.add_format({'text_wrap': True, 'border': 1, 'align': 'left'})
+
+            # Definir encabezados con explicaciones
+            headers = [
+                "Mes", "Fecha Inicio", "Fecha Fin", "Días Totales Devengamiento",
+                "Días Devengados en el Mes", "Fórmula Días Devengados",
+                "Interés Total", "Días Totales", "Interés Diario", "Fórmula Interés Diario",
+                "Monto Devengado en el Mes", "Fórmula Monto Devengado",
+                "Cuenta Débito", "Cuenta Crédito"
+            ]
+            sheet.write_row(0, 0, headers, bold)
+
+            # Variables base
+            fecha_actual = record.fecha_inicio_devengamiento
+            fecha_fin = record.fecha_final_devengamiento
+            dias_totales_devengamiento = self.calcular_dias(str(fecha_actual), str(fecha_fin))
+            print("Calculo", dias_totales_devengamiento)
+            row = 1
+
+            # Calcular interés diario si aplica
+            if record.tipo_devengamiento == 'dias':
+                interes_diario = record.intereses / dias_totales_devengamiento
+                formula_interes_diario = f"Interés Diario = {record.intereses} / {dias_totales_devengamiento}"
+            else:
+                interes_diario = None  # No se usa en devengamiento fijo
+                formula_interes_diario = "N/A (Devengamiento Fijo)"
+            fecha_fin += relativedelta(months=1)
+            # Generar filas con cálculos detallados
+            while fecha_actual <= fecha_fin:
+                print(f"Inicia Bucle - Fecha Actual: {fecha_actual} - Fecha Fin {fecha_fin}")
+                if record.tipo_devengamiento == 'dias':
+                    # 🔹 Obtener el primer y último día del mes
+                    if fecha_actual == record.fecha_inicio_devengamiento:
+                        fecha_inicio_mes = fecha_actual + timedelta(days=1)
+                    else:
+                        fecha_inicio_mes = max(fecha_actual.replace(day=1), record.fecha_inicio_devengamiento)
 
 
+                    fecha_fin_mes = min(
+                        fecha_actual.replace(day=calendar.monthrange(fecha_actual.year, fecha_actual.month)[1]),
+                        record.fecha_final_devengamiento
+                    )
+                    #if fecha_fin_mes == record.fecha_final_devengamiento:
+                        #fecha_fin_mes = record.fecha_final_devengamiento - timedelta(days=1)
+                    # 🔹 Calcular días devengados en el mes
+                    dias_devengados = (fecha_fin_mes - fecha_inicio_mes).days + 1
+                    monto_mensual = interes_diario * dias_devengados
+
+                    # 🔹 Explicaciones detalladas
+                    formula_dias_devengados = (
+                        f"MIN({fecha_fin_mes.strftime('%d-%m-%Y')}, {record.fecha_final_devengamiento.strftime('%d-%m-%Y')}) - "
+                        f"MAX({fecha_inicio_mes.strftime('%d-%m-%Y')}, {record.fecha_inicio_devengamiento.strftime('%d-%m-%Y')}) + 1"
+                    )
+                    formula_monto_devengado = f"{interes_diario:.6f} * {dias_devengados}"
+
+                else:
+                    dias_devengados = "Fijo"
+                    monto_mensual = record.intereses / record.cant_meses_devengamiento
+                    formula_monto_devengado = f"{record.intereses} / {record.cant_meses_devengamiento}"
+                    formula_dias_devengados = "Fijo (Se devenga un monto fijo mensual)"
+
+                if monto_mensual < 0:
+                    fecha_actual += relativedelta(months=1)
+                    continue
+                # Agregar fila con cálculos explicados
+                sheet.write(row, 0, fecha_actual.strftime('%B %Y'), center_format)
+                sheet.write(row, 1, fecha_inicio_mes.strftime('%d-%m-%Y'), center_format)
+                sheet.write(row, 2, fecha_fin_mes.strftime('%d-%m-%Y'), center_format)
+                sheet.write(row, 3, dias_totales_devengamiento, center_format)
+                sheet.write(row, 4, dias_devengados, center_format)
+                sheet.write(row, 5, formula_dias_devengados, wrap_format)
+                sheet.write(row, 6, record.intereses, currency_format)
+                sheet.write(row, 7, dias_totales_devengamiento, center_format)
+                sheet.write(row, 8, interes_diario if interes_diario else "N/A", currency_format)
+                sheet.write(row, 9, formula_interes_diario, wrap_format)
+                sheet.write(row, 10, monto_mensual, currency_format)
+                sheet.write(row, 11, formula_monto_devengado, wrap_format)
+                sheet.write(row, 12, record.debit_account_id.display_name, center_format)
+                sheet.write(row, 13, record.credit_account_id.display_name, center_format)
+
+                # Avanzar al siguiente mes
+                fecha_actual += relativedelta(months=1)
+                print(
+                    f"Bucle Fin Se aniade un mes mas a fecha actual- Fecha Actual: {fecha_actual} - Fecha Fin {fecha_fin}")
+
+
+                row += 1
+            print("DIas Devengados ", dias_totales_devengamiento)
+            workbook.close()
+            output.seek(0)
+
+            # Guardar el archivo en el campo `reporte_excel`
+            record.reporte_excel = base64.b64encode(output.getvalue())
+            record.reporte_nombre = f"Reporte_Devengamiento_{record.id}.xlsx"
+
+            return {
+                'type': 'ir.actions.act_url',
+                'url': f'/download/reporte_devengamiento/{record.id}',
+                'target': 'self',
+            }
     ### hacer mas legible dps
     def generar_asientos_devengamiento(self):
         """Genera los asientos mensuales de devengamiento con base en el tipo seleccionado (fijo o días)."""
@@ -229,14 +373,22 @@ class CarteraInversion(models.Model):
                 raise exceptions.UserError("Debe configurar las fechas de inicio y fin del devengamiento.")
             if record.cant_meses_devengamiento <= 0:
                 raise exceptions.UserError("La cantidad de meses de devengamiento debe ser mayor a 0.")
-
+            total_dias_suma = 0
+            dias_devengados_suma = 0
+            total_suma_montos = 0
             # Fecha inicial y final
             fecha_actual = record.fecha_inicio_devengamiento
             fecha_fin = record.fecha_final_devengamiento
-
+            print("Total Intereses: ", record.intereses)
             # Calculo del interes diario, solo cuando se selecciona dias
             if record.tipo_devengamiento == 'dias':
                 dias_totales = (fecha_fin - fecha_actual).days + 1
+                dias_totales = self.calcular_dias(str(fecha_actual), str(fecha_fin))
+                print("Calculo", dias_totales)
+                #print("fecha_fin", fecha_fin, "fecha_actual", fecha_actual)
+                #print("c", (fecha_fin - fecha_actual).days +1)
+                #print("Dias Totales Mes Funcion",dias_totales )
+                total_dias_suma += dias_totales
                 interes_diario = record.intereses / dias_totales
 
             # Lista para almacenar los IDs de los asientos creados
@@ -245,46 +397,70 @@ class CarteraInversion(models.Model):
 
             # Generar los asientos mensuales o diarios según el tipo
             fecha_fin += relativedelta(months=1)
+            # fecha_actual = fecha_actual + relativedelta(day=1)
             while fecha_actual <= fecha_fin:
-
-                print(f"Fecha Actual: {fecha_actual} - {fecha_fin}")
+                print(f"Inicia Bucle - Fecha Actual: {fecha_actual} - Fecha Fin {fecha_fin}")
+                #print(f"Fecha Actual: {fecha_actual} - {fecha_fin}")
                 # calcula los dias del mes actual
                 if record.tipo_devengamiento == 'dias':
                     dias_en_mes = calendar.monthrange(fecha_actual.year, fecha_actual.month)[1]
-                    fecha_inicio_mes = max(fecha_actual.replace(day=1), record.fecha_inicio_devengamiento)
+                    if fecha_actual == record.fecha_inicio_devengamiento:
+                        fecha_inicio_mes = fecha_actual + timedelta(days=1)
+                    else:
+                        fecha_inicio_mes = max(fecha_actual.replace(day=1), record.fecha_inicio_devengamiento)
+
+
                     fecha_fin_mes = min(
                         fecha_actual.replace(day=calendar.monthrange(fecha_actual.year, fecha_actual.month)[1]),
                         record.fecha_final_devengamiento)
-                    dias_devengados = (fecha_fin_mes - fecha_inicio_mes).days + 1
-                    print(f"{cont_mes} Dias en mes", dias_devengados)
-                    cont_mes += 1
-                    print(f"{fecha_actual}- {fecha_actual.year} - {fecha_actual.month}")
-                    monto_mensual = interes_diario * dias_devengados
-                    print(f"Monto Mensual: {monto_mensual}")
 
+                    #if fecha_fin_mes == record.fecha_final_devengamiento:
+                        #fecha_fin_mes = record.fecha_final_devengamiento - timedelta(days=1)
+                    dias_devengados = (fecha_fin_mes - fecha_inicio_mes).days + 1
+                    dias_devengados_suma += dias_devengados
+                    #print(f"{cont_mes} Dias en mes", dias_devengados)
+                    cont_mes += 1
+                    #print(f"{fecha_actual}- {fecha_actual.year} - {fecha_actual.month}")
+                    monto_mensual = interes_diario * dias_devengados
+                    #print(f"{fecha_inicio_mes} - {fecha_fin_mes} - {dias_devengados} - {dias_devengados_suma} Monto Mensual: {monto_mensual}")
+                    total_suma_montos += monto_mensual
+                    print(f"Monto Mensual: {monto_mensual}")
                 else:  # Caso fijo
                     monto_mensual = record.intereses / record.cant_meses_devengamiento
+                    total_suma_montos += monto_mensual
                     print(f"Monto Mensual: {monto_mensual}")
+                if monto_mensual < 0:
+                    fecha_actual += relativedelta(months=1)
+                    print(
+                        f"Bucle Fin Se aniade un mes mas a fecha actual- Fecha Actual: {fecha_actual} - Fecha Fin {fecha_fin}")
+                    continue
 
                 # Formatear la referencia con el mes y la serie
                 referencia = f"Asiento Devengamiento - {fecha_actual.strftime('%B %Y')} - {record.serie or 'N/A'}"
-                print("Referencia", referencia)
+                #print("Referencia", referencia)
                 # Crear las lineas contables
+                moneda_alternativa = monto_mensual / record.cambio_utilizado if record.currency_id.id == 2 else monto_mensual
                 move_lines = [
                     {
                         'account_id': record.debit_account_id.id,
                         'debit': monto_mensual,
                         'credit': 0.0,
                         'name': referencia,
+                        'currency_id': record.currency_id.id,
+                        'amount_currency': moneda_alternativa,
+                        'currency_rate': record.cambio_utilizado
                     },
                     {
                         'account_id': record.credit_account_id.id,
                         'debit': 0.0,
                         'credit': monto_mensual,
                         'name': referencia,
+                        'amount_currency':moneda_alternativa * (-1),
+                        'currency_id': record.currency_id.id,
+                        'currency_rate': record.cambio_utilizado
                     },
                 ]
-                print(move_lines)
+                #print(move_lines)
                 # Crear el asiento
                 move_vals = {
                     'journal_id': record.initial_journal_id.id,
@@ -292,6 +468,8 @@ class CarteraInversion(models.Model):
                     'line_ids': [(0, 0, line) for line in move_lines],
                     'ref': referencia,
                     'cartera_id': record.id,  # Relación con la cartera de inversión
+                    # 'currency_rate': record.cambio_utilizado,
+                    'currency_id': record.currency_id.id
                 }
                 move = self.env['account.move'].create(move_vals)
 
@@ -300,6 +478,8 @@ class CarteraInversion(models.Model):
 
                 # Avanzar al siguiente mes
                 fecha_actual += relativedelta(months=1)
+                print(f"Bucle Fin Se aniade un mes mas a fecha actual- Fecha Actual: {fecha_actual} - Fecha Fin {fecha_fin}")
+                #print("Fecha Actual", fecha_actual, "Fecha Fin",fecha_fin,fecha_actual <= fecha_fin)
 
             # Asociar los asientos creados al campo move_ids
             record.move_ids = [(6, 0, asientos_creados)]
@@ -308,6 +488,9 @@ class CarteraInversion(models.Model):
             record.message_post(
                 body=f"Se han generado {len(asientos_creados)} asientos mensuales de devengamiento desde {record.fecha_inicio_devengamiento} hasta {record.fecha_final_devengamiento}."
             )
+            #print("Dias totales tomados", dias_totales)
+            print("Monto Mensual", total_suma_montos)
+            print("Dias Devengados suma", dias_devengados_suma)
 
     @api.depends('fecha_inicio_devengamiento', 'fecha_final_devengamiento', 'intereses')
     def _compute_intereses_devengamiento(self):

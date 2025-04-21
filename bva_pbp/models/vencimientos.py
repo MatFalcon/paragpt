@@ -29,6 +29,11 @@ class Vencimientos(models.Model):
     dias = fields.Integer(string="Dias")
     interes = fields.Float(string="InteresxTitulo")
     total = fields.Float(string="Total a Cobrar")
+    valor_actual_pyg = fields.Float(compute="_calculo_valor_actual_pyg_usd")
+    valor_actual_usd = fields.Float(compute="_calculo_valor_actual_pyg_usd")
+
+
+
     saldo = fields.Float(string="Saldo Vencimiento", compute="_compute_saldo_vencimiento")
     amortizacion = fields.Selection(
         selection=[
@@ -55,6 +60,49 @@ class Vencimientos(models.Model):
     cuenta = fields.Many2one('account.account', string='Cuenta de devengamiento',
                              tracking=True, compute='_compute_cuenta'   )
     instrumento = fields.Selection(string="Instrumento", related="registros.instrumento",store=True)
+
+
+    ##### Cuentas #########
+    ########### CAMPOS PARA ASIENTO DE PAGO INICIAL ##################
+    inversion_account_id = fields.Many2one('account.account', string="Cuenta de Inversión",
+                                           tracking=True, related="registros.inversion_account_id", store=True)
+    banco_account_id = fields.Many2one('account.account', string="Cuenta de Banco",
+                                       tracking=True, related="registros.banco_account_id", store=True)
+    inversion_journal_id = fields.Many2one('account.journal', string="Diario de inversión",
+                                           tracking=True, related="registros.inversion_journal_id", store=True)
+    ########### CAMPOS PARA ASIENTO INICIAL A DEVENGAR ################
+    initial_credit_account_id = fields.Many2one('account.account', string='Cuenta acreedora inicial a devengar CP',
+                                                tracking=True, related="registros.initial_credit_account_id", store=True)
+    initial_credit_largo_plazo_account_id = fields.Many2one('account.account',
+                                                            string='Cuenta acreedora inicial a devengar LP',
+                                                            tracking=True, related="registros.initial_credit_largo_plazo_account_id", store=True)
+    initial_debit_account_id = fields.Many2one('account.account', string='Cuenta deudora inicial a devengar CP',
+                                               tracking=True, related="registros.initial_debit_account_id", store=True)
+    initial_debit_account_id_lp = fields.Many2one('account.account', string='Cuenta deudora inicial a devengar LP',
+                                                  tracking=True, related="registros.initial_debit_account_id_lp", store=True)
+    initial_journal_id = fields.Many2one('account.journal', string="Diario de asiento a devengar",
+                                         tracking=True, related="registros.initial_journal_id", store=True)
+    # initial_move_ids = fields.One2many(
+    #     'account.move',
+    #     'initial_cartera_id',  # Campo inverso en `account.move`
+    #     string="Asientos Iniciales",
+    #     copy=False
+    # )
+
+    ########### CAMPOS PARA DEVENGAMIENTO ############################
+    credit_account_id = fields.Many2one('account.account', string='Cuenta de ingresos',
+                                        tracking=True, related="registros.credit_account_id")
+    debit_account_id = fields.Many2one('account.account', string='Cuenta de devengamiento',
+                                       tracking=True, related="registros.debit_account_id")
+    # move_ids = fields.Many2one(
+    #     'account.move',
+    #     related="registros.move_ids",  # Campo inverso en `account.move`
+    #     string="Asientos contables de devengamiento"
+    # )
+    move_count = fields.Integer(
+        string="Cantidad de Asientos Contables",
+        store=True
+    )
 
     @api.depends("casa_bolsa", "partner_id")
     def _compute_casa_bolsa(self):
@@ -90,6 +138,26 @@ class Vencimientos(models.Model):
             for voucher in record.vouchers_ids:
                 total_vouchers += voucher.amount
             record.saldo = record.total - total_vouchers
+
+
+    @api.depends("valor_actual_pyg", "valor_actual_usd")
+    def _calculo_valor_actual_pyg_usd(self):
+        _logger.info(f"_calculo_valor_actual_pyg_usd")
+        for record in self:
+            record.valor_actual_pyg = 0
+            record.valor_actual_usd = 0
+            if record.registros.cambio_utilizado and record.registros.cambio_utilizado > 0:
+                if record.currency_id.id !=  155:# si es dolar
+                    record.valor_actual_pyg = record.total * record.registros.cambio_utilizado
+                    record.valor_actual_usd = record.total
+                else:# si es guarani
+                    record.valor_actual_usd = record.total / record.registros.cambio_utilizado
+                    record.valor_actual_pyg = record.total
+            else:
+                record.valor_actual_pyg = record.total
+                record.valor_actual_usd = 0
+
+            #_logger.info(f"ID: {record.id}   PYG: {record.valor_actual_pyg } - USD: {record.valor_actual_usd}")
 
     def unlink(self):
         _logger.warning('self user %s', self.env.user.id)

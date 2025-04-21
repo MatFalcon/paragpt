@@ -9,5 +9,7 @@ access_pbp_gastos_administrativos_user,pbp.gastos_administrativos.user,model_pbp
 access_pbp_transferencia_cartera_user,pbp.transferencia_cartera.user,model_pbp_transferencia_cartera,,1,1,1,1
 access_pbp_novedades,pbp.novedades,model_pbp_novedades,base.group_user,1,1,1,1
 access_voucher_wizard,voucher.wizard,model_voucher_wizard,,1,1,1,1
-
+access_pbp_wizard_vencimientos_report,pbp.wizard.vencimientos.report,model_pbp_wizard_vencimientos_report,,1,1,1,1
+access_pbp_estado_vencimiento,pbp.estado.vencimiento,model_pbp_estado_vencimiento,,1,1,1,1
+access_pbp_instrumento_vencimiento,pbp.instrumento.vencimiento,model_pbp_instrumento_vencimiento,,1,1,1,1
 

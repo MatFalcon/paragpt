@@ -69,6 +69,37 @@ class TransferenciaCartera(models.Model):
 
             return False
 
+    def buscar_partner(self, codigo_pbp, log):
+        emisores_no_archivados = {
+            4: 27,  # cadiem
+            3: 36,  # valores cbsa
+            152994: 87,  # solar
+            2086: 142591,  # itau invest
+            72: 2  # capital market
+        }
+
+        print("Se buscar emisor por codigo pbp", codigo_pbp)
+        contacto = self.env['res.partner'].search([('id_cliente_pbp', '=', codigo_pbp)])
+        print("Resultado", contacto)
+        if contacto:
+            return contacto
+        else:
+            if codigo_pbp in emisores_no_archivados.keys():
+                contacto = self.env['res.partner'].search([('id_cliente_pbp', '=', emisores_no_archivados[codigo_pbp])])
+                print("Se busca emisor por diccionario", contacto)
+                return contacto
+            else:
+                self.env['pbp.sincronizacion_detalle_logs'].sudo().create(
+                    {
+                        'sincronizacion': log.id,
+                        'registro': {'partner_id':codigo_pbp},
+                        'error_msg': "No se encuentra el contacto con codigo %s" % codigo_pbp,
+                    }
+                )
+
+
+                return False
+
     @api.model
     def guardar_transferencia_cartera(self, transferencia_cartera, sync_log_obj):
         """
@@ -81,11 +112,13 @@ class TransferenciaCartera(models.Model):
             emisor_id = False
             receptor_id = False
 
-            emisores = self.env['res.partner'].search([('id_cliente_pbp', '=', emisor_id_sis)])
+            emisores = self.buscar_partner(emisor_id_sis, sync_log_obj)
             emisor = emisores[0] if emisores else False
             if emisor:
                 partner_ruc = emisor['ruc']
                 partner_ids = self.env['res.partner'].search([('ruc', '=', partner_ruc)])
+                print("Se buscar Emisor por ruc", partner_ruc)
+                print("Resultado:", len(partner_ids))
                 if len(partner_ids) > 1:
                     max_total = 0
                     for pid in partner_ids:
@@ -98,11 +131,13 @@ class TransferenciaCartera(models.Model):
                 else:
                     emisor_id = emisor['id']
 
-            receptores = self.env['res.partner'].search([('id_cliente_pbp', '=', receptor_id_sis)])
+            receptores = self.buscar_partner(receptor_id_sis, sync_log_obj)
             receptor = receptores[0] if receptores else False
             if receptor:
                 partner_ruc = receptor['ruc']
                 partner_ids = self.env['res.partner'].search([('vat', '=', partner_ruc)])
+                print("Se buscar Receptor por ruc", partner_ruc)
+                print("Resultado:", len(partner_ids))
                 if len(partner_ids) > 1:
                     max_total = 0
                     for pid in partner_ids:

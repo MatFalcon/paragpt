@@ -10,13 +10,13 @@ class NovedadesSeries(models.Model):
 
     persona_id = fields.Integer(required=True)
     fecha = fields.Date(required=True)
-    valor_nominal = fields.Integer(required=True)
+    valor_nominal = fields.Float(required=True)
     cantidad = fields.Integer(required=True)
 
-    volumen = fields.Float()
-    total_arancel = fields.Float()
-    iva = fields.Float(string='IVA')
-    total = fields.Float()
+    volumen = fields.Float(readonly=1)
+    total_arancel = fields.Float(readonly=1)
+    iva = fields.Float(string='IVA', readonly=1)
+    total = fields.Float(readonly=1)
     tipo = fields.Selection(selection=[('compra','Compra'),('venta','venta')], string="Tipo")
 
     state = fields.Selection(
@@ -36,12 +36,6 @@ class NovedadesSeries(models.Model):
     product_id = fields.Many2one('product.product', string='Producto')
     invoice_id = fields.Many2one('account.move')
 
-    @api.model
-    def create(self, vals):
-        record = super().create(vals)
-        self.env['pbp.novedades_pbp'].create([{'novedades_series_id': record.id}])
-        return record
-
     def marcar_como_inactivo(self):
         self.state = 'inactivo'
         dialog = self.env['pbp.dialog.box'].sudo().search([])[-1]
@@ -53,3 +47,13 @@ class NovedadesSeries(models.Model):
             'target':'new',
             'res_id': dialog.id
         }
+
+    @api.onchange("valor_nominal", "cantidad")
+    def _onchange_valor_nominal(self):
+        for record in self:
+            if record.valor_nominal and record.cantidad:
+                record.volumen = record.valor_nominal * record.cantidad
+
+                record.total_arancel = (record.volumen / 100) * 0.02
+                record.iva = round(record.total_arancel * 0.1, 2)
+                record.total = record.iva + record.total_arancel

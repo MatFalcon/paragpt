@@ -19,7 +19,9 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'data/state_data.xml',
         'wizard/account_voucher.xml',
+        'wizard/wizard_vencimientos_report.xml',
         'views/liquidaciones_view.xml',
         'views/resoluciones_view.xml',
         'views/custodia_emisiones_view.xml',

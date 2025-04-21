@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="view_reporte_cuadro_report" model="ir.ui.view">
+            <field name="name">reporte.cuadro.view.form</field>
+            <field name="model">reporte.cuadro</field>
+            <field name="arch" type="xml">
+                <form string="Generar Reporte Cuadro Revaluo">
+                    <group>
+<!--                        CAMPOS DE TU WIZARD SI ES QUE QUERES FILTRAR-->
+                    </group>
+                    <footer>
+                        <button string="Generar" type="object" name="generar_reporte_cuadro" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_reporte_cuadro_menu" model="ir.actions.act_window">
+            <field name="name">Reporte Cuadro</field>
+            <field name="res_model">reporte.cuadro</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_reporte_cuadro_report"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

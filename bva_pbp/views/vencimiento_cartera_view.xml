@@ -17,6 +17,16 @@
                     <field name="currency_id"/>
                     <field name="instrumento"/>
 <!--                    <field name="company_id"/>-->
+                    <field name="inversion_account_id"/>
+                    <field name="banco_account_id"/>
+                    <field name="inversion_journal_id"/>
+                    <field name="initial_credit_account_id"/>
+                    <field name="initial_credit_largo_plazo_account_id"/>
+                    <field name="initial_debit_account_id"/>
+                    <field name="initial_debit_account_id_lp"/>
+                    <field name="initial_journal_id"/>
+                    <field name="credit_account_id"/>
+                    <field name="debit_account_id"/>
                 </tree>
             </field>
         </record>
@@ -58,6 +68,31 @@
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+        <record id="vencimiento_capital_interes_pivot_view" model="ir.ui.view">
+            <field name="name">vencimiento.capita.interes.pivot</field>
+            <field name="model">pbp.vencimiento_capital_interes</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="total"/>
+                    <field name="saldo"/>
+                    <field name="amortizacion"/>
+                    <field name="serie"/>
+                    <field name="inversion_account_id"/>
+                    <field name="banco_account_id"/>
+                    <field name="inversion_journal_id"/>
+                    <field name="initial_credit_account_id"/>
+                    <field name="initial_credit_largo_plazo_account_id"/>
+                    <field name="initial_debit_account_id"/>
+                    <field name="initial_debit_account_id_lp"/>
+                    <field name="initial_journal_id"/>
+                    <field name="credit_account_id"/>
+                    <field name="debit_account_id"/>
+                </pivot>
             </field>
         </record>
 

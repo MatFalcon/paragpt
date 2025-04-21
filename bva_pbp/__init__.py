@@ -3,3 +3,4 @@
 from . import models
 from . import facturas
 from . import wizard
+from . import controllers

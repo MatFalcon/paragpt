@@ -127,14 +127,47 @@ class Novedades(models.Model):
 
             return False
 
+    def buscar_partner(self, codigo_pbp, log):
+        emisores_no_archivados = {
+            4: 27,  # cadiem
+            3: 36,  # valores cbsa
+            152994: 87,  # solar
+            2086: 142591,  # itau invest
+            72: 2  # capital market
+        }
+
+        print("Se buscar emisor por codigo pbp", codigo_pbp)
+        contacto = self.env['res.partner'].search([('id_cliente_pbp', '=', codigo_pbp)])
+        print("Resultado", contacto)
+        if contacto:
+            return contacto
+        else:
+            if codigo_pbp in emisores_no_archivados.keys():
+                contacto = self.env['res.partner'].search([('id_cliente_pbp', '=', emisores_no_archivados[codigo_pbp])])
+                print("Se busca emisor por diccionario", contacto)
+                return contacto
+            else:
+                self.env['pbp.sincronizacion_detalle_logs'].sudo().create(
+                    {
+                        'sincronizacion': log.id,
+                        'registro': {'partner_id':codigo_pbp},
+                        'error_msg': "No se encuentra el contacto con codigo %s" % codigo_pbp,
+                    }
+                )
+
+
+                return False
+
+
     @api.model
     def guardar_novedades(self, novedades, sync_log_obj):
         """
         Formatear los datos de la liquidacion y guardarlos en la tabla
         """
+
         try:
             partner_id = False
-            partners = self.env['res.partner'].search([('id_cliente_pbp', '=', novedades['cliente_id'])])
+            partners = self.buscar_partner(novedades.get("cliente_id"), sync_log_obj)
             partner = partners[0] if partners else False
             if partner:
                 partner_ruc = partner['vat']
@@ -193,8 +226,10 @@ class Novedades(models.Model):
                     total = arancel_anual / 365 * plazo
 
                     if novedades['currency_id'] == 155 and total < 10000:
+                        print("Es Guarani")
                         total = 10000
                     elif novedades['currency_id'] == 2:
+                        print("Es Dolar")
                         rate = self.env['res.currency.rate'].search([('name', '=', novedades['fecha_operacion'])])
                         if rate:
                             rate_compra = rate.set_venta
@@ -215,11 +250,11 @@ class Novedades(models.Model):
                 novedad_anterior = self.env['pbp.novedades'].search([('id_vvalores', '=', novedades['id_vvalores'])])
 
                 if novedad_anterior:
-                    self.env['pbp.novedades'].sudo().write(novedades)
-                    print('escrito')
+                    test = self.env['pbp.novedades'].sudo().write(novedades)
+                    print('escrito', test)
                 else:
-                    self.env['pbp.novedades'].sudo().create(novedades)
-                    print('creado')
+                    test = self.env['pbp.novedades'].sudo().create(novedades)
+                    print('creado', test)
 
             else:
                 self.env['pbp.sincronizacion_detalle_logs'].sudo().create(
@@ -239,3 +274,6 @@ class Novedades(models.Model):
                 }
             )
         self._cr.commit()
+
+
+
