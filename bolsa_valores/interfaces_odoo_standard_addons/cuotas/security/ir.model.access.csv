@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_cuotas_cuotas,cuotas.cuotas,cuotas.model_cuotas_cuota,,1,0,0,0
-access_cuotas_cuotas_fact,cuotas.cuotas_fact,cuotas.model_cuotas_cuota,account.group_account_invoice,1,1,1,1
-access_cuotas_cuotas_wizard,cuotas.cuotas_wizard,cuotas.model_cuotas_wizard_facturar,account.group_account_invoice,1,1,1,1
-access_cuotas_cuotas_wizard_generar,cuotas.cuotas_wizard_generar,cuotas.model_cuotas_wizard_generar_cuota,account.group_account_invoice,1,1,1,1
-
-access_cuotas_cuotas,cuotas.cuotas,cuotas.model_cuotas_cuota,base.group_portal,1,0,0,0

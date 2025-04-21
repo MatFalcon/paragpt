@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <menuitem id="recibos_menu" parent="account.menu_finance_receivables" name="Recibos"/>
-        <menuitem id="recibos_talonario_menu_action" parent="recibos_menu" name="Talonarios de Recibo" action="action_talonario_cobranzas" sequence="10"/>
-        <menuitem id="recibos_menu_action" parent="recibos_menu" name="Recibos de Cobranzas" action="action_recibo_cobranzas" sequence="15"/>
-    </data>
- </odoo>

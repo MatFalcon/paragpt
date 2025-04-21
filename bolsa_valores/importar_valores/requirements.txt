@@ -1,2 +1,0 @@
-pyodbc==4.0.35
-python-crontab==2.7.1

@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_calificacion_interes,access_interes,model_bvpasa_ingresos_diferidos_interes,base.group_user,1,1,1,1
-access_calificacion_riesgos,access_calificacion_riesgos,model_bvpasa_ingresos_diferidos_calificacion_riesgo,base.group_user,1,1,1,1
-access_instrumentos,access_instrumentos,model_bvpasa_ingresos_diferidos_instrumento,base.group_user,1,1,1,1
-access_interes_grupo,access_interes_grupo,model_bvpasa_ingresos_diferidos_interes_grupo,base.group_user,1,1,1,1

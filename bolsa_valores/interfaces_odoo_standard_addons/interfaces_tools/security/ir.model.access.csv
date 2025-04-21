@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_interfaces_tools_interfaces_tools,interfaces_tools.interfaces_tools,model_interfaces_tools_interfaces_tools,base.group_user,1,1,1,1

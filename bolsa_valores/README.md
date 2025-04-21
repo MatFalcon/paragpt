@@ -1,1 +1,0 @@
-# bvpasa_odoo_addons
