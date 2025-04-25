@@ -1,0 +1,133 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="pos_paraguay.list">
+      <field name="name">pos_paraguay list</field>
+      <field name="model">pos_paraguay.pos_paraguay</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+     <record model="ir.ui.view" id="pos_paraguay_company_form_inherited">
+                    <field name="name">pos.base_company.form.inh</field>
+                    <field name="model">res.company</field>
+                    <field name="inherit_id" ref="base.view_company_form"/>
+                    <field name="arch" type="xml">
+
+                        <xpath expr="//field[@name='website']" position="after">
+                            <field name="invoice_report" />
+                            <field name="invoice_report_text" invisible="1"/>
+
+                            <!-- <field name="nombrefantasia"/> -->
+
+                           <!--  <field name="efectivo_tesoreria"  />
+
+                            <field name="efectivo_tesoreria_usd"  domain="[('currency_id','=',3)]" /> -->
+                        </xpath>
+
+
+                    </field>
+        </record>
+
+       <record model="ir.ui.view" id="pos_paraguay_config_form_inherited">
+                    <field name="name">pos.config.form.inh</field>
+                    <field name="model">res.config.settings</field>
+                    <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+                    <field name="arch" type="xml">
+                        <xpath expr="//setting[@id='pos_default_journals']" position="after">
+
+                          <setting string="Talonarios" id="pos_default_talonarios" help="Talonarios por Defecto">
+                                <div class="content-group mt16">
+                            <div class="row">
+                                <label string="Facturas " for="pos_talonario_factura" class="col-md-3 o_light_label"/>
+                              <field name="pos_talonario_factura" domain="[('tipo_documento','=','1'),('activo','=',True)]"/>
+                             </div>
+                            <div class="row">
+                             <label string="Nota de Credito" for="pos_talonario_nota_credito" class="col-md-3 o_light_label"/>
+                                <field name="pos_talonario_nota_credito" domain="[('tipo_documento','=','4'),('activo','=',True)]"/>
+                            </div>
+                            <!--<div class="row">-->
+                            <!--<label string="Formato Factura" for="pos_invoice_report" class="col-md-3 o_light_label"/>-->
+
+                            <!--<field name="pos_invoice_report"/>-->
+                            <!--</div>-->
+                            </div>
+                            </setting>
+<!--                            <field name="invoice_report_text" invisible="1"/>-->
+
+                            <!-- <field name="nombrefantasia"/> -->
+
+                           <!--  <field name="efectivo_tesoreria"  />
+
+                            <field name="efectivo_tesoreria_usd"  domain="[('currency_id','=',3)]" /> -->
+                        </xpath>
+
+
+                    </field>
+        </record>
+
+<!--       <record model="ir.ui.view" id="pos_paraguay_session_form_inherited">-->
+<!--                    <field name="name">pos.base_session.form.inh</field>-->
+<!--                    <field name="model">pos.session</field>-->
+<!--                    <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>-->
+<!--                    <field name="arch" type="xml">-->
+<!--                        <xpath expr="//button[@name='action_pos_session_validate']" position="attributes">-->
+<!--                           <attribute name="groups">point_of_sale.group_pos_manager</attribute>-->
+
+
+<!--                        </xpath>-->
+
+
+<!--                    </field>-->
+<!--        </record>-->
+
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="pos_paraguay.action_window">
+      <field name="name">pos_paraguay window</field>
+      <field name="res_model">pos_paraguay.pos_paraguay</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="pos_paraguay.action_server">
+      <field name="name">pos_paraguay server</field>
+      <field name="model_id" ref="model_pos_paraguay_pos_paraguay"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="pos_paraguay" id="pos_paraguay.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="pos_paraguay.menu_1" parent="pos_paraguay.menu_root"/>
+    <menuitem name="Menu 2" id="pos_paraguay.menu_2" parent="pos_paraguay.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="pos_paraguay.menu_1_list" parent="pos_paraguay.menu_1"
+              action="pos_paraguay.action_window"/>
+    <menuitem name="Server to list" id="pos_paraguay" parent="pos_paraguay.menu_2"
+              action="pos_paraguay.action_server"/>
+    -->
+  </data>
+</odoo>
