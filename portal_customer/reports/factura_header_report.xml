@@ -1,0 +1,103 @@
+<odoo>
+    <template id="header_factura_report">
+
+        <!--HEADERS SEGUN MANUAL TECNICO PARA TODOS LOS DOCUMENTOS ELECTRONICSO (Factura, NC,ND,AF)-->
+            <div class="row" id="header-kude">
+                <!-- Columna 1: Logo -->
+                <div class="col-3">
+                    <img t-att-src="image_data_uri(o.company_id.logo)" class="logo"/>
+                </div>
+
+                <!-- Columna 2: Datos de la Empresa -->
+                <div class="col-5" id="col-dato-empresa">
+                    <span t-field="o.company_id.name" id="dato-empresa-header"/>
+                    <br/>
+                    <span t-field="o.company_id.street" id="dato-empresa-header"/>
+                    <br/>
+                    <span id="dato-empresa-header">
+                        <span t-field="o.company_id.city"/>,
+                        <span t-field="o.company_id.country_id.name"/>
+                    </span>
+                    <br/>
+                    <span t-field="o.company_id.phone" id="dato-empresa-header"/>
+                    <br/>
+                    <span t-field="o.company_id.email" id="dato-empresa-header"/>
+                    <br/>
+                    <span t-field="o.company_id.website" id="dato-empresa-header"/>
+                    <br/>
+                    <t t-if="o.talonario_factura.actividad_economica" id="dato-empresa-header">
+                        <span t-field="o.talonario_factura.actividad_economica" id="dato-empresa-header"/>
+                    </t>
+                    <t t-else="">
+                        <span t-field="o.company_id.actividad_economica"  id="dato-empresa-header"/>
+                    </t>
+                </div>
+
+                <!-- Columna 3: RUC, Timbrado y Factura -->
+                <div class="col-4">
+                    <p style="font-weight:bold; margin-bottom: 0;" id="timbrado-factura-titulo">
+                        RUC:<span t-field="o.company_id.ruc" id="timbrado-factura-detalle"/>-
+                        <span t-field="o.company_id.dv" id="timbrado-factura-detalle"/>
+                    </p>
+                    <p style="font-weight:bold; margin-bottom:0;" id="timbrado-factura-titulo">
+                        Timbrado:
+                        <span t-field="o.timbrado" id="timbrado-factura-detalle"/>
+                    </p>
+                    <p id="timbrado-factura-titulo">
+                        Fecha de Inicio de Vigencia:
+                        <span t-field="o.talonario_factura.fecha_inicio" id="timbrado-factura-detalle"/>
+                    </p>
+
+                    <span t-if="o.tipo_comprobante.codigo_hechauka == 1" id="timbrado-factura-tipo">
+                        Factura Electrónica
+                    </span>
+                    <span t-if="o.tipo_comprobante.codigo_hechauka == 2" id="timbrado-factura-tipo">
+                        Nota de Débito Electrónica
+                    </span>
+                    <p t-if="o.tipo_comprobante.codigo_hechauka == 3" id="timbrado-factura-tipo">
+                        Nota de Crédito Electrónica
+                    </p>
+                    <p t-if="o.tipo_comprobante.codigo_hechauka == 5" id="timbrado-factura-tipo">
+                        Autofactura Electrónica
+                    </p>
+
+                    <p id="timbrado-factura-tipo-detalle">
+                        <span t-field="o.nro_factura"/>
+                    </p>
+                </div>
+        </div>
+        <!--FIN HEADERS-->
+        <style>
+            #header-kude{
+                margin-top: 30px;
+                border: solid black 1px;
+                width: 99%;
+            }
+            .logo{
+                width: 200px;
+            }
+
+            #dato-empresa-header{
+                font-size: 11px;
+            }
+            #col-dato-empresa{
+                text-align: center;
+            }
+
+            #timbrado-factura-titulo{
+                font-size: 11px;
+                font-weight:bold;
+            }
+            #timbrado-factura-titulo{
+                font-size: 11px;
+                font-weight:normal;
+            }
+            #timbrado-factura-tipo{
+                font-size: 14px;
+                font-weight:bold;
+            }
+        </style>
+
+    </template>
+
+</odoo>

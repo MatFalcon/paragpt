@@ -1,0 +1,221 @@
+<odoo>
+    <template id="factura_cliente_datos_report">
+
+        <div class="row" id="cliente-datos-contenedor">
+            <!--DATOS DE CABECERAS DE LA FACTURA, NC Y ND-->
+              <t t-if="o.tipo_comprobante.codigo_hechauka in (1,2,3)">
+                <div id="datos-encabezado">
+
+                  <div id="fila-fecha-condicion" class="row">
+                    <div class="col-7">
+                      <p><strong>Fecha de Emisión: </strong><span t-esc="o.formatear_fecha(o.invoice_date)"/></p>
+                    </div>
+                    <div id="columna-condicion-venta" class="col-5">
+                      <p><strong>Condición de Venta: </strong><span t-field="o.tipo_factura"/></p>
+                    </div>
+                  </div>
+
+                  <div class="row" id="fila-plazo-pago">
+                    <t t-if="o.tipo_factura == '2'">
+                      <span>
+                        <strong>Plazos de pago: </strong>
+                        <span t-field="o.invoice_payment_term_id.name"/>
+                      </span>
+                    </t>
+                  </div>
+
+                  <div id="fila-razon-social" class="row">
+                    <div id="columna-razon-social" class="col-12">
+                      <t t-if="o.partner_id.parent_id">
+                        <p><strong>Razón Social: </strong> <span t-field="o.partner_id.parent_id.name"/></p>
+                      </t>
+                      <t t-else="">
+                        <p><strong>Razón Social: </strong><span t-field="o.partner_id.name"/></p>
+                      </t>
+                    </div>
+                  </div>
+
+                  <div id="fila-direccion" class="row">
+                    <div id="columna-direccion" class="col-6">
+                      <p><strong>Dirección: </strong> <span t-field="o.partner_shipping_id.street"/></p>
+                    </div>
+                  </div>
+
+                  <div id="fila-telefono-ruc" class="row">
+                    <div id="columna-telefono" class="col-7">
+                      <p><strong>Teléfono: </strong><span t-field="o.partner_id.phone"/></p>
+                    </div>
+                    <div id="columna-ruc" class="col-5">
+                      <t t-if="o.partner_id.ruc">
+                        <p><strong>RUC: </strong><span t-esc="o.ruc_factura"/></p>
+                      </t>
+                      <t t-elif="o.partner_id.nro_documento">
+                        <p><strong>RUC: </strong><span t-field="o.partner_id.nro_documento"/></p>
+                      </t>
+                      <t t-else="">
+                        <p><strong>RUC: </strong></p>
+                      </t>
+                    </div>
+                  </div>
+
+                  <div id="fila-correo-moneda" class="row">
+                    <div id="columna-correo" class="col-7">
+                      <p><strong>Correo: </strong><span t-field="o.partner_id.email"/></p>
+                    </div>
+                    <div id="columna-moneda" class="col-3">
+                      <t t-set="moneda" t-value="o.verificar_nombre_moneda(o.currency_id.name)"/>
+                      <p><strong>Moneda:  </strong><span t-esc="moneda"/></p>
+                    </div>
+                    <t t-if="o.currency_id.id != o.company_id.currency_id.id">
+                      <div id="columna-tipo-cambio" class="col-2">
+                        <p><strong>Tipo de Cambio: </strong><span t-esc="o.get_tipo_cambio_reporte()"/></p>
+                      </div>
+                    </t>
+                  </div>
+
+                  <div id="fila-cuotas-transaccion" class="row">
+                    <div id="columna-cuotas" class="col-7">
+                      <p><strong>Cuotas: </strong><span t-field="o.cantidad_cuotas"/></p>
+                    </div>
+                    <div id="columna-transaccion" class="col-5">
+                      <p><strong>Tipo de Transacción: </strong><span t-field="o.tipo_transaccion"/></p>
+                    </div>
+                  </div>
+
+                  <t t-if="o.tipo_comprobante.codigo_hechauka in (2,3)">
+                    <div id="fila-doc-asociado" class="row">
+                      <div id="columna-doc-asociado" class="col-7">
+                        <p><strong>Documento Asociado: </strong><span t-field="o.factura_afectada.nro_factura"/></p>
+                      </div>
+                      <div id="columna-tipo-doc-asociado" class="col-5">
+                        <p><strong>Tipo de Documento Asociado: </strong><span t-field="o.tipo_documento_asociado"/></p>
+                      </div>
+                    </div>
+                    <div id="fila-motivo-emision" class="row">
+                      <div id="columna-motivo-emision" class="col-6">
+                        <p><strong>Motivo de Emisión: </strong><span t-field="o.motivo_emision_nc"/></p>
+                      </div>
+                    </div>
+                  </t>
+
+                </div>
+              </t>
+            <!--FIN DE DATOS DE CABECERAS DE LA FACTURA, NC Y ND-->
+
+            <!--DATOS DE CABECERAS DE LA AUTOFACTURA-->
+            <t t-if="o.tipo_comprobante.codigo_hechauka == 5">
+                <div id="datos-encabezado">
+                    <div class="row">
+                        <div class="col-7">
+                            <p><strong>Fecha de Emision:</strong>
+                                <span t-esc="o.formatear_fecha(o.invoice_date)"/>
+                            </p>
+                        </div>
+                        <div class="col-5">
+                            <p><strong>Ciudad del Vendedor: </strong>
+                                <span>ASUNCION (DISTRITO)</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <p><strong>Naturaleza del Vendedor: </strong>
+                                <span t-field="o.autofactura_partner_id.naturaleza_vendedor"/>
+                            </p>
+                        </div>
+                        <div class="col-5">
+                            <p><strong>Tipo de Constancia:</strong>
+                                <span t-field="o.tipo_constancia"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <p><strong>Nro. Doc. de Identidad del Vend.: </strong>
+                                <span t-field="o.autofactura_partner_id.nro_documento"/>
+                            </p>
+                        </div>
+                        <div class="col-5">
+                            <p><strong>Nro de Constancia: </strong>
+                                <span t-field="o.nro_constancia"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <p><strong>Nombre y Apellido del Vendedor: </strong>
+                                <span t-field="o.autofactura_partner_id.name"/>
+                            </p>
+                        </div>
+                        <div class="col-5">
+                            <p><strong>Nro de Control: </strong>
+                                <span t-field="o.nro_control_constancia"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <p><strong>Direccion del Vendedor: </strong>
+                                <span t-field="o.autofactura_partner_id.street"/>
+                            </p>
+                        </div>
+                        <div class="col-5">
+                            <p><strong>Nro de Comprobante de retencion: </strong>
+                                <span t-field="o.nro_constancia"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p><strong>Razon Social del Comprador: </strong>
+                                <span t-field="o.partner_id.name"/>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>RUC del Comprador: </strong>
+                                <span t-field="o.partner_id.rucdv"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p><strong>Departamento del Vendedor:  </strong><span>CAPITAL</span>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Distrito del Vendedor: </strong><span>ASUNCION (DISTRITO)</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+
+        </div>
+        <style>
+            #cliente-datos-contenedor{
+                margin-top: 25px;
+                width: 99%;
+                border: solid black 1px;
+            }
+            #cliente-datos-contenedor{
+                font-size: 11px;
+            }
+            .row{
+
+            }
+            #fila-fecha-condicion,
+            #fila-plazo-pago,
+            #fila-razon-social,
+            #fila-direccion,
+            #fila-telefono-ruc,
+            #fila-correo-moneda,
+            #fila-cuotas-transaccion,
+            #fila-doc-asociado,
+            #fila-motivo-emision{
+                height: 15px;
+            }
+        </style>
+
+    </template>
+</odoo>

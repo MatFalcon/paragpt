@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+
+
+        <record id="factura_report_web_papper" model="report.paperformat">
+            <field name="name">Kude</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+
+        <report
+                id="factura_report_web_report"
+                model="account.move"
+                string="KuDe"
+                report_type="qweb-pdf"
+                name="portal_customer.factura_report_web"
+                file="portal_customer.factura_report_web"
+                paperformat="factura_report_web_papper"
+                print_report_name="'KuDE - %s' % (object.nro_factura)"
+                attachment="(object.state == 'posted') and ('KUDE_%s.pdf' % (object.name or 'INV'))"
+
+        />
+
+    </data>
+</odoo>

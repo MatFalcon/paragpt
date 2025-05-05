@@ -1,0 +1,297 @@
+<odoo>
+    <template id="factura_items_report">
+        <div class="row" id="item-datos-contenedor">
+
+            <table class="tabla-producto">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Codigo</th>
+                        <th rowspan="2">Descripcion</th>
+                        <th rowspan="2">UdM.</th>
+                        <th rowspan="2">Cantidad</th>
+                        <th rowspan="2">Precio Unitario</th>
+                        <t t-if="o.tipo_comprobante.codigo_hechauka == 1">
+                            <th rowspan="2">Descuento</th>
+                        </t>
+                        <th colspan="3">Valor de Venta</th>
+                    </tr>
+                    <tr>
+                        <th>Exenta</th>
+                        <th>5 %</th>
+                        <th>10 %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="suma_exenta" t-value="0"/>
+                    <t t-set="suma_5_porciento" t-value="0"/>
+                    <t t-set="suma_10_porciento" t-value="0"/>
+                    <tr t-foreach="o.invoice_line_ids" t-as="p">
+                        <t t-if="p.display_type == 'product'">
+
+                            <!--Codigo producto original-->
+                            <td>
+                                <span t-field="p.product_id.default_code"/>
+                            </td>
+
+                            <!--Descripcion original-->
+                            <td>
+                                <span t-field="p.name"/>
+                            </td>
+
+                            <!--Unidad de Medida-->
+                            <td>
+                                <span t-field="p.product_uom_id.name"/>
+                            </td>
+
+                            <!--Cantidad original-->
+                            <t t-set="var" t-value="p.quantity"/>
+                            <t t-set="var2" t-value="int(var)"/>
+                            <t t-set="var3" t-value="var-var2"/>
+                            <t t-if="var3&gt;0">
+                                <td>
+                                    <span t-field="p.quantity"/>
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td>
+                                    <span t-esc="'%.0f'%(p.quantity)" t-field-options="{'widget':'Integer'}"/>
+                                </td>
+                            </t>
+
+                            <!--Precion Unitario original-->
+                            <td>
+                                <t t-if="o.currency_id.name != 'PYG'">
+                                    <span t-field="p.price_unit"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="o.conversion_monetaria_fact(p.price_unit, o.currency_id.name)"/>
+                                </t>
+                            </td>
+
+                            <!--Descuento-->
+                            <t t-if="o.tipo_comprobante.codigo_hechauka == 1">
+                                <td/>
+                            </t>
+
+                            <!--Exenta original-->
+                            <t t-if="p.tax_ids.tax_group_id.name == 'exentos'">
+                                <t t-set="suma_exenta" t-value="suma_exenta+p.price_total"/>
+                                <td>
+                                    <span t-esc="o.conversion_monetaria_fact(p.price_total, o.currency_id.name)"/>
+                                </td>
+                                <td/>
+                                <td/>
+                            </t>
+                            <!--5% original-->
+                            <t t-if="p.tax_ids.tax_group_id.name == '5%'">
+                                <t t-set="suma_5_porciento" t-value="suma_5_porciento+p.price_total"/>
+                                <td/>
+                                <td>
+                                    <span t-esc="o.conversion_monetaria_fact(p.price_total, o.currency_id.name)"/>
+                                </td>
+                                <td/>
+                            </t>
+                            <!--10% original-->
+                            <t t-if="p.tax_ids.tax_group_id.name == '10%'">
+                                <t t-set="suma_10_porciento" t-value="suma_10_porciento+p.price_total"/>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <span t-esc="o.conversion_monetaria_fact(p.price_total, o.currency_id.name)"/>
+                                </td>
+                            </t>
+                        </t>
+                    </tr>
+                    <!-- SUB TOTALES -->
+                    <tr style="text-align:right">
+                        <td colspan="6" style="text-align:left">SUBTOTAL:</td>
+                        <t t-if="suma_exenta == 0">
+                            <td/>
+                        </t>
+                        <t t-else="">
+                            <td style="text-align:right">
+                                <span t-esc="o.conversion_monetaria_fact(o.redondeo_por_tres_decimales_fact(suma_exenta, o.currency_id.name), o.currency_id.name)"/>
+                            </td>
+                        </t>
+                        <t t-if="suma_5_porciento == 0">
+                            <td/>
+                        </t>
+                        <t t-else="">
+                            <td style="text-align:right">
+                                <span t-esc="o.conversion_monetaria_fact(o.redondeo_por_tres_decimales_fact(suma_5_porciento, o.currency_id.name), o.currency_id.name)"/>
+                            </td>
+                        </t>
+                        <t t-if="suma_10_porciento == 0">
+                            <td/>
+                        </t>
+                        <t t-elif="suma_10_porciento &gt; 0">
+                            <!--                                        <t t-if="'USD' in o.currency_id.name">-->
+                            <td style="text-align:right">
+                                <!--                                                 <span t-esc="o.conversion_monetaria_fact(o.redondeo_por_tres_cifras(o.amount_total,5,o.currency_id.name), o.currency_id.name)"/>-->
+                                <span t-esc="o.conversion_monetaria_fact(o.redondeo_por_tres_decimales_fact(suma_10_porciento,o.currency_id.name), o.currency_id.name)"/>
+
+                            </td>
+                            <!--                                      </t>-->
+                            <!--                                      <t t-else="">-->
+                            <!--                                         <td><span t-esc="o.conversion_monetaria_fact(suma_10_porciento, o.currency_id.name)"/></td>-->
+                            <!--                                      </t>-->
+                        </t>
+                        <t t-else="">
+                            <td>0.00</td>
+                        </t>
+
+                    </tr>
+                    <!--  TOTALES -->
+                    <tr>
+                        <td>TOTAL:</td>
+                        <t t-if="'PYG' in o.currency_id.name">
+                            <td colspan="7">
+                                <span t-esc="o.calcular_letras(o.amount_total)"/>
+                            </td>
+                        </t>
+                        <t t-if="'USD' in o.currency_id.name">
+                            <t t-if="o.amount_total &lt; 1">
+                                <td colspan="7">
+                                    <span t-esc="o.calcular_letras_dolar(0.00)"/>
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td colspan="7">
+                                    <span t-esc="o.calcular_letras_dolar(o.redondeo_por_tres_decimales_fact(o.amount_total,o.currency_id.name))"/>
+                                </td>
+                            </t>
+                        </t>
+                        <td style="text-align:right">
+                            <!--                                        <t t-if="'USD' in o.currency_id.name">-->
+                            <!--                                         <span t-esc="o.conversion_monetaria_fact(o.redondeo_por_tres_decimales_fact(o.amount_total,o.currency_id.name), o.currency_id.name)"/>-->
+                            <t t-if="o.amount_total &lt; 1">
+                                <span t-esc="o.agregar_punto_de_miles(0.00,o.currency_id.name)"/>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="o.conversion_monetaria_fact(o.redondeo_por_tres_decimales_fact(o.amount_total,o.currency_id.name), o.currency_id.name)"/>
+                            </t>
+
+                            <!--                                        </t>-->
+                            <!--                                        <t t-if="'PYG' in o.currency_id.name">-->
+                            <!--                                            <span t-esc="o.conversion_monetaria_fact(suma_10_porciento, o.currency_id.name)"/>-->
+                            <!--                                        </t>-->
+                        </td>
+                    </tr>
+                    <t t-if="o.currency_id.name != 'PYG'">
+                        <tr>
+                            <t t-set="monto_guaranies" t-value="o.get_monto_guaranies(o.currency_id)"/>
+                            <td>TOTAL EN GUARANIES:</td>
+
+                            <td colspan="7">
+                                <span t-esc="o.calcular_letras(monto_guaranies)"/>
+                            </td>
+                            <td>
+                                <!--                                        <t t-if="'USD' in o.currency_id.name">-->
+                                <!--                                         <span t-esc="o.conversion_monetaria_fact(o.redondeo_por_tres_decimales_fact(o.amount_total,o.currency_id.name), o.currency_id.name)"/>-->
+                                <t t-if="monto_guaranies &lt; 1">
+                                    <span t-esc="o.agregar_punto_de_miles(0.00,o.currency_id.name)"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="o.conversion_monetaria_fact(o.redondeo_por_tres_decimales_fact(monto_guaranies,'PYG'), 'PYG')"/>
+                                </t>
+
+                                <!--                                        </t>-->
+                                <!--                                        <t t-if="'PYG' in o.currency_id.name">-->
+                                <!--                                            <span t-esc="o.conversion_monetaria_fact(suma_10_porciento, o.currency_id.name)"/>-->
+                                <!--                                        </t>-->
+                            </td>
+                        </tr>
+
+                    </t>
+                    <!--  IVA -->
+                    <tr>
+                        <t t-set="total_iva" t-value="0"/>
+                        <t t-set="iva_5" t-value="0"/>
+                        <t t-set="iva_10" t-value="0"/>
+                        <td colspan="2">LIQUIDACIÓN DEL IVA:</td>
+                        <t t-if="suma_5_porciento &gt; 0">
+                            <!--<t t-set="iva_5" t-value="suma_5_porciento/21"/>-->
+                            <t t-if="'USD' in o.currency_id.name">
+                                <t t-set="iva_5"
+                                   t-value="o.redondeo_por_tres_decimales_fact(suma_5_porciento/21,o.currency_id.name)"/>
+                            </t>
+                            <t t-else="">
+                                <t t-set="iva_5" t-value="suma_5_porciento/21"/>
+                            </t>
+                            <t t-set="total_iva" t-value="total_iva+iva_5"/>
+                            <!--<td colspan="2">5%: <span t-esc="o.agregar_punto_de_miles(iva_5,o.currency_id.name)"/></td>-->
+                            <td colspan="2">5%:
+                                <span t-esc="o.conversion_monetaria_fact(iva_5,o.currency_id.name)"/>
+                            </td>
+                        </t>
+                        <t t-else="">
+                            <td colspan="2">5%: 0</td>
+                        </t>
+
+                        <t t-if="suma_10_porciento &gt; 0">
+                            <t t-if="'USD' in o.currency_id.name">
+
+                                <!--<t t-set="iva_10" t-value="round((suma_10_porciento/11),2)"/>-->
+                                <t t-set="iva_10"
+                                   t-value="o.redondeo_por_tres_decimales_fact(suma_10_porciento/11,o.currency_id.name)"/>
+                            </t>
+                            <t t-else="">
+                                <!--<t t-set="iva_10" t-value="round(suma_10_porciento/11)"/>
+                                <t t-set="iva_10" t-value="suma_10_porciento/11"/> -->
+                                <t t-set="iva_10"
+                                   t-value="round(o.redondeo_por_tres_decimales_fact(suma_10_porciento/11,o.currency_id.name))"/>
+                            </t>
+
+                            <t t-set="total_iva" t-value="total_iva+iva_10"/>
+                            <!--<td colspan="2">10%: <span t-esc="o.agregar_punto_de_miles(iva_10,o.currency_id.name)"/> </td>-->
+                            <td colspan="2">10%:
+                                <span t-esc="o.conversion_monetaria_fact(iva_10,o.currency_id.name)"/>
+                            </td>
+                        </t>
+                        <t t-else="">
+                            <!--                                            <td colspan="2">10%: <span t-field="o.amount_tax"/> </td>-->
+                            <td colspan="2">10%: 0</td>
+                        </t>
+                        <t t-if="total_iva &gt; 0">
+                            <!--<td colspan="3">TOTAL IVA: <span t-esc="o.agregar_punto_de_miles(total_iva,o.currency_id.name)"/></td>-->
+                            <td colspan="3">TOTAL IVA:
+                                <span t-esc="o.conversion_monetaria_fact(total_iva,o.currency_id.name)"/>
+                            </td>
+                        </t>
+                        <!--                                     <t t-elif="suma_10_porciento &gt; 0">-->
+                        <!--<td colspan="3">TOTAL IVA: <span t-esc="o.agregar_punto_de_miles(total_iva,o.currency_id.name)"/></td>-->
+                        <!--                                        <td colspan="3">TOTAL IVA: <span t-esc="o.conversion_monetaria_fact(total_iva,o.currency_id.name)"/></td>-->
+                        <!--                                      </t>-->
+                        <t t-else="">
+                            <td colspan="3">TOTAL IVA:
+                                <span t-field="o.amount_tax"/>
+                            </td>
+                        </t>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <style>
+            #item-datos-contenedor{
+                width: 99%;
+            }
+            #cabecera-item{
+                font-size; 10px;
+                width: 100%;
+
+            }
+            #cabecera-codigo,
+            #cabecera-descripcion,
+            #cabecera-udm,
+            #cabecera-cantidad,
+            #cabecera-precio,
+            #cabecera-descuento,
+            #cabecera-valor_venta,
+            #cabecera-exen,
+            #cabecera-5,
+            #cabecera-10{
+                border: solid black 1px;
+            }
+        </style>
+    </template>
+</odoo>

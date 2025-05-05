@@ -1,0 +1,70 @@
+<odoo>
+    <template id="footer_factura_report">
+        <div class="contenedor-footer">
+            <div class="row">
+                <div class="col-4">
+                    <t t-if="o.qr_code">
+                        <span class="qr-imagen" style="">
+                            <img t-att-src="image_data_uri(o.qr_code)" class="qr" />
+                        </span>
+                    </t>
+                </div>
+    
+                <div class="col-8 datos-footer">
+                    <!-- Mostrar el tipo de documento electrónico -->
+                    <t t-set="d_e" t-value="''" />
+                    <t t-if="o.tipo_comprobante.codigo_hechauka == 1">
+                        <t t-set="d_e" t-value="' Factura Electrónica'" />
+                    </t>
+                    <t t-if="o.tipo_comprobante.codigo_hechauka == 2">
+                        <t t-set="d_e" t-value="' Nota de Débito Electrónica'" />
+                    </t>
+                    <t t-if="o.tipo_comprobante.codigo_hechauka == 3">
+                        <t t-set="d_e" t-value="' Nota de Crédito Electrónica'" />
+                    </t>
+                    <t t-if="o.tipo_comprobante.codigo_hechauka == 5">
+                        <t t-set="d_e" t-value="' Autofactura Electrónica'" />
+                    </t>
+    
+                    <p>Consulte la validez de esta <span t-esc="d_e" /> con el número de CDC impreso
+                        abajo en:</p>
+    
+                    <!-- Mostrar el enlace correcto según el servidor -->
+                    <t t-if="o.company_id.servidor == 'prueba'">
+                        <p>
+                            <a href="https://ekuatia.set.gov.py/consultas-test/">
+                                https://ekuatia.set.gov.py/consultas-test/</a>
+                        </p>
+                    </t>
+                    <t t-else="">
+                        <p>
+                            <a href="https://ekuatia.set.gov.py/consultas/">
+                                https://ekuatia.set.gov.py/consultas/</a>
+                        </p>
+                    </t>
+    
+                    <!-- Mostrar el CDC -->
+                    <p>CDC: <span t-field="o.cdc" />
+                    </p>
+    
+                    <!-- Mensaje de corrección de errores -->
+                    <p>Si su documento electrónico presenta un error, podrá solicitar la modificación
+                        dentro de las 72 horas siguiente de la emisión de este comprobante.</p>
+                </div>
+            </div>
+        </div>
+        <style>
+            .contenedor-footer{
+                margin-top: 10px;
+                border: solid 1px black;
+                width: 96.5%;
+                position:absolute;
+                left:0;
+            }
+            .datos-footer{
+                font-size: 13px;
+            }
+
+        </style>
+    </template>
+</odoo>

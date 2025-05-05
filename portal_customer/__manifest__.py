@@ -1,0 +1,21 @@
+{
+    'name': 'Portal Web - Cliente 2',
+    'version': '16.0.1.0.0',
+    'summary': 'Modulo personalizado del portal del cliente',
+    'category': 'Website',
+    'website': 'https://www.sati.com.py',
+    'license': 'LGPL-3',
+    'depends': ['base', 'portal', 'account','factura_electronica', 'web'],
+    'data': [
+        'reports/factura_cliente_datos_report.xml',
+        'reports/factura_header_report.xml',
+        'reports/factura_items_report.xml',
+        'reports/factura_footer.xml',
+        'reports/factura_report_web.xml',
+        'reports/config.xml',
+        # 'views/portal_template.xml',
+    ],
+    'qweb': [],
+    'installable': True,
+    'application': False,
+}
