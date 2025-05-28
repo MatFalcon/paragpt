@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="wizard_diferencia_op" model="ir.ui.view">
+            <field name="name">diferencia.op.wizard</field>
+            <field name="model">diferencia.op</field>
+            <field name="arch" type="xml">
+                <form string="Diferencia Wizard">
+                    <group>
+                        <field name="op_id" invisible="1"/>
+                         <field name="diferencia" widget="radio" required="1"/>
+                    </group>
+                    <footer>
+                        <button class="oe_highlight" name="procesar" string="Confirmar" type="object"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_wizard_diferencia_OPid" model="ir.actions.act_window">
+            <field name="name">Diferencia OP</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">diferencia.op</field>
+
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_diferencia_op"/>
+            <field name="target">new</field>
+<!--            <field name="context">{'default_recibo':active_id}</field>-->
+        </record>
+
+    </data>
+</odoo>

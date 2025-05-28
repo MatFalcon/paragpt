@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <record id="wizard_asignacion_facturas" model="ir.ui.view">
+        <field name="name">Asignar facturas</field>
+        <field name="model">account_payment_py.wizard_asignacion</field>
+        <field name="arch" type="xml">
+        <form string="Asignar facturas">
+                <p class="oe_gray">
+                        Inicialmente figuran 10 facturas mas antiguas, si existe mas facturas al darle click al boton Agregar Registro podra elegir las demas facturas
+                </p>
+                <group>
+                        <group>
+                                <field name="partner_id" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="invoice_ids" colspan="3" domain="[('no_ver_factura_pago','=',False), ('state','=','posted') , ('payment_state','in',('not_paid','in_payment','partial')),('partner_id','child_of',partner_id),('move_type','=','in_invoice')]"/>
+                        </group>
+                </group>
+                <footer>
+                        <button name="procesar"
+                                string="Asignar"
+                                type="object"
+                                class="btn-primary"/>
+
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_asignar_facturas" model="ir.actions.act_window">
+	        <field name="name">Asignar facturas</field>
+	        <field name="res_model">account_payment_py.wizard_asignacion</field>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="wizard_asignacion_facturas"/>
+	        <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+            <!-- Orden de Pago -->
+        <record id="action_seguimiento_report" model="ir.actions.report">
+             <field name="name">Orden de Pago</field>
+             <field name="model">account.orden.pago</field>
+             <field name="binding_model_id" ref="model_account_orden_pago"/>
+             <field name="report_type">qweb-pdf</field>
+             <field name="report_name">account_payment_py.payment_report</field>
+             <field name="report_file">account_payment_py.payment_report</field>
+            <field name="print_report_name">'%s' % (object.name)</field>
+        </record>
+            <!-- Pago -->
+        <record id="report_payment_py" model="ir.actions.report">
+             <field name="name">Pago</field>
+             <field name="model">account.payment</field>
+             <field name="binding_model_id" ref="model_account_payment"/>
+             <field name="report_type">qweb-pdf</field>
+             <field name="report_name">account_payment_py.report_payment_py_view</field>
+             <field name="report_file">account_payment_py.report_payment_py</field>
+            <field name="print_report_name">'%s' % (object.name)</field>
+        </record>
+    </data>
+</odoo>
