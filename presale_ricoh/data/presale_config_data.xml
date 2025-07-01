@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Configuración por defecto -->
+        <record id="default_presale_config" model="presale.ricoh.config">
+            <field name="name">Configuración Principal</field>
+            <field name="ld">1.15</field>
+            <field name="gm">1.25</field>
+            <field name="intereses">2.5</field>
+            <field name="iva">1.1</field>
+        </record>
+
+        <!-- Configuraciones de intereses por defecto -->
+        <record id="interes_12_meses" model="presale.ricoh.intereses">
+            <field name="plazo">12</field>
+            <field name="porcentaje">2.5</field>
+        </record>
+
+        <record id="interes_24_meses" model="presale.ricoh.intereses">
+            <field name="plazo">24</field>
+            <field name="porcentaje">3.0</field>
+        </record>
+
+        <record id="interes_36_meses" model="presale.ricoh.intereses">
+            <field name="plazo">36</field>
+            <field name="porcentaje">3.5</field>
+        </record>
+
+        <record id="interes_48_meses" model="presale.ricoh.intereses">
+            <field name="plazo">48</field>
+            <field name="porcentaje">4.0</field>
+        </record>
+    </data>
+</odoo> 

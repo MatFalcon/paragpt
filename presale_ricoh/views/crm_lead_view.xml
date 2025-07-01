@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!--<record
+    id="view_crm_lead_form_inherit_preventa_statbutton" model="ir.ui.view">
+      <field name="name">crm.lead.form.view.inherit.preventa.statbutton</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_lead_view_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//div[@class='oe_button_box' and @name='button_box']" position="inside">
+          <button name="action_view_presale_orders" style="min-width: 150px; width:150px;"
+            type="object"
+            class="oe_stat_button" icon="fa-shopping-cart">
+            <div class="o_stat_info">
+              <field name="presale_count" widget="statinfo" class="o_stat_value" />
+            </div>
+          </button>
+        </xpath>
+      </field>
+    </record>-->
+
+
+    <record id="view_crm_lead_form_inherit_preventa_ricoh_buttons" model="ir.ui.view">
+      <field name="name">crm.lead.form.view.inherit.preventa.buttons</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+      <field name="arch" type="xml">
+
+         <xpath expr="//sheet//div[@class='oe_button_box']" position="inside">
+          <button name="action_view_presale_orders"
+                  type="object"
+                  class="oe_stat_button"
+                  icon="fa-shopping-cart"
+                  attrs="{'invisible': [('presale_count','=',0)]}">
+            <field name="presale_count" widget="statinfo"/>
+          </button>
+        </xpath>
+
+        <xpath expr="//button[@name='action_set_won_rainbowman']" position="attributes">
+          <attribute name="attrs">{'invisible':[('genera_cotizador','=',True)]}</attribute>
+        </xpath>
+
+        <xpath expr="//header" position="inside">
+          <field name="is_rch" invisible="1"/>
+          <field name="is_etapa_contacto" invisible="1"/>
+          <field name="is_etapa_relevamiento" invisible="1"/>
+          <field name="genera_cotizador" invisible="1"/>
+          <field name="has_presale" invisible="1"/>
+          <field name="has_presale" invisible="1"/>
+        </xpath>
+
+        <xpath expr="//button[@name='set_to_preventa_cotizador']" position="attributes">
+          <attribute name="attrs">
+            {'invisible': [
+               '|','|',
+               ('is_etapa_pipeline','=', True),
+               ('is_etapa_preventa_cotizador','=', True),
+               ('is_rch','=', True),
+            ]}
+          </attribute>
+        </xpath>
+
+        <xpath expr="//header" position="inside">
+          <button name="action_set_relevamiento"
+                  type="object"
+                  string="Relevamiento"
+                  class="btn btn-secondary"
+                  attrs="{'invisible': ['|',
+                     ('is_etapa_contacto','=',False),
+                     ('is_rch','=', False)
+                  ]}"
+                  />
+        </xpath>
+
+        <xpath expr="//header" position="inside">
+        <button name="action_confirm_preventa"
+                type="object"
+                string="Generar Cotización"
+                class="btn btn-primary"
+                attrs="{'invisible': ['|',
+                   ('genera_cotizador','=', False),
+                   ('is_rch','=', False)
+                ]}"
+                />
+          <button name="action_set_cotizacion"
+                type="object"
+                string="Cotización"
+                class="btn btn-primary"
+                attrs="{'invisible': ['|',
+                   ('is_etapa_relevamiento','=', False),
+                   ('is_rch','=', False)
+                ]}"
+                />
+        </xpath>
+
+
+        <xpath expr="//field[@name='stage_id']" position="attributes">
+          <attribute name="readonly">1</attribute>
+        </xpath>
+
+      </field>
+    </record>
+
+
+    <record id="crm_stage_crm_ricoh" model="ir.ui.view">
+      <field name="name">crm.stage.crm.ricoh</field>
+      <field name="model">crm.stage</field>
+      <field name="inherit_id" ref="crm.crm_stage_form" />
+      <field name="arch" type="xml">
+
+
+        <xpath expr="//field[@name='fold']" position="after">
+          <field name="genera_cotizador" />
+          <field name="is_etapa_contacto" />
+          <field name="is_etapa_relevamiento" />
+          <field name="is_etapa_analisis" />
+          <field name="is_etapa_servicio" />
+        </xpath>
+      </field>
+    </record>
+
+
+  </data>
+</odoo>

@@ -1,0 +1,18 @@
+<odoo>
+   
+    <record id="action_presale_ricoh_order" model="ir.actions.act_window">
+        <field name="name">Presale Ricoh Orders</field>
+        <field name="res_model">presale.ricoh.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem
+        id="menu_presale_ricoh_root"
+        name="Preventas Ricoh"
+        action="action_presale_ricoh_order"
+        sequence="10"
+        web_icon="presale_ricoh,static/description/icon.png"
+        groups="presale_ricoh.group_presale_ricoh_user,presale_ricoh.group_presale_ricoh_manager"
+        />
+
+</odoo>

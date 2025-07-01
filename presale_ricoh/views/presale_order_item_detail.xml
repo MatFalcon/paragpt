@@ -1,0 +1,71 @@
+    <odoo>
+    <!-- Vista de lista para presale.ricoh.order.item.detail -->
+    <record id="view_presale_item_detail_tree" model="ir.ui.view">
+        <field name="name">presale.ricoh.order.item.detail.tree</field>
+        <field name="model">presale.ricoh.order.item.detail</field>
+        <field name="arch" type="xml">
+            <tree string="Detalles del Ítem">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="dist"/>
+                <field name="unit_price"/>
+                <field name="ld" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                <field name="gm" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                <field name="intereses" readonly="1" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                <field name="exen" readonly="1"/>
+                <field name="iva" readonly="1"/>
+                <field name="subtotal_exen" readonly="1"/>
+                <field name="subtotal_iva" readonly="1"/>
+                <field name="cuota" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario para presale.ricoh.order.item.detail -->
+    <record id="view_presale_item_detail_form" model="ir.ui.view">
+        <field name="name">presale.ricoh.order.item.detail.form</field>
+        <field name="model">presale.ricoh.order.item.detail</field>
+        <field name="arch" type="xml">
+            <form string="Detalle del Item">
+                <sheet>
+                    <group col="2">
+                        <group string="Información Basica">
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="serie_id"/>
+                            <field name="qty"/>
+                        </group>
+                        <group string="Precios">
+                            <field name="dist"/>
+                            <field name="unit_price" readonly="1"/>
+                            <field name="total" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Calculos de Precio Accesorio">
+                        <field name="ld" readonly="1" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                        <field name="gm" readonly="1" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                        <field name="intereses" readonly="1" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                        <field name="exen" readonly="1"/>
+                        <field name="iva" readonly="1"/>
+                        <field name="subtotal_exen" readonly="1"/>
+                        <field name="subtotal_iva" readonly="1"/>
+                        <field name="cuota" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Accion de ventana para presale.ricoh.order.item.detail -->
+    <record id="action_presale_item_detail" model="ir.actions.act_window">
+        <field name="name">Detalles de Ítems de Preventa</field>
+        <field name="res_model">presale.ricoh.order.item.detail</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea el primer detalle de item de preventa
+            </p>
+        </field>
+    </record>
+</odoo>

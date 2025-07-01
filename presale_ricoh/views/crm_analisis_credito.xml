@@ -1,0 +1,52 @@
+<odoo>
+  <data>
+
+    <record id="view_crm_lead_form_inherit_credit" model="ir.ui.view">
+      <field name="name">crm.lead.form.inherit.credit</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+      <field name="arch" type="xml">
+
+        <!-- 1) Inyectamos en HEADER los flags invisibles -->
+        <xpath expr="//header" position="inside">
+          <field name="is_etapa_analisis"    invisible="1"/>
+          <field name="credit_state"         invisible="1"/>
+          <field name="credit_reason"        invisible="1"/>
+        </xpath>
+
+        <!-- 3) Insertamos la PESTAÑA de “Análisis de Crédito” -->
+        <xpath expr="//notebook" position="inside">
+          <page string="Análisis de Crédito"
+             attrs="{'invisible': [('is_etapa_analisis','=', False)]}">
+            <group>
+              <field name="credit_state" widget="statusbar"
+                     statusbar_visible="pending,correction,approved"/>
+
+              <field name="credit_reason"
+                     attrs="{'readonly':[('credit_state','!=','pending')]}"/>
+
+              <field name="credit_attachment_ids"
+                     widget="many2many_binary"
+                     options="{'no_delete': True}"
+                     />
+
+              <button name="action_credit_approve"
+                      type="object"
+                      string="Aprobar Crédito"
+                      class="btn btn-success"
+                      attrs="{'invisible': [('credit_state','=','approved')]}"/>
+              <button name="action_credit_reject"
+                      type="object"
+                      string="Corregir Crédito"
+                      class="btn btn-warning"
+                      attrs="{'invisible': [('credit_state','!=','pending')]}"/>
+
+            </group>
+          </page>
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+</odoo>

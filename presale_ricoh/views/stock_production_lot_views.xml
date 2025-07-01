@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record id="view_stock_production_lot_form_presale" model="ir.ui.view">
+            <field name="name">stock.production.lot.form.presale</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                    <field name="presale_item_detail_ids" attrs="{'invisible': True}"></field>
+                    <field name="presale_item_ids" attrs="{'invisible': True}"></field>
+                    <field name="presale_accesorio_lot_ids" attrs="{'invisible': True}"></field>
+                    <field name="presale_impresora_lot_ids" attrs="{'invisible': True}"></field>
+                    <field name="tipo_product" attrs="{'invisible': True}"></field>
+                    <!-- Botones o accesos directos que se ven en los lostes -->
+                    <button name="action_view_presale_lines" type="object" class="oe_stat_button" icon="fa-archive"
+                            attrs="{'invisible': [('presale_item_ids','=',[]), ('presale_item_detail_ids','=',[])]}">
+                        <span class="o_stat_text">Detalles Preventa</span>
+                    </button>
+                    <button name="action_view_related_lots" type="object" class="oe_stat_button" icon="fa-link"
+                            attrs="{'invisible': [('presale_accesorio_lot_ids','=',[]), ('presale_impresora_lot_ids','=',[])]}">
+                        <span class="o_stat_text" attrs="{'invisible': [('tipo_product','=','impre')]}">Maquina</span>
+                        <span class="o_stat_text" attrs="{'invisible': [('tipo_product','=','acce')]}">Accesorios</span>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo> 

@@ -1,0 +1,67 @@
+<odoo>
+    <!-- Vista de lista para presale.ricoh.order.item -->
+    <record id="view_presale_order_item_tree" model="ir.ui.view">
+        <field name="name">presale.ricoh.order.item.tree</field>
+        <field name="model">presale.ricoh.order.item</field>
+        <field name="arch" type="xml">
+            <tree string="Líneas del Pedido">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <!-- <field name="unit_price"/>
+                <field name="subtotal"/> -->
+            </tree>
+        </field>
+    </record>
+    <!-- Vista de formulario para presale.ricoh.order.item -->
+    <record id="view_presale_order_item_form" model="ir.ui.view">
+        <field name="name">presale.ricoh.order.item.form</field>
+        <field name="model">presale.ricoh.order.item</field>
+        <field name="arch" type="xml">
+            <form string="Línea del Pedido">
+                <sheet>
+                    <group col="2">
+                        <group>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="serie_id"/>
+                        </group>
+                        <group>
+                            <field name="qty"/>
+                            <field name="dist"/>
+                        </group>
+                    </group>
+                    <!-- <group string="Subtotal">
+                        <field name="subtotal"/>
+                    </group> -->
+                    <group>
+
+                        <group string="Calculos de Precio Maquina">
+                            <field name="ld" readonly="1" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                            <field name="gm" readonly="1" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                            <field name="intereses" readonly="1" groups="presale_ricoh.group_presale_ricoh_manager"/>
+                            <field name="exen" readonly="1"/>
+                            <field name="iva" readonly="1"/>
+                            <field name="subtotal_exen" readonly="1"/>
+                            <field name="subtotal_iva" readonly="1"/>
+                            <field name="cuota" readonly="1"/>
+                        </group>
+                        <group string="Detalle Contrato">
+                            <field name="subtotal_contrato"/>
+                            <field name="subtotal_impuestos"/>
+                            <field name="total_contrato"/>
+                            <field name="total_cuota"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Detalles del Item">
+                            <field name="item_detail_ids" context="{'default_item_id': active_id}">
+                                <!-- Se usa la vista definida en presale_order_item_detail.xml -->
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

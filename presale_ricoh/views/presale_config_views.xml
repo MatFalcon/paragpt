@@ -1,0 +1,152 @@
+<odoo>
+    <data>
+        <!-- Vista de formulario para presale.ricoh.config -->
+        <record id="view_presale_ricoh_config_form" model="ir.ui.view">
+            <field name="name">presale.ricoh.config.form</field>
+            <field name="model">presale.ricoh.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nombre de la configuración"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Parámetros de Margen">
+                                <field name="ld" string="LD (Lista de Distribución)"/>
+                                <field name="gm" string="GM (Gross Margin)"/>
+                            </group>
+                            <group string="Parámetros Fiscales">
+                                <field name="intereses" string="Intereses por Defecto"/>
+                                <field name="iva" string="IVA (%)"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de lista para presale.ricoh.config -->
+        <record id="view_presale_ricoh_config_tree" model="ir.ui.view">
+            <field name="name">presale.ricoh.config.tree</field>
+            <field name="model">presale.ricoh.config</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="ld"/>
+                    <field name="gm"/>
+                    <field name="intereses"/>
+                    <field name="iva"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para presale.ricoh.config -->
+        <record id="action_presale_ricoh_config" model="ir.actions.act_window">
+            <field name="name">Configuración Preventas Ricoh</field>
+            <field name="res_model">presale.ricoh.config</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea la primera configuración de preventas Ricoh
+                </p>
+            </field>
+        </record>
+
+        <!-- Vista de formulario para presale.ricoh.intereses -->
+        <record id="view_presale_ricoh_intereses_form" model="ir.ui.view">
+            <field name="name">presale.ricoh.intereses.form</field>
+            <field name="model">presale.ricoh.intereses</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="plazo" string="Plazo (meses)"/>
+                            </group>
+                            <group>
+                                <field name="porcentaje" string="Porcentaje de Interés (%)"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de lista para presale.ricoh.intereses -->
+        <record id="view_presale_ricoh_intereses_tree" model="ir.ui.view">
+            <field name="name">presale.ricoh.intereses.tree</field>
+            <field name="model">presale.ricoh.intereses</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="plazo"/>
+                    <field name="porcentaje"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para presale.ricoh.intereses -->
+        <record id="action_presale_ricoh_intereses" model="ir.actions.act_window">
+            <field name="name">Intereses Preventas Ricoh</field>
+            <field name="res_model">presale.ricoh.intereses</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea la primera configuración de intereses
+                </p>
+            </field>
+        </record>
+
+        <!-- Acción de ventana para presale.ricoh.order.item.detail -->
+        <record id="action_presale_item_detail" model="ir.actions.act_window">
+            <field name="name">Detalles de Ítems de Preventa</field>
+            <field name="res_model">presale.ricoh.order.item.detail</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea el primer detalle de ítem de preventa
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu de configuracion -->
+        <menuitem
+            id="menu_presale_ricoh_config"
+            name="Configuración"
+            parent="menu_presale_ricoh_root"
+            sequence="100"
+            groups="presale_ricoh.group_presale_ricoh_user,presale_ricoh.group_presale_ricoh_manager"
+        />
+
+        <!-- Submenus para configuración -->
+        <menuitem
+            id="menu_presale_ricoh_config_main"
+            name="Configuración General"
+            parent="menu_presale_ricoh_config"
+            action="action_presale_ricoh_config"
+            sequence="10"
+            groups="presale_ricoh.group_presale_ricoh_user,presale_ricoh.group_presale_ricoh_manager"
+        />
+
+        <menuitem
+            id="menu_presale_ricoh_config_intereses"
+            name="Intereses"
+            parent="menu_presale_ricoh_config"
+            action="action_presale_ricoh_intereses"
+            sequence="20"
+            groups="presale_ricoh.group_presale_ricoh_user,presale_ricoh.group_presale_ricoh_manager"
+        />
+
+        <!-- Menu para detalles de Items -->
+        <menuitem
+            id="menu_presale_ricoh_item_details"
+            name="Detalles de Ítems"
+            parent="menu_presale_ricoh_root"
+            action="action_presale_item_detail"
+            sequence="50"
+            groups="presale_ricoh.group_presale_ricoh_user,presale_ricoh.group_presale_ricoh_manager"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,151 @@
+<odoo>
+    <record id="presale_order_form_view_custom" model="ir.ui.view">
+        <field name="name">presale.order.form.view.custom</field>
+        <field name="model">presale.ricoh.order</field>
+        <field name="arch" type="xml">
+            <form string="Presale Order">
+                <header>
+                    <button name="action_solicitar_aprobacion" type="object" string="Solicitar Aprobación"
+                            class="btn-warning" icon="fa-lock"
+                            attrs="{'invisible': ['|', ('state', '!=', 'borrador'), ('requiere_aprobacion', '=', False)]}" />
+                    
+                    <button name="action_pasar_revision" type="object" string="Tomar para Revisión"
+                            groups="presale_ricoh.group_presale_ricoh_manager"
+                            attrs="{'invisible': [('state', '!=', 'solicitud_aprobacion')]}" />
+
+                    <button name="action_aprobar_descuento" type="object" string="Aprobar Descuento"
+                            groups="presale_ricoh.group_presale_ricoh_manager"
+                            attrs="{'invisible': [('state', '!=', 'en_revision')]}" />
+                    <button name="action_rechazar_descuento" type="object" string="Rechazar Descuento"
+                            groups="presale_ricoh.group_presale_ricoh_manager"
+                            attrs="{'invisible': [('state', 'not in', ('solicitud_aprobacion', 'en_revision'))]}" />
+
+                    <button name="action_confirm" type="object" string="Confirmar" class="btn-success" icon="fa-check"
+                            attrs="{'invisible': ['|', ('state', '!=', 'borrador'), ('requiere_aprobacion', '=', True)]}" />
+                    
+                    <button name="action_approve" type="object" string="Aprobar" class="btn-primary" icon="fa-check"
+                            attrs="{'invisible': [('state', '!=', 'confirmado')]}" />
+
+                    <button name="action_volver_borrador" type="object" string="Volver a Borrador"
+                            groups="presale_ricoh.group_presale_ricoh_manager"
+                            attrs="{'invisible': [('state', 'in', ('borrador', 'aprobado', 'analisis_credito'))]}" />
+
+                    <field name="state" widget="statusbar" options="{'clickable': False}"
+                           statusbar_visible="borrador,solicitud_aprobacion,confirmado,aprobado,analisis_credito"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <field name="lead_id" attrs="{'invisible': 1}"></field>
+                        <button name="action_view_lead" type="object" class="oe_stat_button" icon="fa-bullseye" attrs="{'invisible': [('lead_id', '=', False)]}">
+                            <div class="o_stat_info"><span class="o_stat_text">Ver</span><span class="o_stat_text">Oportunidad</span></div>
+                        </button>
+                        <field name="presupuesto_id" attrs="{'invisible': True}"></field>
+                        <!-- attrs="{'invisible': [('presupuesto_id', '==', False)]}" -->
+                        <button name="action_view_sale_order" type="object" class="oe_stat_button" icon="fa-bullseye" >
+                            <div class="o_stat_info"><span class="o_stat_text">Ver</span><span class="o_stat_text">Presupuesto</span></div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Borrador" bg_color="bg-warning" attrs="{'invisible': [('state', '!=', 'borrador')]}" />
+                    <widget name="web_ribbon" title="Pendiente Aprobación" bg_color="bg-warning" attrs="{'invisible': [('state', '!=', 'solicitud_aprobacion')]}" />
+                    <widget name="web_ribbon" title="En Revisión" bg_color="bg-info" attrs="{'invisible': [('state', '!=', 'en_revision')]}" />
+                    <widget name="web_ribbon" title="Confirmado" bg_color="bg-info" attrs="{'invisible': [('state', '!=', 'confirmado')]}" />
+                    <widget name="web_ribbon" title="Aprobado" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'aprobado')]}" />
+                    <widget name="web_ribbon" title="Análisis de Crédito" bg_color="bg-primary" attrs="{'invisible': [('state', '!=', 'analisis_credito')]}" />
+                    <widget name="web_ribbon" title="Rechazado" bg_color="bg-danger" attrs="{'invisible': [('state', '!=', 'rechazado')]}" />
+
+                    <div class="oe_title"><h2><field name="name"/></h2></div>
+                    <group col="2">
+                        <group string="Información Básica">
+                            <field name="partner_id" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="date_order" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="equipo_de_venta" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="commercials_ids" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                        </group>
+                        <group string="Información Adicional">
+                            <field name="fecha_vencimiento" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="forma_pago" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="plazo_id" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="condiciones_pago" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="crear_presupuesto" widget="boolean_toggle" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="presupuesto_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Descuentos y Aprobación">
+                        <group>
+                            <field name="descuento_comercial"
+                                   attrs="{'readonly': ['|', ('state', '!=', 'borrador'), ('requiere_aprobacion', '=', True)]}"/>
+                            <field name="requiere_aprobacion" readonly="1"/>
+                            <field name="descuento_total" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="motivo_descuento"
+                                   attrs="{'required': [('requiere_aprobacion', '=', True), ('state', '=', 'borrador')], 'readonly': [('state', '!=', 'borrador')]}"/>
+                            <field name="descuento_solicitado"
+                                   attrs="{'readonly': ['|', ('state', '!=', 'en_revision'), ('requiere_aprobacion', '=', False)], 'required': [('state', '=', 'en_revision'), ('requiere_aprobacion', '=', True)]}"/>
+                            <field name="descuento_aprobado" readonly="1"/>
+                        </group>
+                        <group string="Detalles de Aprobación"
+                               attrs="{'invisible': [('state', 'in', ('borrador'))]}">
+                            <field name="fecha_solicitud_aprobacion" readonly="1"/>
+                            <field name="aprobado_por" readonly="1"/>
+                            <field name="fecha_aprobacion" readonly="1"/>
+                            <field name="comentarios_supervisor"
+                                   attrs="{'readonly': [('state', '!=', 'en_revision')]}"/>
+                        </group>
+                    </group>
+
+                    <group string="Totales" col="2">
+                        <field name="subtotal_contrato" readonly="1"/>
+                        <field name="subtotal_impuestos" readonly="1"/>
+                        <field name="total_contrato" readonly="1"/>
+                        <field name="total_cuota" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Configuraciones" groups="presale_ricoh.group_presale_ricoh_manager">
+                            <group col="2">
+                                <group string="Configuración General">
+                                    <field name="config_id" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                                    <field name="ld" attrs="{'readonly': [('state', '!=', 'en_revision')]}"/>
+                                    <field name="gm" attrs="{'readonly': [('state', '!=', 'en_revision')]}"/>
+                                    <field name="iva" attrs="{'readonly': [('state', '!=', 'en_revision')]}"/>
+                                </group>
+                                <group string="Configuración de Intereses">
+                                    <field name="plazo_id" attrs="{'readonly': [('state', '!=', 'borrador')]}"/>
+                                    <field name="intereses" attrs="{'readonly': [('state', '!=', 'en_revision')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Lineas del Pedido">
+                            <field name="order_item_ids" context="{'default_presale_order_id': active_id}"
+                                   attrs="{'readonly': [('state', 'not in', ('borrador', 'en_revision'))]}">
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_presale_update_wizard_form" model="ir.ui.view">
+      <field name="name">presale.update.wizard.form</field>
+      <field name="model">presale.update.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Actualizar Orden de Venta">
+            <p>
+              La Orden de Venta ya existe y se encuentra en estado borrador.<br/>
+              ¿Desea actualizarla con la información actual de la Preventa?
+            </p>
+          <footer>
+            <button name="action_confirm_update" type="object" string="Confirmar" class="btn-primary"/>
+            <button name="action_cancel_update" type="object" string="Cancelar"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+</odoo>
