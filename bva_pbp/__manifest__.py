@@ -18,8 +18,10 @@
 
     # always loaded
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'data/state_data.xml',
+        'data/cron_reversion_asientos.xml',
         'wizard/account_voucher.xml',
         'wizard/wizard_vencimientos_report.xml',
         'views/liquidaciones_view.xml',
@@ -37,11 +39,13 @@
         'views/negociaciones_view.xml',
         'views/operacion_futuro_view.xml',
         'views/sistema_tradicional_view.xml',
+        'views/reporte_vencimientos.xml',
         'views/reporto.xml',
         'wizard/wizard_volumen_negociado.xml',
         'wizard/wizard_facturacion_mensual.xml',
         'views/menus.xml',
-        'reports/report_volumen_negociado.xml'
+        'reports/report_volumen_negociado.xml',
+        'views/cartera_inversiones_fondos_view.xml'
     ],
 
 }

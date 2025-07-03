@@ -460,59 +460,58 @@ class NovedadesSEN(models.Model):
 
     @api.model
     def generar_facturas(self, records):
-        # Buscar los registros cuyo estado no sea 'done'
-        # registros = self.search([('state', '!=', 'done')])
-        for record in records:
-            if record != 'done':
-                # Verificar que el registro tiene cliente y producto
-                if not record.partner_id or not record.product_id:
-                    _logger.error(f"El registro {record.id} no tiene un cliente o producto asociado.")
-                    continue  # Saltar al siguiente registro si falta algún dato esencial
+        # Validaciones
+        partners = records.mapped('partner_id')
+        if len(partners) > 1:
+            raise UserError("No se puede generar una factura con mas de un cliente")
+        partner = partners[0]
 
-                # Crear los valores de la factura (account.move)
-                invoice_vals = {
-                    'move_type': 'out_invoice',
-                    'partner_id': record.partner_id.id,
-                    'currency_id': record.currency_id.id,
-                    'invoice_date': datetime.date.today(),  # Usamos datetime para obtener la fecha actual
-                    'invoice_line_ids': [
-                        (0, 0, {
-                            'display_type': 'product',
-                            'move_type': 'out_invoice',
-                            'product_id': record.product_emision_id.id,
-                            'quantity': 1,
-                            'price_unit': record.emision_total,
-                            'tax_ids': [(6, 0, [1])],
-                            'analytic_distribution': {1: 100.0}
-                        }),
-                        (0, 0, {
-                            'display_type': 'product',
-                            'move_type': 'out_invoice',
-                            'product_id': record.product_custodia_id.id,
-                            'quantity': 1,
-                            'price_unit': record.custodia_total if record.instrumento in ['Bono Financiero', 'Bono',
-                                                                                          'bono'] else record.emision_total,
-                            'tax_ids': [(6, 0, [1])],
-                            'analytic_distribution': {1: 100.0}
-                        })
-                    ]
-                }
+        # Agrupar montos por producto
+        product_totals = {}
+        for rec in records.filtered(lambda r: r.state != 'done'):
+            # emision
+            pid = rec.product_emision_id.id
+            product_totals[pid] = product_totals.get(pid, 0.0) + rec.emision_total
+            # custodia / emision alterna
+            pid2 = rec.product_custodia_id.id
+            amt2 = (rec.custodia_total
+                    if rec.instrumento.lower().startswith('bono')
+                    else rec.emision_total)
+            product_totals[pid2] = product_totals.get(pid2, 0.0) + amt2
 
-                try:
-                    # Crear la factura
-                    invoice = self.env['account.move'].create(invoice_vals)
-                    # Actualizar el estado del registro
-                    record.write({
-                        'invoice_id': invoice.id,
-                        'state': 'done'
-                    })
+        # Construir lineas de factura
+        lines = [
+            (0, 0, {
+                'product_id': prod_id,
+                'quantity': 1,
+                'price_unit': total,
+                'tax_ids': [(6, 0, [1])],
+                'analytic_distribution': {1: 100.0},
+            })
+            for prod_id, total in product_totals.items()
+        ]
 
-                    _logger.info(f"Factura creada para el registro {record.id}")
+        # Crear la factura directamente
+        invoice_vals = {
+            'move_type': 'out_invoice',
+            'partner_id': partner.id,
+            'currency_id': records[0].currency_id.id,
+            'invoice_date': fields.Date.context_today(self),
+            'invoice_line_ids': lines,
+        }
+        invoice = self.env['account.move'].create(invoice_vals)
 
-                except Exception as e:
-                    _logger.error(f"Error al crear la factura para el registro {record.id}: {str(e)}")
+        # Marcar los registros como hecho
+        records.write({'state': 'done'})
 
-
+        # Abrir la factura en pantalla
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            'view_mode': 'form',
+            'res_id': invoice.id,
+            'target': 'current',
+        }
     def calcular_valores(self):
         novedades = self.env['pbp.novedades_sen'].search([['state', '=', 'pendiente']])
         for novedad in novedades:

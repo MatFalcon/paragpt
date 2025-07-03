@@ -1,0 +1,19 @@
+<odoo>
+    <data noupdate="1">
+      <record id="ir_cron_revert_lp_to_cp" model="ir.cron" forcecreate="True">
+        <field name="name">Reversión LP -> CP Cartera</field>
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="model_id" ref="bva_pbp.model_pbp_cartera_inversion"/>
+        <field name="state">code</field>
+        <field name="code">model.revert_lp_to_cp()</field>
+        <field name="interval_type">months</field>
+        <field name="interval_number">12</field>
+        <field name="numbercall">-1</field>
+        <!-- para pruebas apuntamos al 1/Enero/2026 -->
+        <field name="nextcall">2026-01-01 00:00:00</field>
+        <field name="doall" eval="False"/>
+      </record>
+    </data>
+  </odoo>
+  

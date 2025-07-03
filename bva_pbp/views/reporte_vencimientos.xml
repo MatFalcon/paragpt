@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <record id="view_reporte_vencimientos" model="ir.ui.view">
+            <field name="name">pbp.reporte_vencimientos.form</field>
+            <field name="model">pbp.reporte_vencimientos</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de Vencimientos">
+                    <header>
+                        <field name="state" widget="statusbar" options="{'badge': {'prueba': 'bg-primary', 'aprobado': 'bg-success'}}"/>
+                        <button name="aprobar_reporte" string="Aprobar" type="object" class="btn-primary" groups="bva_pbp.group_aprobador_reporte_cartera"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="fecha_inicio" />
+                            <field name="fecha_fin" />
+                            <field name="fecha_plazo" />
+                            <field name="reporte_excel_filename" invisible="1"/>
+                            <field name="reporte_excel"
+                                   filename="reporte_excel_filename"
+                                   widget="download"/>
+                        </group>
+                    </sheet>
+                      <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_reporte_vencimientos_tree" model="ir.ui.view">
+            <field name="name">pbp.reporte_vencimientos.tree</field>
+            <field name="model">pbp.reporte_vencimientos</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de Vencimientos">
+                    <field name="name"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_fin"/>
+                    <field name="fecha_plazo"/>
+                    <field name="state" widget="badge" options="{'badge': {'prueba': 'bg-primary', 'aprobado': 'bg-success'}}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_reporte_vencimientos" model="ir.actions.act_window">
+            <field name="name">Reporte de Vencimientos</field>
+            <field name="res_model">pbp.reporte_vencimientos</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

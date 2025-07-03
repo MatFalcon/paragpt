@@ -12,7 +12,8 @@
                             action="action_vencimiento_intereses_cartera" sequence="3"/>
                   <menuitem id="reporte_vencimientos_menu" name="Reporte Vencimientos"
                     action="action_vencimiento_wizard_report" sequence="4"/>
-
+                  <menuitem id="historial_reporte_vencimientos_menu" name="Historial Reporte Vencimientos"
+                    action="action_reporte_vencimientos" sequence="6"/>
               </menuitem>
               <menuitem id="negociaciones_menu" name="Negociaciones" sequence="30">
                   <menuitem id="sistema_tradicional_menu" name="Sistema Tradicional" action="novedades_series_action"/>
@@ -38,6 +39,11 @@
                       <menuitem id="menu_sincronizacion_logs" name="Logs de sincronización" sequence="15" action="sincronizacion_logs_act_window"/>
                   </menuitem>
               </menuitem>
+            <menuitem id="cartera_inversion_fondos_menu" name="Cartera de Inversiones Fondos" sequence="40">
+                <menuitem id="vencimiento_fondo_periodo_menu" name="Períodos de Rendimiento de Fondo" action="vencimiento_fondo_periodo_action" sequence="1"/>
+                <menuitem id="vencimiento_fondo_menu" name="Rendimientos Mensuales de Fondo" action="vencimiento_fondo_action" sequence="2"/>
+                <menuitem id="movimiento_fondo_menu" name="Movimientos de Fondo" action="movimiento_fondo_action" sequence="3"/>    
+            </menuitem>
     </menuitem>
     </data>
 </odoo>

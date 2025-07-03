@@ -16,5 +16,7 @@ from . import (
     account_voucher,
     novedades_series,
     operacion_futuro,
-    reporto
+    reporto,
+    fondos_inversion,
+    reporte_vencimientos    
 )

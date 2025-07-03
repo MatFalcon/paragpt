@@ -1,0 +1,173 @@
+<odoo>
+    <data>
+      <!-- ============ PERIODOS DE RENDIMIENTO DE FONDO ============ -->
+  
+      <!-- Tree principal -->
+      <record id="vencimiento_fondo_periodo_tree_view" model="ir.ui.view">
+        <field name="name">vencimiento.fondo.periodo.tree</field>
+        <field name="model">pbp.vencimiento_fondo_periodo</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+          <tree string="Periodos de Rendimiento">
+            <field name="cartera_id"/>
+            <field name="fecha_inicio"/>
+            <field name="fecha_fin"/>
+            <field name="acumulado"/>
+          </tree>
+        </field>
+      </record>
+  
+      <!-- Form de cabecera con one2many anidado -->
+      <record id="vencimiento_fondo_periodo_form_view" model="ir.ui.view">
+        <field name="name">vencimiento.fondo.periodo.form</field>
+        <field name="model">pbp.vencimiento_fondo_periodo</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+          <form string="Periodo de Rendimiento">
+            <header>
+              <button name="action_open_asientos_contables" 
+              string="Ver Asientos Contables" 
+              type="object" 
+              class="oe_stat_button"
+              icon="fa-file"/>
+              <field name="state"
+                     widget="statusbar"
+                     statusbar_visible="nuevo,cerrado"/>
+            </header>
+            <sheet>
+              <group>
+                <field name="cartera_id"/>
+                <field name="fecha_inicio"/>
+                <field name="fecha_fin"/>
+                <field name="state"/>
+              </group>
+              <group>
+                <button name="crear_vencimiento" string="Crear Vencimientos" type="object" class="btn-primary"/>
+              </group>
+              <notebook>
+                <page string="Rendimientos Mensuales">
+                  <field name="vencimiento_ids" options="{'form_view_ref': 'bva_pbp.vencimiento_fondo_form_view'}"  
+                  mode="tree,form"/>
+                </page>
+              </notebook>
+            </sheet>
+          </form>
+        </field>
+      </record>
+  
+      <!-- Accion para abrir list/form de periodos -->
+      <record id="vencimiento_fondo_periodo_action" model="ir.actions.act_window">
+        <field name="name">Periodos de Rendimiento</field>
+        <field name="res_model">pbp.vencimiento_fondo_periodo</field>
+        <field name="view_mode">tree,form</field>
+
+      </record>
+  
+      <!-- ============ RENDIMIENTOS MENSUALES DE FONDO ============ -->
+  
+      <!-- Tree independiente -->
+      <record id="vencimiento_fondo_tree_view" model="ir.ui.view">
+        <field name="name">vencimiento.fondo.tree</field>
+        <field name="model">pbp.vencimiento_fondo</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+          <tree string="Rendimientos Mensuales">
+            <!-- <field name="periodo_id"/> -->
+            <field name="fecha"/>
+            <field name="monto_rendimiento"/>
+            <field name="tasa_mensual"/>
+            <field name="entidad"/>
+            <field name="state" readonly="1"/>
+            <field name="acumulado"/>
+            <field name="account_move_id"/>
+          </tree>
+        </field>
+      </record>
+  
+      <!-- Form independiente -->
+       <!--Vencimiento de fondo form -->
+      <record id="vencimiento_fondo_form_view" model="ir.ui.view">
+        <field name="name">vencimiento.fondo.form</field>
+        <field name="model">pbp.vencimiento_fondo</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+          <form string="Rendimiento Mensual">
+            <header>
+              <button name="generar_asientos_devengamiento_fondo"
+               string="Generar Asientos de Devengamiento"
+                type="object" class="btn-primary"
+                invisible="account_move_id"/>
+              <field name="state"
+                     widget="statusbar"
+                     statusbar_visible="pendiente,registrado"/>
+            </header>
+            <sheet>
+              <group>
+                <field name="periodo_id" readonly="1"/>
+                <field name="fecha"/>
+                <field name="monto_rendimiento"/>
+                <field name="tasa_mensual"/>
+                <field name="entidad"/>
+                <field name="acumulado" readonly="1"/>
+                <field name="account_move_id"/>
+              </group>
+            </sheet>
+          </form>
+        </field>
+      </record>
+  
+      <!-- Accion para abrir list/form de rendimientos -->
+      <record id="vencimiento_fondo_action" model="ir.actions.act_window">
+        <field name="name">Rendimientos Mensuales</field>
+        <field name="res_model">pbp.vencimiento_fondo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="vencimiento_fondo_tree_view"/>
+      </record>
+  
+      <!-- ============ MOVIMIENTOS DE FONDO ============ -->
+  
+      <record id="movimiento_fondo_tree_view" model="ir.ui.view">
+        <field name="name">movimiento.fondo.tree</field>
+        <field name="model">pbp.movimiento_fondo</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+          <tree string="Movimientos de Fondo">
+            <field name="cartera_id"/>
+            <field name="fecha"/>
+            <field name="tipo"/>
+            <field name="monto"/>
+          </tree>
+        </field>
+      </record>
+  
+      <record id="movimiento_fondo_form_view" model="ir.ui.view">
+        <field name="name">movimiento.fondo.form</field>
+        <field name="model">pbp.movimiento_fondo</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+          <form string="Movimiento de Capital">
+            <header>
+              <button name="abrir_formulario_voucher" string="Generar Voucher" type="object" class="btn-primary"/>
+            </header>
+            <sheet>
+              <group>
+                <field name="cartera_id"/>
+                <field name="fecha"/>
+                <field name="tipo"/>
+                <field name="monto"/>
+                <field name="voucher_id"/>
+              </group>
+            </sheet>
+          </form>
+        </field>
+      </record>
+  
+      <record id="movimiento_fondo_action" model="ir.actions.act_window">
+        <field name="name">Movimientos</field>
+        <field name="res_model">pbp.movimiento_fondo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="movimiento_fondo_tree_view"/>
+      </record>
+  
+    </data>
+  </odoo>

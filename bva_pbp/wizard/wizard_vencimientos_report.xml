@@ -1,26 +1,47 @@
 <odoo>
     <data>
-        <record id="view_reporte_cuadro_report" model="ir.ui.view">
-            <field name="name">reporte.cuadro.view.form</field>
-            <field name="model">reporte.cuadro</field>
+        <record id="view_vencimiento_wizard_report" model="ir.ui.view">
+            <field name="name">pbp.wizard.vencimientos.form</field>
+            <field name="model">pbp.wizard.vencimientos.report</field>
             <field name="arch" type="xml">
-                <form string="Generar Reporte Cuadro Revaluo">
+                <form string="Generar Reporte de Vencimientos">
                     <group>
-<!--                        CAMPOS DE TU WIZARD SI ES QUE QUERES FILTRAR-->
+                        <field name="fecha_inicio" placeholder="2025-01-01"
+                               help="Filtra los vencimientos desde esta fecha. Aplica solo si el reporte capital está desactivado."/>
+                        <field name="fecha_compra" placeholder="2025-12-31"
+                               help="Filtra los vencimientos hasta esta fecha o las compras hasta esta fecha si 'Reporte Avanzado' está activo."/>
+                        <field name="fecha_vencimiento" placeholder="2025-12-31"/>
+                        <field name="amortizacion" string="Amortización"
+                               help="Filtra por el tipo de vencimiento: Intereses, Pago de Capital, etc."/>
+                        <field name="state_ids" widget="many2many_tags" string="Estado"
+                               help="Filtra los vencimientos según su estado actual (Cobrado, Pendiente, Vencido)."
+                               options="{'no_create_edit': True, 'no_create': True}"/>
+                        <field name="currency_id" string="Moneda"
+                               help="Filtra los registros por la moneda seleccionada."/>
+                        <field name="cambio_utilizado" placeholder="Ej.: 7200.50"
+                               help="Tasa de cambio manual para recalcular valores en PYG y USD en el reporte."/>
+                        <field name="instrumentos_ids" widget="many2many_tags"
+                               help="Filtra por tipo de instrumento financiero (bonos, CDA, fondos, etc.)."
+                               options="{'no_create_edit': True, 'no_create': True}"/>
+                        <field name="reporte_capital"
+                               help="Activa el modo de reporte avanzado, que usa 'fecha de compra' en lugar de 'fecha de vencimiento' para filtrar."/>
+                        <field name="fecha_plazo" placeholder="2025-12-31"
+                               help="Define el año fiscal de referencia para calcular corto o largo plazo." invisible="not reporte_capital"/>
                     </group>
                     <footer>
-                        <button string="Generar" type="object" name="generar_reporte_cuadro" class="btn-primary"/>
+                        <button string="Generar" type="object" name="generar_reporte_vencimientos" class="btn-primary"/>
+                        <button string="Guardar" type="object" name="guardar_reporte" class="btn-primary"/>
                         <button string="Cancelar" class="btn-secondary" special="cancel"/>
                     </footer>
                 </form>
             </field>
         </record>
 
-        <record id="view_reporte_cuadro_menu" model="ir.actions.act_window">
-            <field name="name">Reporte Cuadro</field>
-            <field name="res_model">reporte.cuadro</field>
+        <record id="action_vencimiento_wizard_report" model="ir.actions.act_window">
+            <field name="name">Abrir Wizard de Reporte Vencimientos</field>
+            <field name="res_model">pbp.wizard.vencimientos.report</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_reporte_cuadro_report"/>
+            <field name="view_id" ref="view_vencimiento_wizard_report"/>
             <field name="target">new</field>
         </record>
     </data>

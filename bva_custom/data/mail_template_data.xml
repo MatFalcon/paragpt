@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <!-- Mail template are declared in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="1">
+
+        <record id="mail_template_data_recibo_pago" model="mail.template">
+                    <field name="name">Comprobante: Recibo de Pago</field>
+                    <field name="model_id" ref="account_cobros_py.model_account_recibo"/>
+                    <field name="subject">{{ object.company_id.name }} Recibo de pago (Ref {{ object.name or 'n/a' }})</field>
+                    <field name="partner_to">{{ object.partner_id.id }}</field>
+                    <field name="description">Plantilla correspondiente al envio automatico de correo de Recibos de Cobranzas</field>
+                    <field name="body_html" type="html">
+                        <div style="margin: 0px; padding: 0px;">
+                            <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                                Buenos dias <t t-out="object.partner_id.name or ''"></t><br/><br/>
+                                Gracias por su pago.
+                                Adjunto se encuentra su recibo de pago <span style="font-weight:bold;" t-out="(object.name or '').replace('/','-') or ''">BNK1-2021-05-0002</span> con un importe
+                                total de <span style="font-weight:bold;" t-out="format_amount(object.amount, object.currency_id) or ''">10.00 $</span> de <t t-out="object.company_id.name or ''">Bolsa de Valores y Productos de Asunción S.A.</t>
+                                <br/><br/>
+                                Atentamente.
+                                <br/>
+                                Bolsa de Valores y Productos de Asunción S.A.
+                                <br/>
+                                Bulnes 830 c/ España
+                                <br/>
+                                Asunción – Paraguay
+                                <br/>
+                                +595 21 728-9123/5
+                                <br/>
+                                www.bolsadevalores.com.py
+                            </p>
+                        </div>
+                    </field>
+                    <field name="report_template_ids" eval="[(4, ref('account_cobros_py.report_recibo_cobranza'))]"/>
+                    <field name="lang">{{ object.partner_id.lang }}</field>
+                    <field name="auto_delete" eval="True"/>
+                </record>
+
+    </data>
+</odoo>

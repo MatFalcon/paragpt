@@ -9,12 +9,15 @@ from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 #generar_asientos_devengamiento
 #crear_asiento_devengar
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class CarteraInversion(models.Model):
     _name = 'pbp.cartera_inversion'
     _order = 'state, fecha_compra desc'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _rec_name = 'id'
+    _rec_name = 'serie'
 
     reporte_excel = fields.Binary(string="Reporte Excel", readonly=True)
     reporte_nombre = fields.Char(string="Nombre del Archivo", readonly=True)
@@ -23,17 +26,17 @@ class CarteraInversion(models.Model):
     emision = fields.Char(string='Emisión')
     serie = fields.Char(string="Serie", required=True)
     fecha_actual = fields.Date(string="Fecha")
-    cambio_utilizado = fields.Float(string="Cotizacion")
+    cambio_utilizado = fields.Float(string="Cotizacion", digits=(16, 2))
     calificacion_riesgo = fields.Char(string='Calificación Riesgo')
-    tasa_interes = fields.Float(string='Tasa Interés', digits=(7, 6))
-    valor_actual_pyg = fields.Float(string='Valor Actual en PYG', digits=(17, 6), compute="compute_valor_final")
-    valor_actual_usd = fields.Float(string='Valor Actual en USD', digits=(17, 6))
-    amortizacion = fields.Float(string='Amortización', digits=(17, 6))
+    tasa_interes = fields.Float(string='Tasa Interés', digits=(16, 2))
+    valor_actual_pyg = fields.Float(string='Valor Actual en PYG', compute="compute_valor_final", digits=(16, 2))
+    valor_actual_usd = fields.Float(string='Valor Actual en USD', digits=(16, 2))
+    amortizacion = fields.Float(string='Amortización', digits=(16, 2))
     estado_de_cupon = fields.Char(string='Estado de Cupón / Capital')
     comitente = fields.Integer()
     vencimiento_ids = fields.One2many("pbp.vencimiento_capital_interes", "registros", string="Vencimientos")
-    capital = fields.Float(string="Capital")
-    valor_calculado = fields.Float(compute='compute_valor_final', store=True, string='Total')
+    capital = fields.Float(string="Capital", digits=(16, 2))
+    valor_calculado = fields.Float(compute='compute_valor_final', store=True, string='Total', digits=(16, 2))
     incompleto = fields.Boolean(compute='compute_incompleto', store=True)
 
 
@@ -42,22 +45,21 @@ class CarteraInversion(models.Model):
     valor_nominal = fields.Integer(string="Valor nominal")
     cantidad = fields.Integer(string="Cantidad de titulos")
     intereses = fields.Float(digits=(17, 6), string="Intereses", compute="compute_valor_final")#Tasa Nominal
+    retiros = fields.Float(digits=(17, 6), string="Retiros", compute="compute_valor_final")
     interes_diario = fields.Float(string="Interes Diario")
     tipo_pago = fields.Selection(
         selection=[
             ('trimestral', 'Trimestrales')
         ]
     )
-    fecha_vencimiento = fields.Date(string='Fecha de Vencimiento', required=True)
-
-
+    fecha_vencimiento = fields.Date(string='Fecha de Vencimiento')
 
 
     tipo = fields.Selection(
         selection=[
             ('intereses', 'Intereses'),
             ('capital', 'Capital'),
-        ], required=True
+        ]
     )
     grupo_id = fields.Many2one('pbp.grupo_cartera_inversion')
     instrumento = fields.Selection(
@@ -201,17 +203,11 @@ class CarteraInversion(models.Model):
             except:
                 pass
 
-
-
-
-
     @api.depends('move_ids')
     def _compute_move_count(self):
         """Cuenta los registros relacionados en move_ids."""
         for record in self:
             record.move_count = len(record.move_ids)
-
-
 
     @api.depends('initial_move_ids')
     def _compute_initial_move_count(self):
@@ -222,12 +218,18 @@ class CarteraInversion(models.Model):
     def action_view_moves(self):
         """Abre una vista de los asientos contables asociados a move_ids."""
         self.ensure_one()
-        if not self.move_ids:
+        if not self.move_ids and self.instrumento != 'fondos':
             raise exceptions.UserError("No hay asientos contables asociados a este registro.")
 
         tree_view_id = self.env.ref('account.view_move_tree').id
         form_view_id = self.env.ref('account.view_move_form').id
 
+        if self.instrumento == 'fondos':
+            account_move_ids = []
+            for perido in self.fondo_periodo_ids:
+                for rendimiento in perido.vencimiento_ids:
+                    if rendimiento.account_move_id:
+                        account_move_ids.append(rendimiento.account_move_id.id)
 
         return {
             'type': 'ir.actions.act_window',
@@ -235,7 +237,7 @@ class CarteraInversion(models.Model):
             'res_model': 'account.move',
             'view_mode': 'tree,form',  # Vista en lista y formulario
             'views': [(tree_view_id, 'tree'), (form_view_id, 'form')],  # Prioridad tree, alternativo form
-            'domain': [('id', 'in', self.move_ids.ids)],  # Filtrar los asientos relacionados
+            'domain': [('id', 'in', self.move_ids.ids if self.instrumento != 'fondos' else account_move_ids)],  # Filtrar los asientos relacionados
             'context': self.env.context,
         }
 
@@ -480,7 +482,7 @@ class CarteraInversion(models.Model):
                 fecha_actual += relativedelta(months=1)
                 print(f"Bucle Fin Se aniade un mes mas a fecha actual- Fecha Actual: {fecha_actual} - Fecha Fin {fecha_fin}")
                 #print("Fecha Actual", fecha_actual, "Fecha Fin",fecha_fin,fecha_actual <= fecha_fin)
-
+            
             # Asociar los asientos creados al campo move_ids
             record.move_ids = [(6, 0, asientos_creados)]
 
@@ -544,29 +546,13 @@ class CarteraInversion(models.Model):
                     record.intereses_corto_plazo = record.intereses
                     record.intereses_largo_plazo = 0.0
                 else:  # Hay parte en corto y parte en largo plazo
-                    dias_corto_plazo = (fin_ano_actual - inicio).days + 1
+                    dias_corto_plazo = (fin_ano_actual - inicio).days
                     if dias_corto_plazo < 0:
                         dias_corto_plazo = 0  # No puede haber dias negativos
-
+                    print("Corto Plazo Calculo", interes_diario, "*", dias_corto_plazo, "=", (interes_diario * dias_corto_plazo))
                     record.intereses_corto_plazo = interes_diario * dias_corto_plazo
                     record.intereses_largo_plazo = max(0,
                                                        record.intereses - record.intereses_corto_plazo)  # Evitar negativos
-
-                # # Determinar corto y largo plazo
-                # if inicio <= hoy <= fin:
-                #     dias_corto_plazo = (hoy - inicio).days + 1
-                #     print(f"Hoy {hoy} - {inicio}", dias_corto_plazo)
-                #     fecha_inicio = record.fecha_inicio_devengamiento
-                #     fin_ano_actual = hoy.replace(month=12, day=31)
-                #     dias_corto_plazo = (fin_ano_actual - fecha_inicio).days
-                #     print(f"{fin_ano_actual} - {fecha_inicio}")
-                #     print("Dias Corto Plazo: ", dias_corto_plazo)
-                #     record.intereses_corto_plazo = interes_diario * dias_corto_plazo
-                #     record.intereses_largo_plazo = record.intereses - record.intereses_corto_plazo
-                # else:
-                #     print("Dias Corto Plazo: ", dias_corto_plazo)
-                #     record.intereses_corto_plazo = intereses_primer_mes + intereses_intermedios
-                #     record.intereses_largo_plazo = intereses_ultimo_mes
 
                 print(f"Intereses primer mes: {intereses_primer_mes}")
                 print(f"Intereses intermedios: {intereses_intermedios}")
@@ -583,12 +569,8 @@ class CarteraInversion(models.Model):
 
                 # Diass del mes inicial y final
                 dias_en_mes_inicio = (inicio.replace(day=1) + relativedelta(months=1, days=-1)).day
-                print("Dias en mes inicio")
-                print(dias_en_mes_inicio)
                 dias_primer_mes = dias_en_mes_inicio - inicio.day + 1
-                print(dias_primer_mes)
                 dias_ultimo_mes = fin.day
-                print(dias_ultimo_mes)
                 # Total dias en el primer y ultimo mes
                 total_dias_primer_mes = dias_en_mes_inicio
                 total_dias_ultimo_mes = (fin.replace(day=1) + relativedelta(months=1, days=-1)).day
@@ -625,96 +607,204 @@ class CarteraInversion(models.Model):
 
         return intereses_primer_mes, intereses_meses_completos, intereses_ultimo_mes
 
+    @api.model
+    def revert_lp_to_cp(self, fin_anhio=False, serie=False):
+        """
+        Revierta cada 1/Enero la porcion de intereses que estaban en LP
+        y ahora pasan a CP, sumando directamente los vencimientos vtoInt
+        entre el ultimo corte y el siguiente, sin usar interes diario.
+        """
+        # Anhio y claves
+        year = fin_anhio or fields.Date.context_today(self).year
+        fin_ano_actual = date(year, 12, 31)
+        siguiente_year = year + 1
+        _logger.info(f"[revert_lp_to_cp] Ejercicio={year}, fin_ano_actual={fin_ano_actual}, siguiente_year={siguiente_year}")
+
+        # Filtrar carteras opcionalmente por serie
+        domain = [('serie','=',serie)] if serie else []
+        carteras = self.search(domain)
+
+        for rec in carteras:
+            _logger.info(f"\n[revert_lp_to_cp] Procesando serie={rec.serie}")
+
+            # Ultimo vencimiento vtoInt en el anhio base
+            vencs_cp = rec.vencimiento_ids.filtered(
+                lambda v: v.amortizacion == 'vtoInt' and v.fecha_vencimiento <= fin_ano_actual
+            )
+            if not vencs_cp:
+                _logger.info("Sin vencimientos vtoInt hasta fin_ano_actual, salto.")
+                continue
+            last_venc_cp = max(vencs_cp.mapped('fecha_vencimiento'))
+            _logger.info(f"  • last_venc_cp = {last_venc_cp}")
+
+            # Ultimo vencimiento vtoInt en el anho siguiente
+            vencs_next = rec.vencimiento_ids.filtered(
+                lambda v: v.amortizacion == 'vtoInt' and v.fecha_vencimiento.year == siguiente_year
+            )
+            if not vencs_next:
+                _logger.info(f"Sin vencimientos vtoInt en {siguiente_year}, salto.")
+                continue
+            next_venc_cp = max(vencs_next.mapped('fecha_vencimiento'))
+            _logger.info(f"next_venc_cp = {next_venc_cp}")
+
+            # Sumar los montos de vencimientos entre esos dos cortes
+            vencs_para_revert = rec.vencimiento_ids.filtered(
+                lambda v: v.amortizacion == 'vtoInt'
+                          and last_venc_cp < v.fecha_vencimiento <= next_venc_cp
+            )
+            cantidad_vencs = len(vencs_para_revert)
+            if rec.currency_id.name == 'USD-Compra':
+                print("Monto antes de conversion", sum(round(venc.total,2) for venc in vencs_para_revert))
+            monto_revert = sum(round(venc.total,2) * (rec.cambio_utilizado if rec.currency_id.name == 'USD-Compra' else 1) for venc in vencs_para_revert)
+            _logger.info(f"vencs_para_revert count={cantidad_vencs}, monto_revert={monto_revert:,.2f}")
+            if monto_revert <= 0:
+                _logger.info("monto_revert <= 0, nada que hacer.")
+                continue
+
+            # Validar asientos iniciales
+            if not rec.initial_move_ids:
+                _logger.info("No hay asientos iniciales, no se revierte.")
+                continue
+
+            # Crear asiento de reversion
+            lines = [
+                (0, 0, {
+                    'account_id': rec.initial_debit_account_id.id,
+                    'debit': round(monto_revert, 2),
+                    'credit': 0.0,
+                    'name': f"Reclasificacion LP CP {rec.serie} {year}",
+                }),
+                (0, 0, {
+                    'account_id': rec.initial_debit_account_id_lp.id,
+                    'debit': 0.0,
+                    'credit': round(monto_revert, 2),
+                    'name': f"Reclasificacion LP CP {rec.serie} {year}",
+                }),
+            ]
+            move_vals = {
+                'journal_id': rec.initial_journal_id.id,
+                'date':       date(year, 1, 1),
+                'ref':        f"Reclasificacion LP CP {rec.serie} {year}",
+                'line_ids':   lines,
+                'initial_cartera_id': rec.id,
+            }
+            _logger.info(f"  • move_vals = {move_vals}")
+            move = self.env['account.move'].create(move_vals)
+            #move.post()
+            _logger.info(f"  • Asiento creado: {move.name}")
+
+            rec.message_post(
+                body=(f"[{year}] Reclasificacion automatica LP -> CP: {monto_revert:,.2f} PYG.")
+            )
+
 
     def crear_asiento_devengar(self):
-        """Crea dos asientos contables: uno para corto plazo y otro para largo plazo."""
+        """Crea un único asiento que separa:  
+           -intereses cobrados hasta ultimo vencimiento 2025  
+           -intereses devengados entre ese vencimiento y 31/12/2025  
+           -total acreditado a 'Intereses a devengar CP'  
+        """
         for record in self:
-            # Validaciones iniciales
-            if not record.initial_credit_account_id or not record.initial_credit_largo_plazo_account_id \
-                    or not record.initial_debit_account_id or not record.initial_journal_id:
+            # Validaciones de cuentas y fechas
+            if not record.initial_debit_account_id or not record.initial_debit_account_id_lp \
+               or not record.initial_credit_account_id or not record.initial_journal_id:
                 raise exceptions.UserError(
-                    "Debe completar las cuentas iniciales y el diario de asiento a devengar para crear los asientos contables."
+                    "Debe completar las cuentas iniciales (CP y LP) y el diario de asiento a devengar."
                 )
-            if record.intereses <= 0:
-                raise exceptions.UserError(
-                    "El valor de 'Intereses' debe ser mayor a 0 para crear los asientos contables.")
-
+            if not record.fecha_inicio_devengamiento or not record.fecha_final_devengamiento:
+                raise exceptions.UserError("Faltan fechas de devengamiento.")
             if record.fecha_inicio_devengamiento > record.fecha_final_devengamiento:
                 raise exceptions.UserError(
-                    "La fecha de inicio de devengamiento no puede ser posterior a la fecha final.")
+                    "La fecha de inicio de devengamiento no puede ser posterior a la fecha final."
+                )
 
-            # Calcular los intereses proporcionales
-            intereses_primer_mes, intereses_meses_completos, intereses_ultimo_mes = self.calcular_intereses_proporcionales(
-                record.fecha_inicio_devengamiento,
-                record.fecha_final_devengamiento,
-                record.intereses
+            # fin de anhio
+            fin_ejercicio = datetime.now().date()
+            # ultimos intereses cobrados hasta el año actual
+            vencimientos_corto_plazo = record.vencimiento_ids.filtered(
+                lambda v: v.amortizacion == 'vtoInt' and v.fecha_vencimiento.year <= fin_ejercicio.year 
             )
-            print("Intereses primer mes")
-            print(intereses_primer_mes)
-            print("Intereses Completos")
-            print(intereses_meses_completos)
-            print("Intereses Ultimi mes")
-            print(intereses_ultimo_mes)
-            # Calcular corto y largo plazo
-            intereses_corto_plazo = intereses_primer_mes + intereses_meses_completos
-            intereses_largo_plazo = intereses_ultimo_mes
+            if not vencimientos_corto_plazo:
+                raise exceptions.UserError("No hay vencimientos de inters en 2025 para este instrumento.")
+            # inicio de devengamiento
+            primer_vencimiento_cp = (record.fecha_compra)
+            # hallamos la fecha maxima de esos vencimientos que vamos a cobrar antes que sean lp
+            ultimo_venc_cp = max(vencimientos_corto_plazo.mapped('fecha_vencimiento'))
+            # ultima fecha de vencimiento para calculos
+            ultimo_vencimiento_lp = max(record.vencimiento_ids.mapped('fecha_vencimiento'))
+            # dias entre inicio y ultimo cp
+            dias_entre_vencimientos = (ultimo_venc_cp - primer_vencimiento_cp).days
+            # total de dias devengados desde fecha compra hasta fecha fin
+            total_dias = (ultimo_vencimiento_lp - primer_vencimiento_cp).days
+            # intereses diario para calculo
+            interes_diario = record.intereses / total_dias
+            # todo lo que se cobra en corto plazo
+            cp_recibido = interes_diario * dias_entre_vencimientos
+            # lo que queda residual hasta la fecha fin va a largo plazo directo
+            lp_no_cobrado = record.intereses - cp_recibido
+            
+            devengado_hasta_31dic = record.intereses_corto_plazo
+            devengado_residual = record.intereses_largo_plazo
 
-            # Crear asiento para corto plazo
-            move_lines_corto = [
-                {
+            print(f"Total Dias {total_dias}\nInteres diario {interes_diario}")
+            print("Dias Corto Plazo {}")
+            print(f"CP recibido: {cp_recibido} -- Dias {dias_entre_vencimientos}")
+            print("Lp por cobrar:", lp_no_cobrado, "dias", (ultimo_vencimiento_lp - ultimo_venc_cp))
+            print(f"Devengado hasta 31/12/anhio: {devengado_hasta_31dic}")
+
+
+
+            line_ids = []
+
+            # Debe: 'Intereses Financieros a Cobrar CP – PYG' (11402), por cp_recibido
+            if cp_recibido > 0:
+                line_ids.append((0, 0, {
                     'account_id': record.initial_debit_account_id.id,
-                    'debit': record.intereses_corto_plazo,
+                    'debit': cp_recibido,
                     'credit': 0.0,
-                    'name': f"Asiento Devengar CP - {record.serie or 'N/A'}",
-                },
-                {
-                    'account_id': record.initial_credit_account_id.id,
-                    'debit': 0.0,
-                    'credit': record.intereses_corto_plazo,
-                    'name': f"Asiento Devengar CP - {record.serie or 'N/A'}",
-                },
-            ]
-            move_vals_corto = {
+                    'name': f"Asiento Devengar CP - {record.serie}",
+                }))
+
+            # Debe: 'Intereses Financieros a Cobrar LP – PYG' (12316), por lp_no_cobrado
+            if lp_no_cobrado > 0:
+                line_ids.append((0, 0, {
+                    'account_id': record.initial_debit_account_id_lp.id,
+                    'debit': lp_no_cobrado,
+                    'credit': 0.0,
+                    'name': f"Asiento Devengar LP - {record.serie}",
+                }))
+
+            line_ids.append((0, 0, {
+                'account_id': record.initial_credit_account_id.id,
+                'debit': 0.0,
+                'credit': devengado_hasta_31dic,
+                'name': f"Asiento Devengar CP - {record.serie} )",
+            }))
+            line_ids.append((0, 0, {
+                'account_id': record.initial_credit_largo_plazo_account_id.id,
+                'debit': 0.0,
+                'credit': devengado_residual,
+                'name': f"Asiento Devengar LP - {record.serie}",
+            }))
+
+            move_vals = {
                 'journal_id': record.initial_journal_id.id,
                 'date': fields.Date.context_today(self),
-                'line_ids': [(0, 0, line) for line in move_lines_corto],
-                'ref': f"Asiento Devengar CP - {record.serie or 'N/A'}",
-                'initial_cartera_id': record.id
+                'line_ids': line_ids,
+                'ref': f"Asiento Devengar – {record.serie}",
+                'initial_cartera_id': record.id,
             }
-            move_corto = self.env['account.move'].create(move_vals_corto)
-            #validacion para que no genere asiento en cero o negativo
-            if record.intereses_largo_plazo > 0:
-                # Crear asiento para largo plazo
-                move_lines_largo = [
-                    {
-                        'account_id': record.initial_debit_account_id_lp    .id,
-                        'debit': record.intereses_largo_plazo,
-                        'credit': 0.0,
-                        'name': f"Asiento Devengar LP - {record.serie or 'N/A'}",
-                    },
-                    {
-                        'account_id': record.initial_credit_largo_plazo_account_id.id,
-                        'debit': 0.0,
-                        'credit': record.intereses_largo_plazo,
-                        'name': f"Asiento Devengar LP - {record.serie or 'N/A'}",
-                    },
-                ]
-                move_vals_largo = {
-                    'journal_id': record.initial_journal_id.id,
-                    'date': fields.Date.context_today(self),
-                    'line_ids': [(0, 0, line) for line in move_lines_largo],
-                    'ref': f"Asiento Devengar LP - {record.serie or 'N/A'}",
-                    'initial_cartera_id': record.id
-                }
-                move_largo = self.env['account.move'].create(move_vals_largo)
-                record.message_post(
-                    body=f"Se han creado los asientos contables para devengar: {move_corto.name} (CP) y {move_largo.name} (LP)."
-                )
-            else:
-                record.message_post(
-                    body=f"Se han creado los asientos contables para devengar: {move_corto.name} (CP)."
-                )
+            move = self.env['account.move'].create(move_vals)
+            #move.post()
 
+            record.message_post(
+                body=(
+                    f"Se creó un Asiento de Devengamiento 2025 para {record.serie}:\n"
+                    f" • CP cobrados hasta {ultimo_venc_cp}: {cp_recibido:,.2f}\n"
+                    f" • LP devengado hasta 31/12/2025: {lp_no_cobrado:,.2f}\n"
+                    f" • Total a devengar CP (haber): {devengado_hasta_31dic:,.2f}"
+                )
+            )
 
 
     def action_view_initial_moves(self):
@@ -758,19 +848,20 @@ class CarteraInversion(models.Model):
         for record in self:
             # Validaciones previas
             if not record.inversion_journal_id:
-                raise exceptions.UserError("Por favor, asegúrese de que el campo 'Cuenta de Inversión' esté completo.")
+                raise exceptions.UserError("Por favor, asegurese de que el campo 'Cuenta de Inversion' este completo.")
             if not record.banco_account_id:
-                raise exceptions.UserError("Por favor, asegúrese de que el campo 'Cuenta de Banco' esté completo.")
+                raise exceptions.UserError("Por favor, asegurese de que el campo 'Cuenta de Banco' este completo.")
             if not record.inversion_journal_id:
-                raise exceptions.UserError("Por favor, asegúrese de que el campo 'Diario de inversión' esté completo.")
+                raise exceptions.UserError("Por favor, asegurese de que el campo 'Diario de inversion' este completo.")
 
             # Crear la línea para el voucher
             voucher_line_vals = {
                 'account_id': record.inversion_account_id.id,  # Cuenta de inversión
                 'name': record.serie or "N/A",  # Referencia o serie
                 'quantity': 1,  # Cantidad fija
-                'price_unit': record.capital,  # Precio unitario
+                'price_unit': record.capital if record.instrumento != 'fondos' else record.importe_valorizado,  # Precio unitario
             }
+            print(f"Creando línea de voucher con cuenta: {voucher_line_vals['account_id']} y monto: {voucher_line_vals['price_unit']}")
 
             # Crear el voucher
             voucher_vals = {
@@ -783,14 +874,13 @@ class CarteraInversion(models.Model):
                 'state': 'draft',  # Estado borrador
                 'name': f"Voucher Generado - {record.serie or 'N/A'}",  # Descripción del voucher
             }
+            print(f"Creando voucher con cuenta de banco: {voucher_vals['account_id']} y diario: {voucher_vals['journal_id']}")
+
             voucher = self.env['account.voucher'].create(voucher_vals)
 
             # Asociar el voucher generado con el registro actual
             record.voucher_id = voucher.id
             record.message_post(body=f"Se ha creado un nuevo pago inicial por la inversión: {voucher.name}")
-
-
-
 
     @api.model_create_multi
     @api.returns('self', lambda value: value.id)
@@ -845,30 +935,48 @@ class CarteraInversion(models.Model):
             record.compute_incompleto()
 
     #cambio_utilizado , importe_valorizado, valor_actual_pyg, valor_actula_usd, intereses, valor_calculado
-    @api.depends('cambio_utilizado', 'importe_valorizado', 'valor_actual_pyg', "intereses", "valor_calculado")
+    @api.depends('cambio_utilizado', 'importe_valorizado', 'valor_actual_pyg', "intereses", "valor_calculado", "capital", "retiros")
     def compute_valor_final(self):
         for cartera in self:
-
             # setea Valor actual en pyg
-            if (cartera.currency_id.id ==  2) and cartera.cambio_utilizado:# si es dolar y se seteo la cotizacion
+            if (cartera.currency_id.id ==  155) and cartera.cambio_utilizado:# si es dolar y se seteo la cotizacion
                 cartera.valor_actual_pyg = cartera.importe_valorizado * cartera.cambio_utilizado
             else:
                 cartera.valor_actual_pyg = cartera.importe_valorizado
 
             #sumar intereses por vencimientos
             total_intereses = 0
-            for venc in cartera.vencimiento_ids:
-                if venc.amortizacion == 'vtoInt':
-                    total_intereses += venc.total
-            if cartera.currency_id.id == 2:# si es dolar
-                total_intereses = total_intereses * cartera.cambio_utilizado
+            
+            if cartera.instrumento not in ('fondos', 'acciones'):
+                for venc in cartera.vencimiento_ids:
+                    if venc.amortizacion == 'vtoInt':
+                        total_intereses += venc.total
+                if cartera.currency_id.id == 2:# si es dolar
+                    total_intereses = total_intereses * cartera.cambio_utilizado
 
-            # setea intereses
-            cartera.intereses = total_intereses
-            # setea total
-            cartera.valor_calculado = cartera.intereses + cartera.valor_actual_pyg
+                # setea intereses
+                cartera.intereses = total_intereses
+                # setea total
+                cartera.valor_calculado = cartera.intereses + cartera.valor_actual_pyg
+                cartera.retiros = 0
+                cartera.capital = 0
+            else:
+                total_retiros = 0
+                total_capital = 0
+                for movimiento in cartera.movimiento_fondo_ids:
+                    if movimiento.tipo == 'retiro':
+                        total_retiros += movimiento.monto
+                    else:
+                        total_capital += movimiento.monto
 
-
+                
+                for rendimiento in cartera.fondo_periodo_ids:   
+                    total_intereses += rendimiento.acumulado
+                cartera.retiros = total_retiros
+                cartera.intereses = total_intereses
+                cartera.capital = total_capital
+                cartera.valor_calculado = cartera.intereses + (total_capital - total_retiros) + cartera.importe_valorizado  
+                cartera.valor_actual_pyg = cartera.cambio_utilizado * cartera.valor_calculado
 
     @api.depends('valor_calculado', 'debit_account_id', 'credit_account_id', 'casa_bolsa', 'currency_id', 'serie')
     def compute_incompleto(self):
@@ -902,30 +1010,6 @@ class CarteraInversion(models.Model):
             else:
                 i.fecha_actual = False
 
-    """@api.onchange('tipo', 'instrumento', 'fecha_vencimiento', 'currency_id')
-    def set_credit_debit_accounts(self):
-        for cartera in self:
-            credit_accounts = self.env['account.account'].search([
-                ('cartera_acreedor_deudor', '=', 'acreedor'),
-                ('cartera_tipo', '=', cartera.tipo),
-            ])
-            cartera.credit_account_id = credit_accounts[0] if credit_accounts else False
-
-            vencimiento = False
-            ten_years = date.today().year + 10
-            if cartera.fecha_vencimiento and cartera.fecha_vencimiento.year > ten_years:
-                vencimiento = 'largo_plazo'
-            elif cartera.fecha_vencimiento:
-                vencimiento = 'corto_plazo'
-
-            debit_accounts = self.env['account.account'].search([('cartera_acreedor_deudor', '=', 'deudor')]).filtered(lambda account:
-                (account.cartera_vencimiento == vencimiento or not account.cartera_vencimiento) and
-                (account.cartera_instrumento == cartera.instrumento or not account.cartera_instrumento) and
-                (account.cartera_tipo == cartera.tipo or not account.cartera_tipo) and
-                (account.cartera_currency_id == cartera.currency_id or not account.cartera_currency_id)
-            )
-            cartera.debit_account_id = debit_accounts[0] if debit_accounts else False"""
-
     def marcar_como_inactivo(self):
         self.state = 'inactivo'
         dialog = self.env['pbp.dialog.box'].sudo().search([])[-1]
@@ -937,8 +1021,6 @@ class CarteraInversion(models.Model):
             'target': 'new',
             'res_id': dialog.id
         }
-
-
 
     @api.model
     def generarAsientosVencimiento(self):

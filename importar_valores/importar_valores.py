@@ -20,16 +20,19 @@ SQL_SERVER_CONFIG = {
 
 xr = XMLRPC()
 xr.setup()
-today = datetime.datetime.now()
-from_date = today.replace(hour=0, minute=0)
-from_date = from_date.strftime('%Y-%m-%d %H:%M')
-#from_date = "2025-02-01"
 
-to_date = today.replace(hour=23, minute=59)
-to_date = to_date.strftime('%Y-%m-%d %H:%M')
-#to_date = "2025-03-01"
-print("Importar Valores", from_date, to_date)
-LOTE_ENVIO = 200
+today = datetime.date.today()
+
+from_date = today - dateutil.relativedelta.relativedelta(months=1)
+from_date = from_date.replace(day=26)
+from_date = from_date.strftime('%Y-%m-%d')
+#from_date = "2023-06-26"
+ids_pbp = []
+
+to_date = today
+to_date = to_date.replace(day=25)
+to_date = to_date.strftime('%Y-%m-%d')
+#to_date = "2023-07-25"
 
 
 def get_clientes():
@@ -54,7 +57,7 @@ def get_clientes():
         'LEFT JOIN Personas.vReporteMiembrosCompensadores '
         'ON Personas.vCuentaFacturacion.MiembroCompensadorID = Personas.vReporteMiembrosCompensadores.MiembroCompensadorID;'
     )
-    # 'ON Personas.vCuentaFacturacion.MiembroCompensadorID = Personas.vReporteMiembrosCompensadores.MiembroCompensadorID WHERE Personas.vCuentaFacturacion.PersonaID = 20;'
+    #'ON Personas.vCuentaFacturacion.MiembroCompensadorID = Personas.vReporteMiembrosCompensadores.MiembroCompensadorID WHERE Personas.vCuentaFacturacion.PersonaID = 20;'
     columns = [column[0] for column in cursor.description]
     rows = cursor.fetchall()
 
@@ -104,7 +107,7 @@ def create_cliente(row):
         'obviar_validacion': True,
     }
 
-    # partner_ids = xr.execute_kw('res.partner', 'search', [['|', ['id_cliente_pbp', '=', cliente_id], ['vat', '=', vat]]])
+    #partner_ids = xr.execute_kw('res.partner', 'search', [['|', ['id_cliente_pbp', '=', cliente_id], ['vat', '=', vat]]])
     partner_ids = xr.execute_kw('res.partner', 'search', [[['vat', '=', vat], ['id_cliente_pbp', '=', cliente_id]]])
     partner_id = partner_ids[0] if partner_ids else None
     if partner_id:
@@ -117,49 +120,12 @@ def create_cliente(row):
         partner_id = xr.execute_kw('res.partner', 'create', [obj])
         print(f'PARTNER CREATED: {partner_id}')
 
-    # novedades = xr.execute_kw('pbp.novedades', 'search', [[['partner_id', '=', partner_id]]])
-    # xr.execute_kw('res.partner', 'write', [novedades, {'cliente_id': cliente_id}])
-    # xr.execute_kw('res.partner', 'update_novedades', [partner_id, partner_id])
+    #novedades = xr.execute_kw('pbp.novedades', 'search', [[['partner_id', '=', partner_id]]])
+    #xr.execute_kw('res.partner', 'write', [novedades, {'cliente_id': cliente_id}])
+    #xr.execute_kw('res.partner', 'update_novedades', [partner_id, partner_id])
 
 
-def sync_clientes():
-    clientes = get_clientes()
-    create_clientes(clientes)
-
-
-def sincronizar_novedades():
-    """
-    Obtenemos los datos necesarios y enviamos al odoo, en grupos de LOTE_ENVIO
-    """
-    print("sincronizar_novedades")
-    # Obtenemos los datos de la proforma
-    datos = obtener_novedades_desde_BD()
-
-    registros = len(datos)
-    print(f"Se obtuvieron {registros} registros")
-
-    # Enviamos los datos al odoo en grupos de LOTE_ENVIO
-    for i in range(0, registros, LOTE_ENVIO):
-        lote = datos[i: i + LOTE_ENVIO]
-        print(f"Enviando registros {i} a {i + LOTE_ENVIO}")
-        enviar_novedades_xmlrpc(xr, lote)
-
-
-def clean_value(value):
-    if isinstance(value, Decimal):
-        return float(value)
-
-    if value is None:
-        return False
-    return value
-
-
-def obtener_novedades_desde_BD():
-    """
-    Obtenemos los datos de desde la base de datos. Dejamos todo en memoria
-    """
-
-    print("obtener_novedades_desde_BD")
+def get_registro_valores():
     conn = pyodbc.connect(
         'DRIVER={ODBC Driver 17 for SQL Server};'
         f'SERVER={SQL_SERVER_CONFIG["HOST"]};'
@@ -180,77 +146,200 @@ def obtener_novedades_desde_BD():
         'LEFT JOIN Productos.vContrato ON Registro.vValores.ContratoID = Productos.vContrato.ContratoID '
         'LEFT JOIN Productos.SerieRentaFijaPublicacion ON Registro.vValores.ContratoID = Productos.SerieRentaFijaPublicacion.ContratoID '
         'LEFT JOIN Personas.MiembroCompensador ON Registro.vValores.MiembroCompensadorID = Personas.MiembroCompensador.MiembroCompensadorID '
-        f"WHERE FechaOperacion >= '{from_date}' AND FechaOperacion <= '{to_date}'"
+        f"WHERE FechaOperacion >= '{from_date}' AND FechaOperacion <= '{to_date}' AND Mercado = 'Repos'"
         'ORDER BY Registro.vValores.FechaOperacion DESC;'
     )
-
     columns = [column[0] for column in cursor.description]
     rows = cursor.fetchall()
 
     results = []
-    objects = []
     for row in rows:
         values = [clean_value(value) for value in row]
         results.append(dict(zip(columns, values)))
+    return results
 
-    for r in results:
-        moneda_id = r.get('MonedaID')
-        if r.get('FechaOperacion'):
-            fecha_operacion = r.get('FechaOperacion').strftime('%Y-%m-%d')
+
+def create_novedades(rows):
+    novedades = []
+    for row in rows:
+        try:
+            novedad = create_novedad(row)
+            if novedad:
+                novedades.append(novedad)
+        except Exception as error:
+            print(f'Error: {error}')
+
+        if len(novedades) == 500:
+            ids = xr.execute_kw('pbp.novedades', 'create', [novedades])
+            print('CREATED')
+            novedades = []
+
+    if len(novedades):
+        ids = xr.execute_kw('pbp.novedades', 'create', [novedades])
+        print('CREATED')
+
+
+def create_novedad(row):
+    id_pbp = False
+    id_vvalores = row['OperacionCarteraNumero']
+    moneda_id = row['MonedaID']
+    if moneda_id == 2:
+        # currency_name = 'USD'
+        currency_id = 2
+    elif moneda_id == 1:
+        # currency_name = 'PYG'
+        currency_id = 155
+    else:
+        return False
+    volumen_gs = row['VolumenGS']
+    mercado = row['MercadoDescripcion']
+    contrato_id = row['ContratoID']
+    contrato_descripcion = row['ContratoDescripcion']
+    contrato_tipo_descripcion = row['TipoContratoDescripcion']
+    product_id = False
+    if contrato_tipo_descripcion == 'Fondo Inversión':
+        product_id = 190
+    elif contrato_tipo_descripcion == 'Serie Renta Fija':
+        product_id = 153
+        if mercado == 'Repos':
+            product_id = 155
+    elif contrato_tipo_descripcion == 'Serie Renta Variable Acción':
+        product_id = 154
+    else:
+        return False
+    instrumento = row['Instrumento']
+    if row['FechaOperacion']:
+        fecha_operacion = row['FechaOperacion'].strftime('%Y-%m-%d')
+    else:
+        fecha_operacion = False
+    if row['FechaVencimiento']:
+        fecha_vencimiento = row['FechaVencimiento'].strftime('%Y-%m-%d')
+    else:
+        fecha_vencimiento = False
+    if fecha_vencimiento and fecha_operacion:
+        plazo = row['FechaVencimiento'] - row['FechaOperacion']
+        plazo = plazo.days
+    else:
+        plazo = 0
+    cliente_id = row['PersonaID']
+
+    novedades = xr.execute_kw('pbp.novedades', 'search', [[['id_vvalores', '=', id_vvalores]]])
+    fondo_garantia = xr.execute_kw('pbp.calculo_fondo_garantia', 'search', [[['id_vvalores', '=', id_vvalores]]])
+
+
+    partner_id = False
+    partners = xr.execute_kw('res.partner', 'search_read', [[['id_cliente_pbp', '=', cliente_id]]])
+    partner = partners[0] if partners else False
+    if partner:
+        partner_ruc = partner['vat']
+        partner_ids = xr.execute_kw('res.partner', 'search', [[['vat', '=', partner_ruc]]])
+        if len(partner_ids) > 1:
+            max_total = 0
+            for pid in partner_ids:
+                partner_novedades_total = xr.execute_kw('pbp.novedades', 'search_count', [[['partner_id', '=', pid]]])
+                if partner_novedades_total > max_total:
+                    partner_id = pid
+                    max_total = partner_novedades_total
+            if not max_total:
+                partner_id = partner['id']
         else:
-            fecha_operacion = False
-        if r.get('FechaVencimiento'):
-            fecha_vencimiento = r.get('FechaVencimiento').strftime('%Y-%m-%d')
+            partner_id = partner['id']
+
+    cantidad = row['Cantidad']
+    tasa_interes = row['TasaInteres']
+
+    if row['EmisorDescripcion'] == 'MINISTERIO DE HACIENDA' or mercado == 'Mercado Primario':
+        total = (volumen_gs / 100) * 0.01
+    elif (mercado == 'Mercado Primario' or mercado == 'Mercado Secundario') and (instrumento == 'Fondos de Inversión' or instrumento == 'Acciones'):
+        if moneda_id == 1:
+            total = volumen_gs
         else:
-            fecha_vencimiento = False
-        if fecha_vencimiento and fecha_operacion:
-            plazo = r.get('FechaVencimiento') - r.get('FechaOperacion')
-            plazo = plazo.days
+            total = row['SubTotal']
+        total = (total/100) * 0.02
+    elif (mercado == 'Mercado Primario' or mercado == 'Mercado Secundario') and 'bono' in instrumento.lower():
+        if moneda_id == 1:
+            total = volumen_gs
         else:
-            plazo = 0
-        print("Moneda Registro", r.get('MonedaID'))
+            total = row['SubTotal']
+        if row['EmisorDescripcion'] == 'MINISTERIO DE HACIENDA' or mercado == 'Mercado Primario':
+            total = (total / 100) * 0.01
+        else:
+            total = (total / 100) * 0.02
+    elif mercado == 'Repos':
+        if moneda_id == 1:
+            volumen_negociado = volumen_gs
+        else:
+            volumen_negociado = row['SubTotal']
+        arancel_anual = tasa_interes * volumen_negociado
+        total = arancel_anual/365 * plazo
+        iva = total * 0.10
 
-        currency_id = 2 if r.get('MonedaID') == 2 else 155
-
-
-        obj = {
-            'id_vvalores': r.get('OperacionCarteraNumero'),
-            'cantidad': r.get('Cantidad'),
-            'total': False,
-            'total_iva': False,
-            'subtotal': False,
-            'contrato_descripcion': r.get('ContratoDescripcion'),
-            'contrato_id': r.get('ContratoID'),
-            'contrato_tipo_descripcion': r.get('TipoContratoDescripcion'),
-            'product_id': False,
+        ### Calculo Fondo de Garantia
+        calculo = total / 100 * 0.005 / 365 * plazo
+        calculo_obj = {
+            'id_pbp': id_pbp,
+            'id_vvalores': id_vvalores,
+            'mercado': mercado,
+            'instrumento': instrumento,
             'currency_id': currency_id,
+            'volumen_negociado': volumen_negociado,
             'fecha_operacion': fecha_operacion,
             'fecha_vencimiento': fecha_vencimiento,
-            'plazo': plazo,
-            'cliente_id': r.get('PersonaID'),
-            'partner_id': False,
-            'mercado': r.get('MercadoDescripcion'),
-            'volumen_gs': r.get('VolumenGS') if moneda_id == 1 else r.get('SubTotal'),
-            'volumen_gs_usd': r.get('VolumenGS'),
-            'instrumento': r.get('Instrumento'),
-            'tipo_operacion': r.get('TipoOperacionDescripcion')
+            'cliente_id': cliente_id,
+            'partner_id': partner_id,
+            'plazo':plazo,
+            'calculo':calculo
         }
-        objects.append(obj)
-    return objects
+        if fondo_garantia:
+            xr.execute_kw('pbp.calculo_fondo_garantia', 'write', [[fondo_garantia[0]], calculo_obj])
+            print(f'CALCULO FONDO DE GARANTIA UPDATED: {id_vvalores} {calculo_obj}')
+        else:
+            id = xr.execute_kw('pbp.calculo_fondo_garantia', 'create', [calculo_obj])
+            print(f'CALCULO FONDO DE GARANTIA CREATED: {id} {calculo_obj}')
+
+    obj = {
+        'id_pbp': id_pbp,
+        'id_vvalores': id_vvalores,
+        # 'precio_unitario': row['Precio'],
+        'cantidad': cantidad,
+        'total': total,
+        'contrato_descripcion': contrato_descripcion,
+        'contrato_id': contrato_id,
+        'contrato_tipo_descripcion': contrato_tipo_descripcion,
+        'product_id': product_id,
+        'currency_id': currency_id,
+        'fecha_operacion': fecha_operacion,
+        'cliente_id': cliente_id,
+        'partner_id': partner_id,
+        'mercado': mercado,
+        'volumen_gs': volumen_gs,
+    }
+
+    if novedades:
+        xr.execute_kw('pbp.novedades', 'write', [[novedades[0]], obj])
+        print(f'NOVEDAD UPDATED: {id_vvalores} {obj}')
+    else:
+        id = xr.execute_kw('pbp.novedades', 'create', [obj])
+        print(f'NOVEDAD CREATED: {id} {obj}')
+
+def clean_value(value):
+    if isinstance(value, Decimal):
+        return float(value)
+    if value is None:
+        return False
+    return value
 
 
-def enviar_novedades_xmlrpc(xr, data):
-    """
-    Enviamos los datos al odoo a través de XMLRPC
-    """
-    try:
-        result = xr.execute_kw('pbp.novedades', 'sincronizar_registros', [data])
-        print(result)
-    except Exception as e:
-        print(e)
-        print("Error al enviar datos al odoo")
-        return None
+def sync_clientes():
+    clientes = get_clientes()
+    create_clientes(clientes)
+
+
+def sync_novedades():
+    valores = get_registro_valores()
+    create_novedades(valores)
 
 
 if __name__ == '__main__':
-    sincronizar_novedades()
+    #sync_clientes()
+    sync_novedades()

@@ -14,7 +14,6 @@ XMLRPC_CONFIG = {
     'USER': config['xmlrpc']['user'],
     'PWD': config['xmlrpc']['pwd'],
 }
-print(XMLRPC_CONFIG)
 
 
 class XMLRPC():

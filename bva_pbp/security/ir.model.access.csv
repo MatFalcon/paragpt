@@ -12,4 +12,7 @@ access_voucher_wizard,voucher.wizard,model_voucher_wizard,,1,1,1,1
 access_pbp_wizard_vencimientos_report,pbp.wizard.vencimientos.report,model_pbp_wizard_vencimientos_report,,1,1,1,1
 access_pbp_estado_vencimiento,pbp.estado.vencimiento,model_pbp_estado_vencimiento,,1,1,1,1
 access_pbp_instrumento_vencimiento,pbp.instrumento.vencimiento,model_pbp_instrumento_vencimiento,,1,1,1,1
-
+access_pbp_vencimiento_fondo,pbp.vencimiento_fondo,model_pbp_vencimiento_fondo,base.group_user,1,1,1,1
+access_pbp_movimiento_fondo,pbp.movimiento_fondo,model_pbp_movimiento_fondo,base.group_user,1,1,1,1
+access_pbp_vencimiento_fondo_periodo,pbp.vencimiento_fondo_periodo,model_pbp_vencimiento_fondo_periodo,base.group_user,1,1,1,1
+access_pbp_reporte_vencimientos,pbp.reporte_vencimientos,model_pbp_reporte_vencimientos,base.group_user,1,1,1,1

@@ -37,11 +37,18 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="partner_id" operator="child_of"/>
-                    <filter name="fecha_vencimiento" string="Fecha Vencimiento" date="fecha_vencimiento"/>
+                    <field name="name" string="Serie"/>
+                    <field name="partner_id" string="Emisor"/>
+                    <field name="casa_bolsa" string="Casa de Bolsa"/>
+                    <field name="instrumento" string="Instrumento"/>
+                    <filter string="Pendiente" name="filter_pendiente" domain="[('state', '=', 'pendiente')]" />
+                    <filter string="Cobrado" name="filter_cobrado" domain="[('state', '=', 'cobrado')]" />
+                    <filter string="Vencido" name="filter_vencido" domain="[('state', '=', 'vencido')]" />
                     <group expand="0" string="Group By">
-                        <filter string="Fecha_vencimiento" name="filter_fecha_vencimiento" domain="[]"
-                                context="{'group_by': 'fecha_vencimiento'}"/>
+                        <filter string="Emisor" name="group_partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Casa de Bolsa" name="group_casa_bolsa" domain="[]" context="{'group_by': 'casa_bolsa'}"/>
+                        <filter string="Instrumento" name="group_instrumento" domain="[]" context="{'group_by': 'instrumento'}"/>
+                        <filter string="Estado" name="group_state" domain="[]" context="{'group_by': 'state'}"/>
                     </group>
                 </search>
             </field>

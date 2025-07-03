@@ -27,7 +27,7 @@ class ReporteDevengamientoController(http.Controller):
 
 class ReporteVencimientosController(http.Controller):
 
-    @http.route('/download/reporte_cuadro/<int:record_id>', type='http', auth='user')
+    @http.route('/download/reporte_vencimientos/<int:record_id>', type='http', auth='user')
     def download_reporte_devengamiento(self, record_id, **kwargs):
         # Buscar el registro de cartera de inversión
         record = request.env['pbp.wizard.vencimientos.report'].sudo().browse(record_id)

@@ -2,6 +2,7 @@ from ast import literal_eval
 from datetime import timedelta
 import logging
 from odoo import fields, models, api, exceptions
+from dateutil.relativedelta import relativedelta
 _logger = logging.getLogger(__name__)
 
 class Vencimientos(models.Model):
@@ -24,7 +25,8 @@ class Vencimientos(models.Model):
                 record.color = 3  # Amarillo
             else:
                 record.color = 0
-
+    
+    fecha_compra = fields.Date(related="registros.fecha_compra")
     fecha_vencimiento = fields.Date(string="Fecha de Vencimiento")
     dias = fields.Integer(string="Dias")
     interes = fields.Float(string="InteresxTitulo")
@@ -199,58 +201,81 @@ class Vencimientos(models.Model):
 
                 vencimiento.state = 'vencido'
 
+    def getEmailData(self):
+        """
+        """
+        fecha_hoy = fields.Date.today()
+        fecha_desde = fecha_hoy + relativedelta(days=1)
+        fecha_hasta = fecha_hoy + relativedelta(days=3)
 
+        vencidos_hoy = self.search([('fecha_vencimiento', '=', fecha_hoy)])
+        por_vencer = self.search([
+            ('fecha_vencimiento', '>=', fecha_desde),
+            ('fecha_vencimiento', '<=', fecha_hasta)
+        ])
 
-"""@api.model
-def getEmailData(self):
-    texto = ""
-    destinatarios = []
+        texto = ""
 
-    fecha_vencimiento = fields.Date.today() + timedelta(days=1)
-    group = self.env['res.groups'].search([('name', '=', 'Grupo PBP')])
-    #Si el grupo existe, busca los usuarios que pertenecen a él
-    if group:
-        users = self.env['res.users'].search([('groups_id', 'in', group.ids)])
-    #    for u in users:
-    #        email_to = email_to + u.email + ','
+        if vencidos_hoy:
+            texto += "<p><strong>Vencimientos del día:</strong></p>"
+            texto += """
+                <table border="1" cellpadding="4" cellspacing="0" style="border-collapse: collapse;">
+                    <tr style="background-color:#f0f0f0;">
+                        <th>Fecha</th><th>Serie</th><th>Moneda</th><th>Monto</th>
+                    </tr>
+            """
+            for ven in vencidos_hoy:
+                texto += f"""
+                    <tr>
+                        <td>{ven.fecha_vencimiento.strftime("%d/%m/%Y") or ''}</td>
+                        <td>{ven.serie or ''}</td>
+                        <td>{ven.currency_id.name if ven.currency_id else ''}</td>
+                        <td>{'{:,.2f}'.format(ven.total)}</td>
+                    </tr>
+                """
+            texto += "</table><br/>"
 
-    destinatarios.append(self.env.user.company_id.partner_id.id)
+        if por_vencer:
+            texto += "<p><strong>Vencimientos próximos de hoy a 3 dias:</strong></p>"
+            texto += """
+                <table border="1" cellpadding="4" cellspacing="0" style="border-collapse: collapse;">
+                    <tr style="background-color:#f0f0f0;">
+                        <th>Fecha</th><th>Serie</th><th>Moneda</th><th>Monto</th>
+                    </tr>
+            """
+            for ven in por_vencer:
+                texto += f"""
+                    <tr>
+                        <td>{ven.fecha_vencimiento.strftime("%d/%m/%Y") or ''}</td>
+                        <td>{ven.serie or ''}</td>
+                        <td>{ven.currency_id.name if ven.currency_id else ''}</td>
+                        <td>{'{:,.2f}'.format(ven.total)}</td>
+                    </tr>
+                """
+            texto += "</table>"
 
-    registros = self.env['pbp.cartera_inversion'].search([('fecha_vencimiento','=',fecha_vencimiento)])
+        # Crear un registro transitorio con el texto
+        record = self.env['pbp.vencimiento_capital_interes'].create({
+            'fecha_vencimiento': fecha_hoy,
+            'texto': texto,
+            'user_id': self.env.user.id,
+            'company_id': self.env.user.company_id.id,
+        })
 
-    if registros:
-        partners = set(registros.mapped('partner_id'))
-        for p in partners:
-            texto = texto + '<b>' + p.name + '</b><br/>'
-            texto = texto + '<table><tr><td style="border:1px solid black;padding:5px">Emisor</td><td style="border:1px solid black;padding:5px">Fecha de vencimiento</td><td style="border:1px solid black;padding:5px">Instrumento</td><td style="border:1px solid black;padding:5px">Monto Intereses</td><td style="border:1px solid black;padding:5px">Serie</td><td style="border:1px solid black;padding:5px">Moneda</td></tr>'
-            for r in registros.filtered(lambda x: x.partner_id == p):
-                texto = texto + '<tr><td style="border:1px solid black;padding:5px">' + r.partner_id.name +\
-                        '</td><td style="border:1px solid black;padding:5px">'+ r.fecha_vencimiento.strftime("%d/%m/%Y") +\
-                        '</td><td style="border:1px solid black;padding:5px">'+r.instrumento+\
-                        '</td><td style="border:1px solid black;padding:5px">'+ str('{0:,.0f}'.format(r.intereses)).replace(",",".")+\
-                        '</td><td style="border:1px solid black;padding:5px">'+r.serie + \
-                        '</td><td style="border:1px solid black;padding:5px">'+r.currency_id.name + \
-                        '</td></tr>'
-            texto = texto + '</table>'
-
-        registro_values = {
-            'fecha_vencimiento':fecha_vencimiento,
-            'destinatarios':[(6, 0, users.ids)],
-            'registros': [(6, 0, registros.ids)],
-            'texto':texto
-        }
-
-        vencimiento_capital_interes = self.env['pbp.vencimiento_capital_interes'].create(registro_values)
-
+        # Obtener el template
         template = self.env.ref('pbp.mail_template_vencimientos_capital_interes')
 
-        vals = {
-            'email_from': 'tesoreria@bolsadevalores.com.py',
-            'author_id': self.user_id.id,
-            'subject': 'Re: Vencimiento de Capital e Interes a fecha %s' % fecha_vencimiento,
+        # Los valores de email_to y email_from “machacan” los que tenga el template
+        email_vals = {
+            'email_to':    'administracion@bolsadevalores.com.py',
+            'email_from':  'Odoo Bot <no-reply@bolsadevalores.com.py>',
+            'subject':     'Vencimiento de Capital e Intereses a Fecha ' + fecha_hoy.strftime("%d/%m/%Y"),
             'auto_delete': False,
-            'recipient_ids': destinatarios
         }
-        mail_id = template.send_mail(vencimiento_capital_interes.id, email_values=vals, force_send=True)
-        for r in registros:
-            r.write({'correo_enviado': True, 'mail_id': mail_id})"""
+        template.send_mail(record.id, email_values=email_vals, force_send=True)
+        
+        _logger.info("Correo enviado correctamente con vencimientos")
+        return texto
+
+
+

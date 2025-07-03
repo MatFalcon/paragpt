@@ -7,21 +7,30 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search>
-                    <filter string="Pendiente" name="filter_pendiente" domain="[('state', '=', 'pendiente')]"/>
-                    <filter string="Cobrado" name="filter_cobrado" domain="[('state', '=', 'cobrado')]"/>
-                    <filter string="Activo" name="filter_activo" domain="[('state', '=', 'activo')]"/>
-                    <field name="serie" string="Serie"/>
-                    <field name="partner_id" string="Emisor"/>
-                    <field name="state" string="Estado"/>
+                    <!-- <filter string="Pendiente" name="filter_pendiente"
+                        domain="[('state', '=', 'pendiente')]" />
+                    <filter string="Cobrado" name="filter_cobrado"
+                        domain="[('state', '=', 'cobrado')]" /> -->
+                    <filter string="Activo" name="filter_activo" domain="[('state', '=', 'activo')]" />
+                    <field name="serie" string="Serie" />
+                    <field name="partner_id" string="Emisor" />
+                    <field name="casa_bolsa" string="Casa de Bolsa" />
+                    <field name="instrumento" string="Instrumento" />
+                    <field name="state" string="Estado" />
                     <group expand="0" string="Group By">
                         <filter string="Emisor" name="filter_partner_id" domain="[]"
-                                context="{'group_by': 'partner_id'}"/>
+                            context="{'group_by': 'partner_id'}" />
                         <filter string="Casa de Bolsa" name="filter_casa_bolsa" domain="[]"
-                                context="{'group_by': 'casa_bolsa'}"/>
-                        <filter string="Estado" name="filter_state" domain="[]" context="{'group_by': 'state'}"/>
+                            context="{'group_by': 'casa_bolsa'}" />
+                        <filter string="Estado" name="filter_state" domain="[]"
+                            context="{'group_by': 'state'}" />
                         <filter string="Fecha de Compra" name="filter_fecha_compra" domain="[]"
-                                context="{'group_by': 'fecha_compra'}"/>
+                            context="{'group_by': 'fecha_compra'}" />
+                        <filter string="Instrumento" name="group_instrumento" domain="[]"
+                            context="{'group_by': 'instrumento'}" />
                     </group>
+                    <filter string="Instrumento: Bonos" name="filter_bonos" domain="[('instrumento', '=', 'bonos')]" />
+                    <filter string="Instrumento: Fondos" name="filter_fondos" domain="[('instrumento', '=', 'fondos')]" />
                 </search>
             </field>
         </record>
@@ -32,32 +41,32 @@
             <field name="model">pbp.cartera_inversion</field>
             <field name="arch" type="xml">
                 <tree string="Cartera de Inversiones">
-                    <field name="emision"/>
-                    <field name="serie"/>
-                    <field name="fecha_compra"/>
-                    <field name="fecha_vencimiento"/>
-                    <field name="calificacion_riesgo"/>
-                    <field name="tasa_interes"/>
-                    <field name="importe_valorizado"/>
-                    <field name="valor_actual_pyg"/>
-                    <field name="valor_actual_usd"/>
-                    <field name="amortizacion"/>
-                    <field name="estado_de_cupon"/>
-                    <field name="comitente"/>
-                    <field name="capital"/>
-                    <field name="intereses"/>
-                    <field name="valor_calculado"/>
-                    <field name="tipo"/>
-                    <field name="grupo_id"/>
-                    <field name="instrumento"/>
-                    <field name="state"/>
-                    <field name="partner_id"/>
-                    <field name="casa_bolsa"/>
-                    <field name="credit_account_id"/>
-                    <field name="debit_account_id"/>
-                    <field name="currency_id"/>
-                    <field name="move_id"/>
-                    <field name="correo_enviado"/>
+                    <field name="emision" />
+                    <field name="serie" />
+                    <field name="fecha_compra" />
+                    <field name="fecha_vencimiento" />
+                    <field name="calificacion_riesgo" />
+                    <field name="tasa_interes" />
+                    <field name="importe_valorizado" />
+                    <field name="valor_actual_pyg" />
+                    <field name="valor_actual_usd" />
+                    <field name="amortizacion" />
+                    <field name="estado_de_cupon" />
+                    <field name="comitente" />
+                    <field name="capital" />
+                    <field name="intereses" />
+                    <field name="valor_calculado" />
+                    <field name="tipo" />
+                    <field name="grupo_id" />
+                    <field name="instrumento" />
+                    <field name="state" />
+                    <field name="partner_id" />
+                    <field name="casa_bolsa" />
+                    <field name="credit_account_id" />
+                    <field name="debit_account_id" />
+                    <field name="currency_id" />
+                    <field name="move_id" />
+                    <field name="correo_enviado" />
                 </tree>
             </field>
         </record>
@@ -69,68 +78,69 @@
             <field name="arch" type="xml">
                 <form string="Cartera de Inversión">
                     <!-- CAMPOS INVISIBLES -->
-                    <field name="voucher_id" invisible="1"/>
-                    <field name="initial_move_ids" invisible="1"/>
-                    <field name="move_ids" invisible="1"/>
-                    <field name="move_count" invisible="1"/>
-                    <field name="initial_move_count" invisible="1"/>
+                    <field name="voucher_id" invisible="1" />
+                    <field name="initial_move_ids" invisible="1" />
+                    <field name="move_ids" invisible="1" />
+                    <field name="move_count" invisible="1" />
+                    <field name="initial_move_count" invisible="1" />
                     <header>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,activo,cobrado"/>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,activo,cobrado" />
                         <!-- Botón "Generar Voucher" -->
                         <button name="crear_voucher"
-                                type="object"
-                                string="Generar Voucher"
-                                class="btn-primary"
-                                icon="fa-plus"
-                                invisible="voucher_id != False"/>
+                            type="object"
+                            string="Generar Voucher"
+                            class="btn-primary"
+                            icon="fa-plus"
+                            invisible="voucher_id != False" />
                         <!-- Botón "Generar asiento inicial" -->
                         <button name="crear_asiento_devengar"
-                                type="object"
-                                string="Generar asiento inicial a devengar"
-                                class="btn-primary"
-                                icon="fa-plus"
-                                invisible="initial_move_count > 0"/>
+                            type="object"
+                            string="Generar asiento inicial a devengar"
+                            class="btn-primary"
+                            icon="fa-plus"
+                            invisible="initial_move_count > 0 or instrumento in ('fondos', 'acciones')" />
                         <!-- Boton para Generar asientos de devengamiento -->
                         <button name="generar_asientos_devengamiento"
-                                type="object"
-                                string="Generar Asientos de Devengamiento"
-                                class="btn-primary"
-                                icon="fa-plus"
-                                />
-<!--                        invisible="move_count > 0"-->
+                            type="object"
+                            string="Generar Asientos de Devengamiento"
+                            class="btn-primary"
+                            icon="fa-plus"
+                            invisible="instrumento in ('fondos', 'acciones')"
+                        />
+                        <!--                        invisible="move_count > 0"-->
                         <button name="generar_reporte_excel"
-            type="object"
-            string="Generar Reporte Excel"
-            class="btn-primary"
-            icon="fa-file-excel-o"/>
-
-
+                            type="object"
+                            string="Generar Reporte Excel"
+                            class="btn-primary"
+                            icon="fa-file-excel-o" />
                     </header>
                     <sheet>
                         <!-- Smart Button "Ver Voucher Asociado" -->
                         <div class="oe_button_box" name="button_box">
                             <!-- Smart Button "Ver Voucher Asociado" -->
                             <button name="action_view_voucher"
-                                    type="object"
-                                    class="oe_stat_button"
-                                    icon="fa-usd"
-                                    invisible="voucher_id == False">
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-usd"
+                                invisible="voucher_id == False">
                                 <span name="voucher_id" widget="statinfo">Pago</span>
                             </button>
 
                             <!-- Smart Button "Ver Asientos Iniciales a Devengar" -->
                             <button name="action_view_initial_moves"
-                                    type="object"
-                                    class="oe_stat_button"
-                                    icon="fa-file-text-o"
-                                    invisible="initial_move_count == 0">
-                                <span name="initial_move_ids" widget="statinfo">Asientos Iniciales a Devengar</span>
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o"
+                                invisible="initial_move_count == 0">
+                                <span name="initial_move_ids" widget="statinfo">Asientos Iniciales a
+                                    Devengar</span>
                             </button>
                             <!-- Smart Button "Ver Asientos de Devengamiento" -->
                             <button name="action_view_moves"
-                                    type="object"
-                                    class="oe_stat_button"
-                                    icon="fa-list"> <!-- Ícono de lista -->
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-list"> <!-- Ícono de lista -->
 
                                 <span name="move_ids" widget="statinfo">Asientos de Devengamiento</span>
                             </button>
@@ -139,78 +149,125 @@
 
                         <group>
                             <group string="Datos de inversion">
-<!--                                <field name="reporte_excel" filename="reporte_nombre" widget="binary" string="Descargar Reporte Excel"/>-->
-                                <field name="emision"/>
-                                <field name="serie"/>
-                                <field name="fecha_compra"/>
-                                <field name="fecha_vencimiento"/>
-                                <field name="calificacion_riesgo"/>
+                                <field name="emision" />
+                                <field name="partner_id" />
+                                <field name="serie" />
+                                <field name="currency_id" />
+                                <field name="fecha_compra" />
+                                <field name="fecha_vencimiento"  invisible="instrumento in ('fondos', 'acciones')" />
+                                <field name="calificacion_riesgo" />
+                                <field name="importe_valorizado" invisible="instrumento in ('fondos', 'acciones')"
+                                    currency_field="currency_id" />
+                                <field name="importe_valorizado" invisible="instrumento not in ('fondos', 'acciones')"
+                                    string="Inversion Inicial" />
+                                <field name="cambio_utilizado"/> 
                                 <field name="tasa_interes"/>
-                                <field name="importe_valorizado"/>
-                                <field name="valor_actual_pyg"/>
-                                <field name="valor_actual_usd"/>
-                                <field name="amortizacion"/>
-                                <field name="estado_de_cupon"/>
-                                <field name="comitente"/>
-                                <field name="capital"/>
-                                <field name="intereses"/>
-                                <field name="valor_calculado"/>
-                                <field name="tipo"/>
-                                <field name="grupo_id"/>
-                                <field name="instrumento"/>
-                                <field name="state"/>
-                                <field name="partner_id"/>
-                                <field name="tipo_mercado"/>
-<!--                                required="tipo_mercado == 'primario'"-->
-                                <field name="casa_bolsa" />
-                                <field name="currency_id"/>
-                                <field name="plazo_pago_intereses"/>
-                                <field name="tipo_devengamiento"/>
+                                <field name="amortizacion" invisible="1" />
+                                <field name="capital" invisible="instrumento in ('fondos', 'acciones')" />
+                                <field name="capital" invisible="instrumento not in ('fondos', 'acciones')" string="Capitalizaciones" />
+                                <field name="intereses" invisible="instrumento in ('fondos', 'acciones')" />
+                                <field name="intereses" invisible="instrumento not in ('fondos', 'acciones')"
+                                    string="Rendimientos" />
+                                <field name="retiros" invisible="instrumento not in ('fondos', 'acciones')" />
+                                <field name="valor_calculado" />
+                                <field name="valor_actual_pyg" invisible="currency_id != 2"></field>
+                                <field name="comitente" />
+                                <field name="tipo" invisible="instrumento in ('fondos', 'acciones')" />
+                                <field name="grupo_id" invisible="instrumento in ('fondos', 'acciones')" />
+                                <field name="instrumento" />
                             </group>
-                            <group string="Conf. inicial de pago">
-                                <field name="inversion_journal_id"/>
-                                <field name="banco_account_id" domain="[('account_type','=','asset_cash')]"/>
-                                <field name="inversion_account_id"/>
-                                <field name="cambio_utilizado"/>
-                            </group>
-                            <group string="Conf. inicial a devengar">
-                                <!-- Campos de configuración de cuentas y diario -->
-                                <field name="initial_debit_account_id"/>
-                                <field name="initial_debit_account_id_lp"/>
-                                <field name="initial_credit_account_id"/>
-                                <field name="initial_credit_largo_plazo_account_id"/>
-                                <field name="initial_journal_id"/>
 
+                            <group string="Conf. inicial de pago"
+                                invisible="instrumento in ('fondos', 'acciones')">
+                                <field name="state" />
+                                <field name="partner_id" />
+                                <field name="tipo_mercado" />
+                                <field name="casa_bolsa" />
+                                <field name="currency_id" invisible="instrumento not in ('fondos', 'acciones')"/>
+                                <field name="plazo_pago_intereses" />
+                                <field name="tipo_devengamiento" />
+                                <field name="inversion_journal_id" />
+                                <field name="banco_account_id"
+                                    domain="[('account_type','=','asset_cash')]" />
+                                <field name="inversion_account_id" />
+                                <field name="cambio_utilizado" invisible="instrumento not in ('fondos', 'acciones')"/>
+                                <field name="estado_de_cupon" />
+                                <field name="valor_actual_pyg" invisible="instrumento not in ('fondos', 'acciones')"/>
+                                <field name="valor_actual_usd" />
+                            </group>
+
+
+                            <group string="Conf. inicial a devengar" invisible="instrumento in ('fondos', 'acciones')">
+                                <!-- Campos de configuración de cuentas y diario -->
+                                <field name="initial_debit_account_id" />
+                                <field name="initial_debit_account_id_lp" />
+                                <field name="initial_credit_account_id" />
+                                <field name="initial_credit_largo_plazo_account_id" />
+                                <field name="initial_journal_id" />
                                 <!-- Campos de fechas para devengamiento -->
-                                <field name="fecha_inicio_devengamiento"/>
-                                <field name="fecha_final_devengamiento"/>
-                                <field name="cant_meses_devengamiento" readonly="1"/>
+                                <field name="fecha_inicio_devengamiento" />
+                                <field name="fecha_final_devengamiento" />
+                                <field name="cant_meses_devengamiento" readonly="1" />
 
                                 <!-- Campos computados para intereses prorrateados -->
-                                <field name="intereses_corto_plazo" readonly="1"/>
-                                <field name="intereses_largo_plazo" readonly="1"/>
+                                <field name="intereses_corto_plazo" readonly="1" />
+                                <field name="intereses_largo_plazo" readonly="1" />
                             </group>
                             <group string="Conf. de Devengamiento">
-                                <field name="credit_account_id"/>
-                                <field name="debit_account_id"/>
-                            </group>
+                                <field name="banco_account_id" />
+                                <field name="inversion_account_id" />
+                                <field name="credit_account_id" />
+                                <field name="debit_account_id" invisible="instrumento in ('fondos', 'acciones')"/>
+                                <field name="initial_journal_id" invisible="instrumento in ('fondos', 'acciones')"/>
+                                <field name="inversion_journal_id"/>
 
+                            </group>
                         </group>
-                        <group>
-                            <field name="vencimiento_ids">
-                                <tree>
-                                    <field name="fecha_vencimiento"/>
-                                    <field name="dias"/>
-                                    <field name="interes"/>
-                                    <field name="amortizacion"/>
-                                    <field name="total"/>
-                                </tree>
-                            </field>
-                        </group>
+
+
+                        <notebook>
+                            <page string="Vencimientos" invisible="instrumento in ('fondos', 'acciones')">
+                                <field name="vencimiento_ids"
+                                       context="{'form_view_ref': 'bva_pbp.vencimiento_capital_interes_form'}"
+                                       mode="tree,form">
+                                    <tree>
+                                        <field name="fecha_vencimiento" />
+                                        <field name="dias" />
+                                        <field name="interes" />
+                                        <field name="amortizacion" />
+                                        <field name="total" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <!-- Pagina 2: Periodos de rendimiento -->
+                            <page string="Periodos de Fondo" invisible="instrumento not in ('fondos')">
+                                <field name="fondo_periodo_ids"
+                                    context="{'default_cartera_id': id}"
+                                    options="{'form_view_ref': 'bva_pbp.vencimiento_fondo_periodo_form_view'}"
+                                    readonly="state != 'pendiente'"
+                                    mode="tree,form" />
+                            </page>
+                            <page string="Periodos de Acciones" invisible="instrumento not in ( 'acciones')">
+                                <field name="fondo_periodo_ids"
+                                    context="{'default_cartera_id': id}"
+                                    options="{'form_view_ref': 'bva_pbp.vencimiento_fondo_periodo_form_view'}"
+                                    readonly="state != 'pendiente'"
+                                    mode="tree,form" />
+                            </page>
+                            <!-- Pagina 3: Movimientos de capital -->
+                            <page string="Movimientos"
+                                invisible="instrumento not in ('fondos', 'acciones')">
+                                <field name="movimiento_fondo_ids"
+                                    context="{'default_cartera_id': id}"
+                                    options="{'form_view_ref': 'bva_pbp.movimiento_fondo_form_view'}"
+                                    readonly="state != 'pendiente'"
+                                    mode="tree,form" />
+                            </page>
+                        </notebook>
                     </sheet>
                     <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread" />
                     </div>
                 </form>
             </field>
@@ -219,7 +276,7 @@
             <field name="name">Voucher</field>
             <field name="res_model">account.voucher</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="account_voucher.view_sale_receipt_form"/>
+            <field name="view_id" ref="account_voucher.view_sale_receipt_form" />
             <field name="target">new</field>
 
         </record>
@@ -236,60 +293,64 @@
             <field name="name">Voucher</field>
             <field name="res_model">account.voucher</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="account_voucher.view_sale_receipt_form"/>
+            <field name="view_id" ref="account_voucher.view_sale_receipt_form" />
             <field name="target">new</field>
-<!--            <field name="context">{'default_partner_id': partner_id}</field>-->
+            <!--            <field name="context">{'default_partner_id': partner_id}</field>-->
         </record>
-         <record id="vencimiento_capital_interes_form" model="ir.ui.view">
+        <record id="vencimiento_capital_interes_form" model="ir.ui.view">
             <field name="name">Vencimiento Capital Interes</field>
             <field name="model">pbp.vencimiento_capital_interes</field>
             <field name="arch" type="xml">
                 <form string="Vencimientos">
                     <header>
-                        <field name="state"  widget="statusbar" statusbar_visible="vencido,cobrado,pendiente" />
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="vencido,cobrado,pendiente" />
                     </header>
                     <group>
-                        <field name="fecha_vencimiento"/>
-                        <field name="dias"/>
-                        <field name="name"/>
-                        <field name="amortizacion"/>
-                        <field name="interes"/>
-                        <field name="total"/>
-                        <field name="saldo"/>
+                        <field name="fecha_vencimiento" />
+                        <field name="dias" />
+                        <field name="name" />
+                        <field name="amortizacion" />
+                        <field name="interes" />
+                        <field name="total" />
+                        <field name="saldo" />
                     </group>
                     <group>
-                        <field name="partner_id"/>
-                        <field name="casa_bolsa"/>
-<!--                        <field name="voucher_id" domain="[('partner_id', '=', partner_id)]"-->
-                            context="{'form_view_ref': 'account_voucher.view_sale_receipt_form'}"/>
-
-                        <field name="cuenta"/>
+                        <field name="partner_id" />
+                        <field name="casa_bolsa" />
+                        <!--                        <field name="voucher_id" domain="[('partner_id', '=', partner_id)]"-->
+                        context="{'form_view_ref': 'account_voucher.view_sale_receipt_form'}"/> <field
+                            name="cuenta" />
                     </group>
                     <button name="crear_voucher_parcial"
-                            string="Generar Voucher"
-                            type="object"
-                            class="btn-primary"
-                            icon="fa-plus"
-                            invisible="saldo &lt; 0"
+                        string="Generar Voucher"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-plus"
+                        invisible="saldo &lt; 0"
                     />
                     <notebook>
                         <page string="Vouchers Generados">
-                            <field name="vouchers_ids">
-                                <tree editable="bottom">
-                                    <field name="name"/>
-                                    <field name="date"/>
-                                    <field name="partner_id"/>
-                                    <field name="account_id"/>
-                                    <field name="amount" sum="Total Cobrado"/>
-                                    <field name="voucher_type"/>
+                            <field name="vouchers_ids"
+                                   context="{'form_view_ref': 'account_voucher.view_sale_receipt_form'}"
+                                   mode="tree,form">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="date" />
+                                    <field name="partner_id" />
+                                    <field name="account_id" />
+                                    <field name="amount" sum="Total Cobrado" />
+                                    <field name="voucher_type" />
                                 </tree>
                             </field>
                         </page>
                     </notebook>
-<!--                     <button name="%(action_voucher_form)d" type="action" string="Voucher" class="btn-primary"/> -->
+                    <!--                     <button name="%(action_voucher_form)d" type="action" string="Voucher"
+                    class="btn-primary"/> -->
 
                 </form>
             </field>
         </record>
+
     </data>
 </odoo>
