@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <record id="wizard_asignacion_facturasc" model="ir.ui.view">
+        <field name="name">Asignar facturas</field>
+        <field name="model">account_cobros_py.wizard_asignacion_c</field>
+        <field name="arch" type="xml">
+        <form string="Asignar facturas">
+                <p class="oe_gray">
+                        Inicialmente figuran 10 facturas mas antiguas, si existe mas facturas al darle click al boton Agregar Registro podra elegir las demas facturas
+                </p>
+                <group>
+                        <group>
+                                <field name="partner_id" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="invoice_ids" domain="[('no_ver_factura_recibo','=',False), ('state','=','open'),('partner_id','child_of',partner_id),'|',('move_type','=','out_invoice'),('currency_id','=',currency_id)]">
+                                  <tree>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="invoice_date"/>
+                                    <field name="invoice_date_due"/>
+                                    <field name="amount_residual"/>
+                                    <field name="currency_id"/>
+                                    <field name="payment_state"/>
+                                  </tree>
+                                  </field>
+                        </group>
+                </group>
+                <footer>
+                        <button name="procesar"
+                                string="Asignar"
+                                type="object"
+                                class="btn-primary"/>
+
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_asignar_facturas_c" model="ir.actions.act_window">
+	        <field name="name">Asignar facturas</field>
+	        <field name="res_model">account_cobros_py.wizard_asignacion_c</field>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="wizard_asignacion_facturasc"/>
+	        <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,149 @@
+.page{
+    font-size: 9px;
+}
+p{
+    font-size: 11px;
+}
+.datoscompa{
+    text-align: right;
+    line-height: 1mm;
+}
+.mayuscula{
+    text-transform: uppercase;
+}
+
+.tabla-dinamica{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+
+}
+
+.tabla-dinamica th{
+    /*background-color:rgba(0,0,0,0.15) ;*/
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    border: 0.5px solid black ;
+}
+
+
+
+table.tabla-dinamica th:nth-child(1){
+    width: 20%;
+}
+table.tabla-dinamica th:nth-child(2),
+table.tabla-dinamica th:nth-child(3){
+    width: 8%;
+}
+
+table.tabla-dinamica td:nth-child(1){
+    text-align: left;
+}
+
+
+.totales td{
+    border: 0.1px solid black;
+    padding: 2px;
+    width: 75px;
+}
+
+thead { display: table-header-group }
+tr { page-break-inside: avoid }
+
+.totales td:nth-child(even){
+    text-align: right;
+}
+
+hr {
+    border-bottom: 0.5px solid black;
+    /*border-top: none ;*/
+}
+
+.linea{
+    border-bottom: 0.5px solid black;
+}
+
+.firma{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+.filtros{
+    margin-bottom: 0px;
+}
+
+.con-bordes{
+    border: 0.5px solid black;
+}
+
+td{
+    padding: 0px 2px 0px 2px;
+}
+.negrita{
+    font-weight: bold;
+}
+.subrayado{
+    text-decoration: underline;
+}
+h6.negrita span{
+    font-weight: normal;
+
+}
+h6.subrayado span{
+
+    text-decoration:none;
+}
+
+/*.gris {*/
+/*    background-color: white;*/
+
+/*}*/
+/*.verde {*/
+/*    background-color: white;*/
+
+/*}*/
+
+/*.recibo-detalle{*/
+/*    background-color: rgba(171, 174, 245,0.5);*/
+/*}*/
+
+
+/*tbody tr.recibo:nth-child(odd) {*/
+/*    background-color: rgba(112, 123, 124,0.4);*/
+/*}*/
+/*tbody tr.recibo:nth-child(even) {*/
+/*    background-color:white;*/
+/*}*/
+td{
+    border: 1px solid black;
+}
+
+table.diario{
+    border: 1px solid black;
+    width: 100%;
+    font-size: 12px;
+}
+
+/*table.diario tbody tr:nth-child(odd) {*/
+/*    background-color: rgba(112, 123, 124,0.4);*/
+/*}*/
+/*table.diario tbody tr:nth-child(even) {*/
+/*    background-color:white;*/
+/*}*/
+table.diario td:nth-child(2){
+    text-align: right;
+}
+/*.footer-2{*/
+    /*width: 100%;*/
+/*}*/
+
+
+table.diario tbody tr:last-child{
+    background-color: rgba(112, 123, 124,0.4);
+}

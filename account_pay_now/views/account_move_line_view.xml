@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <group id="header_left_group">
+                <!-- only allow pay now if manual method available -->
+                <field domain="[('company_id', '=', company_id), ('type', 'in', ['bank', 'cash']), ('outbound_payment_method_line_ids.payment_method_id.code', '=', 'manual')]" groups="account_pay_now.group_pay_now_vendor_invoices" invisible="move_type not in ('in_invoice', 'in_refund')" name="pay_now_journal_id" options="{'no_create': True}"/>
+                <field domain="[('company_id', '=', company_id), ('type', 'in', ['bank', 'cash']), ('inbound_payment_method_line_ids.payment_method_id.code', '=', 'manual')]" groups="account_pay_now.pay_now_vendor_invoices_group" invisible="move_type not in ('out_invoice', 'out_refund')" name="pay_now_journal_id" options="{'no_create': True}"/>
+            </group></field>
+    </record>
+</odoo>

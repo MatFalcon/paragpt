@@ -1,0 +1,246 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sati_payment_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-20 18:44+0000\n"
+"PO-Revision-Date: 2023-07-20 14:49-0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_PY\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. module: sati_payment_report
+#: model:ir.actions.report,print_report_name:sati_payment_report.report_action
+msgid "(object,'Payment Report')"
+msgstr "Reporte de Cobros/Pagos"
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid ""
+"<br/>\n"
+"                            <strong>Fecha Hasta: </strong>"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "<strong>Fecha Desde: </strong>"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "<strong>Total:</strong>"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "<strong>Totales por Diario:</strong>"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.view_report_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Cheque"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields.selection,name:sati_payment_report.selection__sati_payment_report_wizard__type__inbound
+msgid "Cobro"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_account_payment__cuenta_analitica
+msgid "Cuenta Analitica"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__analytic_account_ids
+msgid "Cuentas Analiticas"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Diario"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__display_name
+msgid "Display Name"
+msgstr "Mostrar nombre"
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Documento"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__end_date
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Factura"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Fecha"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.view_report_wizard
+msgid "Generar PDF"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.view_report_wizard
+msgid "Generar XLSX"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__journal_ids
+msgid "Journal"
+msgstr "Diario"
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Moneda"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Monto Moneda Extranjera"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Monto Moneda Local"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_account_payment__amount_currency
+#: model:ir.model.fields,field_description:sati_payment_report.field_account_payment__amount_local
+msgid "Monto en Moneda Extranjera"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields.selection,name:sati_payment_report.selection__sati_payment_report_wizard__type__outbound
+msgid "Pago"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__partner_ids
+msgid "Partners"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.actions.act_window,name:sati_payment_report.action_wizard
+#: model:ir.actions.report,name:sati_payment_report.report_action
+#: model:ir.model,name:sati_payment_report.model_report_sati_payment_report_report_payment
+#: model:ir.ui.menu,name:sati_payment_report.menu_action_wizard
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.view_report_wizard
+msgid "Payment Report"
+msgstr "Reporte de Cobros/Pagos"
+
+#. module: sati_payment_report
+#: model:ir.model,name:sati_payment_report.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Recibo"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Reporte de pagos"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__start_date
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_sati_payment_report_wizard__type
+msgid "Tipo"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Total moneda extranjera"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Total moneda local"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Total moneda local convertido"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model.fields,field_description:sati_payment_report.field_account_payment__totales
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "Totales"
+msgstr ""
+
+#. module: sati_payment_report
+#: model:ir.model,name:sati_payment_report.model_sati_payment_report_wizard
+msgid "sati_payment_report.wizard"
+msgstr ""
+
+#. module: sati_payment_report
+#: model_terms:ir.ui.view,arch_db:sati_payment_report.report_payment
+msgid "}'/&gt;"
+msgstr ""

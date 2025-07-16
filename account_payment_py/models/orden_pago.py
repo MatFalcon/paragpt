@@ -332,21 +332,22 @@ class OrdenPago(models.Model):
 
 
     def set_confirmado(self):
+        print("Entra en set Confirmado account_payment_py")
         domain_pago = ([('account_type', '=', 'liability_payable')])
         cheques = list()
         to_reconcile = self.env['account.move.line']
         self.check_ids = [(5,)]
         tiene_factura = False
-        _logger.warning('SELF DE PAYMENT IDS %s', self)
+        #_logger.warning('SELF DE PAYMENT IDS %s', self)
         if self.payment_ids and self.orden_pagos_facturas_ids:
-            _logger.warning('PAYMENT IDS %s', self.payment_ids)
+            #_logger.warning('PAYMENT IDS %s', self.payment_ids)
             if not self.name:
                 self.name = self.env['ir.sequence'].get('orden_pago.sequence')
             if any(pay.asignar_factura != False for pay in self.payment_ids):
                 tiene_factura = True
-            _logger.warning('TIENE FACTURA??? %s', tiene_factura)
+            #_logger.warning('TIENE FACTURA??? %s', tiene_factura)
             if self.tipo_retencion == 'total' or self.tipo_retencion == 'parcial':
-                _logger.warning('RETENCION')
+                #_logger.warning('RETENCION')
                 try:
                     diario_retencion_pago = self.env.company.retencion_iva_journal_id
                     diario_retencion_cobro = self.env.company.retencion_iva_retenido_journal_id
@@ -362,20 +363,20 @@ class OrdenPago(models.Model):
                         lambda x: x.asignar_factura == False)
             else:
                 domain = self.payment_ids
-                _logger.warning('DOMAIN ES %s', domain)
+                #_logger.warning('DOMAIN ES %s', domain)
             # _logger.info('parcial')
             # _logger.info(self.get_parcial)
             if tiene_factura:
                 domain = self.payment_ids.filtered(lambda x: x.asignar_factura == False and x.state == 'draft')
-                _logger.warning('DOMAIN SOLO %s', domain)
+                #_logger.warning('DOMAIN SOLO %s', domain)
                 domain_factura = self.payment_ids.filtered(lambda x: x.asignar_factura == True and x.state == 'draft')
-                _logger.warning('DOMAIN FACTURA %s', domain_factura)
+                #_logger.warning('DOMAIN FACTURA %s', domain_factura)
                 for p in domain_factura:
-                    _logger.warning('P IN DOMAIN %s', p)
+                    #_logger.warning('P IN DOMAIN %s', p)
                     diario = p.journal_id
                     pago = p.amount
-                    _logger.warning('PAGO %s', pago)
-                    _logger.warning('RECONCILED ES %s', p.reconciled_invoice_ids.mapped('id'))
+                    #_logger.warning('PAGO %s', pago)
+                    #_logger.warning('RECONCILED ES %s', p.reconciled_invoice_ids.mapped('id'))
                     # facturas = self.orden_pagos_facturas_ids.filtered(
                     #     lambda r: r.invoice_id.amount_residual > 0 and r.invoice_id.move_type not in (
                     #         'out_refund', 'in_refund') and r.invoice_id.id in p.reconciled_invoice_ids.mapped('id')
@@ -383,50 +384,50 @@ class OrdenPago(models.Model):
                     facturas = self.orden_pagos_facturas_ids.filtered(
                         lambda r: r.invoice_id.amount_residual > 0 and r.invoice_id.move_type not in (
                             'out_refund', 'in_refund')).sorted(key=lambda r: r.residual)
-                    _logger.warning('FASCADASFASDF %s', facturas)
+                    #_logger.warning('FASCADASFASDF %s', facturas)
                     for i in facturas.sorted(key=lambda r: r.monto, reverse=True):
                         pago = i.monto
-                        _logger.warning('FACTURA PROCESADA %s', i.invoice_id.nro_factura)
+                        #_logger.warning('FACTURA PROCESADA %s', i.invoice_id.nro_factura)
                         if pago > 0:
                             if not i.invoice_id.move_type in ('out_refund', 'in_refund'):
-                                _logger.warning('FACTURA %s', i.invoice_id.nro_factura)
+                                #_logger.warning('FACTURA %s', i.invoice_id.nro_factura)
                                 i.amount -= pago
                                 i.invoice_id.monto_a_pagar = pago
                                 # raise ValidationError('TEST %s', i.invoice_id.id)
-                                _logger.warning('AMOUNT RESIDUAL ANTES %s', i.invoice_id.amount_residual)
+                                #_logger.warning('AMOUNT RESIDUAL ANTES %s', i.invoice_id.amount_residual)
                                 i.invoice_id.amount_residual = i.residual
                                 #i.invoice_id.amount_residual -= pago
-                                _logger.warning('AMOUNT RESIDUAL DESPUES %s', i.invoice_id.amount_residual)
+                                #_logger.warning('AMOUNT RESIDUAL DESPUES %s', i.invoice_id.amount_residual)
                                 pago = 0
                                 i.viene_del_pago = True
                                 i.paso_por_el_pago = 1
                             to_reconcile += (i.invoice_id.line_ids.filtered_domain(domain_pago))
-                            _logger.warning('TO RECONCILE JUSTO DESPUES DEL RESIDUAL %s', to_reconcile)
+                            #_logger.warning('TO RECONCILE JUSTO DESPUES DEL RESIDUAL %s', to_reconcile)
                     p.action_post()
                     payment_lines = p.line_ids.filtered_domain(domain_pago)
-                    _logger.warning('payment_lines %s', payment_lines)
+                    #_logger.warning('payment_lines %s', payment_lines)
                     for account in payment_lines.account_id:
                         (payment_lines + to_reconcile) \
                             .filtered_domain([('account_id', '=', account.id), ('reconciled', '=', False)]) \
                             .with_context(op=self, has_partial=self.get_parcial).reconcile()
-                        _logger.warning('DESPUES DE RECON')
+                        #_logger.warning('DESPUES DE RECON')
                     p.orden_pago_id = self.id
                     # p.action_post
             for p in domain.sorted(key=lambda r: r.amount, reverse=True):
                 diario = p.journal_id
-                _logger.warning('P ES %s', p._context)
+                #_logger.warning('P ES %s', p._context)
                 pago = p.amount
-                _logger.warning('PAGO %s', pago)
+                #_logger.warning('PAGO %s', pago)
                 to_reconcile = self.env['account.move.line']
                 facturas = self.orden_pagos_facturas_ids.filtered(
                     lambda r: r.invoice_id.amount_residual > 0 and r.invoice_id.move_type not in (
                         'out_refund', 'in_refund')).sorted(key=lambda r: r.residual)
-                _logger.warning('FACTURAS DE ORDEN %s', facturas)
+                _#logger.warning('FACTURAS DE ORDEN %s', facturas)
 
-                _logger.info('es parcial')
-                _logger.info(self.get_parcial)
+                _#logger.info('es parcial')
+                #_logger.info(self.get_parcial)
                 for i in facturas.sorted(key=lambda r: r.residual, reverse=True):
-                    _logger.warning('LINEA FACT %s', i._context)
+                    #_logger.warning('LINEA FACT %s', i._context)
                     if pago > 0:
                         if not i.invoice_id.move_type in ('out_refund', 'in_refund'):
                             if i.amount == 0:
@@ -436,12 +437,12 @@ class OrdenPago(models.Model):
                                 i.amount -= pago
                                 i.invoice_id.monto_a_pagar = pago
                                 p.reconciled_invoice_ids = [(4, i.invoice_id.id)]
-                                _logger.warning('FACTURA A APLICAR %s', i.invoice_id.nro_factura)
-                                _logger.warning('RESIDUAL ANTES DE MODIF %s', i.invoice_id.amount_residual)
+                                #_logger.warning('FACTURA A APLICAR %s', i.invoice_id.nro_factura)
+                                #_logger.warning('RESIDUAL ANTES DE MODIF %s', i.invoice_id.amount_residual)
                                 i.invoice_id.amount_residual-=pago
-                                _logger.warning('RESIDUALLLLLLL %s', i.invoice_id.nro_factura)
-                                _logger.warning('RESIDUALLLLLLL %s', i.invoice_id.amount_residual)
-                                _logger.warning('RESIDUAL LINEA %s', i.residual)
+                                #_logger.warning('RESIDUALLLLLLL %s', i.invoice_id.nro_factura)
+                                #_logger.warning('RESIDUALLLLLLL %s', i.invoice_id.amount_residual)
+                                #_logger.warning('RESIDUAL LINEA %s', i.residual)
                                 # raise ValidationError('id: %s monto: %s' % (i.invoice_id.id, i.invoice_id.amount_residual))
                                 pago = 0
                                 i.viene_del_pago = True
@@ -455,14 +456,14 @@ class OrdenPago(models.Model):
                                 i.viene_del_pago = True
                                 i.paso_por_el_pago = 1
                             to_reconcile += (i.invoice_id.line_ids.filtered_domain(domain_pago))
-                            _logger.warning('TO RECONCILE EN SET CONFIRMADO ES %s', to_reconcile)
+                            #_logger.warning('TO RECONCILE EN SET CONFIRMADO ES %s', to_reconcile)
                     else:
                         break
                 # _logger.info('parcial')
                 # _logger.info(self.get_parcial)
                 apuntes = self.orden_pagos_facturas_ids.filtered(
                     lambda r: r.move_line_id.amount_residual != 0)
-                _logger.warning('APUNTES ES %s', apuntes)
+                #_logger.warning('APUNTES ES %s', apuntes)
                 aux = 0
                 for i in apuntes.sorted(key=lambda r: r.amount, reverse=True):
                     if pago > 0:
@@ -497,7 +498,7 @@ class OrdenPago(models.Model):
                 # actualmente no se activa el segundo if ya que moneda_pago no se pasa en la vista
                 if p.moneda_pago:
                     if (self.currency_id == moneda_company) and (p.moneda_pago != moneda_company):
-                        _logger.warning('moneda %s', p.currency_id)
+                        #_logger.warning('moneda %s', p.currency_id)
                         p.actualizar_monto_moneda()
                 p.with_context(cuenta=cuentas)._compute_destination_account_id()
                 payment_lines = p.line_ids.filtered_domain(domain_pago)
@@ -612,14 +613,15 @@ class OrdenPago(models.Model):
         # vou_journal = check.voucher_id.journal_id
 
         # if self.action_type == 'deposit':
-        ref = 'Orden de Pago. ' + self.name
+        #ref = 'Orden de Pago. ' + self.name
+        ref = 'Utilidad cambio OP ' + self.name
         # check_move_field = 'deposit_account_move_id'
         journal = self.env['account.journal'].search(
             [('type', '=', 'general'), ('company_id', '=', self.env.company.id)], limit=1)
 
         debit_account_id = self.partner_id.property_account_payable_id.id
 
-        credit_account_id = diario.default_account_id.id
+        credit_account_id = self.env.company.income_currency_exchange_account_id.id
         signal = 'Excedente Recibo Nro.' + self.name
         monto_mon_ex_c = None
         monto_mon_ex_d = None
@@ -895,64 +897,63 @@ class OrdenPago(models.Model):
                 self.env['account.check'].create(vals)
 
     def set_borrador(self):
-        _logger.warning('ACA SE LLAMA')
-        if self.state != 'confirmado':
-            self.state = 'borrador'
-            return
-        # raise ValidationError('HOLA SI BUENAS TARDES')
-        for p in self.payment_ids:
-            p.with_context(skip_account_move_synchronization=True).action_draft()
-            if not p.asignar_factura:
-                p.reconciled_invoice_ids = [(5, 0, 0)]
-            # for f in p.fac_ids:
-            # p.fac_ids.unlink()
-        _logger.warning("WWWWWWWWWWWWWWWWW")
-        if self.payment_ids:
-            for pay in self.payment_ids:
-                moves = self.env['account.move.line'].search([('payment_id', '=', pay.id)])
-                if len(moves) > 0:
-                    for m in moves:
-                        if m.full_reconcile_id:
-                            m.full_reconcile_id.partial_reconcile_ids.unlink()
-                        m.remove_move_reconcile()
+        for record in self:
+            _logger.warning('ACA SE LLAMA')
+            if record.state != 'confirmado':
+                record.state = 'borrador'
+                continue
+            # raise ValidationError('HOLA SI BUENAS TARDES')
+            for p in record.payment_ids:
+                p.with_context(skip_account_move_synchronization=True).action_draft()
+                if not p.asignar_factura:
+                    p.reconciled_invoice_ids = [(5, 0, 0)]
+                # for f in p.fac_ids:
+                # p.fac_ids.unlink()
+            _logger.warning("WWWWWWWWWWWWWWWWW")
+            if record.payment_ids:
+                for pay in record.payment_ids:
+                    moves = record.env['account.move.line'].search([('payment_id', '=', pay.id)])
+                    if len(moves) > 0:
+                        for m in moves:
+                            if m.full_reconcile_id:
+                                m.full_reconcile_id.partial_reconcile_ids.unlink()
+                            m.remove_move_reconcile()
 
-        if self.check_ids:
-            for cheques in self.check_ids:
-                if cheques.state != 'draft':
-                    raise ValidationError(
-                        'No se puede eliminar un cheque que no este en estado Emitido')
-                else:
-                    cheques.unlink()
+            if record.check_ids:
+                for cheques in record.check_ids:
+                    if cheques.state != 'draft':
+                        raise ValidationError(
+                            'No se puede eliminar un cheque que no este en estado Emitido')
+                    else:
+                        cheques.unlink()
 
-        if self.move_id:
-            for move in self.move_id:
+            if record.move_id:
+                for move in record.move_id:
+                    for lineas in move.line_ids:
+                        lineas.remove_move_reconcile()
+                    move.button_cancel()
+                    move.unlink()
+            if record.move_diferencia_id:
+                for move in record.move_diferencia_id:
+                    for lineas in move.line_ids:
+                        lineas.remove_move_reconcile()
+                    move.button_cancel()
+                    move.unlink()
+            _logger.warning('AAAAAAAAAAAAAA')
+            for fac in record.orden_pagos_facturas_ids:
+                movelines = fac.invoice_id.line_ids
+                _logger.warning('MOVELINES %s', movelines)
+                for line in movelines:
+                    if line.reconciled:
+                        line.remove_move_reconcile()
+                fac.amount = 0
 
-                for lineas in move.line_ids:
-                    lineas.remove_move_reconcile()
-                move.button_cancel()
-                move.unlink()
-        if self.move_diferencia_id:
-            for move in self.move_diferencia_id:
-
-                for lineas in move.line_ids:
-                    lineas.remove_move_reconcile()
-            move.button_cancel()
-            move.unlink()
-        _logger.warning('AAAAAAAAAAAAAA')
-        for fac in self.orden_pagos_facturas_ids:
-            movelines = fac.invoice_id.line_ids
-            _logger.warning('MOVELINES %s', movelines)
-            for line in movelines:
-                if line.reconciled:
-                    line.remove_move_reconcile()
-            fac.amount = 0
-
-        # detalle_caja=self.env['ruc.caja.detalle'].search([('orden_pago_id.id','=',self.id)])
-        # if detalle_caja.caja_id.state == 'abierto':
-        #     detalle_caja.unlink()
-        # else:
-        #     raise ValidationError('La caja ya NO se encuentra Abierta, NO puede pasar a borrador el recibo')
-        self.state = 'borrador'
+            # detalle_caja=record.env['ruc.caja.detalle'].search([('orden_pago_id.id','=',record.id)])
+            # if detalle_caja.caja_id.state == 'abierto':
+            #     detalle_caja.unlink()
+            # else:
+            #     raise ValidationError('La caja ya NO se encuentra Abierta, NO puede pasar a borrador el recibo')
+            record.state = 'borrador'
 
     @api.onchange('partner_id')
     def limpiar_lineas_facturas(self):

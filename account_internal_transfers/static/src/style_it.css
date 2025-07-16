@@ -1,0 +1,65 @@
+.page{
+    font-size: 11px;
+}
+.mayuscula{
+    text-transform: uppercase;
+}
+/*CHEQUES PROPIOS*/
+.sin-borde {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+
+}
+
+.sin-borde th{
+    background-color:rgba(0,0,0,0.15) ;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    border-left: 0.5px solid black ;
+    border-right: 0.5px solid black ;
+}
+p{
+    font-size: 16px;
+}
+
+.sin-borde td{
+    text-align: center;
+}
+
+
+
+.negrita{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.derecha{
+    text-align: right !important;
+}
+
+.totales{
+    background-color:rgba(0,0,0,0.15) ;
+}
+
+
+thead { display: table-header-group }
+tr { page-break-inside: avoid }
+
+
+hr {
+    border-bottom: 0.5px solid black;
+    /*border-top: none ;*/
+}
+
+
+td{
+    padding: 0px 2px 0px 2px;
+}
+
+#referencia {
+    width: 100%;
+}

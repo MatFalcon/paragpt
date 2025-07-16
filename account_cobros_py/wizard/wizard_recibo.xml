@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record id="wizard_recibo" model="ir.ui.view">
+            <field name="name">recibo.wizard</field>
+            <field name="model">recibo.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Motivo de Anulacion">
+                    <group>
+                        <field name="motivo_anulacion"/>
+                    </group>
+                    <footer>
+                        <button class="oe_highlight" name="set_motivo_anulacion" string="Confirmar" type="object"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_recibo_anular_wizard_action_id" model="ir.actions.act_window">
+            <field name="name">Motivo Anulacion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">recibo.wizard</field>
+
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_recibo"/>
+            <field name="target">new</field>
+            <field name="context">{'default_recibo_id':active_id}</field>
+        </record>
+
+    </data>
+</odoo>

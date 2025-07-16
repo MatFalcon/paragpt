@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_invoicing_term_notify_activity" model="res.groups">
+        <field name="name">Generate activity for invoicing</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+    <record id="group_invoicing_term_users" model="res.groups">
+        <field name="name">Invoicing Term Users</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+     <record id="group_invoicing_term_provition_move" model="res.groups">
+        <field name="name">Invoicing Term Provition Account</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>

@@ -1,0 +1,103 @@
+<odoo>
+    <data>
+
+        <!-- Vista de árbol para transferencias entre cuentas -->
+        <record model="ir.ui.view" id="transferencias_tree_view">
+            <field name="name">transferencias.tree</field>
+            <field name="model">transferencias.entre.cuentas</field>
+            <field name="arch" type="xml">
+                <tree string="Transferencias tree">
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="cuenta_origen"/>
+                    <field name="cuenta_destino"/>
+                    <field name="monto"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista de formulario para transferencias entre cuentas -->
+        <record model="ir.ui.view" id="transferencias_form_view">
+            <field name="name">transferencias.form</field>
+            <field name="model">transferencias.entre.cuentas</field>
+            <field name="arch" type="xml">
+                <form string="Transferencias">
+                    <header>
+                        <button name="confirmar" type="object" string="Confirmar" invisible="state != 'borrador'"/>
+                        <button name="anular" type="object" string="Anular" invisible="state != 'confirmado'"/>
+                        <button name="pasar_borrador" type="object" string="Pasar a borrador" invisible="state != 'anulado'"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" readonly="state != 'borrador'"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="cuenta_origen" readonly="state != 'borrador'"/>
+                                <field name="transitoria_origen" readonly="state != 'borrador'" />
+                                <field name="type_journal" invisible="1"/>
+                                <field name="check_id" context="{'default_amount': monto, 'default_type': 'issue_check', 'default_company_id': company_id}" domain="[('state', '=', 'draft')]" invisible="type_journal != 'issue_check'" readonly="state != 'borrador'"/>
+                                <field name="cuenta_destino" readonly="state != 'borrador'"/>
+                                <field name="transitoria_destino" readonly="state != 'borrador'" />
+                                <field name="monto" readonly="state != 'borrador'"/>
+                                <field name="currency_id" string="Moneda Origen" readonly="state != 'borrador'"/>
+                                <field name="currency_dest_id" string="Moneda Destino" readonly="state != 'borrador'"/>
+                                <field name="tasa_cambio" readonly="state != 'borrador'"/>
+                                <field name="crear_diferencia_cambio" readonly="state != 'borrador'"/>
+                                <field name="exchange_account_id" invisible="crear_diferencia_cambio == False" required="crear_diferencia_cambio == True"/>
+                                <field name="diferencia_cambio" invisible="crear_diferencia_cambio == False" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="fecha" readonly="state != 'borrador'"/>
+                                <field name="move_id" readonly="state != 'borrador'"/>
+                            </group>
+                        </group>
+                        <label for="observacion"/>
+                        <field name="observacion"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de búsqueda para transferencias entre cuentas -->
+        <record model="ir.ui.view" id="transferencias_search_view">
+            <field name="name">transferencias.search</field>
+            <field name="model">transferencias.entre.cuentas</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Acción para transferencias entre cuentas -->
+        <record model="ir.actions.act_window" id="action_transferencias">
+            <field name="name">Transferencias Entre Cuentas</field>
+            <field name="res_model">transferencias.entre.cuentas</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Crear Transferencias</p>
+            </field>
+        </record>
+
+        <!-- Menú para transferencias entre cuentas -->
+        <menuitem action="action_transferencias" id="menu_action_transferencias" parent="account_check.menu_tesoreria"/>
+
+
+
+    </data>
+</odoo>
+
+
+

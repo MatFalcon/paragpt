@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <record id="wizard_diferencia_recibo" model="ir.ui.view">
+            <field name="name">diferencia.recibo.wizard</field>
+            <field name="model">diferencia.recibo</field>
+            <field name="arch" type="xml">
+                <form string="Diferencia Wizard">
+                    <p >
+                        El valor del cobro es mayor del total de la deuda de las facturas del cliente. <br/>
+                        Como desea registrar la Diferencia?<br/>
+                         * Utilidad: Seleccione esta opción si el cliente no necesita que el excedente quede a su favor.<br/>
+                         * A Favor del Cliente/ Anticipo: En caso de que el cliente quiera utilizar mas adelante el excedente para pagar una futura factura.<br/>
+                         * Diferencia de cambio: En caso que quiera llevar la diferencia pendiente a perdida / ganancia por diferencia de cambio, solo aplica en caso de recibos en moneda extranjera.
+                        Si desea continuar con el cobro del recibo de click en Confirmar.<br/>
+                        Si es que se trata de una equivocación y desea volver atrás haga click en Cancelar
+                    </p>
+                    <group>
+                        <field name="recibo" invisible="1"/>
+                         <field name="diferencia" widget="radio" required="1"/>
+                        <field name="journal_id" invisible="'diferencia','!=','cambio'"/>
+                        <field name="account_id" invisible="'diferencia','=','a_cuenta'"/>
+                    </group>
+                    <footer>
+                        <button class="oe_highlight" name="procesar" string="Confirmar" type="object"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_wizard_diferencia_recibo_id" model="ir.actions.act_window">
+            <field name="name">Diferencia Recibo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">diferencia.recibo</field>
+
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_diferencia_recibo"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
