@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_pharmacy_management.ProductScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('pads')]" position="replace">
+            <t t-set="add_menu_bar" t-value="pos.config.add_menu_bar"/>
+            <t t-if="add_menu_bar">
+                <div class="pads border-top">
+                    <div t-if="pos.config.icon_display_type == 'icon'" class="pharma-order-options">
+                        <div class="wobble-vertical-on-hover" t-if="pos.config.delete_order" t-on-click="(ev) => this.toggle_pharmacy_bar(ev)"> 
+                            <i class="fa fa-bars" aria-label="Show Control Buttons" title="Show Control Buttons"/>
+                        </div>
+                        <div class="wobble-vertical-on-hover" t-if="pos.config.delete_order" t-on-click="() => this.delete_current_order()"> 
+                            <i class="fa fa-trash" aria-label="Delete Order" title="Delete Order"/>
+                        </div>
+                        <div class="wobble-vertical-on-hover" t-if="pos.config.quick_pay" t-on-click="() => this.quick_pay()"> 
+                            <i class="fa fa-credit-card" aria-label="Quick Pay" title="Quick Pay"/>
+                        </div>
+                        <div class="wobble-vertical-on-hover" t-if="props.actionName != 'Refund' and pos.config.empty_order" t-att-disabled="this.currentOrder.get_orderlines().length == 0" t-on-click="() => this.onClickEmptyOrder()">
+                            <i class="fa fa-times-circle-o" aria-labefl="Clear Orderlines" title="Clear Orderlines" />
+                        </div>
+                        <!--                        Se agrega el botón de TRANFERENCIA ENTRE CUENTAS  dentro de la vista de pantalla de POS-->
+                        <div t-if="pos.config.icon_display_type == 'control_button'"
+                             class="control-button"
+                             t-on-click="() => this.openCashTransferPopup()">
+                            <i class="fa fa-exchange" aria-hidden="true"/> Transferencias de Caja
+                        </div>
+
+                    </div>
+                    <div class="subpads d-flex">
+                        <ActionpadWidget
+                            partner="partner"
+                            doctor="pos.get_order().doctor"
+                            actionName="constructor.numpadActionName"
+                            actionType="'payment'"
+                            onClickMore.bind="displayAllControlPopup" />
+                        <Numpad buttons="getNumpadButtons()" onClick.bind="onNumpadClick" class="'w-100'"/>
+                    </div>
+                </div>
+                <div title="Show Pads" class="show-pads" t-on-click="() => this.pos.onClickShowPads()">
+                    <i class="fa fa-chevron-up"/>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="pads border-top">
+                    <div class="control-buttons d-flex flex-wrap border-bottom overflow-hidden bg-300" t-if="!ui.isSmall">
+                        <t t-foreach="controlButtons" t-as="cb" t-key="cb.name">
+                            <t t-component="cb.component" t-key="cb.name"/>
+                        </t>
+                        <div class="control-button" t-if="pos.config.icon_display_type == 'control_button'"
+                            t-on-click="() => this.pos.change_view()">
+                            <t t-if="pos.config.product_display_type == 'list'">
+                                <i class="fa fa-th" aria-hidden="true"/>Grid View
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-th-list" aria-hidden="true"/>List View
+                            </t>
+                        </div>
+                        <div t-if="pos.config.delete_order and pos.config.icon_display_type == 'control_button'" class="control-button" t-on-click="() => this.delete_current_order()"> 
+                            <i class="fa fa-trash" aria-hidden="true"/> Delete Order 
+                        </div>
+                        <div t-if="pos.config.quick_pay and pos.config.icon_display_type == 'control_button'" class="control-button" t-on-click="() => this.quick_pay()"> 
+                            <i class="fa fa-credit-card" aria-hidden="true"/> Quick pay 
+                        </div>
+                    </div>
+                    <div t-if="pos.config.icon_display_type == 'icon'" class="pharma-order-options">
+                        <div class="wobble-vertical-on-hover" t-if="pos.config.delete_order" t-on-click="() => this.delete_current_order()"> 
+                            <i class="fa fa-trash" aria-label="Delete Order" title="Delete Order"/>
+                        </div>
+                        <div class="wobble-vertical-on-hover" t-if="pos.config.quick_pay" t-on-click="() => this.quick_pay()"> 
+                            <i class="fa fa-credit-card" aria-label="Quick Pay" title="Quick Pay"/>
+                        </div>
+                        <div class="wobble-vertical-on-hover" t-if="props.actionName != 'Refund' and pos.config.empty_order" t-att-disabled="this.currentOrder.get_orderlines().length == 0" t-on-click="() => this.onClickEmptyOrder()">
+                            <i class="fa fa-times-circle-o" aria-label="Clear Orderlines" title="Clear Orderlines" />
+                        </div>
+                        <div class="wobble-vertical-on-hover"
+                             t-on-click="() => this.openCashTransferPopup()">
+                            <i class="fa fa-exchange" aria-label="Transferencias de Caja" title="Transferencias de Caja"/>
+                        </div>
+
+                    </div>
+                    <div class="subpads d-flex">
+                        <ActionpadWidget
+                            partner="partner"
+                            doctor="pos.get_order().doctor"
+                            actionName="constructor.numpadActionName"
+                            actionType="'payment'"
+                            onClickMore.bind="displayAllControlPopup" />
+                        <Numpad buttons="getNumpadButtons()" onClick.bind="onNumpadClick" class="'w-100'"/>
+                    </div>
+                </div>
+                <div title="Show Pads" class="show-pads" t-on-click="() => this.pos.onClickShowPads()">
+                    <i class="fa fa-chevron-up"/>
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[hasclass('leftpane')]" position="before">
+            <t t-set="add_menu_bar" t-value="pos.config.add_menu_bar"/>
+            <t t-if="add_menu_bar and pos.show_bar">
+                <div class="pharmacy-menu-bar">
+                    <div class="control-buttons">
+                        <t t-foreach="controlButtons" t-as="cb" t-key="cb.name">
+                            <t t-component="cb.component" t-key="cb.name"/>
+                        </t>
+                        <div t-if="pos.config.icon_display_type == 'control_button'" class="control-button" t-on-click="() => this.pos.change_view()">
+                            <t t-if="pos.config.product_display_type == 'list'">
+                                <i class="fa fa-th" aria-hidden="true"/>Grid View
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-th-list" aria-hidden="true"/>List View
+                            </t>
+                        </div>
+                        <div t-if="pos.config.delete_order and pos.config.icon_display_type == 'control_button'" class="control-button" t-on-click="() => this.delete_current_order()"> 
+                            <i class="fa fa-trash" aria-hidden="true"/> Delete Order 
+                        </div>
+                        <div t-if="pos.config.quick_pay and pos.config.icon_display_type == 'control_button'" class="control-button" t-on-click="() => this.quick_pay()"> 
+                            <i class="fa fa-credit-card" aria-hidden="true"/> Quick pay 
+                        </div>
+                        <div t-if="props.actionName != 'Refund' and pos.config.empty_order and pos.config.icon_display_type == 'control_button'" 
+                            class="control-button" t-att-disabled="this.currentOrder.get_orderlines().length == 0" 
+                            t-on-click="() => this.onClickEmptyOrder()">
+                            <i class="fa fa-trash wk_icon"/>Clear Orderlines
+                        </div>
+
+                        <div
+                         class="control-button"
+                         t-on-click="() => this.openCashTransferPopup()">
+                        <i class="fa fa-exchange" aria-hidden="true"/> Transferencias de Caja
+                    </div>
+
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="pos_pharmacy_management.ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('actionpad')]" position="replace">
+            <div class="actionpad d-flex flex-column flex-grow-1 p-0 border-end">
+                <button class="button mobile-more-button btn btn-secondary flex-fill border-bottom" t-if="ui.isSmall and props.onClickMore" t-on-click="props.onClickMore">
+                    <span>More...</span>
+                </button>
+                <button class="button set-partner btn btn-light rounded-0 py-2 flex-shrink-1 fw-bolder" t-att-class="{highlight : props.partner}" t-on-click="() => this.pos.selectPartner()">
+                    <div class="d-flex justify-content-center align-items-center ">
+                        <span class="d-flex justify-content-center align-items-center rounded-circle me-2 text-bg-dark" t-if="!ui.isSmall">
+                            <i class="fa fa-user" role="img" aria-label="Customer" title="Customer" />
+                        </span>
+                        <div t-if="props.partner" class="text-truncate fw-bolder text-action">
+                            <t t-esc="props.partner.name" />
+                        </div>
+                        <div t-else="fw-bolder">
+                            Customer
+                        </div>
+                    </div>
+                </button>
+                <button class="button set-partner btn btn-light rounded-0 py-2 flex-shrink-1 fw-bolder" t-att-class="{highlight : props.doctor}" t-on-click="() => this.pos.selectDoctor()">
+                    <div class="d-flex justify-content-center align-items-center ">
+                        <span class="d-flex justify-content-center align-items-center rounded-circle me-2 text-bg-dark" t-if="!ui.isSmall">
+                            <i class="fa fa-user-md" role="img" aria-label="Doctor" title="Doctor"/>
+                        </span>
+                        <t t-if="props.doctor">
+                            <t t-esc="props.doctor.name" />
+                        </t>
+                        <t t-else="">
+                            Doctor
+                        </t>
+                    </div>
+                 </button>
+                <button class="pay validation pay-order-button btn-primary"
+                    t-attf-class="{{getMainButtonClasses()}}" 
+                    t-att-class="{ 'with-more-button': props.onClickMore and ui.isSmall }" 
+                    t-on-click="props.actionToTrigger ? this.props.actionToTrigger : () => pos.get_order().pay()">
+                    <div class="pay-circle d-flex align-items-center justify-content-center py-2 mb-2">
+                        <i class="oi oi-chevron-right" role="img" aria-label="Pay" title="Pay" />
+                    </div>
+                </button>
+                <button class="hide-pads wk_action_button" t-on-click="() => this.pos.onClickHidePads()">
+                    <i class="fa fa-chevron-down wk_icon"/>
+                </button>
+            </div>
+        </xpath>
+    </t>
+
+    <t t-name="pos_pharmacy_management.TicketScreen" t-inherit="point_of_sale.TicketScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('subpads')]" position="replace">
+            <div class="subpads d-flex">
+                <ActionpadWidget
+                    partner="getSelectedPartner()"
+                    actionName="constructor.numpadActionName"
+                    actionType="'refund'"
+                    doctor="getSelectedDoctor()"
+                    actionToTrigger.bind="onDoRefund"
+                    isActionButtonHighlighted="getHasItemsToRefund()" />
+                <Numpad buttons="getNumpadButtons()" class="'max-width-325px'"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('leftpane')]" position="inside">
+            <div title="Show Pads" class="show-pads" t-on-click="() => this.pos.onClickShowPads()">
+                <i class="fa fa-chevron-up"/>
+            </div>
+        </xpath>
+    </t>
+
+    <t t-name="pos_pharmacy_management.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+        <xpath expr="//li[hasclass('orderline')]" position="replace">
+            <t t-set="pos" t-value="this.env.services.pos"/>
+            <li class="orderline p-2 lh-sm cursor-pointer" t-attf-class="{{ line.comboParent ? 'border-start border-3 ms-4' : '' }}" t-att-class="props.class">
+                <t t-if="line.imageUrl">
+                    <span class="product-img" t-if="pos.config.show_product_image and ['ProductScreen', 'TicketScreen'].includes(pos.mainScreen.component.name)">
+                        <img t-att-src="line.imageUrl" t-att-alt="line.productName"/>
+                    </span>
+                </t>
+                <div class="d-flex flex-column" style="flex: 1; margin: 0px 5px; font-size: 18px; justify-content: space-between;">
+                    <div class="d-flex justify-content-between">
+                        <div class="product-name d-inline-block flex-grow-1 fw-bolder pe-1 text-truncate">
+                            <span class="text-wrap" t-esc="line.productName"/>
+                            <t t-slot="product-name"/>
+                    </div>
+                    <div t-esc="line.price" class="price fw-bolder"/>
+                    </div>
+                    <ul class="info-list">
+                        <li class="price-per-unit">
+                            <em t-esc="line.qty" class="qty fst-normal fw-bolder me-1" /> 
+
+                            <t t-if="pos.mainScreen.component.name == 'ProductScreen'">
+                                <span t-if="this.uom_category_is_medicine() and line.product.manage_multi_uom_via_price and line.product.product_price_by_uom.length">
+                                     <t t-log="line"/>
+                                    <span class="active" style="cursor:pointer;" t-esc="line.unit" t-on-click="(ev) => this.onShowUomClick(line)"/>
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <t t-log="line.unit"/>
+                                <t t-if="line.unit" t-esc="line.unit" />
+                            </t>
+
+                            x <s t-esc="line.oldUnitPrice" t-if="line.oldUnitPrice" /> 
+                            <t t-esc="line.unitPrice" /> <span t-if="line.unit"> / <t t-esc="line.unit" /></span>
+                        </li>
+                        <li t-if="line.discount and line.discount !== '0'">
+                            With a <em><t t-esc="line.discount" />% </em> discount
+                        </li>
+                        <t t-slot="default" />
+                        <li t-if="line.customerNote" class="customer-note w-100 p-2 my-1 rounded text-break text-bg-warning text-warning bg-opacity-25">
+                            <i class="fa fa-sticky-note me-1" role="img" aria-label="Customer Note" title="Customer Note"/>
+                            <t t-esc="line.customerNote" />
+                        </li>
+                        <li t-if="line.internalNote" class="internal-note w-100 p-2 my-1 rounded text-bg-info text-info bg-opacity-25 text-break">
+                            <i class="fa fa-tag me-1" role="img" aria-label="Note" title="Note"/>
+                            <t t-esc="line.internalNote" />
+                        </li>
+                    </ul>
+                </div>
+                <div class="orderline-options" t-if="pos.mainScreen.component.name == 'ProductScreen'">
+                    <t t-if="line.is_medicine and pos.config.show_medicine_information">
+                        <div t-on-click.stop="this.onMedProductInfoClick">
+                            <i class="fa fa-medkit wobble-vertical-on-hover" />
+                        </div>
+                    </t>
+                    <div style="font-size:larger" t-on-click="() => this.onClickDeleteLine()">
+                        <i class="fa fa-times-circle-o wobble-vertical-on-hover" />
+                    </div>
+                </div>
+            </li>
+        </xpath>
+    </t>
+    
+    <t t-name="pos_pharmacy_management.CategorySelector" t-inherit="point_of_sale.CategorySelector" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('d-flex')]" position="before">
+            <div t-if="this.env.services.pos.config.icon_display_type == 'icon' and this.env.services.pos.config.advance_search" class="d-flex align-items-center wobble-vertical-on-hover">
+                <button class="category-button btn btn-light h-100 fw-bolder" t-on-click="() => this.onClickAdvanceSearch()">
+                    <i class="fa fa-search" aria-label="Advance Search" title="Advance Search"/>
+                </button>
+            </div>
+            <div t-if="this.env.services.pos.config.icon_display_type == 'icon'"  class="d-flex align-items-center wobble-vertical-on-hover">
+                <button class="category-button btn btn-light h-100 fw-bolder" t-on-click="() => this.pos.change_view()">
+                    <t t-if="this.env.services.pos.config.product_display_type == 'list'">
+                        <i class="fa fa-th" aria-label="Grid View" title="Grid View"/>
+                    </t>
+                    <t t-else="">
+                        <i class="fa fa-th-list" aria-label="List View" title="List View"/>
+                    </t>
+                </button>
+            </div>
+        </xpath>
+    </t>
+
+    <t t-name="pos_pharmacy_management.ProductsWidget" t-inherit="point_of_sale.ProductsWidget" t-inherit-mode="extension" owl="1">
+        <xpath expr="//t[@t-foreach='productsToDisplay']" position="replace">
+            <t t-if="pos.config.product_display_type == 'list'">
+                <t t-foreach="productsToDisplay" t-as="product" t-key="product.id">
+                    <WkProductCard
+                        class="pos.productViewMode"
+                        name="product.display_name"
+                        productId="product.id"
+                        price="product.getFormattedUnitPrice()"
+                        imageUrl="product.getImageUrl()"
+                        onClick="() =>this.pos.addProductToCurrentOrder(product)"
+                    />
+                </t>
+            </t>
+            <t t-else="">
+                <t t-foreach="productsToDisplay" t-as="product" t-key="product.id">
+                    <ProductCard
+                        class="pos.productViewMode"
+                        name="product.display_name"
+                        productId="product.id"
+                        price="product.getFormattedUnitPrice()"
+                        imageUrl="product.getImageUrl()"
+                        onClick="() =>this.pos.addProductToCurrentOrder(product)"
+                    />
+                </t>
+            </t>
+        </xpath>
+    </t>
+    
+    <t t-name="pos_pharmacy_management.ProductCard" t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('product-img')]//img" position="before">
+            <t t-set="product" t-value="this.env.services.pos.db.get_product_by_id(props.productId)"/>
+            <div t-if="product.is_medicine and this.env.services.pos.config.show_medicine_information" 
+                class="wobble-vertical-on-hover"
+                t-on-click.stop="() => this.onMedProductInfoClick(product)"
+                style="left: 5px; font-size: large; cursor: pointer; z-index: 800; position: absolute; right: 0; width:20px">
+                <i class="fa fa-medkit" />
+            </div>
+        </xpath>
+        <xpath expr="//article" position="inside">
+            <div t-if="product and product.is_prescription and this.env.services.pos.config.show_is_prescription" class="ribbon ribbon-top-right"><span>Prescription</span></div>
+        </xpath>
+    </t>
+
+    <t t-name="ReceiptHeader" t-inherit="point_of_sale.ReceiptHeader" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('cashier')]" position="after">
+            <t t-log="props"/>
+            <t t-if="props and props.data and props.data.doctor">
+                Doctor: <t t-esc="props.data.doctor.name"/>
+            </t>
+        </xpath>
+    </t>
+</templates>

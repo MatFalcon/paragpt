@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_pharmacy_management.PrescriptionConfirmPopup" owl="1">
+        <div class="popup wk-popup" style="max-width:600px;">
+            <header class="title drag-handle modal-header">
+                Prescription Required
+            </header>
+            <main class="modal-body prescription-body">
+                <div style="background:white; color:red; text-align:center; padding-bottom:20px;">
+                    Some of the Products in this Order require Prescription
+                </div>
+                <t t-if="props.prods">
+                    <t t-set="counter" t-value="0"/>
+                    <t t-foreach="props.prods" t-as="product" t-key="product">
+                        <t t-set="counter" t-value="counter + 1"/>
+                        <div class="prescription-line">
+                            <t t-esc="counter"/>. 
+                            <t t-esc="product"/>
+                        </div>
+                    </t>
+                </t>
+            </main>
+            <footer class="footer modal-footer">
+                <button type="button" class="btn confirm btn-primary" t-on-click="confirm">Confirm</button>
+                <button type="button" class="btn cancel btn-primary" t-on-click="cancel">Cancel</button>
+            </footer>
+        </div>
+    </t>
+</templates>

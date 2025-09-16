@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Medicine Product Category -->
+        <record id="product_category_7" model="product.category">
+            <field name="parent_id" ref="product.product_category_consumable"/>
+            <field name="name">Medicine</field>
+        </record>
+
+        <!-- Medicine POS Product Category -->
+        <record id="pos_category_medicine" model="pos.category">
+            <field name="name">Medicine</field>
+        </record>
+
+        <!-- Medicine UOM Category -->
+        <record id="uom_category_medicine" model="uom.category">
+            <field name="name">Medicine</field>
+            <field name="is_medicine">True</field>
+            <field name="is_pos_groupable">True</field>
+        </record>
+
+        <!-- Medicine UOM UOM Categories -->
+        <record id="uom_uom_category_medicine_1" model="uom.uom">
+            <field name="category_id" ref="uom_category_medicine"/>
+            <field name="name">1 Tablet</field>
+            <field name="factor" eval="1.0"/>
+            <field name="uom_type">reference</field>
+        </record>
+        <record id="uom_uom_category_medicine_2" model="uom.uom">
+            <field name="category_id" ref="uom_category_medicine"/>
+            <field name="name">5X2 Strip</field>
+            <field name="factor_inv" eval="15"/>
+            <field name="uom_type">bigger</field>
+        </record>
+        <record id="uom_uom_category_medicine_3" model="uom.uom">
+            <field name="category_id" ref="uom_category_medicine"/>
+            <field name="name">5X3 Strip</field>
+            <field name="factor_inv" eval="15"/>
+            <field name="uom_type">bigger</field>
+        </record>
+        <record id="uom_uom_category_medicine_4" model="uom.uom">
+            <field name="category_id" ref="uom_category_medicine"/>
+            <field name="name">50 Tablet</field>
+            <field name="factor_inv" eval="50"/>
+            <field name="uom_type">bigger</field>
+        </record>
+
+        <!-- start and restrict category -->
+        <record model="pos.config" id="point_of_sale.pos_config_main">
+            <field name="limit_categories">True</field>
+            <field name="iface_available_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="start_category">True</field>
+            <field name="iface_start_categ_id" ref="pos_pharmacy_management.pos_category_medicine"/>
+            
+            <field name="product_display_type">list</field>
+            <field name="icon_display_type">icon</field>
+            
+            <field name="manufacturer">True</field>
+            <field name="storage">True</field>
+            <field name="usage">True</field>
+            <field name="salt_alternate">True</field>
+            <field name="salt_composition">True</field>
+            <field name="substitute">True</field>
+            <field name="side_effects">True</field>
+            <field name="safety_advice">True</field>
+            <field name="basic_salt">True</field>
+
+            <field name="add_menu_bar">True</field>
+            <field name="advance_search">True</field>
+            <field name="show_medicine_information">True</field>
+            <field name="show_details_in_products">True</field>
+            <field name="delete_order">True</field>
+            <field name="quick_pay">True</field>
+            <field name="show_product_image">True</field>
+            <field name="configurable_color">True</field>
+            <field name="config_color">#401452</field>
+            <field name="empty_order">True</field>
+        </record>
+
+        <!-- Product UOM Price Records -->
+        <record model="product.uom.price" id="product_uom_price_1">
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="qty">1</field>
+            <field name="unit_price">1</field>
+            <field name="price">1</field>
+        </record>
+        <record model="product.uom.price" id="product_uom_price_2">
+            <field name="uom_id" ref="uom_uom_category_medicine_2"/>
+            <field name="qty">10</field>
+            <field name="unit_price">10.0</field>
+            <field name="price">10.0</field>
+        </record>
+        <record model="product.uom.price" id="product_uom_price_3">
+            <field name="uom_id" ref="uom_uom_category_medicine_3"/>
+            <field name="qty">15</field>
+            <field name="unit_price">15.0</field>
+            <field name="price">15.0</field>
+        </record>
+        <record model="product.uom.price" id="product_uom_price_4">
+            <field name="uom_id" ref="uom_uom_category_medicine_4"/>
+            <field name="qty">50</field>
+            <field name="unit_price">50.0</field>
+            <field name="price">50.0</field>
+        </record>
+
+        <!-- Medicine Products -->
+        <record id="product_product_50_product_template" model="product.template">
+            <field name="name">Paracetamol</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="standard_price">10.0</field>
+            <field name="available_in_pos">True</field>
+            <field name="list_price">10.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">0.01</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Painkiller</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/para.jpeg"/>
+            
+            <field name="manufacturer_id" ref="medicine_manufacturer_1" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+            
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_51_product_template" model="product.template">
+            <field name="name">Crocin</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">10.0</field>
+            <field name="list_price">10.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">0.01</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">PainKiller</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/croc.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_2" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_2'), ref('medicine_salt_4')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_2'), ref('salt_composition_4')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_2'), ref('medicine_usage_4')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_2'),  ref('side_effects_4')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_2'),  ref('safety_advice_4')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_2'),  ref('basic_salt_4')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_2'),  ref('fact_box_4')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_52_product_template" model="product.template">
+            <field name="name">Limcee Chewable Tablet Orange</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">10.0</field>
+            <field name="list_price">10.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">0.01</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Vitamin C</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/limcee.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_3" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_53_product_template" model="product.template">
+            <field name="name">Delight Nuts Raw Pumpkin Seeds</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">250.0</field>
+            <field name="list_price">250.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">0.01</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Antioxidant</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/pumpkin.jpg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_4" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_2'), ref('medicine_salt_4')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_2'), ref('salt_composition_4')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_2'), ref('medicine_usage_4')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_2'),  ref('side_effects_4')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_2'),  ref('safety_advice_4')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_2'),  ref('basic_salt_4')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_2'),  ref('fact_box_4')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_54_product_template" model="product.template">
+            <field name="name">Carbamide Forte Probiotics</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">500.0</field>
+            <field name="list_price">500.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">0.15</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Probiotics</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/probiotic.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_55_product_template" model="product.template">
+            <field name="name">Threptin High-Calorie Protein Vanilla Diskette</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">1580.0</field>
+            <field name="list_price">1580.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">supplement</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/threptin.jpg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_56_product_template" model="product.template">
+            <field name="name">Sisjoint Capsule</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">413.0</field>
+            <field name="list_price">413.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">PainKiller</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/sisjoint.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_57_product_template" model="product.template">
+            <field name="name">Chicnutrix Daily Collagen with Plant Protein Mochaccino</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">1875.0</field>
+            <field name="list_price">1875.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">supplement</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/chicnutrix.jpg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_58_product_template" model="product.template">
+            <field name="name">Biogaia Protectis Health Supplement for Gut Comfort</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">1100.0</field>
+            <field name="list_price">1100.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">supplement</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/biogaia.jpg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_59_product_template" model="product.template">
+            <field name="name">Ascoril LS Syrup</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">107.0</field>
+            <field name="list_price">107.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Cough Syrup</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/ascoril.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_60_product_template" model="product.template">
+            <field name="name">Maxirich</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">200</field>
+            <field name="list_price">200</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">2.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Multivitamin capsule</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/maxirich.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_61_product_template" model="product.template">
+            <field name="name">Flunil</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">50.0</field>
+            <field name="list_price">50.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Flu</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/flunil.jpg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_62_product_template" model="product.template">
+            <field name="name">Cyril</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">30</field>
+            <field name="list_price">30</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">2.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Multivitamin capsule</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/cyril.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_63_product_template" model="product.template">
+            <field name="name">Tretac</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">50.0</field>
+            <field name="list_price">50.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Flu</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/tretac.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_64_product_template" model="product.template">
+            <field name="name">Citrizen</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">30</field>
+            <field name="list_price">30</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">2.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Allergy</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/citrizen.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_65_product_template" model="product.template">
+            <field name="name">Herbal Face Serum</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">50.0</field>
+            <field name="list_price">50.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Flu</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/herbcap.jpg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_66_product_template" model="product.template">
+            <field name="name">Rensac</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">30</field>
+            <field name="list_price">30</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">2.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Allergy</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/rensac.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_67_product_template" model="product.template">
+            <field name="name">Benz Pearls</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">50.0</field>
+            <field name="list_price">50.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Flu</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/benz.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_68_product_template" model="product.template">
+            <field name="name">Gracel-C</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">30</field>
+            <field name="list_price">30</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">2.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Allergy</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/gracel.jpg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+        <record id="product_product_69_product_template" model="product.template">
+            <field name="name">Haircil</field>
+            <field name="categ_id" ref="product_category_7"/>
+            <field name="available_in_pos">True</field>
+            <field name="standard_price">50.0</field>
+            <field name="list_price">50.0</field>
+            <field name="detailed_type">consu</field>
+            <field name="weight">1.0</field>
+            <field name="uom_id" ref="uom_uom_category_medicine_1"/>
+            <field name="uom_po_id" ref="uom_uom_category_medicine_1"/>
+            <field name="description_sale">Flu</field>
+            <field name="is_pharma_product">True</field>
+            <field name="is_medicine">True</field>
+            <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_medicine')])]"/>
+            <field name="storage">30</field>
+            <field name="image_1920" type="base64" file="pos_pharmacy_management/static/img/haircil.jpeg"/>
+
+            <field name="manufacturer_id" ref="medicine_manufacturer_5" />
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]" />
+            <field name="salt_composition_ids" eval="[(6, 0, [ref('salt_composition_1'), ref('salt_composition_3'), ref('salt_composition_5')])]" />
+            <field name="medicine_usage_ids" eval="[(6, 0, [ref('medicine_usage_1'), ref('medicine_usage_3'), ref('medicine_usage_5')])]" />
+            <field name="side_effects_ids" eval="[(6, 0, [ref('side_effects_1'), ref('side_effects_3'),  ref('side_effects_5')])]" />
+            <field name="safety_advice_ids" eval="[(6, 0, [ref('safety_advice_1'), ref('safety_advice_3'),  ref('safety_advice_5')])]" />
+            <field name="salt_ids" eval="[(6, 0, [ref('basic_salt_1'), ref('basic_salt_3'),  ref('basic_salt_5')])]" />
+            <field name="fact_box_ids" eval="[(6, 0, [ref('fact_box_1'), ref('fact_box_3'),  ref('fact_box_5')])]" />
+
+            <field name="manage_multi_uom_via_price">True</field>
+            <field name="product_price_by_uom" eval="[(6, 0, [ref('product_uom_price_1'), ref('product_uom_price_2'),  ref('product_uom_price_3'),  ref('product_uom_price_4')])]"/>
+        </record>
+    </data>
+</odoo>

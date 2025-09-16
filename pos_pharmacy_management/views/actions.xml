@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_medicine_products" model="ir.actions.act_window">
+        <field name="name">Medicine Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_medicine','=',True)]</field>
+        <field name="context">{'default_is_pharma_product': True, 'default_is_medicine' : True}</field>
+    </record>
+
+    <record id="action_doctor_doctor" model="ir.actions.act_window">
+        <field name="name">Doctor</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_a_doctor','=',True)]</field>
+        <field name="context">{'default_is_a_doctor': True}</field>
+    </record>
+
+    <record id="action_medicine_manufacturer" model="ir.actions.act_window">
+        <field name="name">Medicine Manufacturer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.manufacturer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_disease_disease" model="ir.actions.act_window">
+        <field name="name">Disease's</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">disease.disease</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_basic_salt" model="ir.actions.act_window">
+        <field name="name">Basic Salt</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">basic.salt</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_salt_unit" model="ir.actions.act_window">
+        <field name="name">Salt Unit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">salt.unit</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_medicine_salt" model="ir.actions.act_window">
+        <field name="name">Medicine Salt</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.salt</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_salt_composition" model="ir.actions.act_window">
+        <field name="name">Salt Composition</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">salt.composition</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_medicine_usage" model="ir.actions.act_window">
+        <field name="name">Medicine Usage</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.usage</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_side_effects" model="ir.actions.act_window">
+        <field name="name">Side Effects</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">side.effects</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_safety_advice" model="ir.actions.act_window">
+        <field name="name">Safety Advice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">safety.advice</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_chemical_class" model="ir.actions.act_window">
+        <field name="name">Chemical Class</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">chemical.class</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_therapeutic_class" model="ir.actions.act_window">
+        <field name="name">Therapeutic Class</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">therapeutic.class</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_action_class" model="ir.actions.act_window">
+        <field name="name">Action Class</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">action.class</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_fact_box" model="ir.actions.act_window">
+        <field name="name">Fact Box</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fact.box</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_product_uom_price" model="ir.actions.act_window">
+        <field name="name">Product UOM Price</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.uom.price</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

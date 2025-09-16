@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="medicine_manufacturer_view_form" model="ir.ui.view">
+        <field name="name">medicine.manufacturer.form.view</field>
+        <field name="model">medicine.manufacturer</field>
+        <field name="arch" type="xml">
+            <form string="Medicine Manufacturer Configuration">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="parent_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medicine_manufacturer_tree" model="ir.ui.view">
+        <field name="name">medicine.manufacturer.tree.view</field>
+        <field name="model">medicine.manufacturer</field>
+        <field name="arch" type="xml">
+            <tree string="Medicine Manufacturer Configuration">
+                <field name="name" />
+                <field name="parent_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="disease_disease_view_form" model="ir.ui.view">
+        <field name="name">disease.disease.form.view</field>
+        <field name="model">disease.disease</field>
+        <field name="arch" type="xml">
+            <form string="Disease's">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="disease"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_disease_disease_tree" model="ir.ui.view">
+        <field name="name">disease.disease.tree.view</field>
+        <field name="model">disease.disease</field>
+        <field name="arch" type="xml">
+            <tree string="Disease's">
+                <field name="name" />
+                <field name="disease" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="basic_salt_view_form" model="ir.ui.view">
+        <field name="name">basic.salt.form.view</field>
+        <field name="model">basic.salt</field>
+        <field name="arch" type="xml">
+            <form string="Basic Salt Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_basic_salt_tree" model="ir.ui.view">
+        <field name="name">basic.salt.tree.view</field>
+        <field name="model">basic.salt</field>
+        <field name="arch" type="xml">
+            <tree string="Basic Salt Configuration">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="Salt_Ualt_view_form" model="ir.ui.view">
+        <field name="name">salt.unit.form.view</field>
+        <field name="model">salt.unit</field>
+        <field name="arch" type="xml">
+            <form string="Salt Unit Configuration">
+                <sheet>
+                    <group>
+                        <field name="salt_unit" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_salt_unit_tree" model="ir.ui.view">
+        <field name="name">salt.unit.tree.view</field>
+        <field name="model">salt.unit</field>
+        <field name="arch" type="xml">
+            <tree string="Salt Unit Configuration">
+                <field name="salt_unit" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="Medicine_salt_view_form" model="ir.ui.view">
+        <field name="name">medicine.salt.form.view</field>
+        <field name="model">medicine.salt</field>
+        <field name="arch" type="xml">
+            <form string="Medicine Salt Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="salt" />
+                        <field name="qty" />
+                        <field name="unit" />
+                        <field name="medicine_salt_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medicine_salt_tree" model="ir.ui.view">
+        <field name="name">medicine.salt.tree.view</field>
+        <field name="model">medicine.salt</field>
+        <field name="arch" type="xml">
+            <tree string="Medicine Salt Configuration">
+                <field name="name" />
+                <field name="salt" />
+                <field name="qty" />
+                <field name="unit" />
+                <field name="medicine_salt_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="salt_composition_view_form" model="ir.ui.view">
+        <field name="name">salt.composition.form.view</field>
+        <field name="model">salt.composition</field>
+        <field name="arch" type="xml">
+            <form string="Salt Composition Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="medicine_salt_ids" widget="many2many_tags"/>
+                        <field name="salt_composition_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_salt_composition_tree" model="ir.ui.view">
+        <field name="name">salt.composition.tree.view</field>
+        <field name="model">salt.composition</field>
+        <field name="arch" type="xml">
+            <tree string="Salt Composition Configuration">
+                <field name="name" />
+                <field name="medicine_salt_ids" widget="many2many_tags"/>
+                <field name="salt_composition_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="medicine_usage_view_form" model="ir.ui.view">
+        <field name="name">medicine.usage.form.view</field>
+        <field name="model">medicine.usage</field>
+        <field name="arch" type="xml">
+            <form string="Medicine Usage Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="medicine_usage" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medicine_usage_tree" model="ir.ui.view">
+        <field name="name">medicine.usage.tree.view</field>
+        <field name="model">medicine.usage</field>
+        <field name="arch" type="xml">
+            <tree string="Medicine Usage Configuration">
+                <field name="name" />
+                <field name="medicine_usage" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="side_effects_view_form" model="ir.ui.view">
+        <field name="name">side.effects.form.view</field>
+        <field name="model">side.effects</field>
+        <field name="arch" type="xml">
+            <form string="Side Effects Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="side_effects" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_side_effects_tree" model="ir.ui.view">
+        <field name="name">side.effects.tree.view</field>
+        <field name="model">side.effects</field>
+        <field name="arch" type="xml">
+            <tree string="Side Effects Configuration">
+                <field name="name" />
+                <field name="side_effects" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="safety_advice_view_form" model="ir.ui.view">
+        <field name="name">safety.advice.form.view</field>
+        <field name="model">safety.advice</field>
+        <field name="arch" type="xml">
+            <form string="Safety Advice Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="safety_advice" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_safety_advice_tree" model="ir.ui.view">
+        <field name="name">safety.advice.tree.view</field>
+        <field name="model">safety.advice</field>
+        <field name="arch" type="xml">
+            <tree string="Safety Advice Configuration">
+                <field name="name" />
+                <field name="safety_advice" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="chemical_class_view_form" model="ir.ui.view">
+        <field name="name">chemical.class.form.view</field>
+        <field name="model">chemical.class</field>
+        <field name="arch" type="xml">
+            <form string="Chemical Class Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_chemical_class_tree" model="ir.ui.view">
+        <field name="name">chemical.class.tree.view</field>
+        <field name="model">chemical.class</field>
+        <field name="arch" type="xml">
+            <tree string="Chemical Class Configuration">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="therapeutic_class_view_form" model="ir.ui.view">
+        <field name="name">therapeutic.class.form.view</field>
+        <field name="model">therapeutic.class</field>
+        <field name="arch" type="xml">
+            <form string="Therapeutic Class Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_therapeutic_class_tree" model="ir.ui.view">
+        <field name="name">therapeutic.class.tree.view</field>
+        <field name="model">therapeutic.class</field>
+        <field name="arch" type="xml">
+            <tree string="Therapeutic Class Configuration">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_class_view_form" model="ir.ui.view">
+        <field name="name">action.class.form.view</field>
+        <field name="model">action.class</field>
+        <field name="arch" type="xml">
+            <form string="Action Class Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_action_class_tree" model="ir.ui.view">
+        <field name="name">action.class.tree.view</field>
+        <field name="model">action.class</field>
+        <field name="arch" type="xml">
+            <tree string="Action Class Configuration">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="fact_box_view_form" model="ir.ui.view">
+        <field name="name">fact.box.form.view</field>
+        <field name="model">fact.box</field>
+        <field name="arch" type="xml">
+            <form string="Fact Box Configuration">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="habit_forming" />
+                        <field name="chemical_class" />
+                        <field name="therapeutic_class" />
+                        <field name="action_class" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_fact_box_tree" model="ir.ui.view">
+        <field name="name">fact.box.tree.view</field>
+        <field name="model">fact.box</field>
+        <field name="arch" type="xml">
+            <tree string="Fact Box Configuration">
+                <field name="name" />
+                <field name="habit_forming" />
+                <field name="chemical_class" />
+                <field name="therapeutic_class" />
+                <field name="action_class" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_uom_price_view_form" model="ir.ui.view">
+        <field name="name">product.uom.price.form.view</field>
+        <field name="model">product.uom.price</field>
+        <field name="arch" type="xml">
+            <form string="Product UOM Price Configuration">
+                <sheet>
+                    <group>
+                        <field name="uom_id"/>
+                        <field name="qty" />
+                        <field name="unit_price" />
+                        <field name="price" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_uom_price_tree" model="ir.ui.view">
+        <field name="name">product.uom.price.tree.view</field>
+        <field name="model">product.uom.price</field>
+        <field name="arch" type="xml">
+            <tree string="Product UOM Price Configuration">
+                <field name="uom_id" />
+                <field name="qty" />
+                <field name="unit_price" />
+                <field name="price" />
+            </tree>
+        </field>
+    </record>
+</odoo>

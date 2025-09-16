@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_pharmacy_management.AdvanceMedicineSearchPopup" owl="1">
+        <div class="wk_popup popup" id="advance-medicine-search-popup">
+            <header class="title">
+                <t t-esc="props.title" />
+            </header>
+            <div class="advance_med_body">
+                <div name="Manufacturer" t-if="Object.keys(pos.medicine_manufacturer).length" class="search-section">
+                    <div class="search-box">
+                        <div class="tags-block">
+                            <ul>
+                                <t t-foreach="pos.data_to_search['manufacturer']" t-as="id" t-key="id">
+                                    <span class="wk-badge">
+                                        <t style="float:left;" t-esc="pos.medicine_manufacturer[id].name"/>
+                                        <span class="fa fa-close" t-on-click="() => this.remove_from_search('manufacturer', id)"/>
+                                    </span>
+                                </t>
+                            </ul>
+                        </div>
+                        <t t-set="placeholder" t-value="get_placeholder('Manufacturer', pos.data_to_search['manufacturer'].length)"/>
+                        <input name="manufacturer" t-model="state.manufacturerSearchInput" type="text" t-att-placeholder="placeholder" t-on-focusin="(ev) => this.onfocus(ev)"/>
+                        <span t-if="state.manufacturerSearchInput" class="fa fa-close" style="margin:10px" t-on-click="(ev) => this.clear_search(ev, 'manufacturerSearchInput')"/>
+                    </div>
+                    <div class="search-options">
+                        <ul>
+                            <t t-foreach="Object.values(pos.medicine_manufacturer)" t-as="manufacturer" t-key="manufacturer.id">
+                                <li t-if="show(state.manufacturerSearchInput, manufacturer) and !pos.data_to_search['manufacturer'].includes(manufacturer.id)" 
+                                    t-on-click="(ev) => this.add_to_search(ev, 'manufacturerSearchInput', 'manufacturer',manufacturer.id)">
+                                    <t t-esc="manufacturer.name" />
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                <div name="Salt Composition" t-if="Object.keys(pos.salt_composition).length" class="search-section">
+                    <div class="search-box"> 
+                        <div class="tags-block">
+                            <ul>
+                                <t t-foreach="pos.data_to_search['salt_composition']" t-as="id" t-key="id">
+                                    <span class="wk-badge">
+                                        <t style="float:left;" t-esc="pos.salt_composition[id].name"/>
+                                        <span class="fa fa-close" t-on-click="() => this.remove_from_search('salt_composition', id)"/>
+                                    </span>
+                                </t>
+                            </ul>
+                        </div>
+                        <t t-set="placeholder" t-value="get_placeholder('Salt Composition', pos.data_to_search['salt_composition'].length)"/>
+                        <input name="salt_composition" t-model="state.saltCompSearchInput" type="text" t-att-placeholder="placeholder" t-on-focusin="(ev) => this.onfocus(ev)"/>
+                        <span t-if="state.saltCompSearchInput" class="fa fa-close" style="margin:10px" t-on-click="(ev) => this.clear_search(ev, 'saltCompSearchInput')"/>
+                    </div>
+                    <div class="search-options"> 
+                        <ul>
+                            <t t-foreach="Object.values(pos.salt_composition)" t-as="salt_composition" t-key="salt_composition.id">
+                                <li t-if="show(state.saltCompSearchInput, salt_composition) and !pos.data_to_search['salt_composition'].includes(salt_composition.id)"  
+                                t-on-click="(ev) => this.add_to_search(ev, 'saltCompSearchInput', 'salt_composition', salt_composition.id)">
+                                    <t t-esc="salt_composition.name" />
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                 <div name="Basic Salt" t-if="Object.keys(pos.basic_salt).length" class="search-section">
+                    <div class="search-box"> 
+                        <div class="tags-block">
+                            <ul>
+                                <t t-foreach="pos.data_to_search['basic_salt']" t-as="id" t-key="id">
+                                    <span class="wk-badge">
+                                        <t style="float:left;" t-esc="pos.basic_salt[id].name"/>
+                                        <span class="fa fa-close"  t-on-click="() => this.remove_from_search('basic_salt', id)"/>
+                                    </span>
+                                </t>
+                            </ul>
+                        </div>
+                        <t t-set="placeholder" t-value="get_placeholder('Basic Salt', pos.data_to_search['basic_salt'].length)"/>
+                        <input name="basic_salt" t-model="state.basicSaltSearchInput" type="text" t-att-placeholder="placeholder" t-on-focusin="(ev) => this.onfocus(ev)"/>
+                        <span t-if="state.basicSaltSearchInput" class="fa fa-close" style="margin:10px" t-on-click="(ev) => this.clear_search(ev, 'basicSaltSearchInput')"/>
+                    </div>
+                    <div class="search-options"> 
+                        <ul>
+                            <t t-foreach="Object.values(pos.basic_salt)" t-as="basic_salt" t-key="basic_salt.id">
+                                <li t-if="show(state.basicSaltSearchInput, basic_salt) and !pos.data_to_search['basic_salt'].includes(basic_salt.id)" 
+                                t-on-click="(ev) => this.add_to_search(ev, 'basic_salt', 'basic_salt', basic_salt.id)">
+                                    <t t-esc="basic_salt.name" />
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                <div name="Medicine Salt" t-if="Object.keys(pos.medicine_salt).length" class="search-section">
+                    <div class="search-box"> 
+                        <div class="tags-block">
+                            <ul>
+                                <t t-foreach="pos.data_to_search['medicine_salt']" t-as="id" t-key="id">
+                                    <span class="wk-badge">
+                                        <t style="float:left;" t-esc="pos.medicine_salt[id].name"/>
+                                        <span class="fa fa-close"  t-on-click="() => this.remove_from_search('medicine_salt', id)"/>
+                                    </span>
+                                </t>
+                            </ul>
+                        </div>
+                        <t t-set="placeholder" t-value="get_placeholder('Medicine Salt', pos.data_to_search['medicine_salt'].length)"/>
+                        <input name="medicine_salt" t-model="state.medSaltSearchInput" type="text" t-att-placeholder="placeholder" t-on-focusin="(ev) => this.onfocus(ev)"/>
+                        <span t-if="state.medSaltSearchInput" class="fa fa-close" style="margin:10px" t-on-click="(ev) => this.clear_search(ev, 'medSaltSearchInput')"/>
+                    </div>
+                    <div class="search-options"> 
+                        <ul>
+                            <t t-foreach="Object.values(pos.medicine_salt)" t-as="medicine_salt" t-key="medicine_salt.id">
+                                <li t-if="show(state.medSaltSearchInput, medicine_salt) and !pos.data_to_search['medicine_salt'].includes(medicine_salt.id)"
+                                t-on-click="(ev) => this.add_to_search(ev, 'medSaltSearchInput', 'medicine_salt', medicine_salt.id)">
+                                    <t t-esc="medicine_salt.name" />
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                <div name="Medicine Usage" t-if="Object.keys(pos.medicine_usage).length" class="search-section">
+                    <div class="search-box"> 
+                        <div class="tags-block">
+                            <ul>
+                                <t t-foreach="pos.data_to_search['medicine_usage']" t-as="id" t-key="id">
+                                    <span class="wk-badge">
+                                        <t style="float:left;" t-esc="pos.medicine_usage[id].name"/>
+                                        <span class="fa fa-close" t-on-click="() => this.remove_from_search('medicine_usage', id)"/>
+                                    </span>
+                                </t>
+                            </ul>
+                        </div>
+                        <t t-set="placeholder" t-value="get_placeholder('Medicine Usage', pos.data_to_search['medicine_usage'].length)"/>
+                        <input name="medicine_usage" t-model="state.medUsageSearchInput" type="text" t-att-placeholder="placeholder" t-on-focusin="(ev) => this.onfocus(ev)"/>
+                        <span t-if="state.medUsageSearchInput" class="fa fa-close" style="margin:10px" t-on-click="(ev) => this.clear_search(ev, 'medUsageSearchInput')"/>
+                    </div>
+                    <div class="search-options"> 
+                        <ul>
+                            <t t-foreach="Object.values(pos.medicine_usage)" t-as="medicine_usage" t-key="medicine_usage.id">
+                                <li t-if="show(state.medUsageSearchInput, medicine_usage) and !pos.data_to_search['medicine_usage'].includes(medicine_usage.id)"
+                                t-on-click="(ev) => this.add_to_search(ev, 'medUsageSearchInput', 'medicine_usage', medicine_usage.id)">
+                                    <t t-esc="medicine_usage.name" />
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                 <div name="Side Effects" t-if="Object.keys(pos.side_effects).length" class="search-section">
+                    <div class="search-box"> 
+                        <div class="tags-block">
+                            <ul>
+                                <t t-foreach="pos.data_to_search['side_effects']" t-as="id" t-key="id">
+                                    <span class="wk-badge">
+                                        <t style="float:left;" t-esc="pos.side_effects[id].name"/>
+                                        <span class="fa fa-close" t-on-click="() => this.remove_from_search('side_effects', id)"/>
+                                </span>
+                                </t>
+                            </ul>
+                        </div>
+                        <t t-set="placeholder" t-value="get_placeholder('Side Effects', pos.data_to_search['side_effects'].length)"/>
+                        <input name="side_effects" t-model="state.sideEffectsSearchInput" type="text" t-att-placeholder="placeholder" t-on-focusin="(ev) => this.onfocus(ev)"/>
+                        <span t-if="state.sideEffectsSearchInput" class="fa fa-close" style="margin:10px" t-on-click="(ev) => this.clear_search(ev, 'sideEffectsSearchInput')"/>
+                    </div>
+                    <div class="search-options"> 
+                        <ul>
+                            <t t-foreach="Object.values(pos.side_effects)" t-as="side_effects" t-key="side_effects.id">
+                                <li t-if="show(state.sideEffectsSearchInput, side_effects) and !pos.data_to_search['side_effects'].includes(side_effects.id)"
+                                t-on-click="(ev) => this.add_to_search(ev, 'sideEffectsSearchInput', 'side_effects', side_effects.id)">
+                                    <t t-esc="side_effects.name" />
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                <div name="Safety Advices" t-if="Object.keys(pos.safety_advice).length" class="search-section">
+                    <div class="search-box"> 
+                        <div class="tags-block">
+                            <ul>
+                                <t t-foreach="pos.data_to_search['safety_advices']" t-as="id" t-key="id">
+                                    <span class="wk-badge">
+                                        <t style="float:left;" t-esc="pos.safety_advice[id].name"/>
+                                        <span class="fa fa-close" t-on-click="() => this.remove_from_search('safety_advices', id)"/>
+                                    </span>
+                                </t>
+                            </ul>
+                        </div>
+                        <t t-set="placeholder" t-value="get_placeholder('Safety Advices', pos.data_to_search['safety_advices'].length)"/>
+                        <input name="safety_advices" t-model="state.safetyAdvicesSearchInput" type="text" t-att-placeholder="placeholder" t-on-focusin="(ev) => this.onfocus(ev)"/>
+                        <span t-if="state.safetyAdvicesSearchInput" class="fa fa-close" style="margin:10px" t-on-click="(ev) => this.clear_search(ev, 'safetyAdvicesSearchInput')"/>
+                    </div>
+                    <div class="search-options"> 
+                        <ul>
+                            <t t-foreach="Object.values(pos.safety_advice)" t-as="safety_advices" t-key="safety_advices.id">
+                                <li t-if="show(state.safetyAdvicesSearchInput, safety_advices) and !pos.data_to_search['safety_advices'].includes(safety_advices.id)"
+                                t-on-click="(ev) => this.add_to_search(ev, 'safetyAdvicesSearchInput', 'safety_advices', safety_advices.id)">
+                                    <t t-esc="safety_advices.name" />
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+            </div> 
+            <footer class="footer modal-footer">
+                <div class="button confirm btn btn-lg btn-primary" t-on-click="confirm">Apply</div>
+                <div class="button cancel btn btn-lg btn-primary" t-on-click="cancel"> Close </div>
+                <t t-if="pos.advanced_search_active">
+                    <div id="clear-advance-search" class="button btn btn-lg btn-primary" t-on-click="clear_advance_search" t-esc="'Clear Advance Search'"/>
+                </t>
+            </footer>
+        </div>
+    </t>
+</templates>

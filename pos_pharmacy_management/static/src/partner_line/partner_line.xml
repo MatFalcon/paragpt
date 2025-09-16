@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-name="pos_pharmacy_management.PartnerListScreenDoctor" t-inherit="point_of_sale.PartnerListScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//th[@t-if='isBalanceDisplayed']" position="after">
+            <t t-if="props.doctor">
+                <th>Matricula</th>
+            </t>
+        </xpath>
+    </t>
+    <t t-name="pos_pharmacy_management.PartnerLineDoctor" t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension" owl="1">
+        <xpath expr="//td[@class='partner-line-last-column-placeholder oe_invisible']" position="before">
+            <t t-if="props.partner.is_a_doctor">
+                <td>
+                    <t t-esc="props.partner.numero_matricula"/>
+                </td>
+            </t>
+        </xpath>
+    </t>
+</templates>

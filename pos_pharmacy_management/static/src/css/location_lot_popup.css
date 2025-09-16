@@ -1,0 +1,317 @@
+/* Location and Lot Selection Popup Styles */
+.location-lot-selection-popup {
+    width: 600px;
+    max-height: 80vh;
+}
+
+.location-lot-selection-popup .popup-header {
+    border-bottom: 2px solid #017e84;
+    padding: 20px;
+    background: linear-gradient(135deg, #017e84, #025d61);
+    color: white;
+}
+
+.location-lot-selection-popup .product-info {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.location-lot-selection-popup .product-name {
+    font-weight: bold;
+    display: block;
+}
+
+.location-lot-selection-popup .requested-qty {
+    color: #e0f7fa;
+}
+
+.location-lot-selection-popup .popup-body {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 0;
+}
+
+.location-lot-selection-popup .step-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.location-lot-selection-popup .back-button {
+    color: #017e84;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+
+.location-lot-selection-popup .back-button:hover {
+    background-color: rgba(1, 126, 132, 0.1);
+}
+
+/* Location Selection Styles */
+.location-list {
+    padding: 10px 0;
+}
+
+.location-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.location-item:hover {
+    background-color: #f8f9fa;
+}
+
+.location-content {
+    display: flex;
+    align-items: center;
+}
+
+.location-icon {
+    width: 40px;
+    text-align: center;
+    color: #017e84;
+    font-size: 1.2em;
+}
+
+.location-info {
+    flex: 1;
+    margin-left: 15px;
+}
+
+.location-name {
+    display: block;
+    font-weight: bold;
+    color: #333;
+}
+
+.available-qty {
+    display: block;
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 2px;
+}
+
+.location-arrow {
+    color: #ccc;
+}
+
+/* Lot Selection Styles */
+.lot-list {
+    padding: 10px 0;
+}
+
+.lot-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.lot-item:hover {
+    background-color: #f8f9fa;
+}
+
+.lot-item.selected {
+    background-color: #e8f5e8;
+    border-left: 4px solid #28a745;
+}
+
+.lot-item.expired {
+    background-color: #fff5f5;
+    border-left: 4px solid #dc3545;
+    opacity: 0.7;
+}
+
+.lot-content {
+    display: flex;
+    align-items: center;
+}
+
+.lot-checkbox {
+    width: 30px;
+    text-align: center;
+    color: #28a745;
+    font-size: 1.1em;
+}
+
+.lot-checkbox .fa-check {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.lot-checkbox .fa-check.visible {
+    opacity: 1;
+}
+
+.lot-info {
+    flex: 1;
+    margin-left: 15px;
+}
+
+.lot-name {
+    display: block;
+    font-weight: bold;
+    color: #333;
+}
+
+.lot-details {
+    margin-top: 5px;
+    display: flex;
+    gap: 15px;
+}
+
+.lot-details span {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.expiration-date {
+    color: #ff9800 !important;
+}
+
+.qty-input-container {
+    margin-left: 15px;
+}
+
+.qty-input {
+    width: 80px;
+    padding: 5px 8px;
+    border: 2px solid #017e84;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Selection Summary */
+.selection-summary {
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+}
+
+.total-selected {
+    font-weight: bold;
+    color: #017e84;
+}
+
+/* Lot Actions */
+.lot-actions {
+    padding: 15px 20px;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Assignment Proposal Styles */
+.proposal-summary {
+    padding: 20px;
+    text-align: center;
+}
+
+.success-message {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.warning-message {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.assignment-list {
+    padding: 10px 0;
+}
+
+.assignment-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #f8fff8;
+}
+
+.assignment-content {
+    display: flex;
+    align-items: center;
+}
+
+.lot-icon {
+    width: 40px;
+    text-align: center;
+    color: #28a745;
+    font-size: 1.2em;
+}
+
+.assignment-info {
+    flex: 1;
+    margin-left: 15px;
+}
+
+.assignment-info span {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.qty-assigned {
+    color: #017e84;
+    font-weight: bold;
+}
+
+/* Loading State */
+.loading-container {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+.loading-container .fa-spinner {
+    font-size: 2em;
+    color: #017e84;
+    margin-bottom: 15px;
+}
+
+/* No data messages */
+.no-locations-message {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+.no-locations-message .fa-exclamation-triangle {
+    font-size: 2em;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Footer */
+.location-lot-selection-popup .popup-footer {
+    padding: 15px 20px;
+    border-top: 2px solid #e0e0e0;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.location-lot-selection-popup .popup-footer .btn {
+    min-width: 120px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .location-lot-selection-popup {
+        width: 95vw;
+        max-width: 500px;
+    }
+    
+    .lot-details {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .qty-input-container {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}

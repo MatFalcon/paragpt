@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_pharmacy_inherit_product_template_form" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']" position="inside">
+                <span class="d-inline-block">
+                    <field name="is_pharma_product"></field>
+                    <label for="is_pharma_product"/>
+                </span>
+            </xpath>
+
+            <xpath expr="//widget" position="after">
+                <widget name="web_ribbon" text="Prescription" invisible="not is_prescription"/>
+            </xpath>
+            
+            <page name="invoicing" position="after">
+                <page name="pharmacy" string="Pharmacy" invisible="not is_pharma_product">
+                    <group>
+                        <field name="is_medicine"></field>
+                    </group>
+                    <group>
+                        <field name="is_prescription"></field>
+                    </group>
+                    <group invisible="not is_medicine">
+                        <group>
+                            <field name="manufacturer_id"></field>
+                            <field name="salt_composition_ids" widget="many2many_tags"></field>
+                            <field name="medicine_salt_ids" widget="many2many_tags"></field>
+                            <field name="medicine_usage_ids" widget="many2many_tags"></field>
+                            <field name="side_effects_ids" widget="many2many_tags"></field>
+                        </group>
+                        <group>
+                            <field name="safety_advice_ids" widget="many2many_tags"></field>
+                            <field name="fact_box_ids" widget="many2many_tags"></field>
+                            <field name="salt_ids" widget="many2many_tags"/>
+                            <field name="medicine_substitute_ids" widget="many2many_tags"/>
+                            <label for="storage"/>
+                            <div class="text-muted"> Store below <field name="storage"/>&#176; Celcius </div>
+                        </group>
+                    </group>
+                    <group invisible="not is_medicine">
+                        <field name="manage_multi_uom_via_price"/>
+                    </group>
+                    <group invisible="not is_medicine or not manage_multi_uom_via_price">
+                        <field name="product_price_by_uom" />
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

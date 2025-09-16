@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_pharmacy_management.MedicineProductInfoPopup" owl="1">
+        <t t-set="product" t-value="props.product"/>
+        <div class="popup wk_popup" id="med_info">
+            <header class="title modal-header"> <t t-esc="product.display_name"/> </header>
+            <div class="horizontal_bar">
+                <i class="fa fa-angle-left"/>
+                <div name="head_bar" id="head_bar">
+                    <div class="heading" href="#info_available_stocks" t-esc="'Available Stocks'" t-if="product.stocks.length"/>
+                    <div class="heading" href="#info_manufacturer" t-esc="'Manufacturer'" t-if="product.manufacturer_id"/>
+                    <div class="heading" href="#info_salt_composition" t-esc="'Salt Composition'" t-if="product.salt_composition_ids.length"/>
+                    <div class="heading" href="#info_med_salt" t-esc="'Medicine Salt'" t-if="product.medicine_salt_ids.length"/>
+                    <div class="heading" href="#info_med_substitutes" t-esc="'Medicine Substitute'" t-if="product.medicine_substitute_ids.length"/>
+                    <div class="heading" href="#info_basic_salts" t-esc="'Basic Salt'" t-if="product.salt_ids.length"/>
+                    <div class="heading" href="#info_medicine_uses" t-esc="'Usage'" t-if="product.medicine_usage_ids.length"/>
+                    <div class="heading" href="#info_side_effects" t-esc="'Side Effects'" t-if="product.side_effects_ids.length"/>
+                    <div class="heading" href="#info_safety_advices" t-esc="'Safety Advices'" t-if="product.safety_advice_ids.length"/>
+                    <div class="heading" href="#info_medicine_urls" t-esc="'Medicine URL'" t-if="product.medicine_substitute_ids.length or product.salt_composition_ids.length"/>
+                </div>
+                <i class="fa fa-angle-right"/>
+            </div>
+            <div id="content">
+                <div name="Available Stocks" id="info_available_stocks" class="section" t-if="product.stocks and product.stocks.length">
+                    <div class="section-title">
+                       <i class="fa fa-shelves icon"/> 
+                       <span class="section-title-title" t-esc="'Available Stocks'"/>
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <table cellspacing="0" cellpadding="0" width="100%">
+                            <thead >
+                                <tr>
+                                    <th class="text-center" t-if="product.tracking == 'lot'" style="width:40%;text-align:left;" scope="col">Name</th>
+                                    <th class="text-center" t-if="product.tracking == 'none'"  style="width:40%;text-align:left;" scope="col">Location</th>
+                                    <th class="text-center" style="width: 20%;text-align:left;" scope="col">Quantity</th>
+                                    <th class="text-center" t-if="product.tracking == 'lot'" style="width: 40%;text-align:center;" scope="col">Expiration Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="product.stocks" t-as="stock" t-key="stock.id">
+                                    <tr>
+                                        <td t-if="stock['lot_id']"> <t t-esc="stock.lot_id[1]"/> </td>
+                                        <td t-if="product.tracking == 'none'"> <t t-esc="stock.location_id[1]"/> </td>
+                                        <td> <t t-esc="stock.quantity"/> </td>
+                                        <td t-if="stock.expiration_date" style="text-align:center;"> <t t-esc="expirationDate"/> </td>
+                                        <td t-if="product.tracking == 'lot' and !stock.expiration_date" style="text-align:center;"> <t t-esc="'--'"/> </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div name="Manufacturer" id="info_manufacturer" class="section" t-if="product.manufacturer_id">
+                    <div class="section-title">
+                       <i class="fa fa-industry icon"/> 
+                       <span class="section-title-title" t-esc="'Manufacturer'"/>
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <div t-esc="product.manufacturer_id[1]"/>
+                    </div>
+                </div>
+
+                <div name="Salt Composition" class="section" id="info_salt_composition" t-if="product.salt_composition_ids.length">
+                    <div class="section-title">
+                        <i class="fa fa fa-h-square icon"/> 
+                        <span class="section-title-title" t-esc="'Salt Compositions'"/>
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <ul>
+                            <t t-foreach="product.salt_composition_ids" t-as="id" t-key="id">
+                                <li t-if="pos.salt_composition[id]" t-esc="pos.salt_composition[id].name"/>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                <div name="Medicine salts" class="section" id="info_med_salt" t-if="product.medicine_salt_ids.length">
+                    <div class="section-title">
+                        <i class="fa fa fa-h-square icon"/> 
+                        <span class="section-title-title">Medicine salts</span>
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <t t-foreach="product.medicine_salt_ids" t-as="id" t-key="id">
+                            <div class="info-card">
+                                <div class="info-block">
+                                    <t t-set="medicine_salt" t-value="pos.medicine_salt[id]"/>
+                                    <t t-if="medicine_salt">
+                                        <div class="info-title" style="margin: 0;" t-esc="medicine_salt.name"/>
+                                        <t t-if="medicine_salt.salt" t-esc="medicine_salt.salt[1]"/>
+                                        <t t-if="medicine_salt.qty" t-esc="medicine_salt.qty"/>
+                                        <t t-if="medicine_salt.unit" t-esc="medicine_salt.unit[1]"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <div name="Medicine Substitutes" class="section" id="info_med_substitutes" t-if="product.medicine_substitute_ids.length">
+                    <div class="section-title">
+                        <i class="fa fa fa-h-square icon"/> 
+                        <span class="section-title-title">Medicine Substitutes</span>
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <ul>
+                            <t t-foreach="product.medicine_substitute_ids" t-as="id" t-key="id">
+                                <t t-if="id and pos.db.product_by_id and pos.db.product_by_id[id]">
+                                    <li t-esc="pos.db.product_by_id[id].display_name"/>
+                                </t>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                <div name="Basic salts" class="section" id="info_basic_salts" t-if="product.salt_ids.length">
+                    <div class="section-title">
+                        <i class="fa fa fa-h-square icon"/> 
+                        <span class="section-title-title">Basic Salts</span>
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <ul>
+                            <t t-foreach="product.salt_ids" t-as="id" t-key="id">
+                                <li t-if="pos.basic_salt[id]" t-esc="pos.basic_salt[id].name"/>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+                <div name="Medicine Uses" class="section" id="info_medicine_uses" t-if="product.medicine_usage_ids.length">
+                    <div class="section-title">
+                        <i class="fa fa fa-h-square icon"/> 
+                        <span class="section-title-title" t-esc="'Medicine Uses'"/>
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <t t-foreach="product.medicine_usage_ids" t-as="id" t-key="id">
+                            <t t-set="medicine_usage" t-value="pos.medicine_usage[id]"/>
+                            <t t-if="medicine_usage">
+                                <div class="info-title" t-esc="medicine_usage.name"/>
+                                <div class="info-card" t-if="medicine_usage.medicine_usage">
+                                    <div class="info-block">
+                                        <t t-esc="medicine_usage.medicine_usage"/>
+                                    </div>
+                                    <div t-if="medicine_usage.medicine_usage.length > 280" class="show-more" t-on-click="(ev) => this.show_more(ev)">show more...</div>
+                                    <div class="show-less" t-on-click="(ev) => this.show_less(ev)">show less...</div>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+
+                <div name="Side Effects" class="section" id="info_side_effects" t-if="product.side_effects_ids.length">
+                    <div class="section-title">
+                        <i class="fa fa fa-h-square icon"/>
+                        <span class="section-title-title" t-esc="'Side Effects'"/>
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <t t-foreach="product.side_effects_ids" t-as="id" t-key="id">
+                            <t t-set="side_effects" t-value="pos.side_effects[id]"/>
+                            <t t-if="side_effects">
+                                <div class="info-title" t-esc="side_effects.name"/>
+                                <div class="info-card" t-if="side_effects.side_effects">
+                                    <div class="info-block">
+                                        <t t-esc="side_effects.side_effects"/>
+                                    </div>
+                                    <div t-if="side_effects.side_effects.length > 280" class="show-more" t-on-click="(ev) => this.show_more(ev)" t-esc="'show more...'"/>
+                                    <div class="show-less" t-on-click="(ev) => this.show_less(ev)" t-esc="'show less...'"/>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+
+                <div name="Safety Advices" class="section" id="info_safety_advices" t-if="product.safety_advice_ids.length">
+                    <div class="section-title">
+                        <i class="fa fa fa-h-square icon"/>
+                        <span class="section-title-title" t-esc="'Safety Advices'" />
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">
+                        <t t-foreach="product.safety_advice_ids" t-as="id" t-key="id">
+                            <t t-set="safety_advice" t-value="pos.safety_advice[id]"/>
+                            <t t-if="safety_advice">
+                                <div class="info-title" t-esc="safety_advice.name"/>
+                                <div class="info-card" t-if="safety_advice.safety_advice">
+                                    <div class="info-block">
+                                        <t t-esc="safety_advice.safety_advice"/>
+                                    </div>
+                                    <div t-if="safety_advice.safety_advice.length > 280" class="show-more" t-on-click="(ev) => this.show_more(ev)" t-esc="'show more...'"/>
+                                    <div class="show-less" t-on-click="(ev) => this.show_less(ev)" t-esc="'show less...'"/>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+
+                <div name="Medicine URL" class="section" id="info_medicine_urls" t-if="product.medicine_substitute_ids.length or product.salt_composition_ids.length">
+                    <div class="section-title">
+                        <i class="fa fa fa-h-square icon"/>
+                        <span class="section-title-title" t-esc="'Medicine URL'" />
+                    </div>
+                    <div class="section-line"/>
+                    <div class="section-body">        
+                        <div class="product-info-url" t-if="product.medicine_substitute_ids.length" t-on-click.stop="() => this.onAlternateMedicineClick(product)">
+                            Alternate Medicines
+                        </div>
+                        <div class="product-info-url" t-if="product.salt_composition_ids.length" t-on-click.stop="() => this.onSaltBasedProductsClick(product)">
+                            Alternate Medicines Based on Salt
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer modal-footer">
+                <div class="button cancel btn btn-lg btn-primary" t-on-click="cancel">Close</div>
+            </footer>
+        </div>
+    </t>
+</templates>

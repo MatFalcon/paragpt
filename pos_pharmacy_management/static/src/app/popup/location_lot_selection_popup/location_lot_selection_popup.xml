@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="pos_pharmacy_management.LocationLotSelectionPopup" owl="1">
+        <div class="popup location-lot-selection-popup">
+            <div class="popup-header">
+                <h3 class="popup-title">
+                    <i class="fa fa-map-marker me-2"></i>
+                    <t t-esc="props.title"/>
+                </h3>
+                <div class="product-info">
+                    <span class="product-name" t-esc="props.product.display_name"/>
+                    <span class="requested-qty">Cantidad solicitada: <t t-esc="props.requestedQty"/> unidades</span>
+                </div>
+            </div>
+
+            <div class="popup-body">
+                <!-- Loading State -->
+                <div t-if="state.loading" class="loading-container">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    <span>Cargando...</span>
+                </div>
+
+                <!-- Step 1: Location Selection -->
+                <div t-elif="state.step === 'location'" class="location-selection">
+                    <div class="step-header">
+                        <h4><i class="fa fa-building me-2"></i>Seleccionar Ubicación</h4>
+                    </div>
+                    <div class="location-list">
+                        <t t-foreach="state.locations" t-as="location" t-key="location.id">
+                            <div class="location-item" t-on-click="() => this.selectLocation(location)">
+                                <div class="location-content">
+                                    <div class="location-icon">
+                                        <i class="fa fa-building"></i>
+                                    </div>
+                                    <div class="location-info">
+                                        <span class="location-name" t-esc="location.name"/>
+                                        <span class="available-qty">
+                                            Disponible: <t t-esc="location.available_qty"/> unidades
+                                        </span>
+                                    </div>
+                                    <div class="location-arrow">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <t t-if="!state.locations.length">
+                        <div class="no-locations-message">
+                            <i class="fa fa-exclamation-triangle text-warning"></i>
+                            <span>No hay ubicaciones con stock disponible</span>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Step 2: Lot Selection -->
+                <div t-elif="state.step === 'lot'" class="lot-selection">
+                    <div class="step-header">
+                        <button class="btn btn-link back-button" t-on-click="goBack">
+                            <i class="fa fa-arrow-left me-1"></i>Volver
+                        </button>
+                        <h4><i class="fa fa-list me-2"></i>Seleccionar Lotes - <t t-esc="state.selectedLocation.name"/></h4>
+                    </div>
+                    
+                    <div class="lot-list">
+                        <t t-foreach="state.lots" t-as="lot" t-key="lot.id">
+                            <div class="lot-item" 
+                                 t-att-class="{'selected': isLotSelected(lot), 'expired': !lot.is_valid}"
+                                 t-on-click="() => this.toggleLotSelection(lot)">
+                                <div class="lot-content">
+                                    <div class="lot-checkbox">
+                                        <i class="fa fa-check" t-att-class="{'visible': isLotSelected(lot)}"></i>
+                                    </div>
+                                    <div class="lot-info">
+                                        <span class="lot-name" t-esc="lot.name"/>
+                                        <div class="lot-details">
+                                            <span class="available-qty">Disponible: <t t-esc="lot.available_qty"/></span>
+                                            <span t-if="lot.expiration_date" class="expiration-date">
+                                                Vence: <t t-esc="lot.expiration_date"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div t-if="isLotSelected(lot)" class="qty-input-container">
+                                        <input type="number" 
+                                               class="qty-input"
+                                               t-att-value="state.selectedLots.find(l => l.id === lot.id).qtyToUse"
+                                               t-att-max="lot.available_qty"
+                                               min="0"
+                                               t-on-change="(ev) => updateLotQuantity(lot.id, parseFloat(ev.target.value) || 0)"
+                                               t-on-click.stop=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="selection-summary">
+                        <div class="total-selected">
+                            Total seleccionado: <t t-esc="getTotalSelectedQty()"/> / <t t-esc="props.requestedQty"/> unidades
+                        </div>
+                    </div>
+
+                    <div class="lot-actions">
+                        <button class="btn btn-info" t-on-click="getAutomaticProposal">
+                            <i class="fa fa-magic me-1"></i>
+                            Propuesta Automática
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Assignment Proposal -->
+                <div t-elif="state.step === 'assignment'" class="assignment-proposal">
+                    <div class="step-header">
+                        <button class="btn btn-link back-button" t-on-click="goBack">
+                            <i class="fa fa-arrow-left me-1"></i>Volver
+                        </button>
+                        <h4><i class="fa fa-magic me-2"></i>Propuesta Automática</h4>
+                    </div>
+
+                    <t t-if="state.assignmentProposal">
+                        <div class="proposal-summary">
+                            <div t-if="state.assignmentProposal.fully_covered" class="success-message">
+                                <i class="fa fa-check-circle text-success"></i>
+                                Se puede cubrir completamente el pedido
+                            </div>
+                            <div t-else="" class="warning-message">
+                                <i class="fa fa-exclamation-triangle text-warning"></i>
+                                Solo se puede cubrir parcialmente. Faltan: 
+                                <t t-esc="state.assignmentProposal.remaining_qty"/> unidades
+                            </div>
+                        </div>
+
+                        <div class="assignment-list">
+                            <t t-foreach="state.assignmentProposal.assignment" t-as="assignment" t-key="assignment_index">
+                                <div class="assignment-item">
+                                    <div class="assignment-content">
+                                        <div class="lot-icon">
+                                            <i class="fa fa-barcode"></i>
+                                        </div>
+                                        <div class="assignment-info">
+                                            <span class="lot-name" t-esc="assignment.lot_name"/>
+                                            <span class="location-name" t-esc="assignment.location_name"/>
+                                            <span class="qty-assigned">
+                                                Cantidad: <t t-esc="assignment.qty_assigned"/> unidades
+                                            </span>
+                                            <span t-if="assignment.expiration_date" class="expiration-date">
+                                                Vence: <t t-esc="assignment.expiration_date"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <div class="popup-footer">
+                <button class="btn btn-outline-secondary" t-on-click="cancel">
+                    <i class="fa fa-times me-1"></i>
+                    Cancelar
+                </button>
+
+                <t t-if="state.step === 'lot'">
+                    <button class="btn btn-success" 
+                            t-att-disabled="getTotalSelectedQty() === 0"
+                            t-on-click="confirmManualSelection">
+                        <i class="fa fa-check me-1"></i>
+                        Confirmar Selección
+                    </button>
+                </t>
+
+                <t t-if="state.step === 'assignment'">
+                    <button class="btn btn-success" t-on-click="acceptProposal">
+                        <i class="fa fa-check me-1"></i>
+                        Aceptar Propuesta
+                    </button>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_pharmacy" name="Pharmacy" parent="point_of_sale.menu_point_root" groups="point_of_sale.group_pos_manager"/>
+    <menuitem id="menu_medicine_products" name="Medicine Products" parent="menu_pharmacy" action="action_medicine_products" groups="base.group_system"/>
+    <menuitem id="menu_doctor" name="Doctor" parent="menu_pharmacy" action="action_doctor_doctor" groups="base.group_system" sequence="2"/>
+    <menuitem id="menu_pharmacy_configuration" name="Configuration" parent="menu_pharmacy" groups="base.group_system"/>
+    <menuitem id="menu_usage_warnings" name="Usage and Warnings" parent="menu_pharmacy" groups="base.group_system"/>
+    <menuitem id="menu_fact_box" name="Fact Box" sequence="100" parent="menu_pharmacy" groups="base.group_system"/>
+
+    <menuitem id="menu_medicine_manufacturer" name="Manufacturer" parent="menu_pharmacy_configuration" action="action_medicine_manufacturer" groups="base.group_system"/>
+    <menuitem id="menu_disease_disease" name="Disease's" parent="menu_pharmacy_configuration" action="action_disease_disease" groups="base.group_system"/>
+    <menuitem id="menu_basic_salt" name="Basic Salt" parent="menu_pharmacy_configuration" action="action_basic_salt" groups="base.group_system"/>
+    <menuitem id="menu_salt_unit" name="Salt Unit" parent="menu_pharmacy_configuration" action="action_salt_unit" groups="base.group_system"/>
+    <menuitem id="menu_medicine_salt" name="Medicine Salt" parent="menu_pharmacy_configuration" action="action_medicine_salt" groups="base.group_system"/>
+    <menuitem id="menu_salt_composition" name="Salt Composition" parent="menu_pharmacy_configuration" action="action_salt_composition" groups="base.group_system"/>
+    
+    <menuitem id="menu_medicine_usage" name="Medicine Usage" parent="menu_usage_warnings" action="action_medicine_usage" groups="base.group_system"/>
+    <menuitem id="menu_side_effects" name="Side Effects" parent="menu_usage_warnings" action="action_side_effects" groups="base.group_system"/>
+    <menuitem id="menu_safety_advice" name="Safety Advice" parent="menu_usage_warnings" action="action_safety_advice" groups="base.group_system"/>
+
+    <menuitem id="menu_chemical_class" name="Chemical Class" parent="menu_fact_box" action="action_chemical_class" groups="base.group_system"/>
+    <menuitem id="menu_therapeutic_class" name="Therapeutic Class" parent="menu_fact_box" action="action_therapeutic_class" groups="base.group_system"/>
+    <menuitem id="menu_action_class" name="Action Class" parent="menu_fact_box" action="action_action_class" groups="base.group_system"/>
+    <menuitem id="submenu_fact_box" name="Fact Box" parent="menu_fact_box" action="action_fact_box" groups="base.group_system"/>
+    
+    <!-- <menuitem id="menu_product_uom_price" name="Product UOM Price" parent="menu_pharmacy_configuration" action="action_product_uom_price" groups="base.group_system"/> --> -->
+</odoo>

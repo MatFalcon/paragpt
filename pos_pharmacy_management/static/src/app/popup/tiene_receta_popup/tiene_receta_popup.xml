@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="pos_pharmacy_management.IsPrescription" owl="1">
+        <div class="popup popup-text prescription-popup">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title title">
+                        <t t-esc="props.title" />
+                    </h4>
+                    <div class="sub-title" t-esc="props.name"/>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="doctor-select">Seleccione el Doctor:</label>
+                        <select 
+                            class="form-control form-select" 
+                            id="doctor-select" 
+                            t-model="state.selectedDoctorId"
+                        >
+                            <option value="">Seleccione una Matrícula...</option>
+                            <t t-foreach="props.doctor" t-as="doctor" t-key="doctor.id">
+                                <option t-att-value="doctor.id">
+                                    <t t-esc="doctor.numero_matricula" /> - <t t-esc="doctor.name" />
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="btn btn-primary btn-block" t-on-click="confirmSelection">
+                                Confirmar
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="btn btn-secondary btn-block" t-on-click="cancel">
+                                Cancelar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

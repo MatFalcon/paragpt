@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Doctor's -->
+        <record id="doctor_doctor_1" model="res.partner">
+            <field name="name">Dr. Jake Stapelton</field>
+            <field name="is_a_doctor">True</field>
+        </record>
+        <record id="doctor_doctor_2" model="res.partner">
+            <field name="name">Dr. Henry Ford</field>
+            <field name="is_a_doctor">True</field>
+        </record>
+        <record id="doctor_doctor_3" model="res.partner">
+            <field name="name">Dr. Indiana Jones</field>
+            <field name="is_a_doctor">True</field>
+        </record>
+        <record id="doctor_doctor_4" model="res.partner">
+            <field name="name">Dr. Lao</field>
+            <field name="is_a_doctor">True</field>
+        </record>
+        <record id="doctor_doctor_5" model="res.partner">
+            <field name="name">Dr. Yuri Zhivago</field>
+            <field name="is_a_doctor">True</field>
+        </record>
+
+        <!-- Manufacturer's -->
+        <record id="medicine_manufacturer_1" model="medicine.manufacturer">
+            <field name="name">Sun Pharma</field>
+        </record>
+        <record id="medicine_manufacturer_2" model="medicine.manufacturer">
+            <field name="name">Dabur</field>
+        </record>
+        <record id="medicine_manufacturer_3" model="medicine.manufacturer">
+            <field name="name">Dr. Willmar's</field>
+        </record>
+        <record id="medicine_manufacturer_4" model="medicine.manufacturer">
+            <field name="name">Dr. Reddy's</field>
+        </record>
+        <record id="medicine_manufacturer_5" model="medicine.manufacturer">
+            <field name="name">Himalya</field>
+        </record>
+
+        <!-- Diseases -->
+        <record id="disease_disease_1" model="disease.disease">
+            <field name="name">Acidity</field>
+            <field name="disease">
+                Acidity is one of the most common ailments that almost everyone experiences once in their lifetimes. 
+                In simple terms, it is a condition that causes excess acid production in the stomach. 
+                This not only causes discomfort in the stomach but also leads to other symptoms, 
+                such as a sour taste in the mouth, difficulty swallowing, and indigestion. 
+            </field>
+        </record>
+        <record id="disease_disease_2" model="disease.disease">
+            <field name="name">Anxiety</field>
+            <field name="disease">
+                Anxiety disorders are the most common types of mental health conditions. 
+                According to a survey in 2017, 44.9 million Indians were estimated to be suffering from anxiety disorders. 
+                Anxiety disorder is twice as likely to affect females than males. 
+            </field>
+        </record>
+        <record id="disease_disease_3" model="disease.disease">
+            <field name="name">Ear pain</field>
+            <field name="disease">
+                Ear pain or earache can occur due to infections and inflammation of the external, middle, or inner ear. 
+                Earaches usually occur in children, but they can occur in adults as well. 
+                An ear pain may affect one or both ears, but the majority of the time its in one ear.
+            </field>
+        </record>
+        <record id="disease_disease_4" model="disease.disease">
+            <field name="name">Hiccups</field>
+            <field name="disease">
+                A hiccup is a repeated involuntary contraction of the diaphragm (the muscle that separates the chest from the abdomen) followed by a sudden closure of the vocal cords. 
+                This checks the inflow of air and produces the characteristic “snap” or “hic” sound.
+            </field>
+        </record>
+        <record id="disease_disease_5" model="disease.disease">
+            <field name="name">Hypothyroidism</field>
+            <field name="disease">
+                Hypothyroidism is a condition in which the thyroid gland does not produce sufficient quantities of thyroxine, a thyroid hormone. 
+                Due to the low levels of this hormone, the person may experience various symptoms such as fatigue, unexplained weight gain, difficulty losing weight, reduced tolerance to cold, puffiness of the face, hoarseness of voice, excessive hair fall, muscle and joint pains, fertility problems, or depression.
+            </field>
+        </record>
+
+        <!-- Basic Salt -->
+        <record id="basic_salt_1" model="basic.salt">
+            <field name="name">hydrochloride</field>
+        </record>
+        <record id="basic_salt_2" model="basic.salt">
+            <field name="name">sodium</field>
+        </record>
+        <record id="basic_salt_3" model="basic.salt">
+            <field name="name">sulfate</field>
+        </record>
+        <record id="basic_salt_4" model="basic.salt">
+            <field name="name">acetate</field>
+        </record>
+        <record id="basic_salt_5" model="basic.salt">
+            <field name="name">phosphate</field>
+        </record>
+
+        <!-- Salt Unit -->
+        <record id="salt_unit_1" model="salt.unit">
+            <field name="salt_unit">ppm</field>
+        </record>
+        <record id="salt_unit_2" model="salt.unit">
+            <field name="salt_unit">mg/l </field>
+        </record>
+        <record id="salt_unit_3" model="salt.unit">
+            <field name="salt_unit">μS/cm</field>
+        </record>
+        <record id="salt_unit_4" model="salt.unit">
+            <field name="salt_unit">mS/cm</field>
+        </record>
+        <record id="salt_unit_5" model="salt.unit">
+            <field name="salt_unit">dS/m</field>
+        </record>
+
+        <!-- Medicine Salt -->
+        <record id="medicine_salt_1" model="medicine.salt">
+            <field name="name">Acitretin</field>
+            <field name="salt" ref="basic_salt_1"/>
+            <field name="qty">10</field>
+            <field name="unit" ref="salt_unit_1"/>
+        </record>
+        <record id="medicine_salt_2" model="medicine.salt">
+            <field name="name">Meclizine</field>
+            <field name="salt" ref="basic_salt_2"/>
+            <field name="qty">10</field>
+            <field name="unit" ref="salt_unit_2"/>
+        </record>
+        <record id="medicine_salt_3" model="medicine.salt">
+            <field name="name">Mecobalamin</field>
+            <field name="salt" ref="basic_salt_3"/>
+            <field name="qty">10</field>
+            <field name="unit" ref="salt_unit_3"/>
+        </record>
+        <record id="medicine_salt_4" model="medicine.salt">
+            <field name="name">Aflapin</field>
+            <field name="salt" ref="basic_salt_4"/>
+            <field name="qty">10</field>
+            <field name="unit" ref="salt_unit_4"/>
+        </record>
+        <record id="medicine_salt_5" model="medicine.salt">
+            <field name="name">Lopinavir</field>
+            <field name="salt" ref="basic_salt_5"/>
+            <field name="qty">10</field>
+            <field name="unit" ref="salt_unit_5"/>
+        </record>
+
+        <!-- Salt Composition -->
+        <record id="salt_composition_1" model="salt.composition">
+            <field name="name">Clonitazene</field>
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_5')])]"/>
+        </record>
+        <record id="salt_composition_2" model="salt.composition">
+            <field name="name">Etorphine</field>
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_2'), ref('medicine_salt_3'), ref('medicine_salt_4')])]"/>
+        </record>
+        <record id="salt_composition_3" model="salt.composition">
+            <field name="name">Metopone</field>
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_4'), ref('medicine_salt_5')])]"/>
+        </record>
+        <record id="salt_composition_4" model="salt.composition">
+            <field name="name">Thebacon</field>
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_2'), ref('medicine_salt_3'), ref('medicine_salt_5')])]"/>
+        </record>
+        <record id="salt_composition_5" model="salt.composition">
+            <field name="name">Nicocodine</field>
+            <field name="medicine_salt_ids" eval="[(6, 0, [ref('medicine_salt_1'), ref('medicine_salt_3'), ref('medicine_salt_4')])]"/>
+        </record>
+        
+        <!-- Medicine Usages -->
+        <record id="medicine_usage_1" model="medicine.usage">
+            <field name="name">Pain relief</field>
+            <field name="medicine_usage">
+                Pain is a symptom in which the person feels an uneasiness or discomfort. This feeling is triggered in the nervous system. 
+                Pain may be sharp or dull. It may come and go, or it may be constant. Pain is a symptom in which the person feels an uneasiness or discomfort. 
+                This feeling is triggered in the nervous system. Pain may be sharp or dull. It may come and go, or it may be constant.
+            </field>
+        </record>
+        <record id="medicine_usage_2" model="medicine.usage">
+            <field name="name">Fever</field>
+            <field name="medicine_usage">
+                Fever is defined as a state when the body temperature increases the normal body temperature (99.5 F-100.9 F) most commonly due to an underlying illness or infection in the body. 
+                It is usually followed by body ache, fatigue, and tiredness.
+            </field>
+        </record>
+        <record id="medicine_usage_3" model="medicine.usage">
+            <field name="name">Headache</field>
+            <field name="medicine_usage">
+                Head pain.
+            </field>
+        </record>
+        <record id="medicine_usage_4" model="medicine.usage">
+            <field name="name">Bacterial Infection</field>
+            <field name="medicine_usage">            
+                Bacterial infections are caused by bacteria, a kind of microorganisms that are made of only one cell.
+            </field>
+        </record>
+        <record id="medicine_usage_5" model="medicine.usage">
+            <field name="name">Insomnia</field>
+            <field name="medicine_usage">
+                In simple terms, insomnia is characterized by dissatisfaction with sleep quantity or quality.
+            </field>
+        </record>
+
+        <!-- Side Effects -->
+        <record id="side_effects_1" model="side.effects">
+            <field name="name">Nausea</field>
+        </record>
+        <record id="side_effects_2" model="side.effects">
+            <field name="name">Vomiting</field>
+        </record>
+        <record id="side_effects_3" model="side.effects">
+            <field name="name">Insomnia</field>
+        </record>
+        <record id="side_effects_4" model="side.effects">
+            <field name="name">Headache</field>
+        </record>
+        <record id="side_effects_5" model="side.effects">
+            <field name="name">Constipation</field>
+        </record>
+
+        <!-- safety advice -->
+        <record id="safety_advice_1" model="safety.advice">
+            <field name="name">recommended dosage</field>
+            <field name="safety_advice">Do not exceed the recommended dosage</field>
+        </record>
+        <record id="safety_advice_2" model="safety.advice">
+            <field name="name">red label</field>
+            <field name="safety_advice">Do not exceed the recommended dosage</field>
+        </record>
+        <record id="safety_advice_3" model="safety.advice">
+            <field name="name">cool storage</field>
+            <field name="safety_advice">Store in a cool and dry place away from direct sunlight</field>
+        </record>
+        <record id="safety_advice_4" model="safety.advice">
+            <field name="name">children reach</field>
+            <field name="safety_advice">Keep out of reach of the children</field>
+        </record>
+        <record id="safety_advice_5" model="safety.advice">
+            <field name="name">Alcohol</field>
+            <field name="safety_advice">It is unsafe to consume alcohol with this medicine.</field>
+        </record>
+
+        <!-- Chemical Class -->
+        <record id="checmical_class_1" model="chemical.class">
+            <field name="name">β-lactam antibiotic</field>
+        </record>
+        <record id="checmical_class_2" model="chemical.class">
+            <field name="name">Benzodiazepine</field>
+        </record>
+        <record id="checmical_class_3" model="chemical.class">
+            <field name="name">Cardiac glycoside</field>
+        </record>
+        <record id="checmical_class_4" model="chemical.class">
+            <field name="name">Fibrate</field>
+        </record>
+        <record id="checmical_class_5" model="chemical.class">
+            <field name="name">Steroid</field>
+        </record>
+
+        <!-- Therapeutic class -->
+        <record id="therapeutic_class_1" model="therapeutic.class">
+            <field name="name">Anti Diabetic</field>
+        </record>
+        <record id="therapeutic_class_2" model="therapeutic.class">
+            <field name="name">Anti Infectives</field>
+        </record>
+        <record id="therapeutic_class_3" model="therapeutic.class">
+            <field name="name">Anti Malarials</field>
+        </record>
+        <record id="therapeutic_class_4" model="therapeutic.class">
+            <field name="name">Anti Neoplastics</field>
+        </record>
+        <record id="therapeutic_class_5" model="therapeutic.class">
+            <field name="name">Derma</field>
+        </record>
+
+        <!-- Action Class -->
+        <record id="action_class_1" model="action.class">
+            <field name="name">Antifungals</field>
+        </record>
+        <record id="action_class_2" model="action.class">
+            <field name="name">Antimicrobials</field>
+        </record>
+        <record id="action_class_3" model="action.class">
+            <field name="name">Antithrombotics</field>
+        </record>
+        <record id="action_class_4" model="action.class">
+            <field name="name">Bronchodilator</field>
+        </record>
+        <record id="action_class_5" model="action.class">
+            <field name="name">Decongestant</field>
+        </record>
+
+        <!-- Fact Box -->
+        <record id="fact_box_1" model="fact.box">
+            <field name="name">Fact Box 1</field>
+            <field name="habit_forming">True</field>
+            <field name="chemical_class" ref="checmical_class_1" />
+            <field name="therapeutic_class" ref="therapeutic_class_1" />
+            <field name="action_class" ref="action_class_1" />
+        </record>
+        <record id="fact_box_2" model="fact.box">
+            <field name="name">Fact Box 2</field>
+            <field name="habit_forming">False</field>
+            <field name="chemical_class" ref="checmical_class_2" />
+            <field name="therapeutic_class" ref="therapeutic_class_2" />
+            <field name="action_class" ref="action_class_2" />
+        </record>
+        <record id="fact_box_3" model="fact.box">
+            <field name="name">Fact Box 3</field>
+            <field name="habit_forming">True</field>
+            <field name="chemical_class" ref="checmical_class_3" />
+            <field name="therapeutic_class" ref="therapeutic_class_3" />
+            <field name="action_class" ref="action_class_3" />
+        </record>
+        <record id="fact_box_4" model="fact.box">
+            <field name="name">Fact Box 4</field>
+            <field name="habit_forming">False</field>
+            <field name="chemical_class" ref="checmical_class_4" />
+            <field name="therapeutic_class" ref="therapeutic_class_4" />
+            <field name="action_class" ref="action_class_4" />
+        </record>
+        <record id="fact_box_5" model="fact.box">
+            <field name="name">Fact Box 5</field>
+            <field name="habit_forming">True</field>
+            <field name="chemical_class" ref="checmical_class_5" />
+            <field name="therapeutic_class" ref="therapeutic_class_5" />
+            <field name="action_class" ref="action_class_5" />
+        </record>
+    </data>
+</odoo>

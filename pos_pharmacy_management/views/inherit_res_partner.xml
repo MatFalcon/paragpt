@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_pharmacy_form" model="ir.ui.view">
+        <field name="name">res.partner.pos.pharmacy.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="4"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="before">
+                <group string="Doctor">
+                    <field name="is_a_doctor"/>
+                    <field name="numero_matricula" invisible="is_a_doctor == False"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

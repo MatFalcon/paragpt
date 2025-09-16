@@ -1,0 +1,23 @@
+<odoo>
+  <record id="view_pos_config_form_cash_policy" model="ir.ui.view">
+    <field name="name">pos.config.form.cash.policy</field>
+    <field name="model">pos.config</field>
+    <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+    <field name="arch" type="xml">
+      <!-- Inserta un bloque al final del sheet -->
+      <xpath expr="//form/sheet" position="inside">
+        <group string="Política de Caja (Apertura/Transferencia)">
+          <group>
+            <field name="pos_auto_transfer_enabled"/>
+            <field name="pos_fixed_opening_amount"/>
+            <field name="pos_transfer_threshold"/>
+          </group>
+          <group>
+            <field name="pos_transfer_origin_journal_id"/>
+            <field name="pos_transfer_dest_journal_id"/>
+          </group>
+        </group>
+      </xpath>
+    </field>
+  </record>
+</odoo>

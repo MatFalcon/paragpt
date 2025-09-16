@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_pharmacy_management.AlternateMedicinePopup" owl="1">
+        <div class="popup wk_popup popup-selection" id="alternate_med_popup">
+            <header class="title"> <t t-esc="props.product.display_name"/> (Alternate Medicines) </header>    
+
+            <t t-if="pos.config.product_display_type == 'list'">
+                <div class="alt_med_list_body" style="display:flex; flex-direction:column;">
+                    <t t-foreach="props.med_ids" t-as="alt_med_id" t-key="alt_med_id">
+                        <t t-set="product" t-value="pos.db.product_by_id[alt_med_id]"/>
+                        <article tabindex="0" draggable="true"
+                            t-attf-class="product position-relative btn btn-light d-flex align-items-stretch p-0 m-0 text-start cursor-pointer overflow-hidden transition-base" 
+                            t-att-data-product-id="product.id" 
+                            t-attf-aria-labelledby="article_product_{{product.id}}"
+                            style="display:flex !important; flex-direction:row !important">
+                            
+                            <t t-if="product.is_medicine and this.env.services.pos.config.show_details_in_products">
+                                <div t-if="product.getImageUrl()" class="product-img" style="max-width: 120px;">
+                                    <img class="w-100" t-att-src="product.getImageUrl()" t-att-alt="props.name" style="max-width: 120px;"/>
+                                </div>
+                                <div class="product-content d-flex flex-column justify-content-between h-100 mx-2 py-1" style="width:100px">
+                                    <div class="overflow-hidden lh-sm fw-bolder product-name"
+                                        t-att-class="{'no-image': !product.getImageUrl()}" 
+                                        t-attf-id="article_product_{{product.id}}"
+                                        t-esc="props.name" />
+                                    <span t-if="props.price" class="price-tag text-primary py-1 fw-bolder" t-esc="props.price" />
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div t-if="product.getImageUrl()" class="product-img" style="max-width: 120px;">
+                                    <img class="w-100" t-att-src="product.getImageUrl()" t-att-alt="props.name" style="max-width: 120px;"/>
+                                </div>
+                                <div class="product-content d-flex flex-column justify-content-between h-100 mx-2 py-1">
+                                    <div class="overflow-hidden lh-sm fw-bolder product-name"
+                                        t-att-class="{'no-image': !product.getImageUrl()}" 
+                                        t-attf-id="article_product_{{product.id}}"
+                                        t-esc="props.name" />
+                                    <span t-if="props.price" class="price-tag text-primary py-1 fw-bolder" t-esc="props.price" />
+                                </div>
+                            </t>
+                            
+                            <div class="product-info-block" t-if="product.is_medicine and this.env.services.pos.config.show_details_in_products">
+                                <div class="product-info-line" t-if="this.env.services.pos.config.manufacturer" t-esc="product.manufacturer_id[1]"/>
+                
+                                <div class="product-info-line" t-if="this.env.services.pos.config.storage"> <span t-esc="product.storage"/> &#176; Celcius </div>
+                
+                                <div class="product-info-line" t-if="product.medicine_usage_ids.length and this.env.services.pos.config.usage">
+                                    <t t-set="str" t-value="get_string('medicine_usage', product.medicine_usage_ids)"/>
+                                    <t t-esc="str"/>
+                                </div>
+                
+                                <div class="product-info-line" t-if="product.medicine_salt_ids.length and this.env.services.pos.config.salt_alternate">
+                                    <t t-set="str" t-value="get_string('medicine_salt', product.medicine_salt_ids)"/>
+                                    <t t-esc="str"/>
+                                </div>
+                
+                                <div class="product-info-line" t-if="product.side_effects_ids.length and this.env.services.pos.config.side_effects">
+                                    <t t-set="str" t-value="get_string('side_effects', product.side_effects_ids)"/>
+                                    <t t-esc="str"/>
+                                </div>
+                
+                                <div class="product-info-line" t-if="product.safety_advice_ids.length and this.env.services.pos.config.safety_advice">
+                                    <t t-set="str" t-value="get_string('safety_advice', product.safety_advice_ids)"/>
+                                    <t t-esc="str"/>
+                                </div>
+                
+                                <div class="product-info-line" t-if="product.salt_ids.length and this.env.services.pos.config.basic_salt">
+                                    <t t-set="str" t-value="get_string('basic_salt', product.salt_ids)"/>
+                                    <t t-esc="str"/>
+                                </div>
+                
+                                <div class="product-info-url" t-if="product.medicine_substitute_ids.length" t-on-click.stop="() => this.onAlternateMedicineClick(product)">
+                                    Alternate Medicines
+                                </div>
+                
+                                <div class="product-info-url" t-if="product.salt_composition_ids.length" t-on-click.stop="() => this.onSaltBasedProductsClick(product)">
+                                    Alternate Medicines Based on Salt
+                                </div>
+                            </div>
+                
+                            <div t-if="product.is_medicine and this.env.services.pos.config.show_medicine_information" class="wobble-vertical-on-hover"
+                                t-on-click.stop="() => this.onMedProductInfoClick(product)" style="margin: 5px 10px 0px auto; font-size:large;cursor:pointer;z-index:1000;">
+                                <i class="fa fa-medkit" />
+                            </div>
+                
+                            <div t-if="product.is_prescription and this.env.services.pos.config.show_is_prescription" class="ribbon ribbon-top-right"><span>Prescription</span></div>
+                        </article>
+                    </t>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="alt_med_grid_body">
+                    <t t-foreach="props.med_ids" t-as="alt_med_id" t-key="alt_med_id">
+                        <t t-set="product" t-value="pos.db.product_by_id[alt_med_id]"/>
+                        <ProductCard
+                            class="pos.productViewMode"
+                            name="product.display_name"
+                            productId="product.id"
+                            price="product.getFormattedUnitPrice()"
+                            imageUrl="product.getImageUrl()"
+                            onClick="() =>this.pos.addProductToCurrentOrder(product)"
+                        />
+                    </t>
+                </div>
+            </t>
+
+            <footer class="footer modal-footer">
+                <div class="button btn btn-lg btn-primary" t-on-click="confirm">Add Products</div>
+                <div class="button cancel btn btn-lg btn-primary" t-on-click="cancel">Cancel</div>
+            </footer>
+        </div>
+    </t>
+</templates>

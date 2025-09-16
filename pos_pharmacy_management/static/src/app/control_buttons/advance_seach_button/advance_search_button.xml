@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_pharmacy_management.AdvanceSearchButton" owl="1">
+        <div class="control-button customer-button btn rounded-0 fw-bolder" t-att-class="{highlight : pos.advanced_search_active}"
+            t-on-click="() => this.onClick()">
+            <i class="fa fa-search" />
+            <span> </span>
+            <span>Advance Search</span>
+        </div>
+    </t>
+</templates>
