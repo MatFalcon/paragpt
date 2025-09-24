@@ -1,0 +1,456 @@
+from configparser import ConfigParser
+import datetime
+import dateutil.relativedelta
+from decimal import Decimal
+import os
+
+import pyodbc
+
+from rpc import XMLRPC
+
+os.chdir(os.path.dirname(__file__))
+config = ConfigParser()
+config.read('config.ini')
+
+SQL_SERVER_CONFIG = {
+    'HOST': config['sqlserver']['host'],
+    'USER': config['sqlserver']['user'],
+    'PWD': config['sqlserver']['pwd'],
+}
+
+xr = XMLRPC()
+xr.setup()
+
+today = datetime.date.today()
+#from_date = today.strftime('%Y-%m-%d')
+#prev_month = today - dateutil.relativedelta.relativedelta(months=1)
+#from_date = prev_month.replace(day=26)
+#from_date = from_date.strftime('%Y-%m-%d')
+
+from_date = today - dateutil.relativedelta.relativedelta(months=1)
+from_date = from_date.replace(day=26)
+from_date = from_date.strftime('%Y-%m-%d')
+#from_date = '2023-03-31'
+from_date = '2022-12-26'
+#from_date = '2023-06-23'
+
+to_date = today
+to_date = to_date.replace(day=25)
+to_date = to_date.strftime('%Y-%m-%d')
+#to_date = '2023-03-31'
+#to_date = today.strftime('%Y-%m-%d')
+to_date = '2023-06-25'
+#to_date = '2023-06-23'
+
+
+def get_clientes():
+    conn = pyodbc.connect(
+        'DRIVER={ODBC Driver 17 for SQL Server};'
+        f'SERVER={SQL_SERVER_CONFIG["HOST"]};'
+        f'DATABASE=Bvpasa_Clearing;'
+        f'UID={SQL_SERVER_CONFIG["USER"]};'
+        f'PWD={SQL_SERVER_CONFIG["PWD"]};'
+        'ENCRYPT=no;'
+    )
+    cursor = conn.cursor()
+
+    cursor.execute(
+        'SELECT DISTINCT Personas.vCuentaFacturacion.*, '
+        'Personas.vReporteMiembrosCompensadores.Email, '
+        'Personas.vReporteMiembrosCompensadores.Domicilio, '
+        'Personas.vReporteMiembrosCompensadores.Localidad, '
+        'Personas.vReporteMiembrosCompensadores.Telefono, '
+        'Personas.vReporteMiembrosCompensadores.[Razón Social / Apellido] '
+        'FROM Personas.vCuentaFacturacion '
+        'LEFT JOIN Personas.vReporteMiembrosCompensadores '
+        'ON Personas.vCuentaFacturacion.MiembroCompensadorID = Personas.vReporteMiembrosCompensadores.MiembroCompensadorID;'
+    )
+    #'ON Personas.vCuentaFacturacion.MiembroCompensadorID = Personas.vReporteMiembrosCompensadores.MiembroCompensadorID WHERE Personas.vCuentaFacturacion.PersonaID = 20;'
+    columns = [column[0] for column in cursor.description]
+    rows = cursor.fetchall()
+
+    results = []
+    for row in rows:
+        values = [clean_value(value) for value in row]
+        results.append(dict(zip(columns, values)))
+    return results
+
+
+def create_clientes(clientes):
+    for row in clientes:
+        try:
+            create_cliente(row)
+        except Exception as error:
+            print(f'Error: {error}')
+
+
+def create_cliente(row):
+    vat = row['CuitCuil']
+    if not vat:
+        print('RUC vacío')
+
+    vat = vat.strip()
+    vat = vat.replace('/', '-')
+    if not vat:
+        print('RUC vacío')
+        return
+
+    if vat.endswith(' 0'):
+        vat = vat[:-2]
+    if '-' not in vat and len(vat) > 8 and len(vat) < 11:
+        vat = vat[:-1] + '-' + vat[-1]
+
+    cliente_id = row['PersonaID']
+    address = row['Domicilio']
+
+    obj = {
+        'name': row['PersonaDescripcion'],
+        'vat': vat,
+        'email': row['Email'] if row['Email'] else False,
+        'id_cliente_pbp': cliente_id,
+        'contact_address': address if address else False,
+        'contact_address_complete': address if address else False,
+        'city': row['Localidad'] if row['Localidad'] else False,
+        'phone': row['Telefono'] if row['Telefono'] else False,
+        'obviar_validacion': True,
+    }
+
+    #partner_ids = xr.execute_kw('res.partner', 'search', [['|', ['id_cliente_pbp', '=', cliente_id], ['vat', '=', vat]]])
+    partner_ids = xr.execute_kw('res.partner', 'search', [[['vat', '=', vat], ['id_cliente_pbp', '=', cliente_id]]])
+    partner_id = partner_ids[0] if partner_ids else None
+    if partner_id:
+        del obj['name']
+        print(obj)
+        xr.execute_kw('res.partner', 'write', [[partner_id], obj])
+        print(f'PARTNER UPDATED: {partner_id}')
+    else:
+        print(obj)
+        partner_id = xr.execute_kw('res.partner', 'create', [obj])
+        print(f'PARTNER CREATED: {partner_id}')
+
+    #novedades = xr.execute_kw('pbp.novedades', 'search', [[['partner_id', '=', partner_id]]])
+    #xr.execute_kw('res.partner', 'write', [novedades, {'cliente_id': cliente_id}])
+    #xr.execute_kw('res.partner', 'update_novedades', [partner_id, partner_id])
+
+
+def get_comprobantes_comision():
+    conn = pyodbc.connect(
+        'DRIVER={ODBC Driver 17 for SQL Server};'
+        f'SERVER={SQL_SERVER_CONFIG["HOST"]};'
+        f'DATABASE=Bvpasa_Clearing;'
+        f'UID={SQL_SERVER_CONFIG["USER"]};'
+        f'PWD={SQL_SERVER_CONFIG["PWD"]};'
+        'ENCRYPT=no;'
+    )
+    cursor = conn.cursor()
+
+    cursor.execute(
+        'SELECT DISTINCT Comprobantes.Comision.*, Productos.vContrato.TipoContratoDescripcion, Productos.vContrato.ContratoDescripcion, Personas.vCuentaFacturacion.PersonaID '
+        'FROM Comprobantes.Comision '
+        'LEFT JOIN Productos.vContrato ON Comprobantes.Comision.ContratoID = Productos.vContrato.ContratoID '
+        'LEFT JOIN Personas.vCuentaFacturacion ON Comprobantes.Comision.CuentaFacturacionID = Personas.vCuentaFacturacion.CuentaFacturacionID '
+        f"WHERE Fecha >= '{from_date}' AND Fecha <= '{to_date}' "
+        'ORDER BY Comprobantes.Comision.Fecha DESC;'
+    )
+    columns = [column[0] for column in cursor.description]
+    rows = cursor.fetchall()
+
+    results = []
+    for row in rows:
+        values = [clean_value(value) for value in row]
+        results.append(dict(zip(columns, values)))
+    return results
+
+
+def get_registro_valores():
+    conn = pyodbc.connect(
+        'DRIVER={ODBC Driver 17 for SQL Server};'
+        f'SERVER={SQL_SERVER_CONFIG["HOST"]};'
+        f'DATABASE=Bvpasa_Publicacion;'
+        f'UID={SQL_SERVER_CONFIG["USER"]};'
+        f'PWD={SQL_SERVER_CONFIG["PWD"]};'
+        'ENCRYPT=no;'
+    )
+    cursor = conn.cursor()
+
+    cursor.execute(
+        'SELECT '
+        'Registro.vValores.*, '
+        'Productos.vContrato.TipoContratoDescripcion, '
+        'Productos.SerieRentaFijaPublicacion.TasaInteres, '
+        'Personas.MiembroCompensador.PersonaID '
+        'FROM Registro.vValores '
+        'LEFT JOIN Productos.vContrato ON Registro.vValores.ContratoID = Productos.vContrato.ContratoID '
+        'LEFT JOIN Productos.SerieRentaFijaPublicacion ON Registro.vValores.ContratoID = Productos.SerieRentaFijaPublicacion.ContratoID '
+        'LEFT JOIN Personas.MiembroCompensador ON Registro.vValores.MiembroCompensadorID = Personas.MiembroCompensador.MiembroCompensadorID '
+        f"WHERE FechaOperacion >= '{from_date}' AND FechaOperacion <= '{to_date}' "
+        'ORDER BY Registro.vValores.FechaOperacion DESC;'
+    )
+    columns = [column[0] for column in cursor.description]
+    rows = cursor.fetchall()
+
+    results = []
+    for row in rows:
+        values = [clean_value(value) for value in row]
+        results.append(dict(zip(columns, values)))
+    return results
+
+
+def create_novedades(rows):
+    novedades = []
+    for row in rows:
+        try:
+            novedad = create_novedad(row)
+            if novedad:
+                novedades.append(novedad)
+        except Exception as error:
+            print(f'Error: {error}')
+
+        if len(novedades) == 500:
+            ids = xr.execute_kw('pbp.novedades', 'create', [novedades])
+            print('CREATED')
+            novedades = []
+
+    if len(novedades):
+        ids = xr.execute_kw('pbp.novedades', 'create', [novedades])
+        print('CREATED')
+
+
+def create_novedad(row):
+    id_pbp = row['ComisionID']
+    comision_detalle = row['ComisionDetalle'].strip()
+
+    if comision_detalle == 'Fondo de Garantía por Repo':
+        novedades = xr.execute_kw('pbp.calculo_fondo_garantia', 'search', [[['id_pbp', '=', id_pbp]]])
+    else:
+        return False
+        novedades = xr.execute_kw('pbp.novedades', 'search', [[['id_pbp', '=', id_pbp]]])
+
+    cliente_id = row['PersonaID']
+    partner_id = False
+    partners = xr.execute_kw('res.partner', 'search_read', [[['id_cliente_pbp', '=', cliente_id]]])
+    partner = partners[0] if partners else False
+    if partner:
+        partner_ruc = partner['vat']
+        partner_ids = xr.execute_kw('res.partner', 'search', [[['vat', '=', partner_ruc]]])
+        if len(partner_ids) > 1:
+            max_total = 0
+            for pid in partner_ids:
+                if comision_detalle == 'Fondo de Garantía por Repo':
+                    partner_novedades_total = xr.execute_kw('pbp.calculo_fondo_garantia', 'search_count', [[['partner_id', '=', pid]]])
+                else:
+                    partner_novedades_total = xr.execute_kw('pbp.novedades', 'search_count', [[['partner_id', '=', pid]]])
+                if partner_novedades_total > max_total:
+                    partner_id = pid
+                    max_total = partner_novedades_total
+            if not max_total:
+                partner_id = partner['id']
+        else:
+            partner_id = partner['id']
+
+    contrato_id = row['ContratoID']
+    #product_ids = xr.execute_kw('product.product', 'search', [[['contrato_id_pbp', '=', contrato_id]]])
+
+    contrato_tipo_descripcion = row['TipoContratoDescripcion']
+    product_id = False
+    if contrato_tipo_descripcion == 'Fondo Inversión':
+        product_id = 190
+        #product_name = 'Fondo de inversión'
+    elif contrato_tipo_descripcion == 'Serie Renta Fija':
+        product_id = 153
+        #product_name = 'Arancel CBSA por Rentas Fijas - S.E.N'
+        if comision_detalle == 'Arancel por Repos':
+            product_id = 155
+        elif comision_detalle == 'Fondo de Garantía por Repo':
+            product_id = False
+    elif contrato_tipo_descripcion == 'Serie Renta Variable Acción':
+        product_id = 154
+        #product_name = 'Arancel CBSA por Rentas Variables - S.E.N'
+    else:
+        return False
+
+    #product_ids = xr.execute_kw('product.product', 'search', [[['name', '=', product_name]]], {'context': {'lang': 'es_PY'}})
+    #product_id = product_ids[0] if product_ids else False
+
+    moneda_id = row['MonedaID']
+    if moneda_id == 2:
+        #currency_name = 'USD'
+        currency_id = 2
+    elif moneda_id == 1:
+        #currency_name = 'PYG'
+        currency_id = 155
+    else:
+        return False
+    #currency_id = xr.execute_kw('res.currency', 'search', [[['name', '=', currency_name]]])[0]
+
+    volumen_gs = row['VolumenGS']
+    total = row['Total']
+    mercado = row['Mercado']
+    contrato_descripcion = row['ContratoDescripcion']
+    if (
+        volumen_gs and
+        moneda_id == 1 and
+        contrato_tipo_descripcion == 'Serie Renta Fija'
+    ):
+        if (
+            mercado == 'Mercado Primario' and
+            'TNA' in contrato_descripcion
+        ):
+            total = (volumen_gs / 100) * 0.01
+        else:
+            total = (volumen_gs / 100) * 0.02
+    elif (
+        volumen_gs and
+        moneda_id == 1 and
+        contrato_tipo_descripcion == 'Serie Renta Variable Acción'
+    ):
+        total = (volumen_gs / 100) * 0.02
+
+    mercado_descripcion = mercado
+
+    if mercado_descripcion and 'repo' in mercado_descripcion.lower() or comision_detalle == 'Fondo de Garantía por Repo':
+        if not product_id and mercado_descripcion and 'repo' in mercado_descripcion.lower():
+            product_id = 155
+
+        if moneda_id == 1:
+            total = volumen_gs
+        else:
+            total = row['Total']
+
+        if not row['FechaVencimiento'] or not row['FechaOperacion']:
+            print('sin fechas')
+            return False
+        plazo = row['FechaVencimiento'] - row['FechaOperacion']
+        plazo = plazo.days
+
+        if mercado_descripcion and 'repo' in mercado_descripcion.lower() and comision_detalle != 'Fondo de Garantía por Repo':
+            if plazo < 7:
+                tasa = 0.1
+            elif plazo < 15:
+                tasa = 0.08
+            elif plazo < 30:
+                tasa = 0.06
+            elif plazo < 90:
+                tasa = 0.05
+            else:
+                tasa = 0.04
+            arancel_anual = tasa * total
+            total = arancel_anual / 365 * plazo
+
+    if comision_detalle == 'Fondo de Garantía por Repo':
+        obj = {
+            'id_pbp': id_pbp,
+            'mercado': mercado_descripcion,
+            'instrumento': row['Instrumento'],
+            'currency_id': currency_id,
+            'volumen_negociado': total,
+            'fecha_operacion': row['FechaOperacion'].strftime('%Y-%m-%d'),
+            'fecha_vencimiento': row['FechaVencimiento'].strftime('%Y-%m-%d'),
+            'cliente_id': cliente_id,
+            'partner_id': partner_id,
+        }
+    else:
+        obj = {
+            'id_pbp': id_pbp,
+            #'precio_unitario': row['Precio'],
+            'cantidad': row['Cantidad'],
+            'total': total,
+            'contrato_descripcion': contrato_descripcion,
+            'contrato_id': contrato_id,
+            'contrato_tipo_descripcion': contrato_tipo_descripcion,
+            'product_id': product_id,
+            'currency_id': currency_id,
+            'fecha_operacion': row['Fecha'].strftime('%Y-%m-%d'),
+            'cliente_id': cliente_id,
+            'partner_id': partner_id,
+            'comision_detalle': comision_detalle,
+            #'porcentaje': row['Porcentaje'],
+            #'cotizacion': 0.0,
+            #'liquidacion': 0.0,
+            'mercado': mercado,
+            'volumen_gs': volumen_gs,
+            #'tasa_interes': row['TasaInteres'] if row['TasaInteres'] else False,
+        }
+
+    if novedades:
+        del obj['id_pbp']
+        if comision_detalle == 'Fondo de Garantía por Repo':
+            xr.execute_kw('pbp.calculo_fondo_garantia', 'write', [[novedades[0]], obj])
+        else:
+            xr.execute_kw('pbp.novedades', 'write', [[novedades[0]], obj])
+        print(f'NOVEDAD UPDATED: {id_pbp} {obj}')
+        return False
+    else:
+        if comision_detalle == 'Fondo de Garantía por Repo':
+            id = xr.execute_kw('pbp.calculo_fondo_garantia', 'create', [obj])
+            print(f'NOVEDAD CREATED: {id} {obj}')
+        else:
+            return obj
+        #id = xr.execute_kw('pbp.novedades', 'create', [obj])
+        #print(f'NOVEDAD CREATED: {id} {obj}')
+
+
+def clean_value(value):
+    if isinstance(value, Decimal):
+        return float(value)
+    if value is None:
+        return False
+    return value
+
+
+def sync_clientes():
+    clientes = get_clientes()
+    create_clientes(clientes)
+
+
+def sync_novedades():
+    valores = get_registro_valores()
+    comisiones = get_comprobantes_comision()
+    for comision in comisiones:
+        volumen_gs = False
+        mercado = False
+        fecha_vencimiento = False
+        fecha_operacion = False
+        instrumento = False
+        #val = next((valor for valor in valores if valor['ContratoID'] == comision['ContratoID'] and valor['PersonaID'] == comision['PersonaID'] and valor['FechaOperacion'] == comision['Fecha']), False)
+        #val = next((valor for valor in valores if valor['ContratoID'] == comision['ContratoID'] and valor['PersonaID'] == comision['PersonaID']), False)
+
+        comision['Mercado'] = mercado
+        comision['VolumenGS'] = volumen_gs
+        comision['FechaVencimiento'] = fecha_vencimiento
+        comision['FechaOperacion'] = fecha_operacion
+        comision['Instrumento'] = instrumento
+        for i, valor in enumerate(valores):
+            if (
+                valor['ContratoID'] == comision['ContratoID'] and
+                valor['PersonaID'] == comision['PersonaID'] and
+                valor['FechaOperacion'] == comision['Fecha']
+            ):
+                volumen_gs = valor['VolumenGS']
+                mercado = valor['Mercado']
+                fecha_vencimiento = valor['FechaVencimiento']
+                fecha_operacion = valor['FechaOperacion']
+                instrumento = valor['Instrumento']
+                comision['Mercado'] = mercado
+                comision['VolumenGS'] = volumen_gs
+                comision['FechaVencimiento'] = fecha_vencimiento
+                comision['FechaOperacion'] = fecha_operacion
+                comision['Instrumento'] = instrumento
+                del valores[i]
+
+        #if comision['ComisionID'] in (66858,66859):
+        #    print(comision)
+        #    print()
+    create_novedades(comisiones)
+
+
+if __name__ == '__main__':
+    #sync_clientes()
+    sync_novedades()
+    """
+    novedades = xr.execute_kw('pbp.novedades', 'search_read', [[]])
+    print(novedades[0])
+    for novedad in novedades:
+        obj = {'total': novedad['subtotal']}
+        xr.execute_kw('pbp.novedades', 'write', [[novedad[0]], obj])
+    """

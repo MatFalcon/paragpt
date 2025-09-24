@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cuentas_moneda_extranjera_cuentas_moneda_extranjera,cuentas_moneda_extranjera.cuentas_moneda_extranjera,model_cuentas_moneda_extranjera_cuentas_moneda_extranjera,base.group_user,1,1,1,1

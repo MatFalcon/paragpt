@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="view_account_form" model="ir.ui.view">
+            <field name="name">view_account_form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="replace">
+                    <field name="tag_ids" widget="many2many_tags"
+                           domain="[('applicability', '=', 'accounts')]"
+                           context="{'default_applicability': 'accounts'}"
+                           options="{'no_create': True,'no_open':True}"
+                           attrs="{'required': [('tag_ids', '!=', [[6, False, []]])]}" />
+                </xpath>
+            </field>
+        </record>
+
+         <record id="view_account_list" model="ir.ui.view">
+            <field name="name">view_account_list</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_list" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="replace">
+                    <field name="tag_ids" widget="many2many_tags"
+                           domain="[('applicability', '=', 'accounts')]"
+                           context="{'default_applicability': 'accounts'}"
+                           options="{'no_create': True,'no_open':True}"
+                           attrs="{'required': [('tag_ids', '!=', [[6, False, []]])]}" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

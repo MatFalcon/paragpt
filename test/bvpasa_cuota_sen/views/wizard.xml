@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="wizard_reporte_cuota_sen_form">
+            <field name="name">Reporte de Facturaciones y saldos</field>
+            <field name="model">wizard_reporte_cuota_sen</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de Facturaciones y saldos">
+                    <group>
+                        <group>
+                            <field name="year" min="2023"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_xlsx" string="Imprimir reporte" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="wizard_reporte_cuota_sen_action_window">
+            <field name="name">Reporte de Facturaciones y saldos</field>
+            <field name="res_model">wizard_reporte_cuota_sen</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="wizard_cuota_sen_menu" name="Reporte de Facturaciones y saldos" parent="account.menu_finance_reports" action="wizard_reporte_cuota_sen_action_window" sequence="50"/>
+
+        <report
+                id="bvpasa_cuota_sen.report_action"
+                model="wizard_reporte_cuota_sen"
+                string="Reporte de Facturaciones y saldos"
+                report_type="xlsx"
+                name="bvpasa_cuota_sen.reporte_cuota_sen_xlsx"
+                file="Reporte de Facturaciones y saldos"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

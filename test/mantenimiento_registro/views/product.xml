@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mantenimiento_registro_product_view_form_inherit" model="ir.ui.view">
+            <field name="name">mantenimiento_registro_product_view_form_inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="es_mantenimiento_registro" />
+                    <field name="jornal" />
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

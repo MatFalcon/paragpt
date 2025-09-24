@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="jornales" model="ir.actions.act_window">
+        <field name="name">Jornales</field>
+        <field name="res_model">mantenimiento_registro.jornal_mantenimiento</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="lista_precios" model="ir.actions.act_window">
+        <field name="name">Lista de Precios</field>
+        <field name="res_model">mantenimiento_registro.lista_precios</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Agregamos el menu en la parte superior, en el menu de configuracion de contabilidad -->
+    <menuitem id="mantenimiento_registro" name="Mantenimiento" parent="account.menu_finance_configuration" sequence="10">
+        <menuitem id="mantenimiento_jornales" name="Jornales" action="jornales" />
+        <menuitem id="mantenimiento_lista_precios" name="Lista de Precios" action="lista_precios" />
+    </menuitem>
+
+
+    <!-- Vista tree de jornales -->
+    <record model="ir.ui.view" id="jornales_tree_view">
+        <field name="name">jornales.tree.view</field>
+        <field name="model">mantenimiento_registro.jornal_mantenimiento</field>
+        <field name="arch" type="xml">
+            <tree string="Libros" decoration-success="activo == True">
+                <field name="name" />
+                <field name="monto" />
+                <field name="activo" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista tree de lista de precios -->
+    <record model="ir.ui.view" id="lista_precios_tree_view">
+        <field name="name">lista.precios.tree.view</field>
+        <field name="model">mantenimiento_registro.lista_precios</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Precios">
+                <field name="name" />
+                <field name="tipo_sociedad" />
+                <field name="desde" />
+                <field name="hasta" />
+                <field name="cantidad_jornales" />
+                <field name="jornal" />
+                <field name="monto" />
+            </tree>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="emisiones_series_view_tree" model="ir.ui.view">
+            <field name="name">emisiones_series_view_tree</field>
+            <field name="model">emisiones.series</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="partner_id"/>
+                    <field name="cod_emisor"/>
+                    <field name="name"/>
+                    <field name="monto_original"/>
+                    <field name="currency_id"/>
+                    <!--field name="monto_pyg"/-->
+                    <field name="inicio_colocacion"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="plazo"/>
+                    <field name="instrumento"/>
+                    <field name="tasa_instrumento"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="emisiones_series_search_view">
+            <field name="name">emisiones_series_search_view</field>
+            <field name="model">emisiones.series</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                    <field name="cod_emisor"/>
+                    <field name="name"/>
+                    <field name="currency_id"/>
+                    <field name="inicio_colocacion"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="plazo"/>
+                    <field name="instrumento"/>
+                    <field name="tasa_instrumento"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="series_act_window" model="ir.actions.act_window">
+            <field name="name">Reporte Series</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">emisiones.series</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="menu_series" name="Series" action="series_act_window"
+                  parent="account.menu_finance_entries" sequence="90" />
+    </data>
+</odoo>

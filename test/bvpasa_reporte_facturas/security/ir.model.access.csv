@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wizard_reporte_facturas,access_wizard_reporte_facturas,model_wizard_reporte_facturas,base.group_user,1,1,1,1

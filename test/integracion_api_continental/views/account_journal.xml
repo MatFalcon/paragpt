@@ -1,0 +1,22 @@
+
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="account_journal_form_inherit">
+			<field name="name">account_journal_form_inherit</field>
+			<field name="model">account.journal</field>
+			<field name="inherit_id" ref="account.view_account_journal_form" />
+			<field name="arch" type="xml">
+
+				<!-- Agregamos el campo api_continental_hash al formulario de diario -->
+				<xpath expr="//notebook/page[@name='advanced_settings']" position="after">
+					<page name="integracion_api_continental" string="Banco Continental" groups="integracion_api_continental.configurar_credenciales_diario">
+						<group string="Cuenta">
+							<field name="api_continental_hash" />
+							<field name="is_continental" />
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

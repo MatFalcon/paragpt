@@ -1,0 +1,67 @@
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="res_company_form_inherit">
+			<field name="name">res_company_form_inherit</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//notebook/page[@name='general_info']" position="after">
+					<page name="integracion_api_continental" string="Banco Continental" groups="integracion_api_continental.configurar_credenciales_api">
+						<group string="Empresa">
+							<field name="api_continental_codigo_cliente" />
+							<field name="api_continental_ruc" />
+							<field name="api_continental_url" />
+						</group>
+
+						<group string="Pago de Proveedores">
+							<group>
+								<field name="api_continental_pp_user_carga" />
+								<field name="api_continental_pp_pass_carga" />
+							</group>
+							<group>
+								<field name="api_continental_pp_user_autoriza" />
+								<field name="api_continental_pp_pass_autoriza" />
+							</group>
+						</group>
+
+						<group string="Servicios Corporativos">
+							<group>
+								<field name="api_continental_sc_user_carga" />
+								<field name="api_continental_sc_pass_carga" />
+							</group>
+							<group>
+								<field name="api_continental_sc_user_autoriza" />
+								<field name="api_continental_sc_pass_autoriza" />
+							</group>
+						</group>
+
+						<group string="Pago de Salarios">
+							<group>
+								<field name="api_continental_ps_user_carga" />
+								<field name="api_continental_ps_pass_carga" />
+							</group>
+							<group>
+								<field name="api_continental_ps_user_autoriza" />
+								<field name="api_continental_ps_pass_autoriza" />
+							</group>
+						</group>
+
+						<group string="Claves de Suscripción">
+							<group>
+								<field name="api_continental_subscription_pp" />
+								<field name="api_continental_subscription_ps" />
+								<field name="api_continental_subscription_sc" />
+								<field name="api_continental_subscription_ce" />
+							</group>
+						</group>
+
+						<group string="Certificado">
+							<field name="api_continental_cert_path" />
+							<field name="api_continental_cert_pass" />
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

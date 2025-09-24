@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <!-- emisiones.wizard.facturar form view -->
+        <record id="emisiones_wizard_facturar_form" model="ir.ui.view">
+            <field name="name">emisiones.wizard.facturar.view.form</field>
+            <field name="model">emisiones.wizard.facturar</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <group>
+                        <group>
+                            <field name="journal_id" />
+                            <field name="estado_factura" />
+                            <field name="fecha_factura" />
+                        </group>
+                    </group>
+
+
+                    <notebook>
+                        <page string="Emisiones">
+                            <field name="emisiones_ids" />
+                        </page>
+                    </notebook>
+
+
+                    <footer>
+                        <button string="Generar" type="object" name="button_generar_factura" class="oe_highlight" />
+                        <button string="Cancelar" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+    </data>
+
+
+</odoo>

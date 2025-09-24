@@ -1,0 +1,52 @@
+DATOS DEL CODIGO DE NEGOCIACION CARTERA PROPIA
+SELECT [EmisionID]
+      ,[CalificacionRiesgo]
+	  ,[Productos].[Emision].[EmisionCodigo]
+	  ,[Personas].[Emisor].[EmisorDescripcion]
+	  ,[Productos].[vReporteSeries].CodNegociacion
+	  ,[Productos].[vReporteSeries].MonedaDescripcion
+	  ,[ValorNominal]
+	  ,[Productos].[vReporteSeries].CantidadTotal
+	  ,[Productos].[vReporteSeries].PeriodicidadIntereses
+	  ,[Productos].[vReporteSeries].TasaInteresNominal
+	  ,[Productos].[vReporteSeries].FechaFinExclusividad
+	  ,[Productos].[vReporteSeries].FechaVencimiento
+      ,[TipoEmisionID]
+      ,[ProductoID]
+      ,[MontoEmision]
+      ,[LugarPagoCapitalInteres]
+      ,[DiasVencimientoMinimo]
+      ,[DiasVencimientoMaximo]
+      ,[ResolucionNumero]
+      ,[ResolucionFecha]
+      ,[FechaCalificacionRiesgo]
+      ,[GarantiaEmisionDescripcion]
+  FROM [Bvpasa_Clearing].[Productos].[Emision]
+  INNER JOIN [Bvpasa_Clearing].[Personas].[Emisor]
+  ON [Bvpasa_Clearing].[Productos].[Emision].[EmisorID] = [Bvpasa_Clearing].[Personas].[Emisor].[EmisorID]
+  INNER JOIN [Bvpasa_Clearing].[Productos].[vReporteSeries]
+  ON[Bvpasa_Clearing].[Productos].[Emision].[EmisionCodigo] = [Bvpasa_Clearing].[Productos].[vReporteSeries].[EmisionCodigo]
+  where [Productos].[vReporteSeries].CodNegociacion= 'PYTAU03F4028'
+
+
+CUOTERO DEL EVENTO CORPORATIVO
+SELECT [EventoCorporativoID]
+      ,[EventoCorporativoFecha]
+      ,[ActivoDescripcion]
+      ,[MonedaID]
+      ,[Amortizacion]
+      ,[TasaInteres]
+      ,[Interes]
+      ,[TotalTitulo]
+      ,[TotalSerie]
+      ,[TotalColocado]
+      ,[AmortizacionTotal]
+      ,[InteresTotal]
+      ,[FechaDebito]
+      ,[FechaCredito]
+      ,[EstadoDescripcion]
+      ,[TipoAcreenciaDescripcion]
+  FROM [Bvpasa_Clearing].[Activos].[vEventosCorporativos]
+  WHERE ActivoDescripcion= 'PYTAU03F4028'
+
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <!-- reporte_libro_diario.wizard form view -->
+        <record id="reporte_diario_wizard_form" model="ir.ui.view">
+            <field name="name">reporte_diario_wizard_form</field>
+            <field name="model">reporte_libro_diario.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+
+                    <group>
+                        <field name="fecha_inicio" />
+                        <field name="fecha_fin" />
+<!--                        <field name="compania" />-->
+                    </group>
+                    <footer>
+                        <button string="Imprimir reporte PDF" type="object" name="button_imprimir" class="oe_highlight" />
+                        <button string="Imprimir reporte XLSX" type="object" name="button_imprimir_xlsx" class="oe_highlight" />
+                        <button string="Cancelar" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- reporte_libro_diario.wizard action window -->
+        <record id="reporte_libro_diario.wizard_action" model="ir.actions.act_window">
+            <field name="name">Imprimir Libro Diario</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reporte_libro_diario.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="reporte_libro_diario.wizard_menu" name="Imprimir Libro Diario" parent="account.menu_finance_reports" action="reporte_libro_diario.wizard_action" sequence="200" />
+
+    </data>
+
+</odoo>
