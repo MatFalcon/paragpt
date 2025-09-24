@@ -63,51 +63,56 @@
             </field>
         </record>
 
-       <record id="custodia_fisica_form_view" model="ir.ui.view">
-          <field name="name">custodia.fisica.form.view</field>
-          <field name="model">custodia_fisica.custodia_fisica</field>
-          <field name="arch" type="xml">
-            <form>
-              <header>
-                <field name="state" widget="statusbar"/>
-                <button string="Facturar" type="object" name="button_facturar"
-                        class="oe_highlight"
-                        invisible="state in ['draft', 'cancel', 'facturado']"/>
-                <button string="Confirmar" type="object" name="action_confirm"
-                        invisible="state != 'draft'" class="oe_highlight"/>
-                <button string="Cambiar a borrador" type="object" name="action_draft"
-                        invisible="state != 'cancel'"/>
-                <button string="Cancelar" type="object" name="action_cancelar"
-                        invisible="state in ['draft', 'cancel']"/>
-              </header>
-              <sheet>
-                <group>
-                  <group>
-                    <field name="partner_id" readonly="1"/>
-                    <field name="cantidad_custodiada" readonly="1"/>
-                    <field name="arancel_cantidad" readonly="1"/>
-                    <field name="monto_custodiado" readonly="1"/>
-                    <field name="arancel_monto" readonly="1"/>
-                    <field name="currency_id" readonly="1" invisible="1"/>
-                    <field name="arancel_currency_id" readonly="1" invisible="1"/>
-                  </group>
-                  <group>
-                    <field name="arancel_total" readonly="1"/>
-                    <field name="descuento" readonly="state != 'draft'"/>
-                    <field name="custodia_total" readonly="1" force_save="1"/>
-                    <field name="total_iva" readonly="1" force_save="1"/>
-                    <field name="total_gravada" readonly="1" force_save="1"/>
-                    <field name="fecha_inicio" readonly="1"/>
-                    <field name="fecha_fin" readonly="1"/>
-                    <field name="invoice_id" readonly="1"/>
-                    <field name="company_id" invisible="1" readonly="1"/>
-                  </group>
-                </group>
-                <field name="line_ids" readonly="1"/>
-              </sheet>
-            </form>
-          </field>
+        <!-- formulario -->
+        <record id="custodia_fisica_form_view" model="ir.ui.view">
+            <field name="name">custodia.fisica.form.view</field>
+            <field name="model">custodia_fisica.custodia_fisica</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" />
+                        <button string="Facturar" type="object" name="button_facturar"
+                            class="oe_highlight"
+                            attrs="{'invisible':[('state','in',['draft', 'cancel','facturado'])]}" />
+                        <button string="Confirmar" type="object" name="action_confirm"
+                            attrs="{'invisible':[('state','!=','draft')]}" class="oe_highlight" />
+                        <button string="Cambiar a borrador" type="object" name="action_draft"
+                            attrs="{'invisible':[('state','!=','cancel')]}" />
+                        <button string="Cancelar" type="object" name="action_cancelar"
+                            attrs="{'invisible':[('state','in',['draft', 'cancel'])]}" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" readonly="1" />
+                                <field name="cantidad_custodiada" readonly="1" />
+                                <field name="arancel_cantidad" readonly="1" />
+                                <field name="monto_custodiado" readonly="1" />
+                                <field name="arancel_monto" readonly="1" />
+                                <field name="currency_id" readonly="1" invisible="1" />
+                                <field name="arancel_currency_id" readonly="1" invisible="1" />
+                            </group>
+                            <group>
+                                <field name="arancel_total" readonly="1" />
+                                <field name="descuento"
+                                    attrs="{'readonly':[('state','!=','draft')]}" />
+                                <field name="custodia_total" readonly="1" force_save="1" />
+                                <field name="total_iva" readonly="1" force_save="1" />
+                                <field name="total_gravada" readonly="1" force_save="1" />
+                                <field name="fecha_inicio" readonly="1" />
+                                <field name="fecha_fin" readonly="1" />
+                                <field name="invoice_id" readonly="1" />
+                                <field name="company_id" invisible="1" readonly="1" />
+                            </group>
+                        </group>
+                        <!-- <page string="Líneas de Custodia"> -->
+                        <field name="line_ids" readonly="1" />
+                        <!-- </page> -->
+                    </sheet>
+                </form>
+            </field>
         </record>
+
         <record id="custodia_fisica_line_form_view" model="ir.ui.view">
             <field name="name">custodia.fisica.form.line.view</field>
             <field name="model">custodia_fisica.custodia_fisica_line</field>
@@ -222,5 +227,21 @@
             <field name="res_model">custodia_fisica.import_lines</field>
             <field name="view_mode">tree</field>
         </record>
+
+        <!-- Agregamos el menu en la parte superior, en el menu de contabilidad -->
+
+        <menuitem id="menu_section_custodia_fisica" name="Custodia Física"
+            parent="account.menu_finance_entries" sequence="100">
+            <menuitem id="menu_custodia_fisica" name="Facturación Custodias Físicas"
+                action="custodia_fisica_action_window"
+                sequence="110" />
+            <menuitem id="menu_custodia_fisica_line" name="Líneas de Custodias Físicas"
+                action="custodia_fisica_line_action_window"
+                sequence="120" />
+            <menuitem id="menu_custodia_import_lines" name="Líneas de Custodias Importadas"
+                action="custodia_fisica_import_lines_action_window" groups="base.group_system"
+                sequence="130" />
+        </menuitem>
+
     </data>
 </odoo>

@@ -17,10 +17,10 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '17.0.0.0',
+    'version': '17.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contacts', 'account_accountant','bva_pbp'],
+    'depends': ['base', 'contacts', 'account_accountant'],
 
     # always loaded
     'data': [
@@ -28,6 +28,6 @@
         'views/mantenimiento_registro.xml',
         'views/res_partner.xml',
         'views/product.xml',
-        'views/menus.xml'
+        'views/account_move.xml'
     ],
 }

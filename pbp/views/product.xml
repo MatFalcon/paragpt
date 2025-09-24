@@ -1,0 +1,29 @@
+<odoo>
+  <data>
+    <record id="view_product_form" model="ir.ui.view">
+      <field name="name">view_product_form</field>
+      <field name="model">product.product</field>
+      <field name="type">form</field>
+      <field name="inherit_id" ref="product.product_normal_form_view" />
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='product_variant_id']" position="after">
+          <field name="tipo_renta" />
+          <field name="porcentaje_arancel" />
+          <field name="contrato_descripcion_pbp" />
+        </xpath>
+      </field>
+    </record>
+
+    <record id="product_template_only_form_inherit_view" model="ir.ui.view">
+      <field name="name">product.template.only.form.inherit.view</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_only_form_view" />
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='product_variant_id']" position="after">
+          <field name="porcentaje_arancel" />
+          <field name="contrato_descripcion_pbp" />
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

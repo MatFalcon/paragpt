@@ -1,8 +1,0 @@
-<odoo>
-    <data>
-          <menuitem id="menu_mantenimiento_registro_pbp" parent="bva_pbp.novedades_configuraciones_first_level_menu" name="Mantenimiento de Registros">
-                <menuitem id="mantenimiento_jornales" name="Jornales" action="jornales" />
-                <menuitem id="mantenimiento_lista_precios" name="Lista de Precios" action="lista_precios" />
-          </menuitem>
-    </data>
-</odoo>

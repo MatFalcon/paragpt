@@ -9,8 +9,8 @@
          Modulo que agrega reporte de Cuota SEN CBSA
     """,
 
-    'author': "SATI",
-    'website': "http://www.sati.com.py",
+    'author': "Interfaces S.A.",
+    'website': "http://www.interfaces.com.py",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
@@ -19,7 +19,7 @@
     'version': '17.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','pbp'],
+    'depends': ['base','bvpasa_account','pbp'],
 
     # always loaded
     'data': [

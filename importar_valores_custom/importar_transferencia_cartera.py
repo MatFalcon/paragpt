@@ -28,8 +28,8 @@ from_date = from_date.strftime('%Y-%m-%d %H:%M')
 to_date = today.replace(hour=23, minute=59)
 to_date = to_date.strftime('%Y-%m-%d %H:%M')
 
-from_date = "2025-02-01 00:00"
-to_date = "2025-03-28 23:59"
+#from_date = "2025-02-01 00:00"
+#to_date = "2025-03-28 23:59"
 print("Inicio", from_date)
 print("Fin", to_date)
 

@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="tipo_cuentas">
+            <field name="name">Asiento por Diferencia de Tipo de Cambio</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <!-- Integrar dentro del bloque de Default Accounts para mejor organización -->
+                <xpath expr="//block[@title='Default Accounts']" position="after">
+                    <block title="Asiento por Diferencia de Tipo de Cambio" id="exchange_difference_settings" groups="account.group_account_user">
+                        <setting string="Configuración de Diferencia de Cambio" help="Configurar cuentas y diario para asientos automáticos por diferencia de cambio">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Diario por Diferencia de Cambio" for="journal_dif_id" class="col-lg-4 o_light_label"/>
+                                    <field name="journal_dif_id" required="1"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label string="Cuenta Ganancia por Diferencia" for="cuenta_ganancia_dif_id" class="col-lg-4 o_light_label"/>
+                                    <field name="cuenta_ganancia_dif_id" required="1"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label string="Cuenta Pérdida por Diferencia" for="cuenta_perdida_dif_id" class="col-lg-4 o_light_label"/>
+                                    <field name="cuenta_perdida_dif_id" required="1"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Cuentas a Monitorear" help="Seleccionar qué cuentas USD incluir en el cálculo de diferencias de cambio">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Cuentas Activas (USD)" for="cuenta_ganancia_ids" class="col-lg-4 o_light_label"/>
+                                    <field name="cuenta_ganancia_ids" widget="many2many_tags" 
+                                           domain="[('currency_id.name', '=', 'USD')]"
+                                           placeholder="Ej: Caja USD, Banco USD..."/>
+                                </div>
+                                <div class="text-muted ms-3 mt4">
+                                    Cuentas que generan ganancia cuando sube el dólar (Activos en USD)
+                                </div>
+                                <div class="row mt8">
+                                    <label string="Cuentas Pasivas (USD)" for="cuenta_perdida_ids" class="col-lg-4 o_light_label"/>
+                                    <field name="cuenta_perdida_ids" widget="many2many_tags"
+                                           domain="[('currency_id.name', '=', 'USD')]"
+                                           placeholder="Ej: Deudas USD, Préstamos USD..."/>
+                                </div>
+                                <div class="text-muted ms-3 mt4">
+                                    Cuentas que generan pérdida cuando sube el dólar (Pasivos en USD)
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

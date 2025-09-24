@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<!-- # TODO: Borrar este codigo luego, es para la version manual de la lista de precios -->
+		<!-- <record id="mantenimiento_registro_account_move_line_inherit" model="ir.ui.view">
+			<field name="name">mantenimiento_registro_account_move_line_inherit</field>
+			<field name="model">account.move</field>
+			<field name="inherit_id" ref="account.view_move_form" />
+			<field name="arch" type="xml">
+
+				<xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='account_id']" position="after">
+					<field name="lista_precio_mantenimiento_ids" string="Mantenimiento" />
+				</xpath>
+
+			</field>
+		</record> -->
+
+	</data>
+</odoo>

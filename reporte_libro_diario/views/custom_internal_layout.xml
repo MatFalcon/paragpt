@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="reporte_libro_diario.custom_bridge_layout">
+            <t t-if="not o and doc">
+                <t t-set="o" t-value="doc" />
+            </t>
+
+<!--            <t t-if="o and 'company_id' in o">-->
+<!--                <t t-set="company" t-value="o.company_id.sudo()" />-->
+<!--            </t>-->
+<!--            <t t-if="not o or not 'company_id' in o">-->
+<!--                <t t-set="company" t-value="res_company" />-->
+<!--            </t>-->
+            <t t-call="reporte_libro_diario.custom_header_layout" /> <!--call to the body template-->
+            <div class="article">
+                <t t-raw="0" />
+            </div>
+            <t t-call="reporte_libro_diario.custom_footer_layout" />
+        </template>
+
+        <!--Template header-->
+        <template id="reporte_libro_diario.custom_header_layout">
+            <div class="header">
+                <div class="col-12" align="center">
+<!--                    <h4>-->
+<!--                        <t t-esc="company_name" />-->
+<!--                    </h4>-->
+<!--                    <br />-->
+                    <h4>Libro diario</h4>
+                </div>
+            </div>
+        </template>
+
+        <!--Template footer-->
+        <template id="reporte_libro_diario.custom_footer_layout">
+            <div class="footer">
+                <div class="col-xs-12 pull-right">
+                    <span>Página </span>
+                    <span class="page" />
+                    de
+                    <span class="topage" />
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,434 @@
+<odoo>
+  <data>
+    <record id="novedades_filter_view" model= "ir.ui.view">
+      <field name="name">Novedades</field>
+      <field name="model">pbp.novedades</field>
+      <field name="type">search</field>
+      <field name= "arch" type= "xml">
+        <xpath expr="/search/filter[1]" position="before">
+          <filter string="Pendientes" name="filter_pendiente" domain="[('state', '=', 'pendiente')]"/>
+          <filter string="En borrador" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+          <filter string="Publicadas" name="filter_publicado" domain="[('state', '=', 'publicado')]"/>
+          <filter string="Producto" name="filter_state" domain="[ ]"
+                  context="{'group_by': 'product_id'}" />
+          <filter string="Moneda" name="filter_state" domain="[ ]"
+                  context="{'group_by': 'currency_id'}" />
+          <filter string="Cliente" name="filter_state" domain="[ ]"
+                  context="{'group_by': 'partner_id'}" />
+        </xpath>
+      </field>
+    </record>
+
+    <record id="novedades_pbp_action" model="ir.actions.act_window">
+      <field name="name">Todas las Novedades</field>
+      <field name="res_model">pbp.novedades_pbp</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'edit': 0, 'tree_view_ref': 'pbp.pbp_novedades_pbp_tree'}</field>
+    </record>
+
+    <record id="novedades_action" model="ir.actions.act_window">
+      <field name="name">Novedades</field>
+      <field name="res_model">pbp.novedades</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'edit': 0, 'tree_view_ref': 'pbp.pbp_novedades_tree'}</field>
+    </record>
+
+    <record id="pbp_novedades_tree" model="ir.ui.view">
+      <field name="name">pbp.novedades.tree</field>
+      <field name="model">pbp.novedades</field>
+      <field name="arch" type="xml">
+        <tree string="Channel">
+          <field name="id_vvalores" />
+          <field name="id" string="ID ODOO" />
+          <field name="cliente_id" />
+          <field name="partner_id" />
+          <field name="contrato_id" />
+          <field name="product_id" />
+          <field name="contrato_descripcion" />
+          <field name="contrato_tipo_descripcion" />
+          <field name="fecha_operacion" />
+          <field name="state" />
+          <field name="volumen_gs" sum="Total"/>
+          <field name="total" sum="Total"/>
+          <field name="total_iva" sum="Total"/>
+          <field name="subtotal" sum="Total"/>
+          <field name="subtotal2" invisible="1"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="pbp_novedades_dialog_tree" model="ir.ui.view">
+      <field name="name">pbp.novedades.dialog.tree</field>
+      <field name="model">pbp.novedades</field>
+      <field name="arch" type="xml">
+        <tree string="Channel">
+          <field name="id_pbp" />
+          <field name="id" string="ID ODOO" />
+          <field name="cliente_id" />
+          <field name="partner_id" />
+          <field name="contrato_id" />
+          <field name="product_id" />
+          <field name="fecha_operacion" />
+          <field name="state" invisible="1" />
+          <field name="volumen_gs" />
+          <field name="total" />
+          <field name="total_iva" />
+          <field name="subtotal" />
+          <button
+                  name="marcar_como_inactivo"
+                  string="Marcar como inactivo"
+                  class="oe_highlight"
+                  type="object"
+                  attrs="{'invisible':[('state', '=', 'inactivo')]}"
+          />
+        </tree>
+      </field>
+    </record>
+
+    <record id="pbp_novedades_pbp_tree" model="ir.ui.view">
+      <field name="name">pbp.novedades_pbp.tree</field>
+      <field name="model">pbp.novedades_pbp</field>
+      <field name="arch" type="xml">
+        <tree string="Channel">
+          <field name="id" />
+          <field name="tipo_contrato" />
+          <field name="fecha" />
+          <field name="partner_id" />
+          <field name="product_id" />
+          <field name="es_sistema_tradicional" />
+          <field name="state" />
+          <field name="currency_id" />
+          <field name="total" sum="Total"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="action_generar_facturas_pbp" model="ir.actions.server">
+      <field name="name">Generar facturas</field>
+      <field name="model_id" ref="model_pbp_novedades_pbp"  />
+      <field name="binding_model_id" ref="pbp.model_pbp_novedades_pbp" />
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="type">ir.actions.server</field>
+      <field name="code">action = env['pbp.novedades_pbp'].generar_facturas(records)</field>
+    </record>
+
+    <record id="action_generar_facturas" model="ir.actions.server">
+      <field name="name">Generar facturas</field>
+      <field name="model_id" ref="model_pbp_novedades"  />
+      <field name="binding_model_id" ref="pbp.model_pbp_novedades" />
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="type">ir.actions.server</field>
+      <field name="code">action = env['pbp.novedades_pbp'].generar_facturas(records)</field>
+    </record>
+
+    <record id="action_generar_facturas_sen" model="ir.actions.server">
+      <field name="name">Generar facturas</field>
+      <field name="model_id" ref="model_pbp_novedades_sen"  />
+      <field name="binding_model_id" ref="pbp.model_pbp_novedades_sen" />
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="type">ir.actions.server</field>
+      <field name="code">action = env['pbp.novedades_sen'].generar_facturas(records)</field>
+    </record>
+
+    <record id="action_generar_facturas_series" model="ir.actions.server">
+      <field name="name">Generar facturas</field>
+      <field name="model_id" ref="model_pbp_novedades_series"  />
+      <field name="binding_model_id" ref="pbp.model_pbp_novedades_series" />
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="type">ir.actions.server</field>
+      <field name="code">action = env['pbp.novedades_pbp'].generar_facturas(records)</field>
+    </record>
+
+    <record id="action_generar_asientos_cartera_inversion" model="ir.actions.server">
+      <field name="name">Generar asientos contables</field>
+      <field name="model_id" ref="model_pbp_cartera_inversion"  />
+      <field name="binding_model_id" ref="pbp.model_pbp_cartera_inversion" />
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="type">ir.actions.server</field>
+      <field name="code">action = env['pbp.cartera_inversion'].generar_asientos(records)</field>
+    </record>
+
+    <record id="action_inactivar_novedades" model="ir.actions.server">
+      <field name="name">Marcar como inactivo</field>
+      <field name="model_id" ref="model_pbp_novedades"  />
+      <field name="binding_model_id" ref="pbp.model_pbp_novedades" />
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="type">ir.actions.server</field>
+      <field name="code">action = record.marcar_como_inactivo()</field>
+    </record>
+
+    <record id="action_inactivar_novedades_sen" model="ir.actions.server">
+      <field name="name">Marcar como inactivo</field>
+      <field name="model_id" ref="model_pbp_novedades_sen"  />
+      <field name="binding_model_id" ref="pbp.model_pbp_novedades_sen" />
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="type">ir.actions.server</field>
+      <field name="code">action = record.marcar_como_inactivo()</field>
+    </record>
+
+    <record id="action_inactivar_novedades_series" model="ir.actions.server">
+      <field name="name">Marcar como inactivo</field>
+      <field name="model_id" ref="model_pbp_novedades_series"  />
+      <field name="binding_model_id" ref="pbp.model_pbp_novedades_series" />
+      <field name="binding_view_types">list</field>
+      <field name="state">code</field>
+      <field name="type">ir.actions.server</field>
+      <field name="code">action = record.marcar_como_inactivo()</field>
+    </record>
+
+    <record id="pbp_dialog_box" model="ir.actions.act_window">
+      <field name="name">Mensaje</field>
+      <field name="res_model">pbp.dialog.box</field>
+      <field name="view_mode">form</field>
+    </record>
+
+    <record id="test_model_form" model="ir.ui.view">
+      <field name="name">pbp.dialog.box.form</field>
+      <field name="model">pbp.dialog.box</field>
+      <field name="arch" type="xml">
+        <form class="pbp-dialog">
+          <sheet>
+            <group attrs="{'invisible':[('novedades_publicadas_ids', '=', [])]}">
+              <span class="label label-success">Novedades publicadas</span><br/>
+              <field name="novedades_publicadas_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('novedades_sen_publicadas_ids', '=', [])]}">
+              <span class="label label-success">Novedades SEN publicadas</span><br/>
+              <field name="novedades_sen_publicadas_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_sen_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('novedades_series_publicadas_ids', '=', [])]}">
+              <span class="label label-success">Novedades Sistema Tradicional publicadas</span><br/>
+              <field name="novedades_series_publicadas_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_series_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('cartera_inversion_publicadas_ids', '=', [])]}">
+              <span class="label label-success">Carteras de Inversiones publicadas</span><br/>
+              <field name="cartera_inversion_publicadas_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_cartera_inversion_tree'}" />
+            </group>
+
+            <field name="error_msg" attrs="{'invisible':[('error_msg', '=', '')]}" class="error-msg" />
+
+            <group attrs="{'invisible':[('novedades_sin_partners_ids', '=', [])]}">
+              <span class="label label-error">Novedades sin partners</span><br/>
+              <field name="novedades_sin_partners_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_dialog_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('novedades_sin_productos_ids', '=', [])]}">
+              <span class="label label-error">Novedades sin productos</span><br/>
+              <field name="novedades_sin_productos_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_dialog_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('novedades_sin_cuentas_ids', '=', [])]}">
+              <span class="label label-error">Novedades con productos sin cuentas para facturación</span><br/>
+              <field name="novedades_sin_cuentas_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_dialog_tree'}" />
+            </group>
+            <!--
+            <group>
+              <span class="label label-success">Facturas generadas</span><br/>
+              <field name="invoice_ids" nolabel="1" />
+            </group>
+            -->
+
+            <group attrs="{'invisible':[('novedades_sen_sin_partners_ids', '=', [])]}">
+              <span class="label label-error">Novedades SEN sin partners</span><br/>
+              <field name="novedades_sen_sin_partners_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_sen_dialog_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('novedades_sen_sin_productos_ids', '=', [])]}">
+              <span class="label label-error">Novedades SEN sin productos</span><br/>
+              <field name="novedades_sen_sin_productos_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_sen_dialog_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('novedades_sen_sin_cuentas_ids', '=', [])]}">
+              <span class="label label-error">Novedades SEN con productos sin cuentas para facturación</span><br/>
+              <field name="novedades_sen_sin_cuentas_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_sen_dialog_tree'}" />
+            </group>
+
+            <group attrs="{'invisible':[('novedades_series_sin_partners_ids', '=', [])]}">
+              <span class="label label-error">Novedades Sistema Tradicional sin partners</span><br/>
+              <field name="novedades_series_sin_partners_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_series_dialog_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('novedades_series_sin_productos_ids', '=', [])]}">
+              <span class="label label-error">Novedades Sistema Tradicional sin productos</span><br/>
+              <field name="novedades_series_sin_productos_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_series_dialog_tree'}" />
+            </group>
+            <group attrs="{'invisible':[('novedades_series_sin_cuentas_ids', '=', [])]}">
+              <span class="label label-error">Novedades Sistema Tradicional con productos sin cuentas para facturación</span><br/>
+              <field name="novedades_series_sin_cuentas_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_novedades_series_dialog_tree'}" />
+            </group>
+
+            <group attrs="{'invisible':[('cartera_inversion_fallidas_ids', '=', [])]}">
+              <span class="label label-error">Carteras de Inversión con errores</span><br/>
+              <field name="cartera_inversion_fallidas_ids" nolabel="1" context="{'tree_view_ref' : 'pbp.pbp_cartera_inversion_tree'}" />
+            </group>
+          </sheet>
+          <footer></footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="novedades_sen_filter_view" model= "ir.ui.view">
+      <field name="name">Novedades SEN</field>
+      <field name="model">pbp.novedades_sen</field>
+      <field name="type">search</field>
+      <field name= "arch" type= "xml">
+        <xpath expr="/search/filter[1]" position="before">
+          <filter string="Pendientes" name="filter_pendiente" domain="[('state', '=', 'pendiente')]"/>
+          <filter string="En borrador" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+          <filter string="Publicadas" name="filter_publicado" domain="[('state', '=', 'publicado')]"/>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="novedades_sen_action" model="ir.actions.act_window">
+      <field name="name">Novedades SEN</field>
+      <field name="res_model">pbp.novedades_sen</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'edit': 1, 'tree_view_ref': 'pbp.pbp_novedades_sen_tree'}</field>
+    </record>
+
+    <record id="pbp_novedades_sen_tree" model="ir.ui.view">
+      <field name="name">pbp.novedades_sen.tree</field>
+      <field name="model">pbp.novedades_sen</field>
+      <field name="arch" type="xml">
+        <tree string="Channel" default_order="id desc">
+          <field name="id" />
+          <field name="tipo_contrato_descripcion" />
+          <field name="cod_negociacion" />
+          <field name="instrumento" />
+          <field name="partner_id" />
+          <field name="product_id" />
+          <field name="fecha_emision" />
+          <field name="cantidad_emitida" sum="Total"/>
+          <field name="currency_id" />
+          <field name="state" />
+          <field name="monto_emitido" sum="Total"/>
+          <field name="total_custodia" sum="Total"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="pbp_novedades_sen_dialog_tree" model="ir.ui.view">
+      <field name="name">pbp.novedades_sen.dialog.tree</field>
+      <field name="model">pbp.novedades_sen</field>
+      <field name="arch" type="xml">
+        <tree string="Channel">
+          <field name="id" />
+          <field name="tipo_contrato_descripcion" />
+          <field name="cod_negociacion" />
+          <field name="instrumento" />
+          <field name="partner_id" />
+          <field name="product_id" />
+          <field name="fecha_emision" />
+          <field name="cantidad_emitida" />
+          <field name="currency_id" />
+          <field name="state" invisible="1" />
+          <field name="monto_emitido" />
+          <field name="total_custodia" />
+          <button
+                  name="marcar_como_inactivo"
+                  string="Marcar como inactivo"
+                  class="oe_highlight"
+                  type="object"
+                  attrs="{'invisible':[('state', '=', 'inactivo')]}"
+          />
+        </tree>
+      </field>
+    </record>
+
+    <record id="novedades_series_filter_view" model= "ir.ui.view">
+      <field name="name">Sistema Tradicional</field>
+      <field name="model">pbp.novedades_series</field>
+      <field name="type">search</field>
+      <field name= "arch" type= "xml">
+        <xpath expr="/search/filter[1]" position="before">
+          <filter string="Pendientes" name="filter_pendiente" domain="[('state', '=', 'pendiente')]"/>
+          <filter string="En borrador" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+          <filter string="Publicadas" name="filter_publicado" domain="[('state', '=', 'publicado')]"/>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="novedades_series_action" model="ir.actions.act_window">
+      <field name="name">Sistema Tradicional</field>
+      <field name="res_model">pbp.novedades_series</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'edit': 0, 'tree_view_ref': 'pbp.pbp_novedades_series_tree'}</field>
+    </record>
+
+    <record id="pbp_novedades_series_tree" model="ir.ui.view">
+      <field name="name">pbp.novedades_series.tree</field>
+      <field name="model">pbp.novedades_series</field>
+      <field name="arch" type="xml">
+        <tree string="Channel">
+          <field name="id" />
+          <field name="id_operacion" />
+          <field name="partner_id" />
+          <field name="product_id" />
+          <field name="fecha" />
+          <field name="currency_id" />
+          <field name="state" />
+          <field name="valor_nominal" />
+          <field name="cantidad" />
+          <field name="volumen"  sum="Total"/>
+          <field name="total_arancel" sum="Total"/>
+          <field name="total" sum="Total"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="pbp_novedades_series_dialog_tree" model="ir.ui.view">
+      <field name="name">pbp.novedades_series.dialog.tree</field>
+      <field name="model">pbp.novedades_series</field>
+      <field name="arch" type="xml">
+        <tree string="Channel">
+          <field name="id" />
+          <field name="id_operacion" />
+          <field name="tipo_contrato_descripcion" />
+          <field name="partner_id" />
+          <field name="product_id" />
+          <field name="fecha" />
+          <field name="currency_id" />
+          <field name="state" invisible="1" />
+          <field name="total" />
+          <button
+                  name="marcar_como_inactivo"
+                  string="Marcar como inactivo"
+                  class="oe_highlight"
+                  type="object"
+                  attrs="{'invisible':[('state', '=', 'inactivo')]}"
+          />
+        </tree>
+      </field>
+    </record>
+
+    <menuitem id="novedades_menu_root" name="Novedades">
+      <menuitem id="novedades_first_level_menu" name="Novedades" sequence="1">
+        <menuitem id="novedades_pbp_menu_action" action="novedades_pbp_action" sequence="1" />
+        <menuitem id="novedades_menu_action" action="novedades_action" sequence="2" />
+        <menuitem id="novedades_series_menu_action" action="novedades_series_action" sequence="3" />
+        <menuitem id="gastos_administrativos_menu_action" action="gastos_administrativos_act_window" sequence="4" />
+        <menuitem id="transferencia_cartera_menu_action" action="transferencia_cartera_act_window" sequence="5" />
+        <!--menuitem name="Generar facturas" id="menu_generar_facturas" action="action_generar_facturas_pbp" sequence="5" /-->
+        <menuitem id="wizard_generar_facturas_menu_act" name="Generar Facturas" action="wizard_generar_facturas_action" sequence="102"/>
+      </menuitem>
+      <menuitem id="novedades_sen_first_level_menu" name="Novedades SEN" sequence="2">
+        <menuitem id="novedades_sen_menu_action" action="novedades_sen_action" sequence="1" />
+        <menuitem name="Generar facturas" id="menu_generar_facturas_sen" action="action_generar_facturas_sen" sequence="2" />
+      </menuitem>
+      <menuitem id="cartera_inversion_first_level_menu" name="Carteras de Inversión" sequence="3">
+        <menuitem id="cartera_inversion_menu_action" action="cartera_inversion_action" sequence="1" />
+        <menuitem id="grupo_cartera_inversion_menu_action" action="grupo_cartera_inversion_action" sequence="2" />
+        <menuitem name="Generar asientos contables" id="menu_generar_asientos_cartera_inversion" action="action_generar_asientos_cartera_inversion" sequence="3" />
+      </menuitem>
+      <menuitem id="novedades_calculo_fondo_first_level_menu" name="Fondo en Garantía" sequence="4">
+        <menuitem name="Fondo de Garantías" id="menu_fondo_de_garantias" action="fondo_garantias_periodos_act_window" sequence="1" />
+        <menuitem id="novedades_calculo_fondo_menu_action" name="Cálculo de Fondo en Garantía" action="novedades_calculo_fondo_action" sequence="2" />
+        <menuitem name="Inversión Fondo de Garantías" id="menu_inversion_fondo_garantias" action="inversion_fondo_garantias_action" sequence="1" />
+
+      </menuitem>
+    </menuitem>
+  </data>
+</odoo>

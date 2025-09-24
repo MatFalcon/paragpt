@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- asientos_dif_cambios.wizard_move action window -->
+    <record id="wizard_move_action_dif" model="ir.actions.act_window">
+        <field name="name">Asiento Contables</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">asientos_dif_cambios.wizard_move</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+
+    <!-- asientos_dif_cambios.wizard_move form view -->
+    <record id="wizard_move_view_form_dif" model="ir.ui.view">
+        <field name="name">Asiento Contables</field>
+        <field name="model">asientos_dif_cambios.wizard_move</field>
+        <field name="arch" type="xml">
+            <form string="Asientos por diferencia de cambio">
+                <sheet>
+                    <group string="Crear Asiento">
+                        <group>
+                            <field name="fecha_fin"/>
+                            <field name="currency_rate_compra"/>
+                            <field name="currency_rate_venta"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button name="create_move" type="object" string="Confirmar" class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel" class="btn-danger"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="wizard_move_menu_act_dif_Cambios" name="Asientos por diferencia de cambios" parent="account.menu_finance_reports" action="wizard_move_action_dif" sequence="102"/>
+
+</odoo>

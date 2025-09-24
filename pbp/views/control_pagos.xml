@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="control_pagos_view_tree" model="ir.ui.view">
+            <field name="name">control_pagos_view_tree</field>
+            <field name="model">pbp.control_pagos</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false">
+                    <field name="fecha"/>
+                    <field name="emisor_id"/>
+                    <field name="miembro_compensador_id"/>
+                    <field name="importe_usd" sum="Total USD"/>
+                    <field name="importe_pyg" sum="Total PYG"/>
+                    <!--field name="currency_id"/-->
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="control_pagos_search_view">
+            <field name="name">control_pagos_search_view</field>
+            <field name="model">pbp.control_pagos</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="miembro_compensador_id"/>
+                    <field name="currency_id"/>
+                    <field name="emisor_id"/>
+                    <filter string="Moneda" name="filter_currency" domain="[ ]"
+                            context="{'group_by': 'currency_id'}" />
+                    <filter string="Con TNA" name="filter_con_tna" domain="[('emisor_id.id_cliente_pbp','=',37)]"/>
+                    <filter string="Sin TNA" name="filter_sin_tna" domain="[('emisor_id.id_cliente_pbp','!=',37)]"/>
+                    <!--filter string="Motivo" name="filter_state" domain="[ ]"
+                            context="{'group_by': 'motivo'}" /-->
+                </search>
+            </field>
+        </record>
+
+        <record id="control_pagos_act_window" model="ir.actions.act_window">
+            <field name="name">Control de Pagos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.control_pagos</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_filter_sin_tna': 1}</field>
+        </record>
+
+        <menuitem id="control_pagos_menu_action" action="control_pagos_act_window" sequence="2" parent="liquidaciones_menu_root"/>
+
+
+    </data>
+</odoo>

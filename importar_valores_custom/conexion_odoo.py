@@ -14,13 +14,13 @@ XMLRPC_CONFIG = {
     'USER': config['xmlrpc']['user'],
     'PWD': config['xmlrpc']['pwd'],
 }
-# XMLRPC_CONFIG = {
-#     'HOST': config['xmlrpctest']['host'],
-#     'PORT': config['xmlrpctest']['port'],
-#     'DB': config['xmlrpctest']['db'],
-#     'USER': config['xmlrpctest']['user'],
-#     'PWD': config['xmlrpctest']['pwd'],
-# }
+#XMLRPC_CONFIG = {
+ #    'HOST': config['xmlrpctest']['host'],
+ #    'PORT': config['xmlrpctest']['port'],
+ #    'DB': config['xmlrpctest']['db'],
+ #    'USER': config['xmlrpctest']['user'],
+ #    'PWD': config['xmlrpctest']['pwd'],
+ #}
 # XMLRPC_CONFIG = {
 #     'HOST': 'https://modarapsodia.odoo.com',
 #     'PORT': 443,

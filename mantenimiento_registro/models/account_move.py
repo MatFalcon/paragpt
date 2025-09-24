@@ -21,14 +21,14 @@ class AccountMoveLine(models.Model):
 
     @api.onchange('product_id')
     def _onchange_product_id_custom(self):
-        #super(AccountMoveLine, self)._onchange_product_id()
+        super(AccountMoveLine, self)._onchange_product_id()
         for record in self:
             record.update_unit_price()
 
     @api.onchange('product_uom_id')
     def _onchange_uom_id(self):
         ''' Recompute the 'price_unit' depending of the unit of measure. '''
-        #super(AccountMoveLine, self)._onchange_uom_id()
+        super(AccountMoveLine, self)._onchange_uom_id()
         for record in self:
             record.update_unit_price()
 

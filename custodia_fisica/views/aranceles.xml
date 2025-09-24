@@ -105,5 +105,13 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <!-- Menus -->
+        <menuitem id="menu_aranceles_custodia_fisica" name="Aranceles de Custodia Física"
+            parent="account.menu_finance_configuration" sequence="20">
+            <menuitem id="menu_aranceles_cantidad" name="Aranceles por Cantidad"
+                action="aranceles_cantidad_action_windows" />
+            <menuitem id="menu_aranceles_monto" name="Aranceles por Monto"
+                action="aranceles_monto_action_windows" />
+        </menuitem>
     </data>
 </odoo>

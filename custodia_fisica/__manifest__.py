@@ -54,20 +54,21 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '17.0.0.0',
+    'version': '17.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contacts', 'account_accountant', 'mantenimiento_registro','bva_pbp'],
+    'depends': ['base', 'contacts', 'account_accountant', 'mantenimiento_registro'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/views.xml',
+        'views/templates.xml',
         'views/product.xml',
         'views/res_partner.xml',
         'views/aranceles.xml',
         'views/custodia_fisica.xml',
         'views/wizard.xml',
-        'views/menus.xml',
         'data/data.xml',
         'data/cron.xml',
     ],

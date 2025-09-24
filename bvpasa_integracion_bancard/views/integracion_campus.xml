@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="integracion_campus_action_view">
+        <field name="name">Integración Campus
+        </field>
+        <field name="res_model">bvpasa_integracion_campus</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            </p>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="integracion_campus_tree_view">
+        <field name="name">integracion_campus_tree_view</field>
+        <field name="model">bvpasa_integracion_campus</field>
+        <field name="arch" type="xml">
+            <tree string="Integración Campus" create="0">
+                <field name="fecha_transaccion"/>
+                <field name="partner_id"/>
+                <field name="curso_ids" widget="many2many_tags"/>
+                <field name="monto"/>
+                <field name="currency_id"/>
+                <field name="proceso_id"/>
+                <field name="ticket_number"/>
+                <field name="id_pago"/>
+                <field name="estado"/>
+                <field name="bancard_id"/>
+                <field name="invoice_id"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="integracion_campus_search_view">
+        <field name="name">integracion_campus_search_view</field>
+        <field name="model">bvpasa_integracion_campus</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="curso_ids"/>
+                <field name="monto"/>
+                <field name="currency_id"/>
+                <field name="proceso_id"/>
+                <field name="ticket_number"/>
+                <field name="id_pago"/>
+                <field name="estado"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_root_campus" name="Integración Campus" sequence="110" parent="account.menu_finance_receivables"
+              action="integracion_campus_action_view"/>
+
+</odoo>

@@ -2,7 +2,7 @@ from configparser import ConfigParser
 import datetime
 from decimal import Decimal
 import os
-
+import time
 from conexion_sql import conectar_base_sql, conectar_base_elejir
 
 from conexion_odoo import OdooXMLRPCClient
@@ -15,7 +15,8 @@ config.read('config.ini')
 xr = OdooXMLRPCClient()
 xr.setup()
 # Obtener la fecha actual
-today = datetime.datetime.now()
+# Definir la fecha manualmente
+today = datetime.datetime(year=2025, month=6, day=5)  # Puedes modificar año, mes y día según necesites
 
 # Obtener el primer día de mayo
 first_day_may = today.replace(month=10, day=1)
@@ -26,16 +27,13 @@ from_date = datetime.datetime.combine(first_day_may, datetime.time.min)
 # Establecer la fecha de finalización como la fecha y hora actuales
 to_date = today
 
-
-from_date = datetime.datetime(2024, 1, 1, 0, 0, 0)
-to_date = datetime.datetime(2025, 10, 1, 0, 0, 0)
-
 # Formatear las fechas en el formato deseado ('YYYY-MM-DD HH:MM:SS')
 from_date_str = from_date.strftime('%Y-%m-%d %H:%M:%S')
 to_date_str = to_date.strftime('%Y-%m-%d %H:%M:%S')
-# from_date_str = "2024-01-01 00:00:00"
-# to_date_str = "2025-03-27 10:12:44"
+
 # Imprimir las fechas para verificar
+from_date_str = '2025-08-08 00:00:00'
+to_date_str = '2025-08-08 23:59:59'
 print("Fecha de inicio:", from_date_str)
 print("Fecha de finalización:", to_date_str)
 
@@ -82,7 +80,7 @@ def obtener_sen_desde_BD(table):
 
     conn = conectar_base_elejir("Bvpasa_Clearing")
     cursor = conn.cursor()
-
+    
     cursor.execute(
         'SELECT DISTINCT '
         f'Productos.{table}.*, '
@@ -103,13 +101,13 @@ def obtener_sen_desde_BD(table):
         'LEFT JOIN Personas.Emisor ON Productos.Emision.EmisorID = Personas.Emisor.EmisorID '
         'LEFT JOIN Productos.vReporteSeries ON Productos.vReporteSeries.EmisionCodigo = Productos.Emision.EmisionCodigo '
         'LEFT JOIN PersonasGeneral.Persona ON Personas.Emisor.PersonaID = PersonasGeneral.Persona.PersonaID '  # JOIN para obtener el CuitCuil
-        f"WHERE Productos.{table}.{date_field} >= '{from_date}' AND Productos.{table}.{date_field} <= '{to_date}' "
+        f"where Productos.vContrato.ContratoDescripcion = 'PYBAM04F1569'"
+        # f"WHERE Productos.SerieRentaFija.FechaEmisionSerie >= '2025-08-08 00:00' AND Productos.SerieRentaFija.FechaEmisionSerie <= '2025-08-08 23:59'"
         f'ORDER BY Productos.{table}.{date_field} DESC;'
     )
 
     columns = [column[0] for column in cursor.description]
     rows = cursor.fetchall()
-
     results = []
     objects = []
     for row in rows:
@@ -125,6 +123,7 @@ def obtener_sen_desde_BD(table):
             date_field += 'FondoInversion'
 
         fecha_emision = r.get('FechaEmisionSerie')
+        print("FECHA EMISION TESt", fecha_emision)
         if not fecha_emision:
             fecha_emision = r.get('FechaEmisionFondoInversion')
 
@@ -139,8 +138,10 @@ def obtener_sen_desde_BD(table):
 
         if fecha_vencimiento.year > fecha_emision.year:
             if fecha_vencimiento.year == 2023:
+                print("FECHA VENCIMIENTO 2023", fecha_vencimiento.year,fecha_emision.year)
                 fecha_emision = datetime.date(fecha_vencimiento.year, 1, 1)
             elif fecha_vencimiento.year > 2023:
+                print("FECHA EMISION MAYOR A 2023", fecha_vencimiento.year,fecha_emision.year)
                 fecha_emision = False
 
         fecha_vencimiento = fecha_vencimiento.strftime('%Y-%m-%d')
@@ -148,11 +149,14 @@ def obtener_sen_desde_BD(table):
             fecha_emision = fecha_emision.strftime('%Y-%m-%d')
 
         inicio_colocacion = r.get('FechaColocacion')  # Obtener FechaColocacion de Productos.vReporteSeries
+        print("INICIO COLOCACION 1", inicio_colocacion, fecha_emision)
+
         if inicio_colocacion:
             inicio_colocacion = inicio_colocacion.split("-")
             inicio_colocacion = datetime.datetime(int(inicio_colocacion[0]), int(inicio_colocacion[1]),int(inicio_colocacion[2]), 0, 0, 0)
             inicio_colocacion = inicio_colocacion.strftime('%Y-%m-%d')
-
+        inicio_colocacion = fecha_emision if fecha_emision else inicio_colocacion
+        print("INICIO COLOCACION 2", inicio_colocacion, fecha_emision)
         obj = {
             'emisor_descripcion': r.get('EmisorDescripcion'),
             'emisor_id': int(r.get('EmisorID')),
@@ -174,8 +178,8 @@ def obtener_sen_desde_BD(table):
             'inicio_colocacion': inicio_colocacion,
             'ruc': r.get('CuitCuil')
         }
-        print(obj)
         objects.append(obj)
+    print("OBJECTS",len(objects))
     return objects
 
 

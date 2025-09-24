@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- tree view -->
+        <record id="emisiones_tree_view" model="ir.ui.view">
+            <field name="name">emisiones.tree.view</field>
+            <field name="model">emisiones.emisiones_custodia</field>
+            <field name="arch" type="xml">
+                <tree string="Emisiones y Custodia">
+                    <header>
+                        <button string="Facturar" type="object" name="button_facturar" />
+                        <!-- <button string="Confirmar" type="object" name="button_confirmar" attrs="{'invisible':[('state','!=','draft')]}" class="oe_highlight"/>
+                        <button string="Cambiar a borrador" type="object" name="button_borrador" attrs="{'invisible':[('state','!=','cancel')]}"/> -->
+                    </header>
+                    <field name="partner_id" />
+                    <field name="codigo_emisor" />
+                    <field name="currency_id" />
+                    <field name="serie_id" />
+                    <field name="monto_moneda_original" />
+                    <field name="tc_cierre_mes" />
+                    <field name="monto_pyg" />
+                    <field name="instrumento_serie" />
+                    <field name="tasa_instrumento" />
+                    <field name="fecha_inicio_colocacion" />
+                    <field name="fecha_vencimiento" />
+                    <field name="plazo" />
+                    <field name="fecha_reporte" force_save="1"/>
+                    <field name="dias_reporte" />
+                    <field name="custodia_tasa_arancel" />
+                    <field name="custodia_arancel" />
+                    <field name="custodia_iva" />
+                    <field name="custodia_arancel_pyg" />
+                    <field name="custodia_total" />
+                    <field name="emision_tasa_arancel" />
+                    <field name="emision_arancel" />
+                    <field name="emision_iva" />
+                    <field name="emision_arancel_pyg" />
+                    <field name="emision_total" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- formulario -->
+        <record id="emisiones_form_view" model="ir.ui.view">
+            <field name="name">emisiones.form.view</field>
+            <field name="model">emisiones.emisiones_custodia</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Facturar" type="object" name="button_facturar" class="oe_highlight" attrs="{'invisible':[('state','in',['draft', 'cancel'])]}" />
+                        <button string="Confirmar" type="object" name="button_confirmar" attrs="{'invisible':[('state','!=','draft')]}" class="oe_highlight" />
+                        <button string="Cambiar a borrador" type="object" name="button_borrador" attrs="{'invisible':[('state','in',['draft', 'cancel'])]}" />
+                        <!-- <button string="Cancelar" type="object" name="action_cancelar" attrs="{'invisible':[('payment_state','!=','not_paid')]}" /> -->
+
+                        <!-- <field name="invoice_ids" invisible="True" />
+                        <field name="totalmente_facturado" invisible="True" />
+                        <button string="Marcar como pagado" type="object" name="action_marcar_pagado" attrs="{'invisible':[('state','in',['cancel','pagado'])]}" />
+                        <field name="vencida" invisible="True" />-->
+
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <!-- <div class="oe_button_box" name="button_box">
+                            <button name="button_facturar" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                                <field name="invoice_count" widget="statinfo" string="Facturas" />
+                            </button>
+                        </div> -->
+
+                        <group>
+                            <group>
+                                <field name="serie_id" options="{'no_edit':True,'no_open':True, 'no_create': True}"/>
+                                <field name="partner_id" />
+                                <field name="codigo_emisor" force_save="1"/>
+                                <field name="monto_moneda_original" />
+                                <field name="currency_id" />
+                                <field name="tc_cierre_mes" />
+                                <field name="monto_pyg" />
+                            </group>
+                            <group>
+                                <field name="fecha_inicio_colocacion" />
+                                <field name="fecha_vencimiento" />
+                                <field name="fecha_reporte" force_save="1" readonly="1"/>
+                                <field name="plazo" />
+                                <field name="dias_reporte" readonly="1" force_save="1"/>
+                                <field name="instrumento_serie" />
+                                <field name="tasa_instrumento" />
+                            </group>
+                        </group>
+
+
+                        <group>
+                            <group string="Emision">
+                                <field name="product_emision_id" string="Producto Emision" />
+                                <field name="emision_tasa_arancel" t-options="{'widget': 'float', 'precision': 5}" />
+                                <field name="emision_arancel" />
+                                <field name="emision_iva" />
+                                <field name="emision_total" />
+                                <field name="emision_arancel_pyg" />
+                            </group>
+
+                            <group string="Custodia">
+                                <field name="product_custodia_id" string="Producto Custodia" />
+                                <field name="custodia_tasa_arancel" type="float" />
+                                <field name="custodia_arancel" />
+                                <field name="custodia_iva" />
+                                <field name="custodia_total" />
+                                <field name="custodia_arancel_pyg" />
+                            </group>
+                        </group>
+
+                        <group string="Totales">
+                            <group>
+                                <field name="total_emision_custodia" />
+                            </group>
+                            <group>
+                                <field name="total_emision_custodia_pyg" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Botones de accion -->
+        <record id="emisiones_action_server_facturar" model="ir.actions.server">
+            <field name="name">Facturar</field>
+            <field name="binding_model_id" ref="emisiones_custodia.model_emisiones_emisiones_custodia" />
+            <field name="model_id" ref="emisiones_custodia.model_emisiones_emisiones_custodia" />
+            <field name="state">code</field>
+            <field name="code">action=records.button_facturar()</field>
+        </record>
+
+
+        <!-- act window -->
+        <record id="emisiones_custodia_action_window" model="ir.actions.act_window">
+            <field name="name">Emisiones y Custodias</field>
+            <field name="res_model">emisiones.emisiones_custodia</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Agregamos el menu en la parte superior, en el menu de contabilidad -->
+        <menuitem id="menu_emisiones_custodia" name="Emisión y Custodia" action="emisiones_custodia_action_window"
+                  parent="account.menu_finance_entries" sequence="95" />
+
+    </data>
+</odoo>

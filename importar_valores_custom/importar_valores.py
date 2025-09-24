@@ -1,16 +1,12 @@
 import os
 import datetime
-import jaydebeapi
 import dateutil.relativedelta
 from decimal import Decimal
-from jpype.types import JDouble, JInt
 from configparser import ConfigParser
 
-from pandas.core.interchange.dataframe_protocol import DataFrame
 
 from conexion_odoo import OdooXMLRPCClient
 from conexion_sql import conectar_base_sql, conectar_base_elejir
-import pandas as pd
 os.chdir(os.path.dirname(__file__))
 config = ConfigParser()
 config.read('config.ini')
@@ -169,9 +165,7 @@ def get_registro_valores():
 
 def create_novedades(rows):
     print("Entra en create_novedades")
-    df = pd.DataFrame(rows)
-    df.to_csv("Novedades.csv", index=False)
-    df.to_excel("Novedades.xlsx", index=False)
+
     print("Se genero el csv y excel")
     novedades = []
     for row in rows:
@@ -371,8 +365,8 @@ def create_novedad(row):
             #print(type(obj[key]))
         print(obj)
 
-        #id = xr.execute_kw('pbp.novedades', 'create', [obj])
-        #print(f'NOVEDAD CREATED: {id} {obj}')
+        id = xr.execute_kw('pbp.novedades', 'create', [obj])
+        print(f'NOVEDAD CREATED: {id} {obj}')
 
 
 

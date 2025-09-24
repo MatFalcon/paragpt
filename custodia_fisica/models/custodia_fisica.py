@@ -4,7 +4,7 @@ from odoo import models, fields, api, exceptions, _
 import datetime
 import requests
 import json
-#from msal import PublicClientApplication
+from msal import PublicClientApplication
 import logging
 _logger = logging.getLogger(__name__)
 

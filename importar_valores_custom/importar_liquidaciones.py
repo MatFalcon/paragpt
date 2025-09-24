@@ -26,6 +26,7 @@ fecha_vencimiento = today.replace(hour=0, minute=0)
 fecha_vencimiento = fecha_vencimiento.strftime('%Y-%m-%d %H:%M')
 
 
+
 LOTE_ENVIO = 200
 
 
@@ -87,12 +88,13 @@ def obtener_liquidaciones_desde_BD():
         results.append(dict(zip(columns, values)))
 
     for r in results:
+        
         obj = {
-            'id_pbp': r.get('ActivoID'),
-            'moneda_id': r.get('MonedaID'),
-            'cliente_id': r.get('PersonaID'),
-            'monto': r.get('TotalSerie'),
-            'fecha_vencimiento': r.get('EventoCorporativoFecha').strftime('%Y-%m-%d') if r.get('EventoCorporativoFecha') else False,
+            'id_pbp': int(r.get('ActivoID')),
+            'moneda_id': int(r.get('MonedaID')),
+            'cliente_id': int(r.get('PersonaID')),
+            'monto': float(r.get('TotalSerie')),
+            'fecha_vencimiento': r.get('EventoCorporativoFecha') if r.get('EventoCorporativoFecha') else False,
             'serie': r.get('ActivoDescripcion'),
         }
         objects.append(obj)

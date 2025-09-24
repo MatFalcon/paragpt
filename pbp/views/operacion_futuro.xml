@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="operacion_futuro_view_tree" model="ir.ui.view">
+            <field name="name">operacion_futuro_view_tree</field>
+            <field name="model">pbp.operacion_futuro</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="operacion_cartera_id"/>
+                    <field name="miembro_compensador_id"/>
+                    <field name="cuenta_registro_cod"/>
+                    <field name="fecha"/>
+                    <field name="contrato"/>
+                    <field name="precio"/>
+                    <field name="cantidad"/>
+                    <field name="importe"/>
+                    <field name="volumen"/>
+                    <field name="tipo_operacion"/>
+                    <field name="hora_ingreso"/>
+                    <field name="proceso_descripcion"/>
+                    <field name="currency_id"/>
+                    <field name="mercado"/>
+                    <field name="fecha_liquidacion_contrato"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="operacion_futuro_search_view">
+            <field name="name">operacion_futuro_search_view</field>
+            <field name="model">pbp.operacion_futuro</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="miembro_compensador_id"/>
+                    <field name="cuenta_registro_cod"/>
+                    <field name="contrato"/>
+                    <field name="tipo_operacion"/>
+                    <field name="proceso_descripcion"/>
+                    <field name="mercado"/>
+                    <field name="producto_descripcion"/>
+                    <field name="currency_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="operacion_futuro_act_window" model="ir.actions.act_window">
+            <field name="name">Operaciones a Futuro</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pbp.operacion_futuro</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="operacion_futuro_menu_action" action="operacion_futuro_act_window" sequence="1" parent="liquidaciones_menu_root"/>
+
+    </data>
+</odoo>

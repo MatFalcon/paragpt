@@ -13,6 +13,12 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- Agregamos el menu en la parte superior, en el menu de configuracion de contabilidad -->
+    <menuitem id="mantenimiento_registro" name="Mantenimiento" parent="account.menu_finance_configuration" sequence="10">
+        <menuitem id="mantenimiento_jornales" name="Jornales" action="jornales" />
+        <menuitem id="mantenimiento_lista_precios" name="Lista de Precios" action="lista_precios" />
+    </menuitem>
+
 
     <!-- Vista tree de jornales -->
     <record model="ir.ui.view" id="jornales_tree_view">
