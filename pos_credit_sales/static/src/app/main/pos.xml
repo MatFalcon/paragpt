@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- Extensión de la pantalla de pagos para agregar botones de crédito -->
+    <t t-name="pos_payment_term.PaymentTermButton" t-inherit="point_of_sale.PaymentScreenButtons" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('payment-buttons')]" position="inside">
+            <!-- Botón para venta a crédito -->
+            <button style="width: 100%;" class="button wk-payment-term btn btn-light py-3 text-start rounded-0 border-bottom"
+                    t-att-class="{
+                        'btn-success': !isCurrentOrderCredit,
+                        'btn-warning': isCurrentOrderCredit
+                    }"
+                    t-on-click="selectCreditSale"
+                    t-if="!isCurrentOrderCredit">
+                    <i class="fa fa-credit-card"/>
+                    <span>Venta a Crédito</span>
+                </button>
+
+                <!-- Botón para cancelar crédito si está activo -->
+                <button 
+                    class="btn btn-cancel-credit btn-outline-warning"
+                    t-on-click="cancelCreditSale"
+                    t-if="isCurrentOrderCredit">
+                    <i class="fa fa-times"/>
+                    <span>Cancelar Crédito</span>
+                </button>
+        </xpath>
+    </t>
+
+    <!-- Vista de Estado de Crédito -->
+    <t t-name="pos_credit_sales.CreditStatusInfo" t-inherit="point_of_sale.PaymentScreenStatus" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('payment-status-container')]" position="after">
+            <t t-if="isCurrentOrderCredit">
+                <div class="payment-status-container credit-status-container" style="background-color: #e3f2fd; border-left: 4px solid #2196f3;">
+                    <div>
+                        <div class="payment-status-remaining" style="font-size: 22px; color: #1976d2;">
+                            <span class="label">
+                                <i class="fa fa-credit-card me-2"/>
+                                VENTA A CRÉDITO
+                            </span>
+                        </div>
+                        
+                        <!-- Información del Término de Pago -->
+                        <div class="payment-status-total-due" t-if="creditSummary">
+                            <span class="label">Plazo de Pago</span>
+                            <span class="amount" style="font-weight: bold; color: #1976d2;">
+                                <t t-esc="creditSummary.payment_term"/>
+                            </span>
+                        </div>
+                        
+                        <!-- Información del Cliente -->
+                        <div class="payment-status-total-due" t-if="creditSummary">
+                            <span class="label">Cliente</span>
+                            <span class="amount">
+                                <t t-esc="creditSummary.customer"/>
+                            </span>
+                        </div>
+                        
+                        <!-- Monto de la Venta -->
+                        <div class="payment-status-total-due" t-if="creditSummary">
+                            <span class="label">Monto Total</span>
+                            <span class="amount" style="font-weight: bold; font-size: 16px;">
+                                <t t-esc="creditSummary.formatted_amount"/>
+                            </span>
+                        </div>
+                        
+                        <!-- Información de Límite de Crédito del Cliente -->
+                        <t t-if="props.order.partner_id">
+                            <div class="payment-status-total-due" style="border-top: 1px solid #bbdefb; margin-top: 8px; padding-top: 8px;">
+                                <span class="label">Límite de Crédito</span>
+                                <span class="amount" t-att-style="getCreditLimitStyle()">
+                                    <t t-if="props.order.partner_id.credit_limit > 0">
+                                        <t t-esc="formatCurrency(props.order.partner_id.credit_limit)"/>
+                                    </t>
+                                    <t t-else="">
+                                        Sin límite configurado
+                                    </t>
+                                </span>
+                            </div>
+                            
+                            <div class="payment-status-total-due">
+                                <span class="label">Crédito Usado</span>
+                                <span class="amount">
+                                    <t t-esc="formatCurrency(props.order.partner_id.credit || 0)"/>
+                                </span>
+                            </div>
+                            
+                            <div class="payment-status-total-due">
+                                <span class="label">Crédito Disponible</span>
+                                <span class="amount" t-att-style="getAvailableCreditStyle()">
+                                    <t t-if="props.order.partner_id.credit_limit > 0">
+                                        <t t-esc="formatCurrency(getAvailableCredit())"/>
+                                    </t>
+                                    <t t-else="">
+                                        Ilimitado
+                                    </t>
+                                </span>
+                            </div>
+                            
+                            <!-- Alerta si excede el límite -->
+                            <t t-if="isCreditLimitExceeded()">
+                                <div class="payment-status-total-due" style="background-color: #ffebee; color: #c62828; border-radius: 4px; padding: 4px 8px; margin-top: 4px;">
+                                    <span class="label">
+                                        <i class="fa fa-exclamation-triangle me-1"/>
+                                        LÍMITE EXCEDIDO
+                                    </span>
+                                    <span class="amount" style="font-weight: bold;">
+                                        <t t-esc="formatCurrency(getCreditExcess())"/>
+                                    </span>
+                                </div>
+                            </t>
+                        </t>
+                        
+                        <!-- Si no hay cliente seleccionado -->
+                        <t t-else="">
+                            <div class="payment-status-total-due" style="border-top: 1px solid #bbdefb; margin-top: 8px; padding-top: 8px; color: #ff9800;">
+                                <span class="label">
+                                    <i class="fa fa-user-plus me-1"/>
+                                    Sin Cliente
+                                </span>
+                                <span class="amount">
+                                    Seleccione un cliente
+                                </span>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

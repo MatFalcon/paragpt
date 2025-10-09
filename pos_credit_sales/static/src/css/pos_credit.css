@@ -1,0 +1,337 @@
+/* ==========================================================================
+   POS Credit Sales Styles
+   ========================================================================== */
+
+/* Payment Term Popup Styles */
+.payment-term-popup {
+    width: 600px;
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-term-popup .popup-header {
+    background: #714B67;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px 8px 0 0;
+}
+
+.payment-term-popup .popup-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+
+}
+
+.payment-term-popup .popup-body {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.payment-term-popup .search-container {
+    position: relative;
+}
+
+.payment-term-popup .search-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.payment-term-popup .search-input:focus {
+    outline: none;
+    border-color: #714B67;
+    box-shadow: 0 0 0 3px rgba(55, 90, 127, 0.1);
+}
+
+/* Payment Terms List */
+.payment-terms-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.payment-terms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.payment-term-item {
+    position: relative;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.payment-term-item:hover {
+    border-color: #714B67;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.payment-term-item.selected {
+    border-color: #28a745;
+    background: #f8fff9;
+    box-shadow: 0 2px 12px rgba(40, 167, 69, 0.2);
+}
+
+.payment-term-item.immediate {
+    border-left: 4px solid #ffc107;
+}
+
+.term-main-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.term-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.term-days {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.75rem;
+    background: #714B67;
+    color: white;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.payment-term-item.immediate .term-days {
+    background: #ffc107;
+    color: #333;
+}
+
+.payment-term-item.selected .term-days {
+    background: #28a745;
+}
+
+.term-description {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.selection-indicator {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    color: #28a745;
+    font-size: 1.2rem;
+}
+
+/* No Terms Message */
+.no-terms-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.no-terms-message i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+}
+
+/* Selected Term Info */
+.selected-term-info {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #28a745;
+}
+
+.selected-term-info h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1rem;
+}
+
+/* Popup Footer */
+.payment-term-popup .popup-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    border-radius: 0 0 8px 8px;
+}
+
+.popup-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.popup-buttons .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    min-width: 100px;
+    transition: all 0.3s ease;
+}
+
+/* Credit Sale Button */
+.btn-credit-sale {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-credit-sale:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-cancel-credit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    background-color: #017e84;
+    color: white;
+    border-color:#017e84;
+}
+.btn-cancel-credit:hover{
+    background-color: #374151;
+    color: white;
+    border-color:#374151;
+}
+
+
+/* Credit Order Summary */
+.credit-order-summary {
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #17a2b8;
+}
+
+.credit-summary-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.credit-summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.credit-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.credit-detail .label {
+    font-weight: 600;
+    color: #555;
+}
+
+.credit-detail .value {
+    color: #333;
+    font-weight: 500;
+}
+
+/* Payment Line Credit Indicator */
+.paymentline.credit-payment {
+    background: #f8fff9;
+    border-left: 4px solid #28a745;
+}
+
+.credit-indicator {
+    margin-left: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: #28a745;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .payment-term-popup {
+        width: 95vw;
+        max-height: 90vh;
+    }
+    
+    .payment-term-item {
+        padding: 0.75rem;
+    }
+    
+    .term-main-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .popup-buttons {
+        flex-direction: column;
+    }
+    
+    .popup-buttons .btn {
+        width: 100%;
+    }
+}
+
+/* Animation for popup */
+.payment-term-popup {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading state */
+.payment-terms-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.payment-terms-loading i {
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista formulario de termino de pago - Agregar campos POS -->
+    <record id="view_payment_term_form_pos" model="ir.ui.view">
+        <field name="name">account.payment.term.form.pos</field>
+        <field name="model">account.payment.term</field>
+        <field name="inherit_id" ref="account.view_payment_term_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='note']" position="after">
+                <separator string="Configuración POS"/>
+                <group name="pos_config" col="2">
+                    <field name="available_in_pos"/>
+                    <div/>
+                    <field name="pos_config_ids" 
+                           widget="many2many_tags"
+                           invisible="available_in_pos == False"
+                           placeholder="Configuraciones POS que pueden usar este término"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista tree de terminos de pago - Mostrar disponibilidad POS -->
+    <record id="view_payment_term_tree_pos" model="ir.ui.view">
+        <field name="name">account.payment.term.tree.pos</field>
+        <field name="model">account.payment.term</field>
+        <field name="inherit_id" ref="account.view_payment_term_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="available_in_pos" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Accion para terminos de pago POS -->
+    <record id="action_payment_term_pos" model="ir.actions.act_window">
+        <field name="name">Términos de Pago POS</field>
+        <field name="res_model">account.payment.term</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('available_in_pos', '=', True)]</field>
+        <field name="context">{'default_available_in_pos': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                ¡Configura los términos de pago para el POS!
+            </p>
+            <p>
+                Los términos de pago disponibles en POS permitirán a los empleados
+                seleccionar diferentes plazos para las ventas a crédito.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu para terminos de pago POS -->
+    <menuitem
+        id="menu_payment_term_pos"
+        name="Terminos de Pago POS"
+        parent="point_of_sale.menu_point_config_product"
+        action="action_payment_term_pos"
+        sequence="16"/>
+
+</odoo>

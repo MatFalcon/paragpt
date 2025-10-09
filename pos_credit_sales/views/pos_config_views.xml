@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de configuración POS - Ventas a Crédito -->
+    <record id="view_pos_config_form_credit" model="ir.ui.view">
+        <field name="name">pos.config.form.credit</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='row mt16 o_settings_container']" position="after">
+                <div class="row mt16 o_settings_container" invisible="context.get('pos_config_create_mode', False)">
+                    <setting string="Ventas a Crédito" 
+                             help="Habilita las ventas a crédito con términos de pago">
+                        
+                        <field name="allow_credit_sales"/>
+                        <div class="content-group mt16" invisible="not allow_credit_sales">
+                            <div>
+                                <label string="Términos de Pago" for="credit_payment_term_ids" class="col-6"/>
+                                <field name="credit_payment_term_ids" 
+                                       widget="many2many_tags"
+                                       placeholder="Seleccionar términos de pago..."
+                                       options="{'no_create': True}"/>
+                            </div>
+                            <div>
+                                <label string="Método de Pago a Crédito" for="credit_payment_method_id" class="col-6"/>
+                                <field name="credit_payment_method_id"
+                                       placeholder="Seleccionar método de pago..."
+                                       options="{'no_create': True}"/>
+                            </div>
+                            <div>
+                                <label string="Requerir Cliente" for="require_customer_for_credit" class="col-6"/>
+                                <field name="require_customer_for_credit"/>
+                            </div>
+                            <div>
+                                <label string="Validar Límite de Crédito" for="credit_limit_validation" class="col-6"/>
+                                <field name="credit_limit_validation"/>
+                            </div>
+                        </div>
+                    </setting>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

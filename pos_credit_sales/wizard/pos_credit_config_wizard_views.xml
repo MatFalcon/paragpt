@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista del asistente de configuración -->
+    <record id="view_pos_credit_config_wizard" model="ir.ui.view">
+        <field name="name">pos.credit.config.wizard.form</field>
+        <field name="model">pos.credit.config.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Configurar Ventas a Crédito">
+                <div class="alert alert-info" role="alert">
+                    <strong>Asistente de Configuración de Crédito POS</strong><br/>
+                    Este asistente le ayudará a configurar las ventas a crédito en su punto de venta de manera rápida y sencilla.
+                </div>
+                
+                <group name="main_config" col="2">
+                    <group name="pos_selection" string="Configuración POS">
+                        <field name="pos_config_id" 
+                               options="{'no_create': True, 'no_edit': True}"/>
+                        <field name="enable_credit_sales"/>
+                    </group>
+                    
+                    <group name="credit_options" string="Opciones de Crédito">
+                        <field name="require_customer"
+                               invisible="not enable_credit_sales"/>
+                        <field name="validate_credit_limit"
+                               invisible="not enable_credit_sales"/>
+                    </group>
+                </group>
+
+                <group name="payment_config" string="Configuración de Pagos"
+                       invisible="not enable_credit_sales">
+                    <group name="payment_method" string="Método de Pago">
+                        <field name="create_payment_method"/>
+                        <field name="journal_id"
+                               invisible="not create_payment_method"
+                               required="create_payment_method"/>
+                    </group>
+                </group>
+
+                <group name="terms_config" string="Términos de Pago"
+                       invisible="not enable_credit_sales">
+                    <div class="o_row">
+                        <button name="action_create_sample_terms" 
+                                type="object" 
+                                string="Crear Términos de Ejemplo"
+                                class="btn-link"
+                                icon="fa-magic"/>
+                        <span class="text-muted">
+                            Crear términos básicos (15, 30, 60 días, 2/10 neto 30)
+                        </span>
+                    </div>
+                    <field name="payment_term_ids" 
+                           widget="many2many_tags"
+                           placeholder="Seleccionar términos de pago disponibles..."/>
+                </group>
+
+                <div class="alert alert-warning" role="alert"
+                     invisible="not enable_credit_sales">
+                    <strong>Importante:</strong> 
+                    Asegúrese de configurar límites de crédito en los clientes que podrán comprar a crédito.
+                    Puede hacerlo en Contactos - Cliente - pestaña "Ventas y Compras" - Límite de Crédito.
+                </div>
+
+                <footer>
+                    <button string="Aplicar Configuración" 
+                            name="action_configure" 
+                            type="object" 
+                            class="btn-primary"
+                            invisible="not enable_credit_sales"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción del asistente -->
+    <record id="action_pos_credit_config_wizard" model="ir.actions.act_window">
+        <field name="name">Configurar Ventas a Crédito</field>
+        <field name="res_model">pos.credit.config.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_pos_config_id': active_id}</field>
+    </record>
+
+    <!-- Botón en la vista de configuración POS -->
+    <!-- <record id="view_pos_config_form_credit_wizard" model="ir.ui.view">
+        <field name="name">pos.config.form.credit.wizard</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="view_pos_config_form_credit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='credit_sales']" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="%(action_pos_credit_config_wizard)d" 
+                            type="action" 
+                            class="oe_stat_button" 
+                            icon="fa-magic"
+                            string="Configurar Crédito"
+                            help="Asistente para configuración rápida de ventas a crédito"/>
+                </div>
+            </xpath>
+        </field>
+    </record> -->
+
+</odoo>

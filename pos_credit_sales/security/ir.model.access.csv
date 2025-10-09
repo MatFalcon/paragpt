@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pos_config_manager,pos.config.manager,point_of_sale.model_pos_config,point_of_sale.group_pos_manager,1,1,1,1
+access_pos_config_user,pos.config.user,point_of_sale.model_pos_config,point_of_sale.group_pos_user,1,0,0,0
+access_payment_term_pos_manager,account.payment.term.pos.manager,account.model_account_payment_term,point_of_sale.group_pos_manager,1,1,1,1
+access_payment_term_pos_user,account.payment.term.pos.user,account.model_account_payment_term,point_of_sale.group_pos_user,1,0,0,0
+access_payment_term_line_pos_manager,account.payment.term.line.pos.manager,account.model_account_payment_term_line,point_of_sale.group_pos_manager,1,1,1,1
+access_payment_term_line_pos_user,account.payment.term.line.pos.user,account.model_account_payment_term_line,point_of_sale.group_pos_user,1,0,0,0
+access_pos_credit_config_wizard,pos.credit.config.wizard,model_pos_credit_config_wizard,point_of_sale.group_pos_manager,1,1,1,1

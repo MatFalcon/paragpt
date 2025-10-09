@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Método de pago para cuentas de cliente -->
+        <record id="payment_method_customer_account" model="pos.payment.method">
+            <field name="name">Cuenta de Cliente</field>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="is_cash_count" eval="False"/>
+            <field name="use_payment_terminal" eval="False"/>
+            <field name="split_transactions" eval="False"/>
+            <field name="outstanding_account_id" ref="account.account_payment_term"/>
+        </record>
+
+        <!-- Términos de pago básicos para POS -->
+        <record id="payment_term_15_days" model="account.payment.term">
+            <field name="name">15 días</field>
+            <field name="note">Pago a 15 días</field>
+            <field name="available_in_pos" eval="True"/>
+        </record>
+
+        <record id="payment_term_15_days_line" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_15_days"/>
+            <field name="value">balance</field>
+            <field name="days">15</field>
+            <field name="option">day_after_invoice_date</field>
+        </record>
+
+        <record id="payment_term_30_days" model="account.payment.term">
+            <field name="name">30 días</field>
+            <field name="note">Pago a 30 días</field>
+            <field name="available_in_pos" eval="True"/>
+        </record>
+
+        <record id="payment_term_30_days_line" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_30_days"/>
+            <field name="value">balance</field>
+            <field name="days">30</field>
+            <field name="option">day_after_invoice_date</field>
+        </record>
+
+        <record id="payment_term_60_days" model="account.payment.term">
+            <field name="name">60 días</field>
+            <field name="note">Pago a 60 días</field>
+            <field name="available_in_pos" eval="True"/>
+        </record>
+
+        <record id="payment_term_60_days_line" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_60_days"/>
+            <field name="value">balance</field>
+            <field name="days">60</field>
+            <field name="option">day_after_invoice_date</field>
+        </record>
+
+        <!-- Término de pago con descuento por pronto pago -->
+        <record id="payment_term_early_discount" model="account.payment.term">
+            <field name="name">2/10 neto 30</field>
+            <field name="note">2% descuento si paga en 10 días, sino neto 30 días</field>
+            <field name="available_in_pos" eval="True"/>
+        </record>
+
+        <record id="payment_term_early_discount_line1" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_early_discount"/>
+            <field name="value">percent</field>
+            <field name="value_amount">100</field>
+            <field name="days">10</field>
+            <field name="option">day_after_invoice_date</field>
+            <field name="discount_percentage">2</field>
+        </record>
+
+        <record id="payment_term_early_discount_line2" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_early_discount"/>
+            <field name="value">balance</field>
+            <field name="days">30</field>
+            <field name="option">day_after_invoice_date</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Configuración de demostración para POS con crédito -->
+        <record id="demo_pos_config_credit" model="pos.config">
+            <field name="name">POS Demo con Crédito</field>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="invoice_journal_id" ref="account.sales_journal"/>
+            <field name="pricelist_id" ref="product.list0"/>
+            <field name="allow_credit_sales" eval="True"/>
+            <field name="require_customer_for_credit" eval="True"/>
+            <field name="credit_limit_validation" eval="True"/>
+            <field name="credit_payment_method_id" ref="payment_method_customer_account"/>
+        </record>
+
+        <!-- Asignar términos de pago a la configuración demo -->
+        <record id="demo_config_payment_terms" model="pos.config">
+            <field name="id" ref="demo_pos_config_credit"/>
+            <field name="credit_payment_term_ids" eval="[(6, 0, [
+                ref('payment_term_15_days'),
+                ref('payment_term_30_days'),
+                ref('payment_term_60_days'),
+                ref('payment_term_early_discount')
+            ])]"/>
+        </record>
+
+        <!-- Asignar método de pago a la configuración -->
+        <record id="demo_config_payment_methods" model="pos.config">
+            <field name="id" ref="demo_pos_config_credit"/>
+            <field name="payment_method_ids" eval="[(6, 0, [
+                ref('point_of_sale.pos_payment_method_cash'),
+                ref('point_of_sale.pos_payment_method_bank'),
+                ref('payment_method_customer_account')
+            ])]"/>
+        </record>
+
+        <!-- Cliente demo con límite de crédito -->
+        <record id="demo_customer_credit" model="res.partner">
+            <field name="name">Cliente Demo Crédito</field>
+            <field name="is_company" eval="False"/>
+            <field name="customer_rank">1</field>
+            <field name="credit_limit">5000.00</field>
+            <field name="street">Calle Principal 123</field>
+            <field name="city">Asunción</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="phone">+595 21 123456</field>
+            <field name="email">cliente.demo@ejemplo.com</field>
+        </record>
+
+    </data>
+</odoo>

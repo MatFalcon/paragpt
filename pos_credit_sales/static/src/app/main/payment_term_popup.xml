@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_credit_sales.PaymentTermPopup" owl="1">
+        <div class="popup payment-term-popup">
+            <header class="popup-header">
+                <h1 class="popup-title" t-esc="props.title"/>
+            </header>
+            
+            <main class="popup-body">
+                <!-- Barra de búsqueda -->
+                <div class="search-container mb-3">
+                    <input 
+                        type="text" 
+                        class="form-control search-input"
+                        placeholder="Buscar término de pago..."
+                        t-model="state.searchTerm"
+                        t-on-input="onSearchInput"/>
+                </div>
+
+                <!-- Lista de terminos de pago -->
+                <div class="payment-terms-container">
+                    <t t-if="filteredPaymentTerms.length === 0">
+                        <div class="no-terms-message">
+                            <i class="fa fa-info-circle"/>
+                            <p>No hay términos de pago disponibles</p>
+                        </div>
+                    </t>
+                    
+                    <t t-else="">
+                        <div class="payment-terms-list">
+                            <t t-foreach="filteredPaymentTerms" t-as="term" t-key="term.id">
+                                <div 
+                                    class="payment-term-item"
+                                    t-att-class="{
+                                        'selected': isTermSelected(term),
+                                        'immediate': formatPaymentTermDays(term) === 'Inmediato'
+                                    }"
+                                    t-on-click="() => this.selectPaymentTerm(term)">
+                                    
+                                    <!-- Informacion principal -->
+                                    <div class="term-main-info">
+                                        <div class="term-name" t-esc="term.name"/>
+                                        <div class="term-days" t-esc="formatPaymentTermDays(term)"/>
+                                    </div>
+                                    
+                                    <!-- Descripcion -->
+                                    <div class="term-description" t-esc="term.name"/>
+                                    
+                                    <!-- Indicador de seleccion -->
+                                    <!-- <div class="selection-indicator" t-if="isTermSelected(term)">
+                                        <i class="fa fa-check-circle"/>
+                                    </div> -->
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Información adicional -->
+                <div class="info-section mt-3" t-if="state.selectedPaymentTerm">
+                    <div class="selected-term-info">
+                        <h4>Término Seleccionado:</h4>
+                        <p><strong t-esc="state.selectedPaymentTerm.name"/></p>
+                       <!-- <p><t t-esc="state.selectedPaymentTerm"/></p>  -->
+                    </div>
+                </div>
+            </main>
+
+            <footer class="popup-footer">
+                <div class="popup-buttons">
+                    <button 
+                        class="btn btn-secondary cancel-btn" 
+                        t-on-click="cancel">
+                        <t t-esc="props.cancelText"/>
+                    </button>
+                    <button 
+                        class="btn btn-primary confirm-btn" 
+                        t-att-disabled="!canConfirm()"
+                        t-on-click="confirm">
+                        <t t-esc="props.confirmText"/>
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </t>
+
+</templates>

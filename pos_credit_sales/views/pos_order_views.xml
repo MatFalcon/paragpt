@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista formulario de orden POS - Agregar campos de crédito -->
+    <record id="view_pos_order_form_credit" model="ir.ui.view">
+        <field name="name">pos.order.form.credit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="payment_term_id" 
+                        invisible="state != 'draft'"></field>
+                <field name="is_credit_sale" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista tree de orden POS - Mostrar ventas a credito -->
+    <record id="view_pos_order_tree_credit" model="ir.ui.view">
+        <field name="name">pos.order.tree.credit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_credit_sale" widget="boolean_toggle"/>
+                <field name="payment_term_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Filtros y agrupaciones para ventas a crédito 
+    <record id="view_pos_order_search_credit" model="ir.ui.view">
+        <field name="name">pos.order.search.credit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='invoiced']" position="after">
+                <separator/>
+                <filter string="Ventas a Crédito" 
+                        name="credit_sales" 
+                        domain="[('is_credit_sale', '=', True)]"/>
+                <filter string="Ventas al Contado" 
+                        name="cash_sales" 
+                        domain="[('is_credit_sale', '=', False)]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Término de Pago" 
+                        name="group_payment_term" 
+                        context="{'group_by': 'payment_term_id'}"/>
+            </xpath>
+        </field>
+    </record>-->
+
+    <!-- Accion para ver solo ventas a credito -->
+    <record id="action_pos_order_credit" model="ir.actions.act_window">
+        <field name="name">Ventas a Crédito</field>
+        <field name="res_model">pos.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_credit_sale', '=', True)]</field>
+        <field name="context">{'search_default_credit_sales': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                ¡No hay ventas a crédito registradas aún!
+            </p>
+            <p>
+                Las ventas a credito apareceran aqui cuando se procesen desde el POS
+                con terminos de pago aplazados.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú para ventas a crédito -->
+    <menuitem
+        id="menu_pos_order_credit"
+        name="Ventas a Credito"
+        parent="point_of_sale.menu_point_ofsale"
+        action="action_pos_order_credit"
+        sequence="25"/>
+
+</odoo>
